@@ -17,7 +17,7 @@ article.minimalist {
     prose-th:p-0 prose-th:font-medium prose-td:p-0
     prose-td:text-slate-500
     dark:bg-slate-800
-    prose-h4:dark:text-slate-400  
+    prose-h4:dark:text-slate-400
     sm:px-24 sm:py-14
     lg:max-w-4xl;
 }

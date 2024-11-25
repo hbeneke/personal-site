@@ -1,5 +1,7 @@
 ---
-import '../styles/global.css';
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
 
 interface Props {
 	title: string;
@@ -10,7 +12,7 @@ const { title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
@@ -20,7 +22,11 @@ const { title, description } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="bg-indigo-50 dark:bg-slate-900 sm:my-14">
-		<slot />
+	<body class="flex mx-auto min-w-[350px] min-h-screen max-w-3xl flex-col bg-bgColor px-4 pt-16 font-mono text-sm font-normal text-textColor antialiased sm:px-8">
+		<Header />
+		<main id="main">
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>

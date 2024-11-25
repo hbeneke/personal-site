@@ -6,5 +6,31 @@
   ],
   "exclude": [
     "dist"
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "lib": [
+      "es2022"
+    ],
+    "paths": {
+      "@/components/*": [
+        "src/components/*"
+      ],
+      "@/content/*": [
+        "src/content/*"
+      ],
+      "@/styles/*": [
+        "src/styles/*"
+      ],
+      "@/layouts/*": [
+        "src/layouts/*"
+      ],
+      "@/types": [
+        "src/types.ts"
+      ],
+      "@/site-config": [
+        "src/site.config.ts"
+      ]
+    }
+  }
 }

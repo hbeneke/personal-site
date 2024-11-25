@@ -4,22 +4,20 @@ import { menuLinks } from "@/site-config";
 const url = new URL(Astro.request.url);
 ---
 
-<header id="main-header">
+<header id="main-header" class="relative mb-16 flex items-center">
     <div class="flex flex-col">
-        <h1 class="text-xl font-bold">Enrique Quero Vilar</h1>
-        <nav aria-label="Main menu" class="-ms-4 mt-1 flex flex-row divide-x divide-green-400 divide-dashed pt-0 text-green-400" id="navigation-menu">
-            {
-				menuLinks.map((link) => (
-					<a
-						aria-current={url.pathname === link.path ? "page" : false}
-						class="px-4 py-0 underline-offset-2 hover:underline"
-						data-astro-prefetch
-						href={link.path}
-					>
-						{link.title}
-					</a>
-				))
-			}
+        <span class="text-xl font-bold">Enrique Quero Vilar</span>
+        <nav aria-label="Main menu" class="-ms-4 mt-1 flex divide-x divide-green-400 divide-dashed pt-0 text-green-400" id="navigation-menu">
+            {menuLinks.map((link) => (
+				<a	
+					aria-current={url.pathname === link.path ? "page" : false}
+					class="px-4 py-0 underline-offset-2 hover:underline"
+					data-astro-prefetch
+					href={link.path}
+				>
+					{link.title}
+				</a>
+			))}
         </nav>
     </div>
 </header>

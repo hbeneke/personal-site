@@ -10,8 +10,8 @@ export const menuLinks: MenuLink[] = [
     title: "Resume",
   },
   {
-    path: "/portfolio/",
-    title: "Portfolio",
+    path: "/projects/",
+    title: "My Projects",
   },
   {
     path: "/posts/",

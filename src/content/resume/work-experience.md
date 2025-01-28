@@ -1,6 +1,8 @@
 ---
 work_experience:
   - company: "Ineco"
+    company_url: https://www.ineco.com/ineco/
+    startup: false
     location: "Madrid, Spain"
     position: "Senior Full Stack Developer"
     start_date: "July. 2024"
@@ -14,6 +16,8 @@ work_experience:
       - "Optimize application performance and scalability through RESTful APIs, microservices architecture, and continuous integration/continuous deployment (CI/CD) pipelines."
 
   - company: "Deutsche Bank"
+    company_url: https://www.deutsche-bank.es/
+    startup: false
     location: "Madrid, Spain"
     position: "Tech Lead"
     start_date: "Jun. 2021"
@@ -27,6 +31,8 @@ work_experience:
       - "Coordinated SCRUM ceremonies—sprint planning, daily stand-ups, and retrospectives—while serving as primary client liaison for technical discussions."
 
   - company: "Dimática"
+    company_url: https://www.dimaticasoftware.com/
+    startup: false
     location: "Madrid, Spain"
     position: "Senior Frontend Developer | Development Lead"
     start_date: "Jun. 2020"
@@ -40,6 +46,8 @@ work_experience:
       - "Employed Agile methodologies to ensure rapid prototyping, iterative development, and seamless scaling across various construction sites."
 
   - company: "Boream"
+    company_url: https://boream.com/
+    startup: false
     location: "Madrid, Spain"
     position: "Senior Frontend Developer | JavaScript Instructor"
     start_date: "Sep. 2018"
@@ -52,7 +60,9 @@ work_experience:
       - "Contributed to IoT-based smart home automation projects for Mercadona, collaborating with cross-functional teams to integrate devices and data analytics."
       - "Implemented version control (Git) and Agile processes in classroom projects to mirror industry standards."
 
-  - company: "Datio (Startup)"
+  - company: "Datio"
+    company_url: https://www.stratio.com/home
+    startup: true
     location: "Madrid, Spain"
     position: "Big Data Script Developer"
     start_date: "Jan. 2018"
@@ -65,6 +75,8 @@ work_experience:
       - "Optimized data processing scripts for scalability, reliability, and minimal downtime, improving the overall system throughput."
 
   - company: "Kimia Solutions"
+    company_url: https://kimiagroup.com/es/
+    startup: false
     location: "Madrid, Spain"
     position: "Senior Full Stack Developer"
     start_date: "Dec. 2016"
@@ -76,7 +88,9 @@ work_experience:
       - "Refactored a legacy codebase, significantly reducing technical debt, enhancing performance, and improving maintainability."
       - "Established real-time dashboards offering comprehensive KPIs and analytics, driving data-based decisions for clients."
 
-  - company: "Zent.io (Startup)"
+  - company: "Zent.io"
+    company_url: https://www.optimasolutions.es/
+    startup: true
     location: "Madrid, Spain"
     position: "Mid Full Stack Developer"
     start_date: "Oct. 2015"
@@ -87,6 +101,8 @@ work_experience:
       - "Collaborated with infrastructure teams to optimize performance and scalability, handling spikes in concurrent user sessions."
 
   - company: "Telecoming"
+    company_url: https://www.telecoming.com/
+    startup: false
     location: "Madrid, Spain"
     position: "Frontend Developer"
     start_date: "Sep. 2014"
@@ -98,7 +114,9 @@ work_experience:
       - "Used Git-based workflows to streamline code collaboration and version control across design and development teams."
       - "Accelerated time-to-market for campaign landing pages, improving the efficiency of marketing initiatives."
 
-  - company: "MnSoft Big Data Analytics for Smart Marketing"
+  - company: "MnSoft"
+    company_url: https://www.mnsoft.es/
+    startup: true
     location: "Almeria, Spain"
     position: "Full Stack Developer"
     start_date: "Jan. 2014"
@@ -110,6 +128,8 @@ work_experience:
       - "Deployed Agile methodologies (SCRUM) to coordinate tasks, track progress, and adapt quickly to shifting project requirements."
 
   - company: "Hispatec"
+    company_url: https://www.hispatec.com/
+    startup: false
     location: "Almeria, Spain"
     position: "Intern Android Developer"
     start_date: "Jun. 2013"

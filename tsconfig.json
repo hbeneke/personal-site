@@ -33,6 +33,9 @@
       ],
       "@/site-config": [
         "src/site.config.ts"
+      ],
+      "@/utils/*": [
+        "src/utils/*"
       ]
     }
   }

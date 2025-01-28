@@ -2,16 +2,16 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 const resume = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/resume" }),
+  loader: glob({ pattern: "**/*.md", base: "@/content/resume" }),
   schema: z.object({
-    name: z.string(),
-    title: z.string(),
-    experience: z.array(
+    work_experience: z.array(
       z.object({
         company: z.string(),
-        role: z.string(),
-        duration: z.string(),
-        description: z.string(),
+        location: z.string(),
+        position: z.string(),
+        start_date: z.string(),
+        end_date: z.string(),
+        responsibilities: z.array(z.string()),
       })
     ),
   }),

@@ -1,3 +1,5 @@
+@import url("fonts.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,7 +13,7 @@
   }
 
   :root[data-theme="dark"] {
-    --vscode-bg: 30, 30, 30;
+    --vscode-bg: 26, 27, 30;
     --vscode-foreground: 212, 212, 212;
     --vscode-primary: 0, 122, 204;
     --vscode-secondary: 197, 134, 192;
@@ -20,8 +22,6 @@
   body {
     background-color: rgb(var(--vscode-bg));
     color: rgb(var(--vscode-foreground));
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, sans-serif;
   }
 }
 

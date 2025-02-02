@@ -22,6 +22,7 @@
   body {
     background-color: rgb(var(--vscode-bg));
     color: rgb(var(--vscode-foreground));
+    line-height: 1.2;
   }
 }
 

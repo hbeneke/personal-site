@@ -1,17 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+
+const notes = await getCollection('notes');
+const allNotes = notes.flatMap((item) => item.data.notes);
+const sortedNotes = allNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const latestNote = sortedNotes[0];
+
+---
+
 <section id="post-section" class="mt-20">
   <header class="mb-5">
     <h2 class="font-bold text-green-400 text-xl">Notes</h2>
   </header>
-  <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer" data-pagefind-body="false">
-    <h3 class="title text-base">
-      <a class="cactus-link text-vscode-primary group-hover:underline" href="/notes/welcome/">Hello, Welcome</a>
-    </h3>
-    <time datetime="2024-10-14T11:23:00.000Z" title="2024-10-14T11:23:00.000Z" class="text-sm text-vscode-secondary">
-      14/10/24, 11:23
-    </time>
-    <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
-      <p>Hi, Hello. This is an example note feature included with Astro Cactus.</p>
-      <p>They’re for shorter, concise posts that you’d like to share. They generally don’t include headings, but that’s entirely up to you.</p>
-    </div>
-  </article>
+  
+   {latestNote && (
+    <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer">
+      <h3 class="title text-base">
+        <span class="text-vscode-primary">{latestNote.title}</span>
+      </h3>
+      <time datetime={latestNote.date} title={latestNote.date} class="text-sm text-vscode-secondary">
+        {new Date(latestNote.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+      </time>
+      <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
+        <p>{latestNote.description}</p>
+      </div>
+    </article>
+  )}
 </section>

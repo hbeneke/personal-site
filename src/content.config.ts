@@ -14,6 +14,7 @@ const resume = defineCollection({
         position: z.string(),
         start_date: z.string(),
         end_date: z.string(),
+        description: z.string(),
         responsibilities: z.array(z.string()),
       })
     ),

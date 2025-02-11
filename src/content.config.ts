@@ -35,13 +35,17 @@ const notes = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/portfolio" }),
   schema: z.object({
-    title: z.string(),
-    date: z.string(),
-    description: z.string(),
-    technologies: z.array(z.string()),
-    link: z.string().optional(),
+    projects: z.array(
+      z.object({
+        title: z.string(),
+        date: z.string(),
+        description: z.string(),
+        technologies: z.array(z.string()),
+        link: z.string().optional(),
+      })
+    ),
   }),
 });
 

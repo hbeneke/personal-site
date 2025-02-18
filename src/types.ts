@@ -4,9 +4,11 @@ export interface MenuLink {
 }
 
 export interface SiteConfig {
-  author: string;
-  nickName: string;
-  jobPosition: string;
-  securizedEmail: string;
-  title: string;
+  authorName: string;
+  nickname: string;
+  jobTitle: string;
+  obfuscatedEmail: string;
+  siteTitle: string;
+  siteCreationYear: string;
+  copyrightYear: string;
 }

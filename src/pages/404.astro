@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/Layout.astro'
 import { siteConfig } from '@/site.config'
 ---
 
-<BaseLayout title={`404 Error · ${siteConfig.title}`} description='Prueba'>
-    <h1 class="title mb-6">404 | Oops something went wrong</h1>
+<BaseLayout title={`404 Error · ${siteConfig.siteTitle}`} description={`Oops! Something went wrong. The page you are looking for does not exist. Please use the navigation to find your way back.`}>
+    <h1 class="title mb-6"><span class="text-5xl text-yellow-400 font-extrabold">404</span> | Oops something went wrong</h1>
 	<p class="mb-8">Please use the navigation to find your way back</p>
 </BaseLayout>

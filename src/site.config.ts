@@ -23,10 +23,14 @@ export const menuLinks: MenuLink[] = [
   },
 ];
 
-export const siteConfig: SiteConfig = {
-  author: "Enrique Quero",
-  nickName: "Habakuk Beneke",
-  securizedEmail: "habakukbeneke [at] proton [dot] me",
-  jobPosition: "Frontend Developer",
-  title: "Enrique Quero's Resume",
+export const siteConfig: SiteConfig & { copyrightYear: string } = {
+  authorName: "Enrique Quero",
+  nickname: "Habakuk Beneke",
+  obfuscatedEmail: "habakukbeneke [at] proton [dot] me",
+  jobTitle: "Frontend Developer",
+  siteTitle: "Enrique Quero's Resume",
+  siteCreationYear: "2024",
+  get copyrightYear() {
+    return `${this.siteCreationYear}-${new Date().getFullYear().toString().slice(-2)}`;
+  },
 };

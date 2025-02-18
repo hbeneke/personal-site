@@ -6,10 +6,7 @@ export interface MenuLink {
 export interface SiteConfig {
   author: string;
   nickName: string;
-  date: {
-    locale: string | string[] | undefined;
-    options: Intl.DateTimeFormatOptions;
-  };
-  description: string;
+  jobPosition: string;
+  securizedEmail: string;
   title: string;
 }

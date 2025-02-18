@@ -2,16 +2,20 @@
 import BaseLayout from '@/layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { calculateDuration } from '@/utils/dateUtils';
+import { siteConfig } from '@/site.config';
 
 const resume = await getCollection('resume');
 const work_experience = resume.flatMap((item) => item.data.work_experience);
 const years = {
-  start: work_experience[work_experience.length-1].start_date,
+  start: work_experience[work_experience.length - 1].start_date,
   end: work_experience[0].end_date
 };
 ---
 
-<BaseLayout title="Resume · Enrique Quero Vilar's Resume" description="Explore the professional profile of Enrique Quero Vilar, a Senior Frontend Developer specializing in Javascript and modern web technologies. Discover his career journey, key projects, and contributions to enterprise software development. Connect with Enrique and enhance your team with his expertise!">
+<BaseLayout 
+  title={`Resume · ${siteConfig.title}`} 
+  description={`Explore the professional profile of ${siteConfig.author}, a Senior ${siteConfig.jobPosition} specializing in Javascript and modern web technologies. Discover his career journey, key projects, and contributions to enterprise software development. Connect with ${siteConfig.author} and enhance your team with his expertise!`}
+>
   <section class="rounded-lg shadow-lg">
     <header>
       <h2 class="font-semibold text-3xl mb-6 border-b border-green-400 pb-2">

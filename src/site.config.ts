@@ -26,14 +26,7 @@ export const menuLinks: MenuLink[] = [
 export const siteConfig: SiteConfig = {
   author: "Enrique Quero",
   nickName: "Habakuk Beneke",
-  date: {
-    locale: "en-GB",
-    options: {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    },
-  },
-  description: "An opinionated starter theme for Astro",
+  securizedEmail: "habakukbeneke [at] proton [dot] me",
+  jobPosition: "Frontend Developer",
   title: "Enrique Quero's Resume",
 };

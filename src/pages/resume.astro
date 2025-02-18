@@ -5,11 +5,10 @@ import { calculateDuration } from '@/utils/dateUtils';
 
 const resume = await getCollection('resume');
 const work_experience = resume.flatMap((item) => item.data.work_experience);
-const years = { 
+const years = {
   start: work_experience[work_experience.length-1].start_date,
   end: work_experience[0].end_date
 };
-const yearsOfExperience = calculateDuration(years.start, years.end);
 ---
 
 <BaseLayout title="Resume · Enrique Quero Vilar's Resume" description="Explore the professional profile of Enrique Quero Vilar, a Senior Frontend Developer specializing in Javascript and modern web technologies. Discover his career journey, key projects, and contributions to enterprise software development. Connect with Enrique and enhance your team with his expertise!">
@@ -17,7 +16,7 @@ const yearsOfExperience = calculateDuration(years.start, years.end);
     <header>
       <h2 class="font-semibold text-3xl mb-6 border-b border-green-400 pb-2">
         Resume
-        <span class="text-xs">({yearsOfExperience})</span>
+        <span class="text-xs">({calculateDuration(years.start, years.end)})</span>
       </h2>
     </header>
     <div id="time-line">

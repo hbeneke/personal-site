@@ -9,7 +9,7 @@ interface SocialLinks {
   x: string;
 }
 
-interface SiteConfig {
+export interface SiteConfig {
   authorName: string;
   nickname: string;
   obfuscatedEmail: string;

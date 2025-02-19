@@ -23,13 +23,18 @@ export const menuLinks: MenuLink[] = [
   },
 ];
 
-export const siteConfig: SiteConfig & { copyrightYear: string } = {
+export const siteConfig: SiteConfig = {
   authorName: "Enrique Quero",
   nickname: "Habakuk Beneke",
   obfuscatedEmail: "habakukbeneke [at] proton [dot] me",
   jobTitle: "Frontend Developer",
   siteTitle: "Enrique Quero's Resume",
   siteCreationYear: "2024",
+  socialLinks: {
+    linkedin: "https://www.linkedin.com/in/equerodev/",
+    github: "https://www.github.com/habakukbeneke",
+    x: "https://x.com/habakukbeneke",
+  },
   get copyrightYear() {
     return `${this.siteCreationYear}-${new Date().getFullYear().toString().slice(-2)}`;
   },

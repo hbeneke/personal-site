@@ -15,7 +15,7 @@ import { siteConfig } from '@/site.config';
 		</p>
 		<div class="flex flex-wrap items-end gap-x-2">
 			<p class="mb-4">
-				I'm based in Madrid/Spain, but you can easily reach me online via email or social media. My email is <span class="text-green-400 italic text-xs">{`${siteConfig.obfuscatedEmail}`}</span>. You can connect with me on <a class="text-green-400 hover:underline" aria-label="Linkedin Profile" href="https://www.linkedin.com/in/equerodev/">LinkedIn</a>, explore my code on <a class="text-green-400 hover:underline" href="https://www.github.com/habakukbeneke" aria-label="GitHub Profile">GitHub</a>, or read my thoughts on <a class="text-green-400 hover:underline" href="https://x.com/habakukbeneke" aria-label="X Profile">X</a>.
+				I'm based in Madrid/Spain, but you can easily reach me online via email or social media. My email is <span class="text-green-400 italic text-xs">{`${siteConfig.obfuscatedEmail}`}</span>. You can connect with me on <a class="text-green-400 hover:underline" aria-label="Linkedin Profile" href={siteConfig.socialLinks.linkedin}>LinkedIn</a>, explore my code on <a class="text-green-400 hover:underline" href={siteConfig.socialLinks.github} aria-label="GitHub Profile">GitHub</a>, or read my thoughts on <a class="text-green-400 hover:underline" href={siteConfig.socialLinks.x} aria-label="X Profile">X</a>.
 			</p>
 			<p> In some places, I am also known as {siteConfig.nickname}</p>
 		</div>

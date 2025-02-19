@@ -3,12 +3,19 @@ export interface MenuLink {
   title: string;
 }
 
-export interface SiteConfig {
+interface SocialLinks {
+  linkedin: string;
+  github: string;
+  x: string;
+}
+
+interface SiteConfig {
   authorName: string;
   nickname: string;
-  jobTitle: string;
   obfuscatedEmail: string;
+  jobTitle: string;
   siteTitle: string;
   siteCreationYear: string;
+  socialLinks: SocialLinks;
   copyrightYear: string;
 }

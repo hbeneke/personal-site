@@ -1,8 +1,3 @@
-export interface MenuLink {
-  path: string;
-  title: string;
-}
-
 interface SocialLinks {
   linkedin: string;
   github: string;

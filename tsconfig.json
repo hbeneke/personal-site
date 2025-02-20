@@ -28,8 +28,11 @@
       "@/layouts/*": [
         "src/layouts/*"
       ],
+      "@/type": [
+        "src/types/*"
+      ],
       "@/types": [
-        "src/types.ts"
+        "src/types/index.ts"
       ],
       "@/site-config": [
         "src/site.config.ts"

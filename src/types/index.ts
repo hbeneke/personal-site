@@ -1,2 +1,3 @@
-export * from "@/types/SiteConfig.types";
-export * from "@/types/MenuLink.types";
+export * from "@/types/SiteConfig.type";
+export * from "@/types/MenuLink.type";
+export * from "@/types/WorkExperience.type";

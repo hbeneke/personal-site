@@ -1,8 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
 import { getCollection } from "astro:content";
+import type { ResumeEntry } from "@/types";
 
 vi.mock("astro:content", async () => ({
-  getCollection: async (collectionName) => {
+  getCollection: async (collectionName: string): Promise<unknown[]> => {
     if (collectionName === "resume") {
       return [
         {
@@ -29,7 +30,7 @@ vi.mock("astro:content", async () => ({
 
 describe("Resume Page", () => {
   it("Work Experience content is loaded", async () => {
-    const resumeCollection = await getCollection("resume");
+    const resumeCollection = (await getCollection("resume")) as ResumeEntry[];
     expect(resumeCollection).toHaveLength(1);
     expect(resumeCollection[0].data.work_experience[0].position).toBe(
       "Developer"

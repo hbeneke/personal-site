@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import type { ResumeEntry } from "@/types";
 
 vi.mock("astro:content", async () => ({
-  getCollection: async (collectionName: string): Promise<unknown[]> => {
+  getCollection: async (collectionName: string): Promise<ResumeEntry[]> => {
     if (collectionName === "resume") {
       return [
         {

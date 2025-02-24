@@ -7,9 +7,10 @@ export interface WorkExperience {
   location: string;
   description: string;
   responsibilities: string[];
+  startup: boolean;
 }
 
-export interface ResumeEntry {
+export interface ResumeCollection {
   data: {
     work_experience: WorkExperience[];
   };

@@ -32,7 +32,7 @@ vi.mock("astro:content", async () => ({
 }));
 
 describe("Resume Page", () => {
-  it("Work Experience content is loaded", async () => {
+  it("should load work experience content", async () => {
     const resumeCollection = (await getCollection(
       "resume"
     )) as ResumeCollection[];

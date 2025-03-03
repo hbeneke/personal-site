@@ -1,18 +1,41 @@
 ---
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/Layout.astro';
+import type { Note } from '@/types';
 
-import { getCollection } from "astro:content";
+export async function getStaticPaths() {
+  const noteCollection = await getCollection('notes');
+  const notes: Note[] = noteCollection.flatMap(item => item.data.notes);
+  return notes.map(note => {
+    return {
+      params: { slug: note.slug },
+      props: {
+        title: note.title,
+        date: note.date,
+        description: note.description,
+        starred: note.starred,
+      },
+    };
+  });
+}
 
-export const getStaticPaths = (async () => {
-	const allNotes = await getCollection("notes");
-	return allNotes.map((note) => ({
-		params: { slug: note.id },
-		props: { note },
-	}));
-}) satisfies GetStaticPaths;
-
-export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { note } = Astro.props;
-
+const { title, date, description, starred } = Astro.props;
 ---
+
+<BaseLayout 
+  title="Resume" 
+  description="Discover the historical collection of published notes. Each note is a brief informational update for visitors, such as resume updates, new portfolio projects, or job opportunity announcements."
+>
+  <section class="rounded-lg shadow-lg">
+    <header>
+      <h2 class="font-semibold text-3xl mb-6 border-b border-green-400 pb-2">
+        Notes
+      </h2>
+    </header>
+    <article class="note">
+      <h3 class="note-title">{title}</h3>
+      <time datetime={date} class="note-date">{date}</time>
+      <p class="note-description">{description}</p>
+    </article>
+  </section>
+</BaseLayout>

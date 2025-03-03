@@ -37,7 +37,7 @@ const groupedNotesByYear: Record<number, Note[]> = Object.fromEntries(
           <h3 class="font-bold text-xl my-4">{year}</h3>
           {groupedNotesByYear[Number(year)].map((note: Note) => (
             <a href={`/notes/${note.slug}`} class="block">
-              <article class={`inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full mb-5 ${note.starred ? 'border-yellow-400 hover:border-yellow-200' : 'border-transparent'} border-2`}>
+              <article class={`inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full mb-5`}>
                 <h3 class="title text-base">
                   <span class="text-vscode-primary">{note.title}</span>
                 </h3>

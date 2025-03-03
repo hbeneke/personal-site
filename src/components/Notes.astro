@@ -13,16 +13,18 @@ const latestNote = sortedNotes[0];
   </header>
   
    {latestNote && (
-    <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
-      <h3 class="title text-base">
-        <span class="text-vscode-primary">{latestNote.title}</span>
-      </h3>
-      <time datetime={latestNote.date} title={latestNote.date} class="text-sm text-vscode-secondary">
-        {new Date(latestNote.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
-      </time>
-      <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
-        <p>{latestNote.description}</p>
-      </div>
-    </article>
+    <a href={`/notes/${latestNote.slug}`} class="block">
+      <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
+        <h3 class="title text-base">
+          <span class="text-vscode-primary">{latestNote.title}</span>
+        </h3>
+        <time datetime={latestNote.date} title={latestNote.date} class="text-sm text-vscode-secondary">
+          {new Date(latestNote.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+        </time>
+        <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
+          <p>{latestNote.description}</p>
+        </div>
+      </article>
+    </a>
   )}
 </section>

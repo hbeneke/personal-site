@@ -28,7 +28,9 @@ const notes = defineCollection({
       z.object({
         title: z.string(),
         date: z.string(),
+        slug: z.string(),
         description: z.string(),
+        starred: z.boolean().default(false),
       })
     ),
   }),

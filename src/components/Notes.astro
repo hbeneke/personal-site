@@ -5,16 +5,15 @@ const notes = await getCollection('notes');
 const allNotes = notes.flatMap((item) => item.data.notes);
 const sortedNotes = allNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 const latestNote = sortedNotes[0];
-
 ---
 
-<section id="post-section" class="mt-20">
+<section id="post-section" class="mt-12">
   <header class="mb-5">
     <h2 class="font-bold text-green-400 text-xl">Notes</h2>
   </header>
   
    {latestNote && (
-    <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer">
+    <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
       <h3 class="title text-base">
         <span class="text-vscode-primary">{latestNote.title}</span>
       </h3>

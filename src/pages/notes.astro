@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { siteConfig } from '@/site.config';
+import type { Note } from '@/types';
+
+const noteCollection = await getCollection('notes');
+const notes: Note[] = noteCollection.flatMap(item => item.data.notes);
+
+const groupedNotesByYear: Record<number, Note[]> = Object.fromEntries(
+  Object.entries(
+    notes.reduce((acc, note) => {
+      const year: number = new Date(note.date).getFullYear();
+      if (!acc[year]) {
+        acc[year] = [];
+      }
+      acc[year].push(note);
+      return acc;
+    }, {} as Record<number, Note[]>)
+  ).sort((yearA, yearB) => Number(yearB) - Number(yearA))
+);
+---
+
+<BaseLayout 
+  title={`Resume · ${siteConfig.siteTitle}`} 
+  description="Discover the historical collection of published notes. Each note is a brief informational update for visitors, such as resume updates, new portfolio projects, or job opportunity announcements."
+>
+  <section class="rounded-lg shadow-lg">
+    <header>
+      <h2 class="font-semibold text-3xl mb-6 border-b border-green-400 pb-2">
+        Notes
+      </h2>
+    </header>
+    <div class="notes-list">
+      {Object.entries(groupedNotesByYear).map(([year]) => (
+        <div id={year}>
+          <h3 class="font-bold text-xl my-4">{year}</h3>
+          {groupedNotesByYear[Number(year)].map((note: Note) => (
+            <a href={`/notes/${note.slug}`} class="block">
+              <article class={`inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full mb-5 ${note.starred ? 'border-yellow-400 hover:border-yellow-200' : 'border-transparent'} border-2`}>
+                <h3 class="title text-base">
+                  <span class="text-vscode-primary">{note.title}</span>
+                </h3>
+                <time datetime={note.date} title={note.date} class="text-sm text-vscode-secondary">
+                  {new Date(note.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+                </time>
+                <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
+                  <p>{note.description}</p>
+                </div>
+              </article>
+            </a>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

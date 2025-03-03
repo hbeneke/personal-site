@@ -21,6 +21,10 @@ export const menuLinks: MenuLink[] = [
     path: "/about/",
     title: "About",
   },
+  {
+    path: "/notes/",
+    title: "Notes",
+  },
 ];
 
 export const siteConfig: SiteConfig = {

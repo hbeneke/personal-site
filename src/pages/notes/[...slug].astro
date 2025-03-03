@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+	const allNotes = await getCollection("notes");
+	return allNotes.map((note) => ({
+		params: { slug: note.id },
+		props: { note },
+	}));
+}) satisfies GetStaticPaths;
+
+export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { note } = Astro.props;
+
+---

@@ -6,6 +6,12 @@
 
 @layer base {
   :root {
+    --primary: 74, 222, 128;
+    --primary-hovered: 187, 247, 208;
+    --secondary: 250 204 21;
+    --secondary-hovered: 187, 247, 208;
+    --bg: 26, 27, 30;
+    --foreground: 212, 212, 212;
     --vscode-bg: 248, 248, 248;
     --vscode-foreground: 30, 30, 30;
     --vscode-primary: 0, 122, 204;
@@ -13,25 +19,46 @@
   }
 
   :root[data-theme="dark"] {
-    --vscode-bg: 26, 27, 30;
-    --vscode-foreground: 212, 212, 212;
+    --primary: 74, 222, 128;
+    --primary-hovered: 187, 247, 208;
+    --secondary: 253, 224, 71;
+    --secondary-hovered: 254, 249, 195;
+    --bg: 26, 27, 30;
+    --foreground: 212, 212, 212;
     --vscode-primary: 0, 122, 204;
     --vscode-secondary: 197, 134, 192;
   }
 
   body {
-    background-color: rgb(var(--vscode-bg));
-    color: rgb(var(--vscode-foreground));
+    background-color: rgb(var(--bg));
+    color: rgb(var(--foreground));
     line-height: 1.2;
   }
 }
 
-.bg-vscode {
-  background-color: rgb(var(--vscode-bg));
+.primary {
+  color: rgb(var(--primary));
 }
 
-.text-vscode {
-  color: rgb(var(--vscode-foreground));
+.primary-hovered {
+  color: rgb(var(--primary-hovered));
+}
+
+.secondary {
+  color: rgb(var(--secondary));
+}
+
+.secondary-hovered {
+  color: rgb(var(--secondary-hovered));
+}
+
+.primary-link {
+  color: rgb(var(--primary));
+}
+
+.primary-link:hover {
+  color: rgb(var(--primary-hovered));
+  text-decoration: underline;
 }
 
 .border-vscode-primary {

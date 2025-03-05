@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Home Page", () => {
   test.beforeEach(async ({ page }) => {
+    page.setDefaultTimeout(30000);
     await page.goto("/");
   });
 

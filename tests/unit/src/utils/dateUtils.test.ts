@@ -29,10 +29,13 @@ describe("Date Utils functions", () => {
       const expectedYears: number = currentDate.getFullYear() - 2020;
       const expectedMonths: number = currentDate.getMonth();
 
+      const yearText: string = expectedYears === 1 ? "year" : "years";
+      const monthText: string = expectedMonths === 1 ? "month" : "months";
+
       const expectedText: string =
         expectedMonths > 0
-          ? `${expectedYears} years ${expectedMonths} month`
-          : `${expectedYears} years`;
+          ? `${expectedYears} ${yearText} ${expectedMonths} ${monthText}`
+          : `${expectedYears} ${yearText}`;
 
       expect(result).toBe(expectedText);
     });

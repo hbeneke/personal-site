@@ -2,10 +2,12 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/Layout.astro';
 import type { Note, NotesCollection } from '@/types';
+import { siteConfig } from '@/site.config';
 
 export async function getStaticPaths() {
   const noteCollection: NotesCollection[] = await getCollection('notes');
   const notes: Note[] = noteCollection.flatMap(item => item.data.notes);
+  
   return notes.map(note => ({
     params: { slug: note.slug },
     props: { ...note },
@@ -13,22 +15,40 @@ export async function getStaticPaths() {
 }
 
 const { title, date, description } = Astro.props;
+const formattedDate = new Date(date).toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' });
 ---
 
 <BaseLayout 
-  title="Resume" 
-  description="Discover the historical collection of published notes. Each note is a brief informational update for visitors, such as resume updates, new portfolio projects, or job opportunity announcements."
+  title={`${title} · ${siteConfig.siteTitle}`} 
+  description={description}
 >
-  <section class="rounded-lg shadow-lg">
-    <header>
-      <h2 class="font-semibold text-3xl mb-6 border-b border-green-400 pb-2">
-        Notes
-      </h2>
+  <section class="rounded-lg shadow-lg p-6 bg-white dark:bg-gray-800">
+    <header class="mb-8">
+      <a href="/notes" class="inline-flex items-center hover:underline mb-4">
+        &larr; Back to Notes
+      </a>
     </header>
-    <article class="note">
-      <h3 class="note-title">{title}</h3>
-      <time datetime={date} class="note-date">{date}</time>
-      <p class="note-description">{description}</p>
+    <article class="note-detail">
+      <h3 class="note-title text-2xl font-bold text-vscode-primary mb-2">
+        {title}
+      </h3>
+      <time datetime={date} class="note-date block text-sm text-vscode-secondary mb-6">
+        {formattedDate}
+      </time>
+      <div class="note-content prose prose-lg dark:prose-invert max-w-none">
+        <p class="text-base leading-relaxed" set:html={description}></p>
+      </div>
     </article>
   </section>
 </BaseLayout>
+
+<style>
+  .note-detail {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

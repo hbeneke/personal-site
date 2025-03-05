@@ -22,7 +22,7 @@ const latestNote: Note = sortedNotes[0];
         <time datetime={latestNote.date} title={latestNote.date} class="text-sm text-vscode-secondary">
           {new Date(latestNote.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
         </time>
-        <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
+        <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-white">
           <p>{latestNote.description}</p>
         </div>
       </article>

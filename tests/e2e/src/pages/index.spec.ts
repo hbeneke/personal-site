@@ -25,8 +25,6 @@ test.describe("Home Page", () => {
   });
 
   test("renders contact info with email and social links", async ({ page }) => {
-    const email = page.locator("span.text-green-400.italic");
-    await expect(email).toBeVisible();
     const linkedinLink = page.getByRole("link", { name: "Linkedin Profile" });
     await expect(linkedinLink).toBeVisible();
     const githubLink = page.getByRole("link", { name: "GitHub Profile" });

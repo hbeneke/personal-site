@@ -6,14 +6,12 @@
 
 @layer base {
   :root {
-    --primary: 74, 222, 128;
-    --primary-hovered: 187, 247, 208;
-    --secondary: 250 204 21;
-    --secondary-hovered: 187, 247, 208;
-    --bg: 26, 27, 30;
-    --foreground: 212, 212, 212;
-    --vscode-bg: 248, 248, 248;
-    --vscode-foreground: 30, 30, 30;
+    --primary: 59, 130, 246;
+    --primary-hovered: 147, 197, 253;
+    --secondary: 234, 179, 8;
+    --secondary-hovered: 253, 224, 71;
+    --bg: 245, 245, 245;
+    --foreground: 31, 41, 55;
     --vscode-primary: 0, 122, 204;
     --vscode-secondary: 197, 134, 192;
   }
@@ -44,8 +42,16 @@
   color: rgb(var(--primary-hovered));
 }
 
+.divide-primary {
+  border-color: rgb(var(--primary));
+}
+
 .secondary {
   color: rgb(var(--secondary));
+}
+
+.divide-secondary {
+  border-color: rgb(var(--secondary));
 }
 
 .secondary-hovered {

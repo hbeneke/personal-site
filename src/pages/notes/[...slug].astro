@@ -1,25 +1,28 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '@/layouts/Layout.astro';
-import type { Note, NotesCollection } from '@/types';
-import { siteConfig } from '@/site.config';
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/Layout.astro";
+import type { Note, NotesCollection } from "@/types";
+import { siteConfig } from "@/site.config";
 
 export async function getStaticPaths() {
-  const noteCollection: NotesCollection[] = await getCollection('notes');
-  const notes: Note[] = noteCollection.flatMap(item => item.data.notes);
-  
-  return notes.map(note => ({
+  const noteCollection: NotesCollection[] = await getCollection("notes");
+  const notes: Note[] = noteCollection.flatMap((item) => item.data.notes);
+
+  return notes.map((note) => ({
     params: { slug: note.slug },
     props: { ...note },
   }));
 }
 
 const { title, date, description } = Astro.props;
-const formattedDate = new Date(date).toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' });
+const formattedDate = new Date(date).toLocaleString("es-ES", {
+  dateStyle: "long",
+  timeStyle: "short",
+});
 ---
 
-<BaseLayout 
-  title={`${title} · ${siteConfig.siteTitle}`} 
+<BaseLayout
+  title={`${title} · ${siteConfig.siteTitle}`}
   description={description}
 >
   <section class="rounded-lg shadow-lg p-6 bg-white dark:bg-gray-800">
@@ -32,11 +35,14 @@ const formattedDate = new Date(date).toLocaleString('es-ES', { dateStyle: 'long'
       <h3 class="note-title text-2xl font-bold text-vscode-primary mb-2">
         {title}
       </h3>
-      <time datetime={date} class="note-date block text-sm text-vscode-secondary mb-6">
+      <time
+        datetime={date}
+        class="note-date block text-sm text-vscode-secondary mb-6"
+      >
         {formattedDate}
       </time>
       <div class="note-content prose prose-lg dark:prose-invert max-w-none">
-        <p class="text-base leading-relaxed" set:html={description}></p>
+        <p class="text-base leading-relaxed" set:html={description} />
       </div>
     </article>
   </section>
@@ -46,9 +52,15 @@ const formattedDate = new Date(date).toLocaleString('es-ES', { dateStyle: 'long'
   .note-detail {
     animation: fadeIn 0.5s ease-in-out;
   }
-  
+
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

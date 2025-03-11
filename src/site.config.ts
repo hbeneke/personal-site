@@ -18,12 +18,12 @@ export const menuLinks: MenuLink[] = [
     title: "Blog",
   },
   {
-    path: "/about/",
-    title: "About",
-  },
-  {
     path: "/notes/",
     title: "Notes",
+  },
+  {
+    path: "/about/",
+    title: "About",
   },
 ];
 

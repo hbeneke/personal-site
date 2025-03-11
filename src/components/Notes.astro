@@ -1,10 +1,12 @@
 ---
-import type { Note, NotesCollection } from '@/types';
-import { getCollection } from 'astro:content';
+import type { Note, NotesCollection } from "@/types";
+import { getCollection } from "astro:content";
 
-const notes: NotesCollection[] = await getCollection('notes');
+const notes: NotesCollection[] = await getCollection("notes");
 const allNotes: Note[] = notes.flatMap((item) => item.data.notes);
-const sortedNotes: Note[] = allNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const sortedNotes: Note[] = allNotes.sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
 const latestNote: Note = sortedNotes[0];
 ---
 
@@ -12,20 +14,29 @@ const latestNote: Note = sortedNotes[0];
   <header class="mb-5">
     <h2 class="font-bold primary text-xl">Notes</h2>
   </header>
-  
-   {latestNote && (
-    <a href={`/notes/${latestNote.slug}`} class="block">
-      <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
-        <h3 class="title text-base">
-          <span class="text-vscode-primary">{latestNote.title}</span>
-        </h3>
-        <time datetime={latestNote.date} title={latestNote.date} class="text-sm text-vscode-secondary">
-          {new Date(latestNote.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
-        </time>
-        <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-white">
-          <p>{latestNote.description}</p>
-        </div>
-      </article>
-    </a>
-  )}
+
+  {
+    latestNote && (
+      <a href={`/notes/${latestNote.slug}`} class="block">
+        <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
+          <h3 class="title text-base">
+            <span class="text-vscode-primary">{latestNote.title}</span>
+          </h3>
+          <time
+            datetime={latestNote.date}
+            title={latestNote.date}
+            class="text-sm text-vscode-secondary"
+          >
+            {new Date(latestNote.date).toLocaleString("es-ES", {
+              dateStyle: "short",
+              timeStyle: "short",
+            })}
+          </time>
+          <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-white">
+            <p>{latestNote.description}</p>
+          </div>
+        </article>
+      </a>
+    )
+  }
 </section>

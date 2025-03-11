@@ -1,12 +1,24 @@
 ---
-import BaseLayout from '@/layouts/Layout.astro'
-import { siteConfig } from '@/site.config'
+import BaseLayout from "@/layouts/Layout.astro";
+import { siteConfig } from "@/site.config";
 ---
 
-<BaseLayout title={`404 Error · ${siteConfig.siteTitle}`} description={`Arrr! Ye be lost, matey! This page be buried treasure that no one can find.`}>
-    <h1 class="title mb-6">
-        <span class="text-5xl text-yellow-400 font-extrabold">404</span> | Arrr! Page be lost at sea!
-    </h1>
-    <p class="mb-4">Ye must’ve sailed off the edge of the map, because this page be nowhere to be found.</p>
-    <p class="mb-8">No worries, ye can still find yer way back to safe shores! <a href="/" class="primary-link">Return to the home port</a> before the kraken finds ye first!</p>
+<BaseLayout
+  title={`404 Error · ${siteConfig.siteTitle}`}
+  description={`Arrr! Ye be lost, matey! This page be buried treasure that no one can find.`}
+>
+  <h1 class="title mb-6">
+    <span class="text-5xl text-yellow-400 font-extrabold">404</span> | Arrr! Page
+    be lost at sea!
+  </h1>
+  <p class="mb-4">
+    Ye must’ve sailed off the edge of the map, because this page be nowhere to
+    be found.
+  </p>
+  <p class="mb-8">
+    No worries, ye can still find yer way back to safe shores! <a
+      href="/"
+      class="primary-link">Return to the home port</a
+    > before the kraken finds ye first!
+  </p>
 </BaseLayout>

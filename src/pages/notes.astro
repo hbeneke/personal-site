@@ -1,26 +1,29 @@
 ---
-import BaseLayout from '@/layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { siteConfig } from '@/site.config';
-import type { Note, NotesCollection } from '@/types';
+import BaseLayout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { siteConfig } from "@/site.config";
+import type { Note, NotesCollection } from "@/types";
 
-const noteCollection: NotesCollection[] = await getCollection('notes');
-const notes: Note[] = noteCollection.flatMap(item => item.data.notes);
+const noteCollection: NotesCollection[] = await getCollection("notes");
+const notes: Note[] = noteCollection.flatMap((item) => item.data.notes);
 
 const groupedNotesEntries: [string, Note[]][] = Object.entries(
-  notes.reduce((acc, note) => {
-    const year: number = new Date(note.date).getFullYear();
-    if (!acc[year]) {
-      acc[year] = [];
-    }
-    acc[year].push(note);
-    return acc;
-  }, {} as Record<number, Note[]>)
+  notes.reduce(
+    (acc, note) => {
+      const year: number = new Date(note.date).getFullYear();
+      if (!acc[year]) {
+        acc[year] = [];
+      }
+      acc[year].push(note);
+      return acc;
+    },
+    {} as Record<number, Note[]>
+  )
 ).sort((a, b) => Number(b[0]) - Number(a[0]));
 ---
 
-<BaseLayout 
-  title={`Resume · ${siteConfig.siteTitle}`} 
+<BaseLayout
+  title={`Resume · ${siteConfig.siteTitle}`}
   description="Discover the historical collection of published notes. Each note is a brief informational update for visitors, such as resume updates, new portfolio projects, or job opportunity announcements."
 >
   <section class="rounded-lg shadow-lg">
@@ -30,26 +33,37 @@ const groupedNotesEntries: [string, Note[]][] = Object.entries(
       </h2>
     </header>
     <div class="notes-list">
-      {groupedNotesEntries.map(([year, notes]) => (
-        <div id={year}>
-          <h3 class="font-bold text-xl my-4">{year}</h3>
-          {notes.map((note: Note) => (
-            <a href={`/notes/${note.slug}`} class="block">
-              <article class={`inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full mb-5`}>
-                <h3 class="title text-base">
-                  <span class="text-vscode-primary">{note.title}</span>
-                </h3>
-                <time datetime={note.date} title={note.date} class="text-sm text-vscode-secondary">
-                  {new Date(note.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
-                </time>
-                <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
-                  <p>{note.description}</p>
-                </div>
-              </article>
-            </a>
-          ))}
-        </div>
-      ))}
+      {
+        groupedNotesEntries.map(([year, notes]) => (
+          <div id={year}>
+            <h3 class="font-bold text-xl my-4">{year}</h3>
+            {notes.map((note: Note) => (
+              <a href={`/notes/${note.slug}`} class="block">
+                <article
+                  class={`inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full mb-5`}
+                >
+                  <h3 class="title text-base">
+                    <span class="text-vscode-primary">{note.title}</span>
+                  </h3>
+                  <time
+                    datetime={note.date}
+                    title={note.date}
+                    class="text-sm text-vscode-secondary"
+                  >
+                    {new Date(note.date).toLocaleString("es-ES", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
+                  </time>
+                  <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
+                    <p>{note.description}</p>
+                  </div>
+                </article>
+              </a>
+            ))}
+          </div>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

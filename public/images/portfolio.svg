@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f0f0f0"/>
+  
+  <!-- Browser window -->
+  <rect x="50" y="50" width="700" height="400" rx="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Browser toolbar -->
+  <rect x="50" y="50" width="700" height="40" rx="8" fill="#f8f8f8" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Traffic lights -->
+  <circle cx="80" cy="70" r="6" fill="#ff5f57"/>
+  <circle cx="100" cy="70" r="6" fill="#febc2e"/>
+  <circle cx="120" cy="70" r="6" fill="#28c840"/>
+  
+  <!-- Address bar -->
+  <rect x="150" y="60" width="500" height="20" rx="4" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  
+  <!-- Content area -->
+  <rect x="50" y="90" width="700" height="360" fill="#ffffff"/>
+  
+  <!-- Header -->
+  <rect x="80" y="110" width="640" height="60" fill="#4a6cf7"/>
+  <rect x="100" y="125" width="120" height="30" rx="4" fill="#ffffff" opacity="0.9"/>
+  <rect x="480" y="125" width="60" height="10" rx="2" fill="#ffffff" opacity="0.7"/>
+  <rect x="550" y="125" width="60" height="10" rx="2" fill="#ffffff" opacity="0.7"/>
+  <rect x="620" y="125" width="60" height="10" rx="2" fill="#ffffff" opacity="0.7"/>
+  
+  <!-- Hero section -->
+  <rect x="80" y="190" width="640" height="180" fill="#f9fafb"/>
+  <rect x="120" y="220" width="250" height="40" rx="4" fill="#333333"/>
+  <rect x="120" y="270" width="350" height="10" rx="2" fill="#666666"/>
+  <rect x="120" y="290" width="300" height="10" rx="2" fill="#666666"/>
+  <rect x="120" y="310" width="150" height="30" rx="4" fill="#4a6cf7"/>
+  
+  <!-- Image placeholder -->
+  <rect x="500" y="210" width="180" height="140" rx="4" fill="#e0e0e0"/>
+  <path d="M560 260 L520 310 L600 310 Z" fill="#b0b0b0"/>
+  <circle cx="540" cy="235" r="15" fill="#b0b0b0"/>
+  
+  <!-- Portfolio section -->
+  <rect x="80" y="390" width="200" height="40" rx="2" fill="#333333"/>
+  
+  <!-- Project cards -->
+  <rect x="80" y="440" width="200" height="120" rx="4" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="300" y="440" width="200" height="120" rx="4" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="520" y="440" width="200" height="120" rx="4" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  
+  <!-- Card content -->
+  <rect x="100" y="460" width="160" height="60" rx="2" fill="#e0e0e0"/>
+  <rect x="100" y="530" width="100" height="10" rx="2" fill="#666666"/>
+  <rect x="100" y="545" width="140" height="5" rx="1" fill="#999999"/>
+  
+  <rect x="320" y="460" width="160" height="60" rx="2" fill="#e0e0e0"/>
+  <rect x="320" y="530" width="100" height="10" rx="2" fill="#666666"/>
+  <rect x="320" y="545" width="140" height="5" rx="1" fill="#999999"/>
+  
+  <rect x="540" y="460" width="160" height="60" rx="2" fill="#e0e0e0"/>
+  <rect x="540" y="530" width="100" height="10" rx="2" fill="#666666"/>
+  <rect x="540" y="545" width="140" height="5" rx="1" fill="#999999"/>
+</svg>

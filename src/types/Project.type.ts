@@ -3,7 +3,12 @@ export interface Project {
 	date: string;
 	description: string;
 	technologies: string[];
-	link: string;
+	link?: string;
+	image?: string;
+	github?: string;
+	demo?: string;
+	featured: boolean;
+	order?: number;
 }
 
 export interface PortfolioCollection {

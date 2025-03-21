@@ -36,7 +36,7 @@ const notes = defineCollection({
 	}),
 });
 
-const projects = defineCollection({
+const portfolioProjects = defineCollection({
 	loader: glob({ pattern: "**/*.md", base: "./src/content/portfolio" }),
 	schema: z.object({
 		projects: z.array(
@@ -46,9 +46,14 @@ const projects = defineCollection({
 				description: z.string(),
 				technologies: z.array(z.string()),
 				link: z.string().optional(),
+				image: z.string().optional(),
+				github: z.string().optional(),
+				demo: z.string().optional(),
+				featured: z.boolean().default(false),
+				order: z.number().optional(),
 			}),
 		),
 	}),
 });
 
-export const collections = { resume, notes, projects };
+export const collections = { resume, notes, portfolioProjects };

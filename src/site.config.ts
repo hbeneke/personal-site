@@ -28,6 +28,7 @@ export const menuLinks: MenuLink[] = [
 ];
 
 export const siteConfig: SiteConfig = {
+	locale: "en-US",
 	authorName: "Enrique Quero",
 	nickname: "Habakuk Beneke",
 	obfuscatedEmail: "habakukbeneke [at] proton [dot] me",

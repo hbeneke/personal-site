@@ -5,6 +5,7 @@ interface SocialLinks {
 }
 
 export interface SiteConfig {
+	locale: string;
 	authorName: string;
 	nickname: string;
 	obfuscatedEmail: string;

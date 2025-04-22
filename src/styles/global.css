@@ -34,55 +34,57 @@
   }
 }
 
-.primary {
-  color: rgb(var(--primary));
-}
+@layer components {
+  .primary {
+    color: rgb(var(--primary));
+  }
 
-.primary-hovered {
-  color: rgb(var(--primary-hovered));
-}
+  .primary-hovered {
+    color: rgb(var(--primary-hovered));
+  }
 
-.divide-primary {
-  border-color: rgb(var(--primary));
-}
+  .divide-primary {
+    border-color: rgb(var(--primary));
+  }
 
-.secondary {
-  color: rgb(var(--secondary));
-}
+  .secondary {
+    color: rgb(var(--secondary));
+  }
 
-.divide-secondary {
-  border-color: rgb(var(--secondary));
-}
+  .divide-secondary {
+    border-color: rgb(var(--secondary));
+  }
 
-.secondary-hovered {
-  color: rgb(var(--secondary-hovered));
-}
+  .secondary-hovered {
+    color: rgb(var(--secondary-hovered));
+  }
 
-.primary-link {
-  color: rgb(var(--primary));
-}
+  .primary-link {
+    @apply text-[rgb(var(--primary))];
+  }
 
-.primary-link:hover {
-  color: rgb(var(--primary-hovered));
-  text-decoration: underline;
-}
+  .primary-link:hover {
+    @apply text-[rgb(var(--primary-hovered))] underline;
+  }
+  
+  /* VSCode theme classes */
+  .text-vscode-primary {
+    color: rgb(var(--vscode-primary));
+  }
 
-.border-vscode-primary {
-  border-color: rgb(var(--vscode-primary));
-}
+  .text-vscode-secondary {
+    color: rgb(var(--vscode-secondary));
+  }
 
-.text-vscode-primary {
-  color: rgb(var(--vscode-primary));
-}
+  .bg-vscode-primary {
+    background-color: rgb(var(--vscode-primary));
+  }
 
-.text-vscode-secondary {
-  color: rgb(var(--vscode-secondary));
-}
-
-.bg-vscode-primary {
-  background-color: rgb(var(--vscode-primary));
-}
-
-.bg-vscode-secondary {
-  background-color: rgb(var(--vscode-secondary));
+  .bg-vscode-secondary {
+    background-color: rgb(var(--vscode-secondary));
+  }
+  
+  .border-vscode-primary {
+    border-color: rgb(var(--vscode-primary));
+  }
 }

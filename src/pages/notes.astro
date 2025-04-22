@@ -50,7 +50,7 @@ const groupedNotesEntries: [string, Note[]][] = Object.entries(
                     title={note.date}
                     class="text-sm text-vscode-secondary"
                   >
-                    {new Date(note.date).toLocaleString("es-ES", {
+                    {new Date(note.date).toLocaleString(siteConfig.locale, {
                       dateStyle: "short",
                       timeStyle: "short",
                     })}

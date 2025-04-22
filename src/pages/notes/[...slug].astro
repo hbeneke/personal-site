@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 }
 
 const { title, date, description } = Astro.props;
-const formattedDate = new Date(date).toLocaleString("es-ES", {
+const formattedDate = new Date(date).toLocaleString(siteConfig.locale, {
   dateStyle: "long",
   timeStyle: "short",
 });

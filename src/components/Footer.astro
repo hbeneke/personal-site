@@ -5,7 +5,15 @@ import { siteConfig } from "@/site.config";
 <footer
   class="m-auto flex flex-col gap-y-2 pb-4 pt-20 text-center align-top font-semibold text-gray-600 dark:text-gray-400 sm:text-xs"
 >
-  <p><a href="/about" class="hover:underline">{siteConfig.nickname}</a></p>
+  <p>
+    <a
+      href="/about"
+      class="hover:underline"
+      aria-label={`Learn more about ${siteConfig.nickname}`}
+    >
+      {siteConfig.nickname}
+    </a>
+  </p>
   <p>Copyright© {siteConfig.copyrightYear}. All bugs reserved.</p>
   <p>Made with ❤️ from Spain.</p>
 </footer>

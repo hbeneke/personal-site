@@ -1,13 +1,8 @@
 ---
-import type { Note, NotesCollection } from "@/types";
-import { getCollection } from "astro:content";
+import type { Note } from "@/types";
+import { getLatestNote } from "@/utils/noteUtils";
 
-const notes: NotesCollection[] = await getCollection("notes");
-const allNotes: Note[] = notes.flatMap((item) => item.data.notes);
-const sortedNotes: Note[] = allNotes.sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
-const latestNote: Note = sortedNotes[0];
+const latestNote: Note | undefined = await getLatestNote();
 ---
 
 <section id="post-section" class="mt-12">

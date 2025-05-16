@@ -1,25 +1,10 @@
 ---
 import BaseLayout from "@/layouts/Layout.astro";
-import { getCollection } from "astro:content";
 import { siteConfig } from "@/site.config";
-import type { Note, NotesCollection } from "@/types";
+import type { GroupedNotesByYear, Note } from "@/types";
+import { getNotesGroupedByYear } from "@/utils/noteUtils";
 
-const noteCollection: NotesCollection[] = await getCollection("notes");
-const notes: Note[] = noteCollection.flatMap((item) => item.data.notes);
-
-const groupedNotesEntries: [string, Note[]][] = Object.entries(
-  notes.reduce(
-    (acc, note) => {
-      const year: number = new Date(note.date).getFullYear();
-      if (!acc[year]) {
-        acc[year] = [];
-      }
-      acc[year].push(note);
-      return acc;
-    },
-    {} as Record<number, Note[]>
-  )
-).sort((a, b) => Number(b[0]) - Number(a[0]));
+const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
 ---
 
 <BaseLayout

@@ -36,7 +36,10 @@ const sortedProjects = projects.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
                 <img
                   src={project.image}
                   alt={project.title}
+                  width="400"
+                  height="192"
                   class="w-full h-full object-cover"
+                  loading="lazy"
                 />
                 {project.featured && (
                   <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">

@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
-import { calculateDuration } from "@/utils/dateUtils";
+import { calculateDuration } from "@/utils/date";
 import { siteConfig } from "@/site.config";
 import type { ResumeCollection, WorkExperience } from "@/types";
 
 const resumeCollection: ResumeCollection[] = await getCollection("resume");
 const work_experience: WorkExperience[] = resumeCollection.flatMap(
-  (item) => item.data.work_experience
+  (item) => item.data.work_experience,
 );
 const years = {
   start: work_experience[work_experience.length - 1].start_date,

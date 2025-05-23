@@ -1,17 +1,9 @@
 ---
 import BaseLayout from "@/layouts/Layout.astro";
 import { siteConfig } from "@/site.config";
-import type { PortfolioCollection, Project } from "@/types";
-import { getCollection } from "astro:content";
+import { getAllProjects } from "@/utils/portfolioUtils";
 
-const portfolioCollection: PortfolioCollection[] =
-  await getCollection("portfolioProjects");
-const projects: Project[] = portfolioCollection.flatMap(
-  (item) => item.data.projects
-);
-
-// Sort projects by order or date
-const sortedProjects = projects.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+const sortedProjects = await getAllProjects(true);
 ---
 
 <BaseLayout

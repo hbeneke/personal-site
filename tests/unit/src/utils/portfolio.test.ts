@@ -286,6 +286,40 @@ describe("portfolioUtils - Extended Tests", () => {
 			expect(result[1].order).toBe(1);
 			expect(result[0].title).toBe("Negative Order");
 		});
+
+		it("should handle projects where both have undefined order", async () => {
+			const mockBothUndefinedOrder = [
+				{
+					id: "portfolio",
+					collection: "portfolioProjects" as const,
+					data: {
+						projects: [
+							{
+								title: "Project A",
+								date: "2024-01-01",
+								description: "No order A",
+								featured: false,
+								technologies: ["React"],
+							},
+							{
+								title: "Project B",
+								date: "2024-01-02",
+								description: "No order B",
+								featured: true,
+								technologies: ["Vue"],
+							},
+						],
+					},
+				},
+			];
+
+			mockGetCollection.mockResolvedValue(mockBothUndefinedOrder);
+			const result = await getAllProjects();
+
+			expect(result).toHaveLength(2);
+			expect(result[0].title).toBe("Project A");
+			expect(result[1].title).toBe("Project B");
+		});
 	});
 
 	describe("getFeaturedProjects - Edge Cases", () => {

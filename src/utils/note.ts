@@ -21,6 +21,11 @@ export async function getLatestNote(): Promise<Note | undefined> {
 	return sortedNotes.length > 0 ? sortedNotes[0] : undefined;
 }
 
+export async function getLatestNotes(count = 1): Promise<Note[]> {
+	const sortedNotes: Note[] = await getNotes(true);
+	return sortedNotes.length > 0 ? sortedNotes.slice(0, count) : [];
+}
+
 export async function getNotesGroupedByYear(): Promise<GroupedNotesByYear> {
 	const notes: Note[] = await getNotes();
 

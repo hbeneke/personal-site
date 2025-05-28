@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getAllNotes, getLatestNote, getNotesGroupedByYear } from "@/utils/note";
+import { getAllNotes, getLatestNote, getLatestNotes, getNotesGroupedByYear } from "@/utils/note";
 import { getCollection } from "astro:content";
 
 vi.mock("astro:content", () => ({
@@ -81,6 +81,61 @@ describe("noteUtils", () => {
 			const result = await getLatestNote();
 
 			expect(result).toBeUndefined();
+		});
+	});
+
+	describe("getLatestNotes", () => {
+		it("should return the most recent note when count is 1", async () => {
+			const result = await getLatestNotes(1);
+
+			expect(result).toHaveLength(1);
+			expect(result[0].date).toBe("2024-02-10");
+			expect(result[0].title).toBe("Note 2");
+		});
+
+		it("should return multiple notes when count is greater than 1", async () => {
+			const result = await getLatestNotes(2);
+
+			expect(result).toHaveLength(2);
+			expect(result[0].date).toBe("2024-02-10");
+			expect(result[1].date).toBe("2024-01-15");
+		});
+
+		it("should return all notes when count exceeds available notes", async () => {
+			const result = await getLatestNotes(10);
+
+			expect(result).toHaveLength(3);
+			expect(result[0].date).toBe("2024-02-10");
+			expect(result[1].date).toBe("2024-01-15");
+			expect(result[2].date).toBe("2023-12-20");
+		});
+
+		it("should return empty array when no notes exist", async () => {
+			mockGetCollection.mockResolvedValue([]);
+
+			const result = await getLatestNotes(5);
+
+			expect(result).toEqual([]);
+		});
+
+		it("should use default count of 1 when no parameter provided", async () => {
+			const result = await getLatestNotes();
+
+			expect(result).toHaveLength(1);
+			expect(result[0].date).toBe("2024-02-10");
+		});
+
+		it("should handle count of 0", async () => {
+			const result = await getLatestNotes(0);
+
+			expect(result).toHaveLength(0);
+			expect(result).toEqual([]);
+		});
+
+		it("should propagate getCollection errors", async () => {
+			mockGetCollection.mockRejectedValue(new Error("Collection error"));
+
+			await expect(getLatestNotes(3)).rejects.toThrow("Collection error");
 		});
 	});
 

@@ -1,4 +1,4 @@
-import type { Project, PortfolioCollection } from "@/types";
+import type { Project, PortfolioCollection } from "@types";
 import { getCollection } from "astro:content";
 
 async function getProjects(sorted = false): Promise<Project[]> {

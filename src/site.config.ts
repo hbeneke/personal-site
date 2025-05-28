@@ -1,4 +1,4 @@
-import type { MenuLink, SiteConfig } from "@/types";
+import type { MenuLink, SiteConfig } from "@types";
 
 export const menuLinks: MenuLink[] = [
 	{

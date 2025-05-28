@@ -16,31 +16,31 @@
       "@/*": [
         "src/*"
       ],
-      "@/pages/*": [
+      "@pages/*": [
         "src/pages/*"
       ],
-      "@/components/*": [
+      "@components/*": [
         "src/components/*"
       ],
-      "@/content/*": [
+      "@content/*": [
         "src/content/*"
       ],
-      "@/styles/*": [
+      "@styles/*": [
         "src/styles/*"
       ],
-      "@/layouts/*": [
+      "@layouts/*": [
         "src/layouts/*"
       ],
-      "@/type": [
+      "@type": [
         "src/types/*"
       ],
-      "@/types": [
+      "@types": [
         "src/types/index.ts"
       ],
-      "@/site-config": [
+      "@site-config": [
         "src/site.config.ts"
       ],
-      "@/utils/*": [
+      "@utils/*": [
         "src/utils/*"
       ]
     }

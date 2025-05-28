@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "@/layouts/Layout.astro";
+import BaseLayout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
-import { calculateDuration } from "@/utils/date";
-import { siteConfig } from "@/site.config";
-import type { ResumeCollection, WorkExperience } from "@/types";
+import { calculateDuration } from "@utils/date";
+import { siteConfig } from "@site-config";
+import type { ResumeCollection, WorkExperience } from "@types";
 
 const resumeCollection: ResumeCollection[] = await getCollection("resume");
 const work_experience: WorkExperience[] = resumeCollection.flatMap(

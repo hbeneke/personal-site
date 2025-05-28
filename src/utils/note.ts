@@ -1,4 +1,4 @@
-import type { Note, NotesCollection, GroupedNotesByYear } from "@/types";
+import type { Note, NotesCollection, GroupedNotesByYear } from "@types";
 import { getCollection } from "astro:content";
 
 async function getNotes(sorted = false): Promise<Note[]> {

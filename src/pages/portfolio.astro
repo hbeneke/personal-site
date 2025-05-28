@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "@/layouts/Layout.astro";
-import { siteConfig } from "@/site.config";
-import { getAllProjects } from "@/utils/portfolio";
+import BaseLayout from "@layouts/Layout.astro";
+import { siteConfig } from "@site-config";
+import { getAllProjects } from "@utils/portfolio";
 
 const sortedProjects = await getAllProjects(true);
 ---

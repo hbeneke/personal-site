@@ -1,8 +1,8 @@
 ---
-import BaseLayout from "@/layouts/Layout.astro";
-import { siteConfig } from "@/site.config";
-import { getAllNotes } from "@/utils/note";
-import type { Note } from "@/types";
+import BaseLayout from "@layouts/Layout.astro";
+import { siteConfig } from "@site-config";
+import { getAllNotes } from "@utils/note";
+import type { Note } from "@types";
 
 export async function getStaticPaths() {
   const notes: Note[] = await getAllNotes(false);

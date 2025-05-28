@@ -1,8 +1,8 @@
 ---
-import BaseLayout from "@/layouts/Layout.astro";
-import { siteConfig } from "@/site.config";
-import type { GroupedNotesByYear, Note } from "@/types";
-import { getNotesGroupedByYear } from "@/utils/note";
+import BaseLayout from "@layouts/Layout.astro";
+import { siteConfig } from "@site-config";
+import type { GroupedNotesByYear, Note } from "@types";
+import { getNotesGroupedByYear } from "@utils/note";
 
 const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
 ---

@@ -8,7 +8,7 @@
     "dist"
   ],
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "lib": [
       "es2022"
     ],

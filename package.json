@@ -7,16 +7,7 @@
 		"nickname": "Habakuk Beneke",
 		"email": "habakukBeneke [at] proton [dot] me"
 	},
-	"keywords": [
-		"resume",
-		"portfolio",
-		"cv",
-		"vite",
-		"astro",
-		"tailwind",
-		"unit-test",
-		"e2e-test"
-	],
+	"keywords": ["resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test", "e2e-test"],
 	"private": false,
 	"license": "GPL-3.0-only",
 	"repository": {
@@ -34,7 +25,7 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"test": "vitest --ui",
-		"test:coverage": "vitest run --coverage",
+		"coverage": "vitest run --coverage",
 		"e2e": "npx playwright test",
 		"e2e:report": "npx playwright test && npx playwright show-report",
 		"lint": "biome lint ."

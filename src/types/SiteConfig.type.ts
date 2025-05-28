@@ -12,6 +12,7 @@ export interface SiteConfig {
 	jobTitle: string;
 	siteTitle: string;
 	siteCreationYear: string;
+	siteUrl: string;
 	socialLinks: SocialLinks;
 	copyrightYear: string;
 }

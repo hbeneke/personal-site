@@ -29,14 +29,17 @@ const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
                     <span class="text-vscode-primary">{note.title}</span>
                   </h3>
                   <time
-                    datetime={note.date}
-                    title={note.date}
+                    datetime={note.publishDate}
+                    title={note.publishDate}
                     class="text-sm text-vscode-secondary"
                   >
-                    {new Date(note.date).toLocaleString(siteConfig.locale, {
-                      dateStyle: "short",
-                      timeStyle: "short",
-                    })}
+                    {new Date(note.publishDate).toLocaleString(
+                      siteConfig.locale,
+                      {
+                        dateStyle: "short",
+                        timeStyle: "short",
+                      }
+                    )}
                   </time>
                   <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
                     <p>{note.description}</p>

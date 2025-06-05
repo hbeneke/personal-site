@@ -2,7 +2,7 @@
 import type { Note } from "@types";
 import { getLatestNote } from "@utils/note";
 
-const latestNote: Note | undefined = await getLatestNote();
+const latestNote: Note | null = await getLatestNote();
 ---
 
 <section id="post-section" class="mt-12">
@@ -18,11 +18,11 @@ const latestNote: Note | undefined = await getLatestNote();
             <span class="text-vscode-primary">{latestNote.title}</span>
           </h3>
           <time
-            datetime={latestNote.date}
-            title={latestNote.date}
+            datetime={latestNote.publishDate}
+            title={latestNote.publishDate}
             class="text-sm text-vscode-secondary"
           >
-            {new Date(latestNote.date).toLocaleString("es-ES", {
+            {new Date(latestNote.publishDate).toLocaleString("es-ES", {
               dateStyle: "short",
               timeStyle: "short",
             })}

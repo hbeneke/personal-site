@@ -1,6 +1,6 @@
 export interface Note {
 	title: string;
-	date: string;
+	publishDate: string;
 	slug: string;
 	description: string;
 	starred: boolean;

@@ -1,12 +1,20 @@
-import type { Note, NotesCollection, GroupedNotesByYear } from "@types";
+import type { Note, GroupedNotesByYear } from "@types";
 import { getCollection } from "astro:content";
 
 async function getNotes(sorted = false): Promise<Note[]> {
-	const notes: NotesCollection[] = await getCollection("notes");
-	const allNotes: Note[] = notes.flatMap((item) => item.data.notes);
+	const notesCollection = await getCollection("notes");
+	const allNotes: Note[] = notesCollection.map((entry) => ({
+		title: entry.data.title,
+		publishDate: entry.data.publishDate,
+		slug: entry.data.slug,
+		description: entry.data.description,
+		starred: entry.data.starred,
+	}));
 
 	if (sorted) {
-		return allNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+		return allNotes.sort(
+			(a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+		);
 	}
 
 	return allNotes;
@@ -16,9 +24,9 @@ export async function getAllNotes(sorted = true): Promise<Note[]> {
 	return await getNotes(sorted);
 }
 
-export async function getLatestNote(): Promise<Note | undefined> {
+export async function getLatestNote(): Promise<Note | null> {
 	const sortedNotes: Note[] = await getNotes(true);
-	return sortedNotes.length > 0 ? sortedNotes[0] : undefined;
+	return sortedNotes.length > 0 ? sortedNotes[0] : null;
 }
 
 export async function getLatestNotes(count = 1): Promise<Note[]> {
@@ -31,7 +39,7 @@ export async function getNotesGroupedByYear(): Promise<GroupedNotesByYear> {
 
 	const groupedNotes: Record<number, Note[]> = notes.reduce(
 		(acc: Record<number, Note[]>, note: Note) => {
-			const year: number = new Date(note.date).getFullYear();
+			const year: number = new Date(note.publishDate).getFullYear();
 			if (!acc[year]) {
 				acc[year] = [];
 			}
@@ -43,7 +51,9 @@ export async function getNotesGroupedByYear(): Promise<GroupedNotesByYear> {
 
 	// Sort each year's notes by date (newest first)
 	for (const yearNotes of Object.values(groupedNotes)) {
-		yearNotes.sort((a: Note, b: Note) => new Date(b.date).getTime() - new Date(a.date).getTime());
+		yearNotes.sort(
+			(a: Note, b: Note) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+		);
 	}
 
 	// Sort years in descending order

@@ -24,15 +24,11 @@ const resume = defineCollection({
 const notes = defineCollection({
 	loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
 	schema: z.object({
-		notes: z.array(
-			z.object({
-				title: z.string(),
-				date: z.string(),
-				slug: z.string(),
-				description: z.string(),
-				starred: z.boolean().default(false),
-			}),
-		),
+		title: z.string(),
+		publishDate: z.string(),
+		slug: z.string(),
+		description: z.string(),
+		starred: z.boolean().default(false),
 	}),
 });
 

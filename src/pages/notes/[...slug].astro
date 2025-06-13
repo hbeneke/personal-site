@@ -3,7 +3,6 @@ import BaseLayout from "@layouts/Layout.astro";
 import { siteConfig } from "@site-config";
 import { getAllNotes } from "@utils/note";
 import type { Note } from "@types";
-import { getEntry, render } from "astro:content";
 
 export async function getStaticPaths() {
   const notes: Note[] = await getAllNotes(false);
@@ -28,12 +27,13 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
   title={`${title} · ${siteConfig.siteTitle}`}
   description={description}
 >
+  <header class="mb-8">
+    <a href="/notes" class="inline-flex items-center hover:underline mb-4">
+      &larr; Back to Notes
+    </a>
+  </header>
+
   <section class="rounded-lg shadow-lg p-6 bg-white dark:bg-gray-800">
-    <header class="mb-8">
-      <a href="/notes" class="inline-flex items-center hover:underline mb-4">
-        &larr; Back to Notes
-      </a>
-    </header>
     <article class="note-detail">
       <h3 class="note-title text-2xl font-bold text-vscode-primary mb-2">
         {title}

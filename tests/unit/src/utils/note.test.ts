@@ -10,32 +10,36 @@ const mockGetCollection = vi.mocked(getCollection);
 
 const mockNotesCollectionEntries = [
 	{
-		id: "notes",
+		id: "note-1",
 		collection: "notes" as const,
 		data: {
-			notes: [
-				{
-					date: "2024-01-15",
-					description: "Content 1",
-					title: "Note 1",
-					slug: "note-1",
-					starred: false,
-				},
-				{
-					date: "2024-02-10",
-					description: "Content 2",
-					title: "Note 2",
-					slug: "note-2",
-					starred: true,
-				},
-				{
-					date: "2023-12-20",
-					description: "Content 3",
-					title: "Note 3",
-					slug: "note-3",
-					starred: false,
-				},
-			],
+			title: "Note 1",
+			publishDate: "2024-01-15",
+			slug: "note-1",
+			description: "Content 1",
+			starred: false,
+		},
+	},
+	{
+		id: "note-2",
+		collection: "notes" as const,
+		data: {
+			title: "Note 2",
+			publishDate: "2024-02-10",
+			slug: "note-2",
+			description: "Content 2",
+			starred: true,
+		},
+	},
+	{
+		id: "note-3",
+		collection: "notes" as const,
+		data: {
+			title: "Note 3",
+			publishDate: "2023-12-20",
+			slug: "note-3",
+			description: "Content 3",
+			starred: false,
 		},
 	},
 ];
@@ -51,9 +55,9 @@ describe("noteUtils", () => {
 			const result = await getAllNotes();
 
 			expect(result).toHaveLength(3);
-			expect(result[0].date).toBe("2024-02-10");
-			expect(result[1].date).toBe("2024-01-15");
-			expect(result[2].date).toBe("2023-12-20");
+			expect(result[0].publishDate).toBe("2024-02-10");
+			expect(result[1].publishDate).toBe("2024-01-15");
+			expect(result[2].publishDate).toBe("2023-12-20");
 		});
 
 		it("should return unsorted notes when sorted is false", async () => {
@@ -71,16 +75,16 @@ describe("noteUtils", () => {
 			const result = await getLatestNote();
 
 			expect(result).toBeDefined();
-			expect(result?.date).toBe("2024-02-10");
+			expect(result?.publishDate).toBe("2024-02-10");
 			expect(result?.title).toBe("Note 2");
 		});
 
-		it("should return undefined when no notes exist", async () => {
+		it("should return null when no notes exist", async () => {
 			mockGetCollection.mockResolvedValue([]);
 
 			const result = await getLatestNote();
 
-			expect(result).toBeUndefined();
+			expect(result).toBeNull();
 		});
 	});
 
@@ -89,7 +93,7 @@ describe("noteUtils", () => {
 			const result = await getLatestNotes(1);
 
 			expect(result).toHaveLength(1);
-			expect(result[0].date).toBe("2024-02-10");
+			expect(result[0].publishDate).toBe("2024-02-10");
 			expect(result[0].title).toBe("Note 2");
 		});
 
@@ -97,17 +101,17 @@ describe("noteUtils", () => {
 			const result = await getLatestNotes(2);
 
 			expect(result).toHaveLength(2);
-			expect(result[0].date).toBe("2024-02-10");
-			expect(result[1].date).toBe("2024-01-15");
+			expect(result[0].publishDate).toBe("2024-02-10");
+			expect(result[1].publishDate).toBe("2024-01-15");
 		});
 
 		it("should return all notes when count exceeds available notes", async () => {
 			const result = await getLatestNotes(10);
 
 			expect(result).toHaveLength(3);
-			expect(result[0].date).toBe("2024-02-10");
-			expect(result[1].date).toBe("2024-01-15");
-			expect(result[2].date).toBe("2023-12-20");
+			expect(result[0].publishDate).toBe("2024-02-10");
+			expect(result[1].publishDate).toBe("2024-01-15");
+			expect(result[2].publishDate).toBe("2023-12-20");
 		});
 
 		it("should return empty array when no notes exist", async () => {
@@ -122,7 +126,7 @@ describe("noteUtils", () => {
 			const result = await getLatestNotes();
 
 			expect(result).toHaveLength(1);
-			expect(result[0].date).toBe("2024-02-10");
+			expect(result[0].publishDate).toBe("2024-02-10");
 		});
 
 		it("should handle count of 0", async () => {
@@ -147,9 +151,9 @@ describe("noteUtils", () => {
 			expect(result[0][0]).toBe("2024");
 			expect(result[1][0]).toBe("2023");
 
-			expect(result[0][1][0].date).toBe("2024-02-10");
-			expect(result[1][1][0].date).toBe("2023-12-20");
-			expect(result[0][1][1].date).toBe("2024-01-15");
+			expect(result[0][1][0].publishDate).toBe("2024-02-10");
+			expect(result[1][1][0].publishDate).toBe("2023-12-20");
+			expect(result[0][1][1].publishDate).toBe("2024-01-15");
 		});
 
 		it("should handle empty notes collection", async () => {
@@ -167,25 +171,25 @@ describe("noteUtils - Extended Tests", () => {
 		it("should handle notes with same date", async () => {
 			const mockSameDateNotes = [
 				{
-					id: "notes",
+					id: "note-a",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "2024-01-15",
-								description: "Content A",
-								title: "Note A",
-								slug: "note-a",
-								starred: false,
-							},
-							{
-								date: "2024-01-15",
-								description: "Content B",
-								title: "Note B",
-								slug: "note-b",
-								starred: true,
-							},
-						],
+						title: "Note A",
+						publishDate: "2024-01-15",
+						slug: "note-a",
+						description: "Content A",
+						starred: false,
+					},
+				},
+				{
+					id: "note-b",
+					collection: "notes" as const,
+					data: {
+						title: "Note B",
+						publishDate: "2024-01-15",
+						slug: "note-b",
+						description: "Content B",
+						starred: true,
 					},
 				},
 			];
@@ -194,32 +198,32 @@ describe("noteUtils - Extended Tests", () => {
 			const result = await getAllNotes();
 
 			expect(result).toHaveLength(2);
-			expect(result[0].date).toBe("2024-01-15");
-			expect(result[1].date).toBe("2024-01-15");
+			expect(result[0].publishDate).toBe("2024-01-15");
+			expect(result[1].publishDate).toBe("2024-01-15");
 		});
 
 		it("should handle invalid date formats gracefully", async () => {
 			const mockInvalidDateNotes = [
 				{
-					id: "notes",
+					id: "invalid-note",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "invalid-date",
-								description: "Content",
-								title: "Note",
-								slug: "note",
-								starred: false,
-							},
-							{
-								date: "2024-01-15",
-								description: "Valid Content",
-								title: "Valid Note",
-								slug: "valid-note",
-								starred: false,
-							},
-						],
+						title: "Note",
+						publishDate: "invalid-date",
+						slug: "note",
+						description: "Content",
+						starred: false,
+					},
+				},
+				{
+					id: "valid-note",
+					collection: "notes" as const,
+					data: {
+						title: "Valid Note",
+						publishDate: "2024-01-15",
+						slug: "valid-note",
+						description: "Valid Content",
+						starred: false,
 					},
 				},
 			];
@@ -231,17 +235,7 @@ describe("noteUtils - Extended Tests", () => {
 		});
 
 		it("should handle collection with empty notes array", async () => {
-			const mockEmptyNotesArray = [
-				{
-					id: "notes",
-					collection: "notes" as const,
-					data: {
-						notes: [],
-					},
-				},
-			];
-
-			mockGetCollection.mockResolvedValue(mockEmptyNotesArray);
+			mockGetCollection.mockResolvedValue([]);
 			const result = await getAllNotes();
 
 			expect(result).toEqual([]);
@@ -250,33 +244,25 @@ describe("noteUtils - Extended Tests", () => {
 		it("should handle multiple collections with notes", async () => {
 			const mockMultipleCollections = [
 				{
-					id: "notes1",
+					id: "note-1",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "2024-01-15",
-								description: "Content 1",
-								title: "Note 1",
-								slug: "note-1",
-								starred: false,
-							},
-						],
+						title: "Note 1",
+						publishDate: "2024-01-15",
+						slug: "note-1",
+						description: "Content 1",
+						starred: false,
 					},
 				},
 				{
-					id: "notes2",
+					id: "note-2",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "2024-02-15",
-								description: "Content 2",
-								title: "Note 2",
-								slug: "note-2",
-								starred: true,
-							},
-						],
+						title: "Note 2",
+						publishDate: "2024-02-15",
+						slug: "note-2",
+						description: "Content 2",
+						starred: true,
 					},
 				},
 			];
@@ -285,8 +271,8 @@ describe("noteUtils - Extended Tests", () => {
 			const result = await getAllNotes();
 
 			expect(result).toHaveLength(2);
-			expect(result[0].date).toBe("2024-02-15");
-			expect(result[1].date).toBe("2024-01-15");
+			expect(result[0].publishDate).toBe("2024-02-15");
+			expect(result[1].publishDate).toBe("2024-01-15");
 		});
 	});
 
@@ -294,25 +280,25 @@ describe("noteUtils - Extended Tests", () => {
 		it("should return latest note when multiple notes have same date", async () => {
 			const mockSameDateNotes = [
 				{
-					id: "notes",
+					id: "note-a",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "2024-01-15",
-								description: "Content A",
-								title: "Note A",
-								slug: "note-a",
-								starred: false,
-							},
-							{
-								date: "2024-01-15",
-								description: "Content B",
-								title: "Note B",
-								slug: "note-b",
-								starred: true,
-							},
-						],
+						title: "Note A",
+						publishDate: "2024-01-15",
+						slug: "note-a",
+						description: "Content A",
+						starred: false,
+					},
+				},
+				{
+					id: "note-b",
+					collection: "notes" as const,
+					data: {
+						title: "Note B",
+						publishDate: "2024-01-15",
+						slug: "note-b",
+						description: "Content B",
+						starred: true,
 					},
 				},
 			];
@@ -321,7 +307,7 @@ describe("noteUtils - Extended Tests", () => {
 			const result = await getLatestNote();
 
 			expect(result).toBeDefined();
-			expect(result?.date).toBe("2024-01-15");
+			expect(result?.publishDate).toBe("2024-01-15");
 		});
 
 		it("should handle collection error gracefully", async () => {
@@ -335,32 +321,36 @@ describe("noteUtils - Extended Tests", () => {
 		it("should handle notes spanning multiple decades", async () => {
 			const mockMultiDecadeNotes = [
 				{
-					id: "notes",
+					id: "y2k",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "1999-12-31",
-								description: "Y2K note",
-								title: "Last of 1999",
-								slug: "y2k",
-								starred: false,
-							},
-							{
-								date: "2000-01-01",
-								description: "New millennium",
-								title: "First of 2000",
-								slug: "millennium",
-								starred: true,
-							},
-							{
-								date: "2024-01-15",
-								description: "Modern note",
-								title: "Modern",
-								slug: "modern",
-								starred: false,
-							},
-						],
+						title: "Last of 1999",
+						publishDate: "1999-12-31",
+						slug: "y2k",
+						description: "Y2K note",
+						starred: false,
+					},
+				},
+				{
+					id: "millennium",
+					collection: "notes" as const,
+					data: {
+						title: "First of 2000",
+						publishDate: "2000-01-01",
+						slug: "millennium",
+						description: "New millennium",
+						starred: true,
+					},
+				},
+				{
+					id: "modern",
+					collection: "notes" as const,
+					data: {
+						title: "Modern",
+						publishDate: "2024-01-15",
+						slug: "modern",
+						description: "Modern note",
+						starred: false,
 					},
 				},
 			];
@@ -377,25 +367,25 @@ describe("noteUtils - Extended Tests", () => {
 		it("should handle single note per year", async () => {
 			const mockSingleNotePerYear = [
 				{
-					id: "notes",
+					id: "note-2024",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "2024-06-15",
-								description: "2024 note",
-								title: "2024",
-								slug: "note-2024",
-								starred: false,
-							},
-							{
-								date: "2023-03-10",
-								description: "2023 note",
-								title: "2023",
-								slug: "note-2023",
-								starred: true,
-							},
-						],
+						title: "2024",
+						publishDate: "2024-06-15",
+						slug: "note-2024",
+						description: "2024 note",
+						starred: false,
+					},
+				},
+				{
+					id: "note-2023",
+					collection: "notes" as const,
+					data: {
+						title: "2023",
+						publishDate: "2023-03-10",
+						slug: "note-2023",
+						description: "2023 note",
+						starred: true,
 					},
 				},
 			];
@@ -411,32 +401,36 @@ describe("noteUtils - Extended Tests", () => {
 		it("should sort notes within same year correctly", async () => {
 			const mockSameYearNotes = [
 				{
-					id: "notes",
+					id: "jan",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "2024-01-01",
-								description: "January",
-								title: "Jan Note",
-								slug: "jan",
-								starred: false,
-							},
-							{
-								date: "2024-12-31",
-								description: "December",
-								title: "Dec Note",
-								slug: "dec",
-								starred: true,
-							},
-							{
-								date: "2024-06-15",
-								description: "June",
-								title: "Jun Note",
-								slug: "jun",
-								starred: false,
-							},
-						],
+						title: "Jan Note",
+						publishDate: "2024-01-01",
+						slug: "jan",
+						description: "January",
+						starred: false,
+					},
+				},
+				{
+					id: "dec",
+					collection: "notes" as const,
+					data: {
+						title: "Dec Note",
+						publishDate: "2024-12-31",
+						slug: "dec",
+						description: "December",
+						starred: true,
+					},
+				},
+				{
+					id: "jun",
+					collection: "notes" as const,
+					data: {
+						title: "Jun Note",
+						publishDate: "2024-06-15",
+						slug: "jun",
+						description: "June",
+						starred: false,
 					},
 				},
 			];
@@ -447,33 +441,33 @@ describe("noteUtils - Extended Tests", () => {
 			expect(result).toHaveLength(1);
 			expect(result[0][0]).toBe("2024");
 			expect(result[0][1]).toHaveLength(3);
-			expect(result[0][1][0].date).toBe("2024-12-31");
-			expect(result[0][1][1].date).toBe("2024-06-15");
-			expect(result[0][1][2].date).toBe("2024-01-01");
+			expect(result[0][1][0].publishDate).toBe("2024-12-31");
+			expect(result[0][1][1].publishDate).toBe("2024-06-15");
+			expect(result[0][1][2].publishDate).toBe("2024-01-01");
 		});
 
 		it("should handle leap year dates", async () => {
 			const mockLeapYearNotes = [
 				{
-					id: "notes",
+					id: "leap",
 					collection: "notes" as const,
 					data: {
-						notes: [
-							{
-								date: "2024-02-29",
-								description: "Leap day",
-								title: "Leap Year",
-								slug: "leap",
-								starred: true,
-							},
-							{
-								date: "2023-02-28",
-								description: "Regular Feb",
-								title: "Regular Year",
-								slug: "regular",
-								starred: false,
-							},
-						],
+						title: "Leap Year",
+						publishDate: "2024-02-29",
+						slug: "leap",
+						description: "Leap day",
+						starred: true,
+					},
+				},
+				{
+					id: "regular",
+					collection: "notes" as const,
+					data: {
+						title: "Regular Year",
+						publishDate: "2023-02-28",
+						slug: "regular",
+						description: "Regular Feb",
+						starred: false,
 					},
 				},
 			];

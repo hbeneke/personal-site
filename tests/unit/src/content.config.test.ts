@@ -16,16 +16,13 @@ describe("Content Collections Configuration", () => {
 			}
 
 			const validResumeData = {
-				work_experience: [
-					{
-						company: "Test Company",
-						position: "Developer",
-						start_date: "2022-01",
-						end_date: "2023-01",
-						description: "Worked on various projects",
-						responsibilities: ["Coding", "Testing"],
-					},
-				],
+				company: "Test Company",
+				position: "Developer",
+				start_date: "2022-01",
+				end_date: "2023-01",
+				description: "Worked on various projects",
+				responsibilities: ["Coding", "Testing"],
+				startup: false,
 			};
 
 			const schema =
@@ -37,22 +34,45 @@ describe("Content Collections Configuration", () => {
 			expect(result.success).toBe(true);
 		});
 
+		it("validates resume schema with all optional fields", () => {
+			if (!collections.resume || !collections.resume.schema) {
+				expect.fail("Resume schema is not defined");
+			}
+
+			const validResumeDataWithOptionals = {
+				company: "Test Company",
+				website: "https://test.com",
+				company_url: "https://company.com",
+				startup: true,
+				location: "Madrid, Spain",
+				position: "Senior Developer",
+				start_date: "2022-01",
+				end_date: "Present",
+				description: "Worked on various projects",
+				responsibilities: ["Coding", "Testing", "Leading"],
+			};
+
+			const schema =
+				typeof collections.resume.schema === "function"
+					? collections.resume.schema({} as SchemaContext)
+					: collections.resume.schema;
+
+			const result = schema.safeParse(validResumeDataWithOptionals);
+			expect(result.success).toBe(true);
+		});
+
 		it("rejects invalid resume data", () => {
 			if (!collections.resume || !collections.resume.schema) {
 				expect.fail("Resume schema is not defined");
 			}
 
 			const invalidResumeData = {
-				work_experience: [
-					{
-						// Missing required 'company' field
-						position: "Developer",
-						start_date: "2022-01",
-						end_date: "2023-01",
-						description: "Worked on various projects",
-						responsibilities: ["Coding", "Testing"],
-					},
-				],
+				// Missing required 'company' field
+				position: "Developer",
+				start_date: "2022-01",
+				end_date: "2023-01",
+				description: "Worked on various projects",
+				responsibilities: ["Coding", "Testing"],
 			};
 
 			const schema =
@@ -63,6 +83,32 @@ describe("Content Collections Configuration", () => {
 			const result = schema.safeParse(invalidResumeData);
 			expect(result.success).toBe(false);
 		});
+
+		it("handles startup field default value", () => {
+			if (!collections.resume || !collections.resume.schema) {
+				expect.fail("Resume schema is not defined");
+			}
+
+			const resumeDataWithoutStartup = {
+				company: "Test Company",
+				position: "Developer",
+				start_date: "2022-01",
+				end_date: "2023-01",
+				description: "Worked on various projects",
+				responsibilities: ["Coding", "Testing"],
+			};
+
+			const schema =
+				typeof collections.resume.schema === "function"
+					? collections.resume.schema({} as SchemaContext)
+					: collections.resume.schema;
+
+			const result = schema.safeParse(resumeDataWithoutStartup);
+			expect(result.success).toBe(true);
+			if (result.success) {
+				expect(result.data.startup).toBe(false);
+			}
+		});
 	});
 
 	describe("Notes Collection", () => {
@@ -72,15 +118,11 @@ describe("Content Collections Configuration", () => {
 			}
 
 			const validNotesData = {
-				notes: [
-					{
-						title: "Test Note",
-						date: "2023-05-15",
-						slug: "test-note",
-						description: "This is a test note",
-						starred: false,
-					},
-				],
+				title: "Test Note",
+				publishDate: "2023-05-15",
+				slug: "test-note",
+				description: "This is a test note",
+				starred: false,
 			};
 
 			const schema =
@@ -98,14 +140,10 @@ describe("Content Collections Configuration", () => {
 			}
 
 			const invalidNotesData = {
-				notes: [
-					{
-						// Missing required 'title' field
-						date: "2023-05-15",
-						slug: "test-note",
-						description: "This is a test note",
-					},
-				],
+				// Missing required 'title' field
+				publishDate: "2023-05-15",
+				slug: "test-note",
+				description: "This is a test note",
 			};
 
 			const schema =

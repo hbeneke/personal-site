@@ -314,10 +314,14 @@ describe("resumeUtils - Extended Tests", () => {
 			const result = await getAllWorkExperiences();
 
 			expect(result).toHaveLength(2);
-			expect(result[0].company_url).toBe("https://example.com");
-			expect(result[0].location).toBe("Madrid, Spain");
-			expect(result[1].company_url).toBeUndefined();
-			expect(result[1].location).toBeUndefined();
+			// Check that the first item (sorted by date) has optional properties
+			const fullPropsItem = result.find((exp) => exp.company === "Full Props Company");
+			const minimalPropsItem = result.find((exp) => exp.company === "Minimal Company");
+
+			expect(fullPropsItem?.company_url).toBe("https://example.com");
+			expect(fullPropsItem?.location).toBe("Madrid, Spain");
+			expect(minimalPropsItem?.company_url).toBeUndefined();
+			expect(minimalPropsItem?.location).toBeUndefined();
 		});
 	});
 

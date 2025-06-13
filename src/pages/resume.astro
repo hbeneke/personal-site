@@ -1,18 +1,11 @@
 ---
 import BaseLayout from "@layouts/Layout.astro";
-import { getCollection } from "astro:content";
 import { calculateDuration } from "@utils/date";
+import { getAllWorkExperiences, getWorkExperienceYears } from "@utils/resume";
 import { siteConfig } from "@site-config";
-import type { ResumeCollection, WorkExperience } from "@types";
 
-const resumeCollection: ResumeCollection[] = await getCollection("resume");
-const work_experience: WorkExperience[] = resumeCollection.flatMap(
-  (item) => item.data.work_experience
-);
-const years = {
-  start: work_experience[work_experience.length - 1].start_date,
-  end: work_experience[0].end_date,
-};
+const work_experience = await getAllWorkExperiences();
+const years = await getWorkExperienceYears();
 ---
 
 <BaseLayout

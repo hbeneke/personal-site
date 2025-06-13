@@ -10,9 +10,3 @@ export interface WorkExperience {
 	company_url?: string;
 	location?: string;
 }
-
-export interface ResumeCollection {
-	data: {
-		work_experience: WorkExperience[];
-	};
-}

@@ -8,7 +8,7 @@ test.describe("Resume Page", () => {
 
 	test("displays the correct page title", async ({ page }) => {
 		const pageTitle = await page.title();
-		await expect(pageTitle).toContain("Resume");
+		expect(pageTitle).toContain("Resume");
 	});
 
 	test("displays the resume header with duration", async ({ page }) => {

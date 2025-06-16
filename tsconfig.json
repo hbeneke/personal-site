@@ -5,7 +5,10 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "coverage",
+    "node_modules",
+    "playwright-report",
   ],
   "compilerOptions": {
     "baseUrl": ".",

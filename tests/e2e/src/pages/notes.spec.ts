@@ -8,7 +8,7 @@ test.describe("Notes Page", () => {
 
 	test("displays the correct page title", async ({ page }) => {
 		const pageTitle = await page.title();
-		await expect(pageTitle).toContain("Notes");
+		expect(pageTitle).toContain("Notes");
 	});
 
 	test("notes are ordered by date with most recent first", async ({ page }) => {

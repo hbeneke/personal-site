@@ -8,7 +8,7 @@ test.describe("Home Page", () => {
 
 	test("displays the correct page title", async ({ page }) => {
 		const title = await page.title();
-		await expect(title).toContain("Home");
+		expect(title).toContain("Home");
 	});
 
 	test("shows the main header with greeting text", async ({ page }) => {
@@ -40,7 +40,7 @@ test.describe("Home Page", () => {
 
 	test("has the correct meta description", async ({ page }) => {
 		const metaDescription = await page.locator('meta[name="description"]').getAttribute("content");
-		await expect(metaDescription).toMatch(
+		expect(metaDescription).toMatch(
 			/Welcome to my personal webpage and blog! I'm a senior .* in modern web technologies\. Explore my thoughts, projects, and experiences in software development\./,
 		);
 	});

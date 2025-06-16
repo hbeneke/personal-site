@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { GET } from "@/pages/notes/rss.xml";
 import type { RssItem } from "@/types";
-import type { APIContext, AstroCookies } from "astro";
 
 // Mock modules
 vi.mock("@/utils/note", () => ({
@@ -34,50 +33,18 @@ describe("RSS Feed", () => {
 		{
 			title: "Test Note 1",
 			description: "First test note",
-			date: "2024-01-01",
+			publishDate: "2024-01-01",
 			slug: "test-note-1",
 			starred: false,
 		},
 		{
 			title: "Test Note 2",
 			description: "Second test note",
-			date: "2024-01-02",
+			publishDate: "2024-01-02",
 			slug: "test-note-2",
 			starred: false,
 		},
 	];
-
-	// Mock context setup
-	const mockCookies = {
-		get: vi.fn(),
-		has: vi.fn(),
-		set: vi.fn(),
-		delete: vi.fn(),
-		merge: vi.fn(),
-		headers: new Headers(),
-	} as unknown as AstroCookies;
-
-	const mockContext = {
-		site: new URL("https://example.com"),
-		request: new Request("https://example.com/notes/rss.xml"),
-		url: new URL("https://example.com/notes/rss.xml"),
-		params: {},
-		props: {},
-		redirect: vi.fn(),
-		rewrite: vi.fn(),
-		generator: "Astro v4.0.0",
-		locals: {},
-		preferredLocale: "en",
-		preferredLocaleList: ["en"],
-		currentLocale: "en",
-		clientAddress: "127.0.0.1",
-		cookies: mockCookies,
-		isPrerendered: false,
-		routePattern: "",
-		originPathname: "",
-		getActionResult: vi.fn(),
-		callAction: vi.fn(),
-	} as APIContext;
 
 	beforeEach(() => {
 		vi.clearAllMocks();
@@ -86,7 +53,7 @@ describe("RSS Feed", () => {
 
 	describe("RSS generation", () => {
 		it("should generate RSS feed with correct title and description", async () => {
-			await GET(mockContext);
+			await GET();
 
 			expect(rss).toHaveBeenCalledWith({
 				title: "Test Site - Notes",
@@ -98,7 +65,7 @@ describe("RSS Feed", () => {
 		});
 
 		it("should return RSS response with correct format", async () => {
-			const result = await GET(mockContext);
+			const result = await GET();
 
 			expect(result).toEqual({
 				body: expect.stringContaining('<?xml version="1.0" encoding="UTF-8"?>'),
@@ -109,7 +76,7 @@ describe("RSS Feed", () => {
 
 	describe("Data fetching", () => {
 		it("should fetch latest 10 notes", async () => {
-			await GET(mockContext);
+			await GET();
 
 			expect(getLatestNotes).toHaveBeenCalledWith(10);
 		});
@@ -117,7 +84,7 @@ describe("RSS Feed", () => {
 		it("should handle empty notes array", async () => {
 			vi.mocked(getLatestNotes).mockResolvedValue([]);
 
-			await GET(mockContext);
+			await GET();
 
 			const rssCall = vi.mocked(rss).mock.calls[0][0];
 			expect(rssCall.items).toHaveLength(0);
@@ -126,7 +93,7 @@ describe("RSS Feed", () => {
 
 	describe("Notes formatting", () => {
 		it("should format notes correctly for RSS items", async () => {
-			await GET(mockContext);
+			await GET();
 
 			const rssCall = vi.mocked(rss).mock.calls[0][0];
 			const items = rssCall.items as Array<RssItem>;

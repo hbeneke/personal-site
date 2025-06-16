@@ -7,7 +7,7 @@ export default defineConfig({
 	retries: 2,
 	reporter: "html",
 	use: {
-		trace: "on-first-retry",
+		trace: "retain-on-failure",
 		baseURL: "http://localhost:4321",
 	},
 

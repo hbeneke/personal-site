@@ -8,7 +8,7 @@ test.describe("404 Page", () => {
 
 	test("displays the correct page title", async ({ page }) => {
 		const pageTitle = await page.title();
-		await expect(pageTitle).toContain("404 Error");
+		expect(pageTitle).toContain("404 Error");
 	});
 
 	test("shows the main header with error message", async ({ page }) => {

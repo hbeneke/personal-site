@@ -21,14 +21,20 @@ export async function getAllWorkExperiences(sorted = true): Promise<WorkExperien
 }
 
 export async function getWorkExperienceYears(): Promise<{ start: string; end: string }> {
-	const workExperiences = await getWorkExperiences(true);
+	const workExperiences = await getWorkExperiences();
 
 	if (workExperiences.length === 0) {
 		return { start: "", end: "" };
 	}
 
+	const sortedExperiences = workExperiences.sort((a, b) => {
+		const dateA = new Date(a.start_date);
+		const dateB = new Date(b.start_date);
+		return dateB.getTime() - dateA.getTime();
+	});
+
 	return {
-		start: workExperiences[workExperiences.length - 1].start_date,
-		end: workExperiences[0].end_date,
+		start: sortedExperiences[sortedExperiences.length - 1].start_date,
+		end: sortedExperiences[0].end_date,
 	};
 }

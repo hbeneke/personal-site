@@ -5,7 +5,7 @@
 	"author": {
 		"name": "Enrique Quero Vilar",
 		"nickname": "Habakuk Beneke",
-		"email": "habakukBeneke [at] proton [dot] me"
+		"e-mail": "habakukBeneke [at] proton [dot] me"
 	},
 	"keywords": ["resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test", "e2e-test"],
 	"private": false,

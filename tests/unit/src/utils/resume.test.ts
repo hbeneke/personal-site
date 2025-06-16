@@ -314,7 +314,6 @@ describe("resumeUtils - Extended Tests", () => {
 			const result = await getAllWorkExperiences();
 
 			expect(result).toHaveLength(2);
-			// Check that the first item (sorted by date) has optional properties
 			const fullPropsItem = result.find((exp) => exp.company === "Full Props Company");
 			const minimalPropsItem = result.find((exp) => exp.company === "Minimal Company");
 
@@ -322,6 +321,49 @@ describe("resumeUtils - Extended Tests", () => {
 			expect(fullPropsItem?.location).toBe("Madrid, Spain");
 			expect(minimalPropsItem?.company_url).toBeUndefined();
 			expect(minimalPropsItem?.location).toBeUndefined();
+		});
+
+		it("should verify sorted parameter behavior", async () => {
+			const mockExperiences = [
+				{
+					id: "first",
+					collection: "resume" as const,
+					data: {
+						company: "First Company",
+						position: "Developer",
+						start_date: "Jan. 2020",
+						end_date: "Dec. 2020",
+						description: "First",
+						responsibilities: ["Task"],
+						startup: false,
+					},
+				},
+				{
+					id: "second",
+					collection: "resume" as const,
+					data: {
+						company: "Second Company",
+						position: "Developer",
+						start_date: "Jan. 2024",
+						end_date: "Present",
+						description: "Second",
+						responsibilities: ["Task"],
+						startup: false,
+					},
+				},
+			];
+
+			mockGetCollection.mockResolvedValue(mockExperiences);
+
+			// Test with sorted=true (default)
+			const sortedResult = await getAllWorkExperiences(true);
+			expect(sortedResult[0].company).toBe("Second Company"); // Newer first
+			expect(sortedResult[1].company).toBe("First Company");
+
+			// Test with sorted=false
+			const unsortedResult = await getAllWorkExperiences(false);
+			expect(unsortedResult[0].company).toBe("First Company"); // Original order
+			expect(unsortedResult[1].company).toBe("Second Company");
 		});
 	});
 

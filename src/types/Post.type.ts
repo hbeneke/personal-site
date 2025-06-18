@@ -1,11 +1,12 @@
 export interface Post {
   title: string;
-  date: string;
+  publishDate: string;
   slug: string;
   description: string;
   content?: string;
   tags?: string[];
-  featured?: boolean;
+  featured: boolean;
+  draft: boolean;
 }
 
 export interface PostsCollection {
@@ -13,3 +14,5 @@ export interface PostsCollection {
     posts: Post[];
   };
 }
+
+export interface GroupedPostsByYear extends Array<[string, Post[]]> {}

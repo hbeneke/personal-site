@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@layouts/Layout.astro";
+import { siteConfig } from "@site-config";
+import { getAllPosts } from "@utils/post";
+
+const sortedPosts = await getAllPosts(true, false);
+---
+
+<BaseLayout
+  title={`Posts · ${siteConfig.siteTitle}`}
+  description={`Explore all blog posts by ${siteConfig.authorName}, covering topics in web development, programming, and technology insights.`}
+>
+  <section class="rounded-lg shadow-lg">
+    <header>
+      <h2 class="font-semibold text-3xl mb-6 pb-2">Posts</h2>
+    </header>
+    <div class="posts-list">
+      {
+        sortedPosts.length > 0 ? (
+          <ul class="space-y-6">
+            {sortedPosts.map((post) => (
+              <li>
+                <article class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-200">
+                  <header class="mb-4">
+                    <h3 class="text-xl font-semibold secondary mb-2">
+                      <a
+                        href={`/posts/${post.slug}/`}
+                        class="hover:underline"
+                        data-astro-prefetch
+                      >
+                        {post.title}
+                      </a>
+                    </h3>
+                    <time
+                      datetime={post.publishDate}
+                      class="text-sm text-gray-400"
+                    >
+                      {new Date(post.publishDate).toLocaleDateString(
+                        siteConfig.locale,
+                        {
+                          dateStyle: "long",
+                        },
+                      )}
+                    </time>
+                    {post.featured && (
+                      <span class="inline-block ml-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                        Featured
+                      </span>
+                    )}
+                  </header>
+                  <p class="text-gray-300 mb-4">{post.description}</p>
+                  {post.tags && post.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
+                        <span class="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </article>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="text-center py-12">
+            <p class="text-gray-400 text-lg">No posts published yet.</p>
+            <p class="text-gray-500 text-sm mt-2">
+              Check back soon for new content!
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

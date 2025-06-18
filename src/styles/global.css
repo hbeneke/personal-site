@@ -5,86 +5,86 @@
 @tailwind utilities;
 
 @layer base {
-	:root {
-		--primary: 196, 19, 06;
-		--primary-hovered: 147, 197, 253;
-		--secondary: 234, 179, 8;
-		--secondary-hovered: 253, 224, 71;
-		--bg: 245, 245, 245;
-		--foreground: 31, 41, 55;
-		--vscode-primary: 0, 122, 204;
-		--vscode-secondary: 197, 134, 192;
-	}
+  :root {
+    --primary: 196, 19, 06;
+    --primary-hovered: 147, 197, 253;
+    --secondary: 234, 179, 8;
+    --secondary-hovered: 253, 224, 71;
+    --bg: 245, 245, 245;
+    --foreground: 31, 41, 55;
+    --vscode-primary: 0, 122, 204;
+    --vscode-secondary: 197, 134, 192;
+  }
 
-	:root[data-theme="dark"] {
-		--primary: 74, 222, 128;
-		--primary-hovered: 187, 247, 208;
-		--secondary: 250, 204, 21;
-		--secondary-hovered: 254, 249, 195;
-		--bg: 26, 27, 30;
-		--foreground: 212, 212, 212;
-		--vscode-primary: 0, 122, 204;
-		--vscode-secondary: 197, 134, 192;
-	}
+  :root[data-theme="dark"] {
+    --primary: 74, 222, 128;
+    --primary-hovered: 187, 247, 208;
+    --secondary: 250, 204, 21;
+    --secondary-hovered: 254, 249, 195;
+    --bg: 26, 27, 30;
+    --foreground: 212, 212, 212;
+    --vscode-primary: 0, 122, 204;
+    --vscode-secondary: 197, 134, 192;
+  }
 
-	body {
-		background-color: rgb(var(--bg));
-		color: rgb(var(--foreground));
-		line-height: 1.2;
-	}
+  body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--foreground));
+    line-height: 1.2;
+  }
 }
 
 @layer components {
-	.primary {
-		color: rgb(var(--primary));
-	}
+  .primary {
+    color: rgb(var(--primary));
+  }
 
-	.primary-hovered {
-		color: rgb(var(--primary-hovered));
-	}
+  .primary-hovered {
+    color: rgb(var(--primary-hovered));
+  }
 
-	.divide-primary {
-		border-color: rgb(var(--primary));
-	}
+  .divide-primary {
+    border-color: rgb(var(--primary));
+  }
 
-	.secondary {
-		color: rgb(var(--secondary));
-	}
+  .secondary {
+    color: rgb(var(--secondary));
+  }
 
-	.divide-secondary {
-		border-color: rgb(var(--secondary));
-	}
+  .divide-secondary {
+    border-color: rgb(var(--secondary));
+  }
 
-	.secondary-hovered {
-		color: rgb(var(--secondary-hovered));
-	}
+  .secondary-hovered {
+    color: rgb(var(--secondary-hovered));
+  }
 
-	.primary-link {
-		@apply text-[rgb(var(--primary))];
-	}
+  .primary-link {
+    @apply text-[rgb(var(--primary))];
+  }
 
-	.primary-link:hover {
-		@apply text-[rgb(var(--primary-hovered))] underline;
-	}
+  .primary-link:hover {
+    @apply text-[rgb(var(--primary-hovered))] underline;
+  }
 
-	/* VSCode theme classes */
-	.text-vscode-primary {
-		color: rgb(var(--vscode-primary));
-	}
+  /* VSCode theme classes */
+  .text-vscode-primary {
+    color: rgb(var(--vscode-primary));
+  }
 
-	.text-vscode-secondary {
-		color: rgb(var(--vscode-secondary));
-	}
+  .text-vscode-secondary {
+    color: rgb(var(--vscode-secondary));
+  }
 
-	.bg-vscode-primary {
-		background-color: rgb(var(--vscode-primary));
-	}
+  .bg-vscode-primary {
+    background-color: rgb(var(--vscode-primary));
+  }
 
-	.bg-vscode-secondary {
-		background-color: rgb(var(--vscode-secondary));
-	}
+  .bg-vscode-secondary {
+    background-color: rgb(var(--vscode-secondary));
+  }
 
-	.border-vscode-primary {
-		border-color: rgb(var(--vscode-primary));
-	}
+  .border-vscode-primary {
+    border-color: rgb(var(--vscode-primary));
+  }
 }

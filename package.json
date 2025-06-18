@@ -1,55 +1,55 @@
 {
-	"name": "@habakukbeneke/resume",
-	"version": "0.0.1-alpha",
-	"description": "My digital portfolio built with Astro and Tailwind CSS, highlighting my development expertise and professional journey.",
-	"author": {
-		"name": "Enrique Quero Vilar",
-		"nickname": "Habakuk Beneke",
-		"e-mail": "habakukBeneke [at] proton [dot] me"
-	},
-	"keywords": ["resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test", "e2e-test"],
-	"private": false,
-	"license": "GPL-3.0-only",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/HabakukBeneke/resume.git"
-	},
-	"homepage": "https://github.com/HabakukBeneke/resume#readme",
-	"bugs": {
-		"url": "https://github.com/HabakukBeneke/resume/issues"
-	},
-	"scripts": {
-		"dev": "astro dev",
-		"host": "astro dev --host",
-		"build": "astro check && astro build",
-		"preview": "astro preview",
-		"astro": "astro",
-		"test": "vitest --ui",
-		"coverage": "vitest run --coverage",
-		"e2e": "npx playwright test",
-		"e2e:report": "npx playwright test && npx playwright show-report",
-		"lint": "biome lint ."
-	},
-	"dependencies": {
-		"@astrojs/check": "^0.9.4",
-		"@astrojs/rss": "^4.0.11",
-		"@astrojs/tailwind": "^6.0.2",
-		"@astrojs/vercel": "^8.1.5",
-		"astro": "^5.8.2",
-		"astro-icon": "^1.1.5",
-		"shiki": "^3.0.0",
-		"tailwindcss": "^3.4.17",
-		"typescript": "^5.8.3"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"@eslint/js": "^9.20.0",
-		"@playwright/test": "^1.52.0",
-		"@tailwindcss/typography": "^0.5.16",
-		"@types/node": "^22.13.5",
-		"@vitest/coverage-istanbul": "^3.0.6",
-		"@vitest/ui": "^3.0.6",
-		"globals": "^15.15.0",
-		"vitest": "^3.0.6"
-	}
+  "name": "@habakukbeneke/resume",
+  "version": "0.0.1-alpha",
+  "description": "My digital portfolio built with Astro and Tailwind CSS, highlighting my development expertise and professional journey.",
+  "author": {
+    "name": "Enrique Quero Vilar",
+    "nickname": "Habakuk Beneke",
+    "e-mail": "habakukBeneke [at] proton [dot] me"
+  },
+  "keywords": ["resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test", "e2e-test"],
+  "private": false,
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HabakukBeneke/resume.git"
+  },
+  "homepage": "https://github.com/HabakukBeneke/resume#readme",
+  "bugs": {
+    "url": "https://github.com/HabakukBeneke/resume/issues"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "host": "astro dev --host",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "e2e": "npx playwright test",
+    "e2e:report": "npx playwright test && npx playwright show-report",
+    "lint": "biome lint ."
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/tailwind": "^6.0.2",
+    "@astrojs/vercel": "^8.1.5",
+    "astro": "^5.8.2",
+    "astro-icon": "^1.1.5",
+    "shiki": "^3.0.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@eslint/js": "^9.20.0",
+    "@playwright/test": "^1.52.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^22.13.5",
+    "@vitest/coverage-istanbul": "^3.0.6",
+    "@vitest/ui": "^3.0.6",
+    "globals": "^15.15.0",
+    "vitest": "^3.0.6"
+  }
 }

@@ -1,6 +1,6 @@
 export interface RssItem {
-	title: string;
-	description: string;
-	pubDate: Date;
-	link: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  link: string;
 }

@@ -4,7 +4,7 @@ company_url: "https://www.ineco.com/ineco/"
 startup: false
 location: "Madrid, Spain"
 position: "Senior Front-end Developer"
-start_date: "July. 2024"
+start_date: "Jun. 2024"
 end_date: "Present"
 description: "Spearhead the development and maintenance of three critical government-facing applications for the Spanish Ministry of Justice and the National Institute of Toxicology, utilizing Vue 3 (JavaScript) for the frontend and Spring Boot (Java 21) for the backend."
 responsibilities:

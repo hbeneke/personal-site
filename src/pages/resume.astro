@@ -12,11 +12,11 @@ const years = await getWorkExperienceYears();
   title={`Resume · ${siteConfig.siteTitle}`}
   description={`Explore the professional profile of ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle} specializing in Javascript and modern web technologies. Discover his career journey, key projects, and contributions to enterprise software development. Connect with ${siteConfig.authorName} and enhance your team with his expertise!`}
 >
-  <section class="rounded-lg shadow-lg">
+  <section>
     <header>
       <h2 class="font-semibold text-3xl mb-6 pb-2">
         Resume
-        <span class="text-xs">
+        <span class="text-xs text-gray-400 block">
           ({calculateDuration(years.start, years.end)})
         </span>
       </h2>

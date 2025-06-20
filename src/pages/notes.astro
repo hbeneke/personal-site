@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "@layouts/Layout.astro";
+import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import type { GroupedNotesByYear, Note } from "@types";
 import { getNotesGroupedByYear } from "@utils/note";
@@ -17,7 +17,7 @@ const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
     </header>
     <div class="notes-list">
       {
-        groupedNotesEntries.map(([year, notes]) => (
+        groupedNotesEntries.map(([year, notes]: [string, Note[]]) => (
           <div id={year}>
             <h3 class="font-bold text-xl my-4">{year}</h3>
             {notes.map((note: Note) => (
@@ -38,7 +38,7 @@ const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
                       {
                         dateStyle: "short",
                         timeStyle: "short",
-                      }
+                      },
                     )}
                   </time>
                   <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">

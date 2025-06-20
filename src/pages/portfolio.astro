@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "@layouts/Layout.astro";
+import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getAllProjects } from "@utils/portfolio";
 
@@ -50,7 +50,7 @@ const sortedProjects = await getAllProjects(true);
               <p class="text-sm text-gray-300 mb-4">{project.description}</p>
 
               <div class="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech) => (
+                {project.technologies.map((tech: string) => (
                   <span class="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded">
                     {tech}
                   </span>

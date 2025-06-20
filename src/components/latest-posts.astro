@@ -1,0 +1,54 @@
+---
+import { getLatestPosts } from "@utils/post";
+
+const latestPosts = await getLatestPosts(4);
+---
+
+<section id="post-section" class="mt-20">
+  <header class="mb-5">
+    <h2 class="font-semibold text-xl primary">Posts</h2>
+  </header>
+  <ul class="space-y-4">
+    {
+      latestPosts.map((post) => (
+        <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+          <time
+            datetime={post.publishDate}
+            class="min-w-[120px] text-gray-600 dark:text-gray-400"
+          >
+            {new Date(post.publishDate).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+          </time>
+          <div>
+            <a
+              class="cactus-link underline hover:text-gray-100"
+              data-astro-prefetch
+              href={`/posts/${post.slug}/`}
+            >
+              {post.title}
+            </a>
+          </div>
+        </li>
+      ))
+    }
+    {
+      latestPosts.length > 0 && (
+        <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+          <div class="min-w-[120px]" />
+          <div>
+            <a
+              class="primary-link"
+              href="/posts/"
+              aria-label="View all blog posts"
+            >
+              see more...
+            </a>
+          </div>
+        </li>
+      )
+    }
+  </ul>
+</section>

@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "@layouts/Layout.astro";
+import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getAllPosts } from "@utils/post";
 import type { Post } from "@types";
@@ -52,7 +52,7 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
       {
         tags && tags.length > 0 && (
           <div class="flex flex-wrap gap-2 mb-6">
-            {tags.map((tag) => (
+            {tags.map((tag: string) => (
               <span class="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded">
                 {tag}
               </span>

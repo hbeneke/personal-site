@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@layouts/base-layout.astro";
+import { siteConfig } from "@site-config";
+import { getAllTags, getPostsByTag } from "@utils/post";
+
+const allTags = await getAllTags();
+
+const tagsWithCounts = await Promise.all(
+  allTags.map(async (tag) => {
+    const posts = await getPostsByTag(tag);
+    return {
+      name: tag,
+      count: posts.length,
+    };
+  }),
+);
+
+const sortedTags = tagsWithCounts
+  .filter((tag) => tag.count > 0)
+  .sort((a, b) => b.count - a.count);
+---
+
+<BaseLayout
+  title={`Tags · ${siteConfig.siteTitle}`}
+  description="Browse all tags used in blog posts. Discover content organized by topics and categories."
+>
+  <section>
+    <header class="mb-8">
+      <h1 class="font-semibold text-3xl mb-4">Tags</h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Explore content by topic. Click on any tag to see related posts.
+      </p>
+    </header>
+
+    <div>
+      {
+        sortedTags.length > 0 ? (
+          <ul class="space-y-2">
+            {sortedTags.map((tag) => (
+              <li>
+                <span class="primary underline-offset-2 hover:underline cursor-pointer">
+                  #{tag.name}
+                </span>
+                <span class="text-gray-500">
+                  {" "}
+                  - {tag.count} {tag.count === 1 ? "Post" : "Posts"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No tags found.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

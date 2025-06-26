@@ -1,23 +1,9 @@
 ---
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
-import { getAllTags, getPostsByTag } from "@utils/post";
+import { getSortedTagsWithCounts } from "@utils/tag";
 
-const allTags = await getAllTags();
-
-const tagsWithCounts = await Promise.all(
-  allTags.map(async (tag) => {
-    const posts = await getPostsByTag(tag);
-    return {
-      name: tag,
-      count: posts.length,
-    };
-  }),
-);
-
-const sortedTags = tagsWithCounts
-  .filter((tag) => tag.count > 0)
-  .sort((a, b) => b.count - a.count);
+const sortedTags = await getSortedTagsWithCounts();
 ---
 
 <BaseLayout

@@ -1,9 +1,9 @@
 import type { Post } from "@types";
 import { getCollection } from "astro:content";
 
-async function getPosts(sorted = false, includeDrafts = false): Promise<Post[]> {
+async function getRawPosts(): Promise<Post[]> {
   const postsCollection = await getCollection("posts");
-  let allPosts: Post[] = postsCollection.map((entry) => ({
+  return postsCollection.map((entry) => ({
     title: entry.data.title,
     publishDate: entry.data.publishDate,
     slug: entry.data.slug,
@@ -13,46 +13,73 @@ async function getPosts(sorted = false, includeDrafts = false): Promise<Post[]> 
     featured: entry.data.featured,
     draft: entry.data.draft,
   }));
+}
+
+export async function getAllPosts(sorted = true, includeDrafts = false): Promise<Post[]> {
+  let posts = await getRawPosts();
 
   if (!includeDrafts) {
-    allPosts = allPosts.filter((post) => !post.draft);
+    posts = posts.filter((post) => !post.draft);
   }
 
   if (sorted) {
-    return allPosts.sort(
+    posts = posts.sort(
       (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
     );
   }
 
-  return allPosts;
-}
-
-export async function getAllPosts(sorted = true, includeDrafts = false): Promise<Post[]> {
-  return await getPosts(sorted, includeDrafts);
+  return posts;
 }
 
 export async function getLatestPost(): Promise<Post | null> {
-  const sortedPosts: Post[] = await getPosts(true, false);
+  const posts = await getRawPosts();
+  const filteredPosts = posts.filter((post) => !post.draft);
+  const sortedPosts = filteredPosts.sort(
+    (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+  );
   return sortedPosts.length > 0 ? sortedPosts[0] : null;
 }
 
 export async function getLatestPosts(count = 1, includeDrafts = false): Promise<Post[]> {
-  const sortedPosts: Post[] = await getPosts(true, includeDrafts);
+  let posts = await getRawPosts();
+
+  if (!includeDrafts) {
+    posts = posts.filter((post) => !post.draft);
+  }
+
+  const sortedPosts = posts.sort(
+    (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+  );
   return sortedPosts.length > 0 ? sortedPosts.slice(0, count) : [];
 }
 
 export async function getFeaturedPosts(includeDrafts = false): Promise<Post[]> {
-  const posts = await getPosts(false, includeDrafts);
+  let posts = await getRawPosts();
+
+  if (!includeDrafts) {
+    posts = posts.filter((post) => !post.draft);
+  }
+
   return posts.filter((post) => post.featured);
 }
 
 export async function getPostsByTag(tag: string, includeDrafts = false): Promise<Post[]> {
-  const posts = await getPosts(false, includeDrafts);
+  let posts = await getRawPosts();
+
+  if (!includeDrafts) {
+    posts = posts.filter((post) => !post.draft);
+  }
+
   return posts.filter((post) => post.tags?.includes(tag));
 }
 
 export async function getAllTags(includeDrafts = false): Promise<string[]> {
-  const posts = await getPosts(false, includeDrafts);
+  let posts = await getRawPosts();
+
+  if (!includeDrafts) {
+    posts = posts.filter((post) => !post.draft);
+  }
+
   const tags = new Set<string>();
 
   for (const post of posts) {

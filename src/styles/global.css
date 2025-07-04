@@ -75,7 +75,14 @@
     @apply text-[rgb(var(--primary-hovered))] underline;
   }
 
-  /* VSCode theme classes */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .text-vscode-primary {
     color: rgb(var(--vscode-primary));
   }

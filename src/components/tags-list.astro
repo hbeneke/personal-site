@@ -27,7 +27,7 @@ const tagNames = sortedTags.map((tag) => tag.name);
           {tagNames.map((tagName) => (
             <a
               href={`/tags/${tagName}/`}
-              class="transition-colors duration-200 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 underline-offset-2 hover:underline text-sm"
+              class="transition-colors duration-200 hover:text-gray-300 dark:hover:text-gray-400 underline-offset-2 underline text-xs"
             >
               #{tagName}
             </a>
@@ -37,5 +37,11 @@ const tagNames = sortedTags.map((tag) => tag.name);
         <p class="text-gray-500 text-sm">No tags found.</p>
       )
     }
+    <a
+      href="/tags/"
+      class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-xs block text-right mt-3"
+    >
+      View all ->
+    </a>
   </div>
 </section>

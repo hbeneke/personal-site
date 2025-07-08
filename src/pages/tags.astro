@@ -24,12 +24,13 @@ const sortedTags = await getSortedTagsWithCounts();
           <ul class="space-y-7">
             {sortedTags.map((tag) => (
               <li>
-                <span class="underline-offset-2 hover:opacity-80 transition-opacity underline cursor-pointer">
+                <a
+                  href={`/tags/${tag.name}/`}
+                  class="underline-offset-2 hover:opacity-80 transition-opacity underline cursor-pointer"
+                >
                   #{tag.name}
-                </span>
-                <span>
-                  {" "}- {tag.count} {tag.count === 1 ? "Post" : "Posts"}
-                </span>
+                </a>{" "}
+                - {tag.count} {tag.count === 1 ? "Post" : "Posts"}
               </li>
             ))}
           </ul>

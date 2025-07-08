@@ -15,9 +15,6 @@ const sortedPosts = await getAllPosts(true, false);
     <section class="flex-1">
       <header class="mb-8">
         <h1 class="text-2xl font-semibold mb-4">Posts</h1>
-        <p class="opacity-60">
-          A collection of posts on topics I find interesting.
-        </p>
       </header>
 
       <div class="posts-list">
@@ -28,7 +25,7 @@ const sortedPosts = await getAllPosts(true, false);
                 <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
                   <time
                     datetime={post.publishDate}
-                    class="min-w-[120px] text-gray-600 dark:text-gray-400"
+                    class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs"
                   >
                     {new Date(post.publishDate).toLocaleDateString("en-US", {
                       day: "2-digit",
@@ -38,17 +35,12 @@ const sortedPosts = await getAllPosts(true, false);
                   </time>
                   <div>
                     <a
-                      class="text-[rgb(var(--primary))] underline-offset-2 transition-colors duration-200 underline hover:text-gray-100 hover:text-[rgb(var(--primary-hovered))]"
+                      class="underline-offset-2 transition-colors duration-200 underline hover:opacity-60 hover:underline text-xs"
                       data-astro-prefetch
                       href={`/posts/${post.slug}/`}
                     >
                       {post.title}
                     </a>
-                    {post.description && (
-                      <q class="line-clamp-3 block italic opacity-70 mt-1">
-                        {post.description}
-                      </q>
-                    )}
                   </div>
                 </li>
               ))}

@@ -92,3 +92,31 @@ export async function getAllTags(includeDrafts = false): Promise<string[]> {
 
   return Array.from(tags).sort();
 }
+
+export async function getPostsGroupedByYear(
+  includeDrafts = false,
+): Promise<Record<number, Post[]>> {
+  let posts = await getRawPosts();
+
+  if (!includeDrafts) {
+    posts = posts.filter((post) => !post.draft);
+  }
+
+  const sortedPosts = posts.sort(
+    (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+  );
+
+  const groupedPosts: Record<number, Post[]> = {};
+
+  for (const post of sortedPosts) {
+    const year = new Date(post.publishDate).getFullYear();
+
+    if (!groupedPosts[year]) {
+      groupedPosts[year] = [];
+    }
+
+    groupedPosts[year].push(post);
+  }
+
+  return groupedPosts;
+}

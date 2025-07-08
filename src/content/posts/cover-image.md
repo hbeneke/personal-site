@@ -1,6 +1,6 @@
 ---
 title: "Example Cover Image"
-publishDate: "2023-07-04T00:00:00.000Z"
+publishDate: "2024-07-04T00:00:00.000Z"
 slug: "cover-image"
 description: "This is an example post demonstrating cover images and blog features."
 content: "This is the full content of the blog post about cover images. You can add markdown content here, including code blocks, images, and other formatting."

@@ -2,9 +2,12 @@
 import BaseLayout from "@layouts/base-layout.astro";
 import TagsList from "@components/tags-list.astro";
 import { siteConfig } from "@site-config";
-import { getAllPosts } from "@utils/post";
+import { getPostsGroupedByYear } from "@utils/post";
 
-const sortedPosts = await getAllPosts(true, false);
+const postsGroupedByYear = await getPostsGroupedByYear(false);
+const years = Object.keys(postsGroupedByYear)
+  .map(Number)
+  .sort((a, b) => b - a);
 ---
 
 <BaseLayout
@@ -19,32 +22,43 @@ const sortedPosts = await getAllPosts(true, false);
 
       <div class="posts-list">
         {
-          sortedPosts.length > 0 ? (
-            <ul class="space-y-4">
-              {sortedPosts.map((post) => (
-                <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
-                  <time
-                    datetime={post.publishDate}
-                    class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs"
-                  >
-                    {new Date(post.publishDate).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </time>
-                  <div>
-                    <a
-                      class="underline-offset-2 transition-colors duration-200 underline hover:opacity-60 hover:underline text-xs"
-                      data-astro-prefetch
-                      href={`/posts/${post.slug}/`}
-                    >
-                      {post.title}
-                    </a>
-                  </div>
-                </li>
+          years.length > 0 ? (
+            <div class="space-y-8">
+              {years.map((year) => (
+                <div class="year-group">
+                  <h2 class="text-xl font-medium mb-4 text-gray-800 dark:text-gray-200">
+                    {year}
+                  </h2>
+                  <ul class="space-y-4">
+                    {postsGroupedByYear[year].map((post) => (
+                      <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+                        <time
+                          datetime={post.publishDate}
+                          class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs"
+                        >
+                          {new Date(post.publishDate).toLocaleDateString(
+                            "en-US",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                            },
+                          )}
+                        </time>
+                        <div>
+                          <a
+                            class="underline-offset-2 transition-colors duration-200 underline hover:opacity-60 hover:underline text-xs"
+                            data-astro-prefetch
+                            href={`/posts/${post.slug}/`}
+                          >
+                            {post.title}
+                          </a>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : (
             <div class="text-center py-12">
               <p class="text-gray-400 text-lg">No posts published yet.</p>

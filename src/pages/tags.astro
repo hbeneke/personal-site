@@ -13,23 +13,20 @@ const sortedTags = await getSortedTagsWithCounts();
   <section>
     <header class="mb-8">
       <h1 class="font-semibold text-2xl mb-4">Tags</h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        Explore content by topic. Click on any tag to see related posts.
-      </p>
     </header>
 
     <div>
       {
         sortedTags.length > 0 ? (
-          <ul class="space-y-7">
+          <ul class="space-y-7 text-xs">
             {sortedTags.map((tag) => (
               <li>
                 <a
                   href={`/tags/${tag.name}/`}
-                  class="underline-offset-2 hover:opacity-80 transition-opacity underline cursor-pointer"
+                  class="hover:opacity-80 transition-opacity cursor-pointer"
                 >
-                  #{tag.name}
-                </a>{" "}
+                  <span class="underline">#{tag.name}</span>
+                </a>
                 - {tag.count} {tag.count === 1 ? "Post" : "Posts"}
               </li>
             ))}

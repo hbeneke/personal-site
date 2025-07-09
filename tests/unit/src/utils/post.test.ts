@@ -6,6 +6,7 @@ import {
   getFeaturedPosts,
   getPostsByTag,
   getAllTags,
+  getPostsGroupedByYear,
 } from "@/utils/post";
 import { getCollection } from "astro:content";
 
@@ -286,6 +287,138 @@ describe("postsUtils", () => {
 
       const result = await getAllTags();
       expect(result).toEqual([]);
+    });
+  });
+
+  describe("getPostsGroupedByYear", () => {
+    beforeEach(() => {
+      const mockGroupedPostsEntries = [
+        {
+          id: "post-2024-feb",
+          collection: "posts" as const,
+          data: {
+            title: "Post February 2024",
+            publishDate: "2024-02-10T00:00:00.000Z",
+            slug: "post-2024-feb",
+            description: "February 2024 post",
+            featured: false,
+            draft: false,
+          },
+        },
+        {
+          id: "post-2024-jan",
+          collection: "posts" as const,
+          data: {
+            title: "Post January 2024",
+            publishDate: "2024-01-15T00:00:00.000Z",
+            slug: "post-2024-jan",
+            description: "January 2024 post",
+            featured: false,
+            draft: false,
+          },
+        },
+        {
+          id: "post-2023-dec",
+          collection: "posts" as const,
+          data: {
+            title: "Post December 2023",
+            publishDate: "2023-12-31T00:00:00.000Z",
+            slug: "post-2023-dec",
+            description: "December 2023 post",
+            featured: false,
+            draft: false,
+          },
+        },
+        {
+          id: "post-2024-draft",
+          collection: "posts" as const,
+          data: {
+            title: "Draft Post 2024",
+            publishDate: "2024-03-01T00:00:00.000Z",
+            slug: "post-2024-draft",
+            description: "Draft post",
+            featured: false,
+            draft: true,
+          },
+        },
+      ];
+
+      mockGetCollection.mockResolvedValue(mockGroupedPostsEntries);
+    });
+
+    it("should group posts by year excluding drafts by default", async () => {
+      const result = await getPostsGroupedByYear();
+
+      expect(result).toEqual({
+        2024: [
+          expect.objectContaining({ slug: "post-2024-feb" }),
+          expect.objectContaining({ slug: "post-2024-jan" }),
+        ],
+        2023: [expect.objectContaining({ slug: "post-2023-dec" })],
+      });
+    });
+
+    it("should include drafts when includeDrafts is true", async () => {
+      const result = await getPostsGroupedByYear(true);
+
+      expect(result[2024]).toHaveLength(3);
+      expect(result[2024].some((post) => post.draft)).toBe(true);
+    });
+
+    it("should sort posts within each year by date (newest first)", async () => {
+      const result = await getPostsGroupedByYear();
+
+      expect(result[2024][0].publishDate).toBe("2024-02-10T00:00:00.000Z");
+      expect(result[2024][1].publishDate).toBe("2024-01-15T00:00:00.000Z");
+    });
+
+    it("should return empty object when no posts exist", async () => {
+      mockGetCollection.mockResolvedValue([]);
+
+      const result = await getPostsGroupedByYear();
+
+      expect(result).toEqual({});
+    });
+
+    it("should handle posts with same date", async () => {
+      const sameDatePosts = [
+        {
+          id: "post-a",
+          collection: "posts" as const,
+          data: {
+            title: "Post A",
+            publishDate: "2024-01-15T00:00:00.000Z",
+            slug: "post-a",
+            description: "Post A",
+            featured: false,
+            draft: false,
+          },
+        },
+        {
+          id: "post-b",
+          collection: "posts" as const,
+          data: {
+            title: "Post B",
+            publishDate: "2024-01-15T00:00:00.000Z",
+            slug: "post-b",
+            description: "Post B",
+            featured: false,
+            draft: false,
+          },
+        },
+      ];
+
+      mockGetCollection.mockResolvedValue(sameDatePosts);
+
+      const result = await getPostsGroupedByYear();
+
+      expect(result[2024]).toHaveLength(2);
+    });
+
+    it("should propagate getCollection errors", async () => {
+      mockGetCollection.mockRejectedValue(new Error("Collection error"));
+
+      await expect(getPostsGroupedByYear()).rejects.toThrow("Collection error");
     });
   });
 

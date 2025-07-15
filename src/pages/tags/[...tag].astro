@@ -1,0 +1,133 @@
+---
+import BaseLayout from "@layouts/base-layout.astro";
+import { siteConfig } from "@site-config";
+import { getAllTagPaths, getTagPageData } from "@utils/tag";
+
+export async function getStaticPaths() {
+  const allTags = await getAllTagPaths();
+
+  return allTags.map((tag) => ({
+    params: { tag },
+  }));
+}
+
+const { tag } = Astro.params;
+const tagPageData = await getTagPageData(tag);
+---
+
+<BaseLayout
+  title={`${tagPageData.pageTitle} · ${siteConfig.siteTitle}`}
+  description={tagPageData.pageDescription}
+>
+  <section>
+    <header class="mb-8">
+      <nav class="mb-4">
+        <a
+          href="/tags/"
+          class="inline-flex items-center hover:underline text-sm text-gray-400"
+        >
+          ← Back to all tags
+        </a>
+      </nav>
+
+      <h1 class="text-2xl font-semibold mb-4">{tagPageData.pageTitle}</h1>
+
+      {
+        tagPageData.tagContent?.description && (
+          <div class="prose prose-gray dark:prose-invert max-w-none mb-6">
+            <p class="text-gray-600 dark:text-gray-300">
+              {tagPageData.tagContent.description}
+            </p>
+          </div>
+        )
+      }
+
+      {
+        tagPageData.tagContent?.content && (
+          <div class="prose prose-gray dark:prose-invert max-w-none mb-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <Fragment set:html={tagPageData.tagContent.content} />
+          </div>
+        )
+      }
+
+      <div class="text-sm text-gray-500 mb-6">
+        {tagPageData.posts.length}
+        {tagPageData.posts.length === 1 ? "post" : "posts"} found
+      </div>
+    </header>
+
+    <div class="posts-list">
+      {
+        tagPageData.years.length > 0 ? (
+          <div class="space-y-8">
+            {tagPageData.years.map((year) => (
+              <div class="year-group">
+                <h2 class="text-xl font-medium mb-4 text-gray-800 dark:text-gray-200">
+                  {year}
+                </h2>
+                <ul class="space-y-4">
+                  {tagPageData.groupedPostsByYear[year].map((post) => (
+                    <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+                      <time
+                        datetime={post.publishDate}
+                        class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs"
+                      >
+                        {new Date(post.publishDate).toLocaleDateString(
+                          "en-US",
+                          {
+                            day: "2-digit",
+                            month: "short",
+                          },
+                        )}
+                      </time>
+                      <div>
+                        <a
+                          class="underline-offset-2 transition-colors duration-200 underline hover:opacity-60 hover:underline text-xs"
+                          data-astro-prefetch
+                          href={`/posts/${post.slug}/`}
+                        >
+                          {post.title}
+                        </a>
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-3">
+                          {post.description}
+                        </p>
+                        {post.tags && post.tags.length > 1 && (
+                          <div class="flex flex-wrap gap-1 mt-2">
+                            {post.tags
+                              .filter((postTag: string) => postTag !== tag)
+                              .slice(0, 3)
+                              .map((postTag: string) => (
+                                <a
+                                  href={`/tags/${postTag}/`}
+                                  class="text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                                >
+                                  {postTag}
+                                </a>
+                              ))}
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-12">
+            <p class="text-gray-400 text-lg">No posts found for this tag.</p>
+            <p class="text-gray-500 text-sm mt-2">
+              <a href="/posts/" class="primary-link">
+                Browse all posts
+              </a>{" "}
+              or
+              <a href="/tags/" class="primary-link">
+                explore other tags
+              </a>
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

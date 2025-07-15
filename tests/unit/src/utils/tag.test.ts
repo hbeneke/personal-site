@@ -1,15 +1,30 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getAllTagsWithCounts, getSortedTagsWithCounts } from "@/utils/tag";
-import type { TagWithCount } from "@types";
+import {
+  getAllTagsWithCounts,
+  getSortedTagsWithCounts,
+  getTagContent,
+  groupPostsByYear,
+  sortYearsDescending,
+  getTagPageData,
+  getAllTagPaths,
+} from "@/utils/tag";
+import type { TagWithCount, Post, TagContent, TagPageData } from "@/types";
 import { getAllTags, getPostsByTag } from "@/utils/post";
+import { getCollection } from "astro:content";
 
+// Mock modules
 vi.mock("@/utils/post", () => ({
   getAllTags: vi.fn(),
   getPostsByTag: vi.fn(),
 }));
 
+vi.mock("astro:content", () => ({
+  getCollection: vi.fn(),
+}));
+
 const mockGetAllTags = vi.mocked(getAllTags);
 const mockGetPostsByTag = vi.mocked(getPostsByTag);
+const mockGetCollection = vi.mocked(getCollection);
 
 describe("tagUtils", () => {
   beforeEach(() => {
@@ -271,6 +286,287 @@ describe("tagUtils", () => {
       mockGetAllTags.mockRejectedValue(new Error("Underlying error"));
 
       await expect(getSortedTagsWithCounts()).rejects.toThrow("Underlying error");
+    });
+  });
+
+  describe("getTagContent", () => {
+    it("should return tag content when tag exists", async () => {
+      const mockTagEntry = {
+        id: "javascript",
+        collection: "tags" as const,
+        data: {
+          title: "JavaScript Development",
+          description: "All about JavaScript",
+        },
+        body: "<p>JavaScript content</p>",
+      };
+
+      mockGetCollection.mockResolvedValue([mockTagEntry]);
+
+      const result = await getTagContent("javascript");
+
+      expect(result).toEqual({
+        title: "JavaScript Development",
+        description: "All about JavaScript",
+        content: "<p>JavaScript content</p>",
+      });
+    });
+
+    it("should return null when tag does not exist", async () => {
+      mockGetCollection.mockResolvedValue([]);
+
+      const result = await getTagContent("nonexistent");
+
+      expect(result).toBeNull();
+    });
+
+    it("should return null when getCollection throws error", async () => {
+      mockGetCollection.mockRejectedValue(new Error("Collection error"));
+
+      const result = await getTagContent("javascript");
+
+      expect(result).toBeNull();
+    });
+
+    it("should handle partial tag data", async () => {
+      const mockTagEntry = {
+        id: "typescript",
+        collection: "tags" as const,
+        data: {
+          title: "TypeScript",
+        },
+        body: "",
+      };
+
+      mockGetCollection.mockResolvedValue([mockTagEntry]);
+
+      const result = await getTagContent("typescript");
+
+      expect(result).toEqual({
+        title: "TypeScript",
+        description: undefined,
+        content: "",
+      });
+    });
+  });
+
+  describe("groupPostsByYear", () => {
+    it("should group posts by year correctly", async () => {
+      const posts: Post[] = [
+        {
+          title: "Post 2024",
+          publishDate: "2024-06-15T00:00:00.000Z",
+          slug: "post-2024",
+          description: "2024 post",
+          featured: false,
+          draft: false,
+        },
+        {
+          title: "Post 2023",
+          publishDate: "2023-03-10T00:00:00.000Z",
+          slug: "post-2023",
+          description: "2023 post",
+          featured: false,
+          draft: false,
+        },
+        {
+          title: "Another 2024",
+          publishDate: "2024-12-31T00:00:00.000Z",
+          slug: "another-2024",
+          description: "Another 2024 post",
+          featured: false,
+          draft: false,
+        },
+      ];
+
+      const result = groupPostsByYear(posts);
+
+      expect(result).toEqual({
+        2024: [
+          {
+            title: "Post 2024",
+            publishDate: "2024-06-15T00:00:00.000Z",
+            slug: "post-2024",
+            description: "2024 post",
+            featured: false,
+            draft: false,
+          },
+          {
+            title: "Another 2024",
+            publishDate: "2024-12-31T00:00:00.000Z",
+            slug: "another-2024",
+            description: "Another 2024 post",
+            featured: false,
+            draft: false,
+          },
+        ],
+        2023: [
+          {
+            title: "Post 2023",
+            publishDate: "2023-03-10T00:00:00.000Z",
+            slug: "post-2023",
+            description: "2023 post",
+            featured: false,
+            draft: false,
+          },
+        ],
+      });
+    });
+
+    it("should handle empty posts array", async () => {
+      const result = groupPostsByYear([]);
+
+      expect(result).toEqual({});
+    });
+
+    it("should handle invalid dates gracefully", async () => {
+      const posts: Post[] = [
+        {
+          title: "Invalid Date Post",
+          publishDate: "invalid-date",
+          slug: "invalid",
+          description: "Invalid date",
+          featured: false,
+          draft: false,
+        },
+      ];
+
+      const result = groupPostsByYear(posts);
+
+      expect(Object.keys(result)).toHaveLength(1);
+    });
+  });
+
+  describe("sortYearsDescending", () => {
+    it("should sort years in descending order", async () => {
+      const groupedPosts = {
+        2020: [],
+        2024: [],
+        2022: [],
+      };
+
+      const result = sortYearsDescending(groupedPosts);
+
+      expect(result).toEqual([2024, 2022, 2020]);
+    });
+
+    it("should handle empty object", async () => {
+      const result = sortYearsDescending({});
+
+      expect(result).toEqual([]);
+    });
+
+    it("should handle single year", async () => {
+      const groupedPosts = {
+        2024: [],
+      };
+
+      const result = sortYearsDescending(groupedPosts);
+
+      expect(result).toEqual([2024]);
+    });
+  });
+
+  describe("getTagPageData", () => {
+    beforeEach(() => {
+      mockGetPostsByTag.mockResolvedValue([
+        {
+          title: "Test Post",
+          publishDate: "2024-01-01T00:00:00.000Z",
+          slug: "test-post",
+          description: "Test description",
+          featured: false,
+          draft: false,
+        },
+      ]);
+    });
+
+    it("should return complete tag page data with custom tag content", async () => {
+      const mockTagEntry = {
+        id: "javascript",
+        collection: "tags" as const,
+        data: {
+          title: "JavaScript Development",
+          description: "All about JavaScript programming",
+        },
+        body: "<p>JavaScript content</p>",
+      };
+
+      mockGetCollection.mockResolvedValue([mockTagEntry]);
+
+      const result = await getTagPageData("javascript");
+
+      expect(result.tag).toBe("javascript");
+      expect(result.posts).toHaveLength(1);
+      expect(result.tagContent).toEqual({
+        title: "JavaScript Development",
+        description: "All about JavaScript programming",
+        content: "<p>JavaScript content</p>",
+      });
+      expect(result.pageTitle).toBe("JavaScript Development");
+      expect(result.pageDescription).toBe("All about JavaScript programming");
+      expect(result.groupedPostsByYear).toEqual({
+        2024: [
+          {
+            title: "Test Post",
+            publishDate: "2024-01-01T00:00:00.000Z",
+            slug: "test-post",
+            description: "Test description",
+            featured: false,
+            draft: false,
+          },
+        ],
+      });
+      expect(result.years).toEqual([2024]);
+    });
+
+    it("should return default data when no tag content exists", async () => {
+      mockGetCollection.mockResolvedValue([]);
+
+      const result = await getTagPageData("typescript");
+
+      expect(result.tag).toBe("typescript");
+      expect(result.tagContent).toBeNull();
+      expect(result.pageTitle).toBe("Posts about typescript");
+      expect(result.pageDescription).toBe(
+        'All blog posts tagged with "typescript". Explore related content and insights.',
+      );
+    });
+
+    it("should handle empty posts", async () => {
+      mockGetPostsByTag.mockResolvedValue([]);
+      mockGetCollection.mockResolvedValue([]);
+
+      const result = await getTagPageData("empty-tag");
+
+      expect(result.posts).toEqual([]);
+      expect(result.groupedPostsByYear).toEqual({});
+      expect(result.years).toEqual([]);
+    });
+  });
+
+  describe("getAllTagPaths", () => {
+    it("should return all available tags", async () => {
+      mockGetAllTags.mockResolvedValue(["javascript", "typescript", "react"]);
+
+      const result = await getAllTagPaths();
+
+      expect(result).toEqual(["javascript", "typescript", "react"]);
+      expect(mockGetAllTags).toHaveBeenCalledWith(false);
+    });
+
+    it("should return empty array when no tags exist", async () => {
+      mockGetAllTags.mockResolvedValue([]);
+
+      const result = await getAllTagPaths();
+
+      expect(result).toEqual([]);
+    });
+
+    it("should propagate errors from getAllTags", async () => {
+      mockGetAllTags.mockRejectedValue(new Error("Tags error"));
+
+      await expect(getAllTagPaths()).rejects.toThrow("Tags error");
     });
   });
 

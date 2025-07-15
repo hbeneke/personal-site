@@ -1,12 +1,12 @@
 import type { TagWithCount } from "@types";
 import { getAllTags, getPostsByTag } from "@utils/post";
 
-async function getTagsWithCounts(includeDrafts = false): Promise<TagWithCount[]> {
-  const allTags = await getAllTags(includeDrafts);
+async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
+  const allTags = await getAllTags(includeDrafts || false);
 
   const tagsWithCounts = await Promise.all(
     allTags.map(async (tag) => {
-      const posts = await getPostsByTag(tag, includeDrafts);
+      const posts = await getPostsByTag(tag, includeDrafts || false);
       return {
         name: tag,
         count: posts.length,

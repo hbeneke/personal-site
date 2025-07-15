@@ -33,6 +33,7 @@ describe("tagUtils", () => {
       const resultWithoutDrafts = await getAllTagsWithCounts(false);
       expect(resultWithoutDrafts).toEqual([{ name: "javascript", count: 1 }]);
       expect(mockGetAllTags).toHaveBeenCalledWith(false);
+      expect(mockGetPostsByTag).toHaveBeenCalledWith("javascript", false);
 
       vi.clearAllMocks();
       mockGetAllTags.mockResolvedValue(["javascript"]);

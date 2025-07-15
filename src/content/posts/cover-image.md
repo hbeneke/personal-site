@@ -14,6 +14,7 @@ This is an example blog post demonstrating how to use cover images and other blo
 ## What you'll learn
 
 In this post, we'll cover:
+
 - How to add cover images to your blog posts
 - Best practices for blog post formatting
 - Using frontmatter effectively

@@ -1,8 +1,7 @@
 ---
-import type { Note } from "@types";
 import { getLatestNote } from "@utils/note";
 
-const latestNote: Note | null = await getLatestNote();
+const latestNote = await getLatestNote();
 ---
 
 <section id="post-section" class="mt-12">
@@ -15,19 +14,19 @@ const latestNote: Note | null = await getLatestNote();
       <a href={`/notes/${latestNote.slug}`} class="block">
         <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
           <h3 class="title text-base">
-            <span class="text-vscode-primary">{latestNote.title}</span>
+            <span class="underline text-white">{latestNote.title}</span>
           </h3>
           <time
             datetime={latestNote.publishDate}
             title={latestNote.publishDate}
-            class="text-sm text-vscode-secondary"
+            class="text-xs"
           >
             {new Date(latestNote.publishDate).toLocaleString("es-ES", {
               dateStyle: "short",
               timeStyle: "short",
             })}
           </time>
-          <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-white">
+          <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-gray-700 dark:text-gray-300">
             <p>{latestNote.description}</p>
           </div>
         </article>

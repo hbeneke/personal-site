@@ -12,19 +12,15 @@
     --secondary-hovered: 253, 224, 71;
     --bg: 255, 255, 255;
     --foreground: 31, 41, 55;
-    --vscode-primary: 0, 122, 204;
-    --vscode-secondary: 197, 134, 192;
   }
 
   :root[data-theme="dark"] {
-    --primary: 74, 222, 128;
+    --primary: 16, 185, 129;
     --primary-hovered: 187, 247, 208;
     --secondary: 250, 204, 21;
     --secondary-hovered: 254, 249, 195;
     --bg: 26, 27, 30;
     --foreground: 212, 212, 212;
-    --vscode-primary: 0, 122, 204;
-    --vscode-secondary: 197, 134, 192;
   }
 
   body {
@@ -83,23 +79,11 @@
     overflow: hidden;
   }
 
-  .text-vscode-primary {
-    color: rgb(var(--vscode-primary));
-  }
-
-  .text-vscode-secondary {
-    color: rgb(var(--vscode-secondary));
-  }
-
-  .bg-vscode-primary {
-    background-color: rgb(var(--vscode-primary));
-  }
-
-  .bg-vscode-secondary {
-    background-color: rgb(var(--vscode-secondary));
-  }
-
-  .border-vscode-primary {
-    border-color: rgb(var(--vscode-primary));
+  .line-clamp-6 {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

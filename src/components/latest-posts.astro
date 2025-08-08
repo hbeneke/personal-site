@@ -1,5 +1,6 @@
 ---
 import { getLatestPosts } from "@utils/post";
+import { formatPostDate } from "@utils/date";
 
 const latestPosts = await getLatestPosts(4);
 ---
@@ -16,11 +17,7 @@ const latestPosts = await getLatestPosts(4);
             datetime={post.data.publishDate}
             class="min-w-[120px] text-gray-600 dark:text-gray-400"
           >
-            {new Date(post.data.publishDate).toLocaleDateString("en-US", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            })}
+            {formatPostDate(post.data.publishDate)}
           </time>
           <div>
             <a

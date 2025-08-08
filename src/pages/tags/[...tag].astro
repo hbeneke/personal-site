@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getAllTagPaths, getTagPageData } from "@utils/tag";
+import { formatPostDate } from "@utils/date";
 
 export async function getStaticPaths() {
   const allTags = await getAllTagPaths();
@@ -77,11 +78,7 @@ const tagPageData = await getTagPageData(tag);
                           if (Number.isNaN(date.getTime())) {
                             return "Invalid Date";
                           }
-                          return date.toLocaleDateString("en-US", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          });
+                          return formatPostDate(post.data.publishDate);
                         })()}
                       </time>
                       <div>

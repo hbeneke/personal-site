@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculateDuration } from "@/utils/date";
+import { calculateDuration, formatPostDate } from "@/utils/date";
 
 describe("Date Utils functions", () => {
   describe("calculateDuration function", () => {
@@ -69,6 +69,60 @@ describe("Date Utils functions", () => {
       it("Start month greater than end month (1 month case)", () => {
         const result: string = calculateDuration("2019-12", "2021-01");
         expect(result).toBe("1 year 1 month");
+      });
+    });
+  });
+
+  describe("formatPostDate function", () => {
+    it("formats a valid date string correctly", () => {
+      const result: string = formatPostDate("2023-06-15");
+      expect(result).toBe("Jun 15, 2023");
+    });
+
+    it("formats a date with single digit day", () => {
+      const result: string = formatPostDate("2023-12-01");
+      expect(result).toBe("Dec 01, 2023");
+    });
+
+    it("formats a date with single digit month", () => {
+      const result: string = formatPostDate("2023-01-25");
+      expect(result).toBe("Jan 25, 2023");
+    });
+
+    it("formats January date correctly", () => {
+      const result: string = formatPostDate("2023-01-15");
+      expect(result).toBe("Jan 15, 2023");
+    });
+
+    it("formats December date correctly", () => {
+      const result: string = formatPostDate("2023-12-31");
+      expect(result).toBe("Dec 31, 2023");
+    });
+
+    it("formats leap year date correctly", () => {
+      const result: string = formatPostDate("2024-02-29");
+      expect(result).toBe("Feb 29, 2024");
+    });
+
+    it("formats date with ISO format", () => {
+      const result: string = formatPostDate("2023-06-15T10:30:00.000Z");
+      expect(result).toBe("Jun 15, 2023");
+    });
+
+    describe("Edge cases", () => {
+      it("handles different year formats", () => {
+        const result: string = formatPostDate("2000-01-01");
+        expect(result).toBe("Jan 01, 2000");
+      });
+
+      it("handles future dates", () => {
+        const result: string = formatPostDate("2030-12-25");
+        expect(result).toBe("Dec 25, 2030");
+      });
+
+      it("handles past dates", () => {
+        const result: string = formatPostDate("1990-07-04");
+        expect(result).toBe("Jul 04, 1990");
       });
     });
   });

@@ -15,3 +15,11 @@ export function calculateDuration(startDate: string, endDate: string): string {
 
   return [yearText, monthText].filter(Boolean).join(" ");
 }
+
+export function formatPostDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}

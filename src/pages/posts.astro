@@ -3,6 +3,7 @@ import BaseLayout from "@layouts/base-layout.astro";
 import TagsList from "@components/tags-list.astro";
 import { siteConfig } from "@site-config";
 import { getPostsGroupedByYear } from "@utils/post";
+import { formatPostDate } from "@utils/date";
 
 const postsGroupedByYear = await getPostsGroupedByYear(false);
 const years = Object.keys(postsGroupedByYear)
@@ -36,14 +37,7 @@ const years = Object.keys(postsGroupedByYear)
                           datetime={post.data.publishDate}
                           class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs pt-1"
                         >
-                          {new Date(post.data.publishDate).toLocaleDateString(
-                            "en-US",
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            },
-                          )}
+                          {formatPostDate(post.data.publishDate)}
                         </time>
                         <div>
                           <a

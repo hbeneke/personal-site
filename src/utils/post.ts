@@ -1,4 +1,3 @@
-import type { Post } from "@types";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 async function getRawPosts(): Promise<CollectionEntry<"posts">[]> {

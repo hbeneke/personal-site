@@ -99,26 +99,26 @@ describe("postsUtils", () => {
       const result = await getAllPosts();
 
       expect(result).toHaveLength(3);
-      expect(result[0].slug).toBe("latest-post");
-      expect(result[1].slug).toBe("second-post");
-      expect(result[2].slug).toBe("first-post");
-      expect(result.every((post) => !post.draft)).toBe(true);
+      expect(result[0].data.slug).toBe("latest-post");
+      expect(result[1].data.slug).toBe("second-post");
+      expect(result[2].data.slug).toBe("first-post");
+      expect(result.every((post) => !post.data.draft)).toBe(true);
     });
 
     it("should return unsorted posts when sorted is false", async () => {
       const result = await getAllPosts(false);
 
       expect(result).toHaveLength(3);
-      expect(result[0].slug).toBe("first-post");
-      expect(result[1].slug).toBe("second-post");
-      expect(result[2].slug).toBe("latest-post");
+      expect(result[0].data.slug).toBe("first-post");
+      expect(result[1].data.slug).toBe("second-post");
+      expect(result[2].data.slug).toBe("latest-post");
     });
 
     it("should include drafts when includeDrafts is true", async () => {
       const result = await getAllPosts(true, true);
 
       expect(result).toHaveLength(5);
-      expect(result.some((post) => post.draft)).toBe(true);
+      expect(result.some((post) => post.data.draft)).toBe(true);
     });
 
     it("should return empty array when no posts exist", async () => {
@@ -132,9 +132,9 @@ describe("postsUtils", () => {
     it("should return the most recent non-draft post", async () => {
       const result = await getLatestPost();
 
-      expect(result?.slug).toBe("latest-post");
-      expect(result?.publishDate).toBe("2024-04-01T00:00:00.000Z");
-      expect(result?.draft).toBe(false);
+      expect(result?.data.slug).toBe("latest-post");
+      expect(result?.data.publishDate).toBe("2024-04-01T00:00:00.000Z");
+      expect(result?.data.draft).toBe(false);
     });
 
     it("should return null when no non-draft posts exist", async () => {
@@ -149,15 +149,15 @@ describe("postsUtils", () => {
       const result = await getLatestPosts(2);
 
       expect(result).toHaveLength(2);
-      expect(result[0].slug).toBe("latest-post");
-      expect(result[1].slug).toBe("second-post");
+      expect(result[0].data.slug).toBe("latest-post");
+      expect(result[1].data.slug).toBe("second-post");
     });
 
     it("should include drafts when includeDrafts is true", async () => {
       const result = await getLatestPosts(3, true);
 
       expect(result).toHaveLength(3);
-      expect(result.some((post) => post.draft)).toBe(true);
+      expect(result.some((post) => post.data.draft)).toBe(true);
     });
 
     it("should handle count exceeding available posts", async () => {
@@ -187,16 +187,16 @@ describe("postsUtils", () => {
       const result = await getFeaturedPosts();
 
       expect(result).toHaveLength(1);
-      expect(result[0].slug).toBe("first-post");
-      expect(result[0].featured).toBe(true);
-      expect(result[0].draft).toBe(false);
+      expect(result[0].data.slug).toBe("first-post");
+      expect(result[0].data.featured).toBe(true);
+      expect(result[0].data.draft).toBe(false);
     });
 
     it("should include featured drafts when includeDrafts is true", async () => {
       const result = await getFeaturedPosts(true);
 
       expect(result).toHaveLength(2);
-      expect(result.every((post) => post.featured)).toBe(true);
+      expect(result.every((post) => post.data.featured)).toBe(true);
     });
 
     it("should return empty array when no featured posts exist", async () => {
@@ -211,15 +211,15 @@ describe("postsUtils", () => {
       const result = await getPostsByTag("javascript");
 
       expect(result).toHaveLength(2);
-      expect(result.every((post) => post.tags?.includes("javascript"))).toBe(true);
-      expect(result.every((post) => !post.draft)).toBe(true);
+      expect(result.every((post) => post.data.tags?.includes("javascript"))).toBe(true);
+      expect(result.every((post) => !post.data.draft)).toBe(true);
     });
 
     it("should include drafts when includeDrafts is true", async () => {
       const result = await getPostsByTag("draft", true);
 
       expect(result).toHaveLength(2);
-      expect(result.every((post) => post.tags?.includes("draft"))).toBe(true);
+      expect(result.every((post) => post.data.tags?.includes("draft"))).toBe(true);
     });
 
     it("should return empty array for nonexistent tag", async () => {
@@ -351,10 +351,12 @@ describe("postsUtils", () => {
 
       expect(result).toEqual({
         2024: [
-          expect.objectContaining({ slug: "post-2024-feb" }),
-          expect.objectContaining({ slug: "post-2024-jan" }),
+          expect.objectContaining({ data: expect.objectContaining({ slug: "post-2024-feb" }) }),
+          expect.objectContaining({ data: expect.objectContaining({ slug: "post-2024-jan" }) }),
         ],
-        2023: [expect.objectContaining({ slug: "post-2023-dec" })],
+        2023: [
+          expect.objectContaining({ data: expect.objectContaining({ slug: "post-2023-dec" }) }),
+        ],
       });
     });
 
@@ -362,14 +364,14 @@ describe("postsUtils", () => {
       const result = await getPostsGroupedByYear(true);
 
       expect(result[2024]).toHaveLength(3);
-      expect(result[2024].some((post) => post.draft)).toBe(true);
+      expect(result[2024].some((post) => post.data.draft)).toBe(true);
     });
 
     it("should sort posts within each year by date (newest first)", async () => {
       const result = await getPostsGroupedByYear();
 
-      expect(result[2024][0].publishDate).toBe("2024-02-10T00:00:00.000Z");
-      expect(result[2024][1].publishDate).toBe("2024-01-15T00:00:00.000Z");
+      expect(result[2024][0].data.publishDate).toBe("2024-02-10T00:00:00.000Z");
+      expect(result[2024][1].data.publishDate).toBe("2024-01-15T00:00:00.000Z");
     });
 
     it("should return empty object when no posts exist", async () => {

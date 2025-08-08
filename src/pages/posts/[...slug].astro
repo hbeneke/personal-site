@@ -2,20 +2,21 @@
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getAllPosts } from "@utils/post";
-import type { Post } from "@types";
+import { render } from "astro:content";
 import EtiquetteIcon from "@icons/etiquette.svg?raw";
 
 export async function getStaticPaths() {
-  const posts: Post[] = await getAllPosts(false, false);
+  const posts = await getAllPosts(false, false);
 
-  return posts.map((post: Post) => ({
-    params: { slug: post.slug },
-    props: { ...post },
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
   }));
 }
 
-const { title, publishDate, description, content, tags, featured, readTime } =
-  Astro.props;
+const { post } = Astro.props;
+const { title, publishDate, description, tags, readTime } = post.data;
+const { Content } = await render(post);
 const formattedDate: string = new Date(publishDate).toLocaleString(
   siteConfig.locale,
   {
@@ -64,14 +65,11 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
           </div>
         )
       }
-      <p class="text-lg text-gray-300 leading-relaxed">{description}</p>
     </header>
 
-    <div class="prose-content">
-      <slot />
+    <div class="prose-content text-sm">
+      <Content />
     </div>
-
-    {content && <div class="mt-8 prose-content" set:html={content} />}
   </article>
 </BaseLayout>
 

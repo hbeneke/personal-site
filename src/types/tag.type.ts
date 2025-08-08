@@ -1,4 +1,4 @@
-import type { Post } from "@/types/Post.type";
+import type { CollectionEntry } from "astro:content";
 
 export interface TagWithCount {
   name: string;
@@ -13,10 +13,10 @@ export interface TagContent {
 
 export interface TagPageData {
   tag: string;
-  posts: Post[];
+  posts: CollectionEntry<"posts">[];
   tagContent: TagContent | null;
   pageTitle: string;
   pageDescription: string;
-  groupedPostsByYear: Record<number, Post[]>;
+  groupedPostsByYear: Record<number, CollectionEntry<"posts">[]>;
   years: number[];
 }

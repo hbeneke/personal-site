@@ -1,6 +1,6 @@
-import type { TagWithCount, TagContent, TagPageData, Post } from "@types";
+import type { TagWithCount, TagContent, TagPageData } from "@types";
 import { getAllTags, getPostsByTag } from "@utils/post";
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
   const allTags = await getAllTags(includeDrafts || false);
@@ -46,9 +46,16 @@ export async function getTagContent(tag: string): Promise<TagContent | null> {
   return null;
 }
 
-export function groupPostsByYear(posts: Post[]): Record<number, Post[]> {
-  return posts.reduce((acc: Record<number, Post[]>, post) => {
-    const year = new Date(post.publishDate).getFullYear();
+export function groupPostsByYear(
+  posts: CollectionEntry<"posts">[],
+): Record<number, CollectionEntry<"posts">[]> {
+  return posts.reduce((acc: Record<number, CollectionEntry<"posts">[]>, post) => {
+    const date = new Date(post.data.publishDate);
+    if (Number.isNaN(date.getTime())) {
+      // Skip posts with invalid dates
+      return acc;
+    }
+    const year = date.getFullYear();
     if (!acc[year]) {
       acc[year] = [];
     }
@@ -57,7 +64,9 @@ export function groupPostsByYear(posts: Post[]): Record<number, Post[]> {
   }, {});
 }
 
-export function sortYearsDescending(groupedPosts: Record<number, Post[]>): number[] {
+export function sortYearsDescending(
+  groupedPosts: Record<number, CollectionEntry<"posts">[]>,
+): number[] {
   return Object.keys(groupedPosts)
     .map(Number)
     .sort((a, b) => b - a);

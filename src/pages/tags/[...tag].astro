@@ -69,43 +69,32 @@ const tagPageData = await getTagPageData(tag);
                   {tagPageData.groupedPostsByYear[year].map((post) => (
                     <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
                       <time
-                        datetime={post.publishDate}
-                        class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs"
+                        datetime={post.data.publishDate}
+                        class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs pt-1"
                       >
-                        {new Date(post.publishDate).toLocaleDateString(
-                          "en-US",
-                          {
+                        {(() => {
+                          const date = new Date(post.data.publishDate);
+                          if (Number.isNaN(date.getTime())) {
+                            return "Invalid Date";
+                          }
+                          return date.toLocaleDateString("en-US", {
                             day: "2-digit",
                             month: "short",
-                          },
-                        )}
+                            year: "numeric",
+                          });
+                        })()}
                       </time>
                       <div>
                         <a
                           class="underline-offset-2 transition-colors duration-200 underline hover:opacity-60 hover:underline text-xs"
                           data-astro-prefetch
-                          href={`/posts/${post.slug}/`}
+                          href={`/posts/${post.data.slug}/`}
                         >
-                          {post.title}
+                          {post.data.title}
                         </a>
-                        <p class="text-xs text-gray-500 mt-1 line-clamp-3">
-                          {post.description}
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-3 mb-3">
+                          {post.data.description}
                         </p>
-                        {post.tags && post.tags.length > 1 && (
-                          <div class="flex flex-wrap gap-1 mt-2">
-                            {post.tags
-                              .filter((postTag: string) => postTag !== tag)
-                              .slice(0, 3)
-                              .map((postTag: string) => (
-                                <a
-                                  href={`/tags/${postTag}/`}
-                                  class="text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                                >
-                                  {postTag}
-                                </a>
-                              ))}
-                          </div>
-                        )}
                       </div>
                     </li>
                   ))}

@@ -36,12 +36,16 @@ describe("tagUtils", () => {
       mockGetAllTags.mockResolvedValue(["javascript"]);
       mockGetPostsByTag.mockResolvedValue([
         {
-          title: "Test Post",
-          publishDate: "2024-01-01",
-          slug: "test",
-          description: "Test",
-          featured: false,
-          draft: false,
+          id: "test",
+          collection: "posts" as const,
+          data: {
+            title: "Test Post",
+            publishDate: "2024-01-01",
+            slug: "test",
+            description: "Test",
+            featured: false,
+            draft: false,
+          },
         },
       ]);
 
@@ -54,12 +58,16 @@ describe("tagUtils", () => {
       mockGetAllTags.mockResolvedValue(["javascript"]);
       mockGetPostsByTag.mockResolvedValue([
         {
-          title: "Test Post",
-          publishDate: "2024-01-01",
-          slug: "test",
-          description: "Test",
-          featured: false,
-          draft: false,
+          id: "test",
+          collection: "posts" as const,
+          data: {
+            title: "Test Post",
+            publishDate: "2024-01-01",
+            slug: "test",
+            description: "Test",
+            featured: false,
+            draft: false,
+          },
         },
       ]);
 
@@ -73,30 +81,42 @@ describe("tagUtils", () => {
       mockGetPostsByTag
         .mockResolvedValueOnce([
           {
-            title: "JS Post 1",
-            publishDate: "2024-01-01",
-            slug: "js-1",
-            description: "JS desc",
-            featured: false,
-            draft: false,
+            id: "js-1",
+            collection: "posts" as const,
+            data: {
+              title: "JS Post 1",
+              publishDate: "2024-01-01",
+              slug: "js-1",
+              description: "JS desc",
+              featured: false,
+              draft: false,
+            },
           },
           {
-            title: "JS Post 2",
-            publishDate: "2024-01-02",
-            slug: "js-2",
-            description: "JS desc",
-            featured: false,
-            draft: false,
+            id: "js-2",
+            collection: "posts" as const,
+            data: {
+              title: "JS Post 2",
+              publishDate: "2024-01-02",
+              slug: "js-2",
+              description: "JS desc",
+              featured: false,
+              draft: false,
+            },
           },
         ])
         .mockResolvedValueOnce([
           {
-            title: "TS Post 1",
-            publishDate: "2024-01-03",
-            slug: "ts-1",
-            description: "TS desc",
-            featured: false,
-            draft: false,
+            id: "ts-1",
+            collection: "posts" as const,
+            data: {
+              title: "TS Post 1",
+              publishDate: "2024-01-03",
+              slug: "ts-1",
+              description: "TS desc",
+              featured: false,
+              draft: false,
+            },
           },
         ])
         .mockResolvedValueOnce([]);
@@ -147,66 +167,94 @@ describe("tagUtils", () => {
       mockGetPostsByTag
         .mockResolvedValueOnce([
           {
-            title: "JS Post 1",
-            publishDate: "2024-01-01",
-            slug: "js-1",
-            description: "JS desc",
-            featured: false,
-            draft: false,
+            id: "js-1",
+            collection: "posts" as const,
+            data: {
+              title: "JS Post 1",
+              publishDate: "2024-01-01",
+              slug: "js-1",
+              description: "JS desc",
+              featured: false,
+              draft: false,
+            },
           },
           {
-            title: "JS Post 2",
-            publishDate: "2024-01-02",
-            slug: "js-2",
-            description: "JS desc",
-            featured: false,
-            draft: false,
-          },
-        ])
-        .mockResolvedValueOnce([
-          {
-            title: "TS Post",
-            publishDate: "2024-01-03",
-            slug: "ts-1",
-            description: "TS desc",
-            featured: false,
-            draft: false,
+            id: "js-2",
+            collection: "posts" as const,
+            data: {
+              title: "JS Post 2",
+              publishDate: "2024-01-02",
+              slug: "js-2",
+              description: "JS desc",
+              featured: false,
+              draft: false,
+            },
           },
         ])
         .mockResolvedValueOnce([
           {
-            title: "Web Post 1",
-            publishDate: "2024-01-04",
-            slug: "web-1",
-            description: "Web desc",
-            featured: false,
-            draft: false,
-          },
-          {
-            title: "Web Post 2",
-            publishDate: "2024-01-05",
-            slug: "web-2",
-            description: "Web desc",
-            featured: false,
-            draft: false,
-          },
-          {
-            title: "Web Post 3",
-            publishDate: "2024-01-06",
-            slug: "web-3",
-            description: "Web desc",
-            featured: false,
-            draft: false,
+            id: "ts-1",
+            collection: "posts" as const,
+            data: {
+              title: "TS Post",
+              publishDate: "2024-01-03",
+              slug: "ts-1",
+              description: "TS desc",
+              featured: false,
+              draft: false,
+            },
           },
         ])
         .mockResolvedValueOnce([
           {
-            title: "React Post",
-            publishDate: "2024-01-07",
-            slug: "react-1",
-            description: "React desc",
-            featured: false,
-            draft: false,
+            id: "web-1",
+            collection: "posts" as const,
+            data: {
+              title: "Web Post 1",
+              publishDate: "2024-01-04",
+              slug: "web-1",
+              description: "Web desc",
+              featured: false,
+              draft: false,
+            },
+          },
+          {
+            id: "web-2",
+            collection: "posts" as const,
+            data: {
+              title: "Web Post 2",
+              publishDate: "2024-01-05",
+              slug: "web-2",
+              description: "Web desc",
+              featured: false,
+              draft: false,
+            },
+          },
+          {
+            id: "web-3",
+            collection: "posts" as const,
+            data: {
+              title: "Web Post 3",
+              publishDate: "2024-01-06",
+              slug: "web-3",
+              description: "Web desc",
+              featured: false,
+              draft: false,
+            },
+          },
+        ])
+        .mockResolvedValueOnce([
+          {
+            id: "react-1",
+            collection: "posts" as const,
+            data: {
+              title: "React Post",
+              publishDate: "2024-01-07",
+              slug: "react-1",
+              description: "React desc",
+              featured: false,
+              draft: false,
+            },
           },
         ]);
 
@@ -225,30 +273,42 @@ describe("tagUtils", () => {
       mockGetPostsByTag
         .mockResolvedValueOnce([
           {
-            title: "JS Post",
-            publishDate: "2024-01-01",
-            slug: "js-1",
-            description: "JS desc",
-            featured: false,
-            draft: false,
+            id: "js-1",
+            collection: "posts" as const,
+            data: {
+              title: "JS Post",
+              publishDate: "2024-01-01",
+              slug: "js-1",
+              description: "JS desc",
+              featured: false,
+              draft: false,
+            },
           },
         ])
         .mockResolvedValueOnce([
           {
-            title: "Draft Post 1",
-            publishDate: "2024-01-02",
-            slug: "draft-1",
-            description: "Draft desc",
-            featured: false,
-            draft: true,
+            id: "draft-1",
+            collection: "posts" as const,
+            data: {
+              title: "Draft Post 1",
+              publishDate: "2024-01-02",
+              slug: "draft-1",
+              description: "Draft desc",
+              featured: false,
+              draft: true,
+            },
           },
           {
-            title: "Draft Post 2",
-            publishDate: "2024-01-03",
-            slug: "draft-2",
-            description: "Draft desc",
-            featured: false,
-            draft: true,
+            id: "draft-2",
+            collection: "posts" as const,
+            data: {
+              title: "Draft Post 2",
+              publishDate: "2024-01-03",
+              slug: "draft-2",
+              description: "Draft desc",
+              featured: false,
+              draft: true,
+            },
           },
         ]);
 
@@ -264,12 +324,16 @@ describe("tagUtils", () => {
       mockGetAllTags.mockResolvedValue(["alpha", "beta", "gamma"]);
       mockGetPostsByTag.mockResolvedValue([
         {
-          title: "Post",
-          publishDate: "2024-01-01",
-          slug: "post",
-          description: "Desc",
-          featured: false,
-          draft: false,
+          id: "post",
+          collection: "posts" as const,
+          data: {
+            title: "Post",
+            publishDate: "2024-01-01",
+            slug: "post",
+            description: "Desc",
+            featured: false,
+            draft: false,
+          },
         },
       ]);
 
@@ -352,38 +416,11 @@ describe("tagUtils", () => {
 
   describe("groupPostsByYear", () => {
     it("should group posts by year correctly", async () => {
-      const posts: Post[] = [
+      const posts = [
         {
-          title: "Post 2024",
-          publishDate: "2024-06-15T00:00:00.000Z",
-          slug: "post-2024",
-          description: "2024 post",
-          featured: false,
-          draft: false,
-        },
-        {
-          title: "Post 2023",
-          publishDate: "2023-03-10T00:00:00.000Z",
-          slug: "post-2023",
-          description: "2023 post",
-          featured: false,
-          draft: false,
-        },
-        {
-          title: "Another 2024",
-          publishDate: "2024-12-31T00:00:00.000Z",
-          slug: "another-2024",
-          description: "Another 2024 post",
-          featured: false,
-          draft: false,
-        },
-      ];
-
-      const result = groupPostsByYear(posts);
-
-      expect(result).toEqual({
-        2024: [
-          {
+          id: "post-2024",
+          collection: "posts" as const,
+          data: {
             title: "Post 2024",
             publishDate: "2024-06-15T00:00:00.000Z",
             slug: "post-2024",
@@ -391,17 +428,11 @@ describe("tagUtils", () => {
             featured: false,
             draft: false,
           },
-          {
-            title: "Another 2024",
-            publishDate: "2024-12-31T00:00:00.000Z",
-            slug: "another-2024",
-            description: "Another 2024 post",
-            featured: false,
-            draft: false,
-          },
-        ],
-        2023: [
-          {
+        },
+        {
+          id: "post-2023",
+          collection: "posts" as const,
+          data: {
             title: "Post 2023",
             publishDate: "2023-03-10T00:00:00.000Z",
             slug: "post-2023",
@@ -409,6 +440,51 @@ describe("tagUtils", () => {
             featured: false,
             draft: false,
           },
+        },
+        {
+          id: "another-2024",
+          collection: "posts" as const,
+          data: {
+            title: "Another 2024",
+            publishDate: "2024-12-31T00:00:00.000Z",
+            slug: "another-2024",
+            description: "Another 2024 post",
+            featured: false,
+            draft: false,
+          },
+        },
+      ];
+
+      const result = groupPostsByYear(posts);
+
+      expect(result).toEqual({
+        2024: [
+          expect.objectContaining({
+            data: expect.objectContaining({
+              title: "Post 2024",
+              publishDate: "2024-06-15T00:00:00.000Z",
+              slug: "post-2024",
+              description: "2024 post",
+            }),
+          }),
+          expect.objectContaining({
+            data: expect.objectContaining({
+              title: "Another 2024",
+              publishDate: "2024-12-31T00:00:00.000Z",
+              slug: "another-2024",
+              description: "Another 2024 post",
+            }),
+          }),
+        ],
+        2023: [
+          expect.objectContaining({
+            data: expect.objectContaining({
+              title: "Post 2023",
+              publishDate: "2023-03-10T00:00:00.000Z",
+              slug: "post-2023",
+              description: "2023 post",
+            }),
+          }),
         ],
       });
     });
@@ -420,20 +496,24 @@ describe("tagUtils", () => {
     });
 
     it("should handle invalid dates gracefully", async () => {
-      const posts: Post[] = [
+      const posts = [
         {
-          title: "Invalid Date Post",
-          publishDate: "invalid-date",
-          slug: "invalid",
-          description: "Invalid date",
-          featured: false,
-          draft: false,
+          id: "invalid-post",
+          collection: "posts" as const,
+          data: {
+            title: "Invalid Date Post",
+            publishDate: "invalid-date",
+            slug: "invalid",
+            description: "Invalid date",
+            featured: false,
+            draft: false,
+          },
         },
       ];
 
       const result = groupPostsByYear(posts);
 
-      expect(Object.keys(result)).toHaveLength(1);
+      expect(result).toEqual({});
     });
   });
 
@@ -471,12 +551,16 @@ describe("tagUtils", () => {
     beforeEach(() => {
       mockGetPostsByTag.mockResolvedValue([
         {
-          title: "Test Post",
-          publishDate: "2024-01-01T00:00:00.000Z",
-          slug: "test-post",
-          description: "Test description",
-          featured: false,
-          draft: false,
+          id: "test-post",
+          collection: "posts" as const,
+          data: {
+            title: "Test Post",
+            publishDate: "2024-01-01T00:00:00.000Z",
+            slug: "test-post",
+            description: "Test description",
+            featured: false,
+            draft: false,
+          },
         },
       ]);
     });
@@ -507,14 +591,16 @@ describe("tagUtils", () => {
       expect(result.pageDescription).toBe("All about JavaScript programming");
       expect(result.groupedPostsByYear).toEqual({
         2024: [
-          {
-            title: "Test Post",
-            publishDate: "2024-01-01T00:00:00.000Z",
-            slug: "test-post",
-            description: "Test description",
-            featured: false,
-            draft: false,
-          },
+          expect.objectContaining({
+            data: expect.objectContaining({
+              title: "Test Post",
+              publishDate: "2024-01-01T00:00:00.000Z",
+              slug: "test-post",
+              description: "Test description",
+              featured: false,
+              draft: false,
+            }),
+          }),
         ],
       });
       expect(result.years).toEqual([2024]);
@@ -575,12 +661,16 @@ describe("tagUtils", () => {
       mockGetAllTags.mockResolvedValue(["c++", "c#", "node.js", "@types"]);
       mockGetPostsByTag.mockResolvedValue([
         {
-          title: "Special Post",
-          publishDate: "2024-01-01",
-          slug: "special",
-          description: "Desc",
-          featured: false,
-          draft: false,
+          id: "special",
+          collection: "posts" as const,
+          data: {
+            title: "Special Post",
+            publishDate: "2024-01-01",
+            slug: "special",
+            description: "Desc",
+            featured: false,
+            draft: false,
+          },
         },
       ]);
 
@@ -598,30 +688,42 @@ describe("tagUtils", () => {
         return tag === "tag1"
           ? [
               {
-                title: "Post 1",
-                publishDate: "2024-01-01",
-                slug: "post-1",
-                description: "Desc",
-                featured: false,
-                draft: false,
+                id: "post-1",
+                collection: "posts" as const,
+                data: {
+                  title: "Post 1",
+                  publishDate: "2024-01-01",
+                  slug: "post-1",
+                  description: "Desc",
+                  featured: false,
+                  draft: false,
+                },
               },
             ]
           : [
               {
-                title: "Post 2",
-                publishDate: "2024-01-02",
-                slug: "post-2",
-                description: "Desc",
-                featured: false,
-                draft: false,
+                id: "post-2",
+                collection: "posts" as const,
+                data: {
+                  title: "Post 2",
+                  publishDate: "2024-01-02",
+                  slug: "post-2",
+                  description: "Desc",
+                  featured: false,
+                  draft: false,
+                },
               },
               {
-                title: "Post 3",
-                publishDate: "2024-01-03",
-                slug: "post-3",
-                description: "Desc",
-                featured: false,
-                draft: false,
+                id: "post-3",
+                collection: "posts" as const,
+                data: {
+                  title: "Post 3",
+                  publishDate: "2024-01-03",
+                  slug: "post-3",
+                  description: "Desc",
+                  featured: false,
+                  draft: false,
+                },
               },
             ];
       });

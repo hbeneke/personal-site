@@ -13,10 +13,10 @@ const latestPosts = await getLatestPosts(4);
       latestPosts.map((post) => (
         <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
           <time
-            datetime={post.publishDate}
+            datetime={post.data.publishDate}
             class="min-w-[120px] text-gray-600 dark:text-gray-400"
           >
-            {new Date(post.publishDate).toLocaleDateString("en-US", {
+            {new Date(post.data.publishDate).toLocaleDateString("en-US", {
               day: "2-digit",
               month: "short",
               year: "numeric",
@@ -26,9 +26,9 @@ const latestPosts = await getLatestPosts(4);
             <a
               class="cactus-link underline hover:text-gray-100"
               data-astro-prefetch
-              href={`/posts/${post.slug}/`}
+              href={`/posts/${post.data.slug}/`}
             >
-              {post.title}
+              {post.data.title}
             </a>
           </div>
         </li>

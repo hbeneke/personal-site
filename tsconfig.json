@@ -15,7 +15,8 @@
       "@type": ["src/types/*"],
       "@types": ["src/types/index.ts"],
       "@site-config": ["src/site.config.ts"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@icons/*": ["public/icons/*"]
     }
   }
 }

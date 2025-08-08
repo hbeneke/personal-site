@@ -6,6 +6,7 @@ description: "A comprehensive guide to getting started with modern web developme
 tags: ["web development", "tutorial", "beginners"]
 featured: false
 draft: false
+readTime: 5
 ---
 
 Modern web development has evolved significantly over the past few years. This post will guide you through the essential tools and practices you need to know.

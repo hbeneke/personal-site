@@ -7,6 +7,7 @@ content: "This is the full content of the blog post about cover images. You can 
 tags: ["example", "tutorial", "astro"]
 featured: true
 draft: false
+readTime: 3
 ---
 
 This is an example blog post demonstrating how to use cover images and other blog features in your Astro website.

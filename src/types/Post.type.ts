@@ -7,6 +7,7 @@ export interface Post {
   tags?: string[];
   featured: boolean;
   draft: boolean;
+  readTime?: number;
 }
 
 export interface PostsCollection {

@@ -12,6 +12,7 @@ async function getRawPosts(): Promise<Post[]> {
     tags: entry.data.tags,
     featured: entry.data.featured,
     draft: entry.data.draft,
+    readTime: entry.data.readTime,
   }));
 }
 

@@ -34,13 +34,14 @@ const years = Object.keys(postsGroupedByYear)
                       <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
                         <time
                           datetime={post.publishDate}
-                          class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs"
+                          class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs pt-1"
                         >
                           {new Date(post.publishDate).toLocaleDateString(
                             "en-US",
                             {
                               day: "2-digit",
                               month: "short",
+                              year: "numeric",
                             },
                           )}
                         </time>
@@ -71,7 +72,7 @@ const years = Object.keys(postsGroupedByYear)
       </div>
     </section>
 
-    <aside class="flex-none w-full sm:w-48">
+    <aside class="flex-none w-full sm:w-44 mt-20">
       <TagsList />
     </aside>
   </div>

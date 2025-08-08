@@ -12,9 +12,9 @@ const latestNote = await getLatestNote();
   {
     latestNote && (
       <a href={`/notes/${latestNote.slug}`} class="block">
-        <article class="inline-grid rounded-md bg-white dark:bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
+        <article class="inline-grid rounded-md bg-zinc-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full">
           <h3 class="title text-base">
-            <span class="underline text-white">{latestNote.title}</span>
+            <span class="underline text-white text-sm">{latestNote.title}</span>
           </h3>
           <time
             datetime={latestNote.publishDate}
@@ -26,7 +26,7 @@ const latestNote = await getLatestNote();
               timeStyle: "short",
             })}
           </time>
-          <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-gray-700 dark:text-gray-300">
+          <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-gray-700 dark:text-gray-300 text-sm">
             <p>{latestNote.description}</p>
           </div>
         </article>

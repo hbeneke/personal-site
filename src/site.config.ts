@@ -6,24 +6,16 @@ export const menuLinks: MenuLink[] = [
     title: "Home",
   },
   {
-    path: "/resume/",
-    title: "Resume",
+    path: "/posts/",
+    title: "Blog",
   },
   {
     path: "/portfolio/",
     title: "Portfolio",
   },
   {
-    path: "/posts/",
-    title: "Blog",
-  },
-  {
-    path: "/notes/",
-    title: "Notes",
-  },
-  {
-    path: "/about/",
-    title: "About",
+    path: "/resume/",
+    title: "Resume",
   },
 ];
 

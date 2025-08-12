@@ -1,79 +1,36 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "files": {
-    "includes": [
-      "**/src/**/*",
-      "**/tests/**/*",
-      "!**/dist/**",
-      "!**/node_modules/**",
-      "!**/.astro/**"
-    ]
-  },
   "formatter": {
-    "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineWidth": 100,
-    "lineEnding": "crlf"
+    "formatWithErrors": true,
+    "lineEnding": "lf"
+  },
+  "organizeImports": {
+    "enabled": true
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": false,
+      "recommended": true,
       "a11y": {
-        "recommended": true,
         "noSvgWithoutTitle": "off"
       },
-      "correctness": {
-        "recommended": true,
-        "noUnusedImports": "off",
-        "noUnusedVariables": "off"
-      },
       "suspicious": {
-        "recommended": true,
         "noExplicitAny": "warn"
-      },
-      "style": {
-        "recommended": true,
-        "noParameterAssign": "error",
-        "useAsConstAssertion": "error",
-        "useDefaultParameterLast": "error",
-        "useEnumInitializers": "error",
-        "useSelfClosingElements": "error",
-        "useSingleVarDeclarator": "error",
-        "noUnusedTemplateLiteral": "error",
-        "useNumberNamespace": "error",
-        "noInferrableTypes": "error",
-        "noUselessElse": "error"
-      },
-      "complexity": {
-        "recommended": true
-      },
-      "performance": {
-        "recommended": true
-      },
-      "security": {
-        "recommended": true
-      },
-      "nursery": {
-        "recommended": false
       }
     }
   },
   "javascript": {
     "formatter": {
       "trailingCommas": "all",
-      "semicolons": "always",
-      "quoteStyle": "double",
-      "jsxQuoteStyle": "double"
-    },
-    "parser": {
-      "unsafeParameterDecoratorsEnabled": true
+      "semicolons": "always"
     }
   },
   "vcs": {
-    "enabled": true,
     "clientKind": "git",
+    "enabled": true,
     "useIgnoreFile": true
   }
 }

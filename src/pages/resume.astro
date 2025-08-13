@@ -41,10 +41,10 @@ const years = await getWorkExperienceYears();
               </a>
             </h3>
             <p class="text-sm text-yellow-500 mb-1">{experience.location}</p>
-            <p class="text-sm text-white mb-2">{experience.description}</p>
+            <p class="text-xs text-white mb-2">{experience.description}</p>
             <ul class="list-disc ms-4 text-gray-400 pl-4">
               {experience.responsibilities.map((responsibility) => (
-                <li class="mb-2">{responsibility}</li>
+                <li class="mb-2 text-xs">{responsibility}</li>
               ))}
             </ul>
           </li>

@@ -14,8 +14,7 @@
     "vite",
     "astro",
     "tailwind",
-    "unit-test",
-    "e2e-test"
+    "unit-test"
   ],
   "private": false,
   "license": "GPL-3.0-only",
@@ -35,8 +34,6 @@
     "astro": "astro",
     "test": "vitest --ui",
     "coverage": "vitest run --coverage",
-    "e2e": "npx playwright test",
-    "e2e:report": "npx playwright test && npx playwright show-report",
     "lint": "biome lint ."
   },
   "dependencies": {
@@ -53,7 +50,6 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@eslint/js": "^9.20.0",
-    "@playwright/test": "^1.52.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.13.5",
     "@vitest/coverage-istanbul": "^3.0.6",

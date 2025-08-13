@@ -19,7 +19,7 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
   {
     dateStyle: "long",
     timeStyle: "short",
-  },
+  }
 );
 ---
 
@@ -33,7 +33,7 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
     </a>
   </header>
 
-  <section class="rounded-lg shadow-lg p-6 bg-white dark:bg-zinc-800">
+  <section class="rounded-lg shadow-lg p-6 bg-zinc-800">
     <article class="note-detail">
       <h3 class="note-title text-2xl font-bold text-vscode-primary mb-2">
         {title}
@@ -44,7 +44,7 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
       >
         {formattedDate}
       </time>
-      <div class="note-content prose prose-lg dark:prose-invert max-w-none">
+      <div class="note-content prose prose-invert max-w-none">
         <p class="text-base leading-relaxed" set:html={description} />
       </div>
     </article>

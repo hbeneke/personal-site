@@ -6,15 +6,6 @@
 
 @layer base {
   :root {
-    --primary: 22, 163, 74;
-    --primary-hovered: 34, 197, 94;
-    --secondary: 234, 179, 8;
-    --secondary-hovered: 253, 224, 71;
-    --bg: 255, 255, 255;
-    --foreground: 31, 41, 55;
-  }
-
-  :root[data-theme="dark"] {
     --primary: 16, 185, 129;
     --primary-hovered: 187, 247, 208;
     --secondary: 250, 204, 21;

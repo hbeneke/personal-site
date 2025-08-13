@@ -35,15 +35,17 @@ const tagPageData = await getTagPageData(tag);
 
       {
         tagPageData.tagContent?.description && (
-          <div class="prose prose-invert max-w-none mb-6">
-            <p class="text-gray-300">{tagPageData.tagContent.description}</p>
+          <div class="prose prose-gray dark:prose-invert max-w-none mb-6">
+            <p class="text-gray-600 dark:text-gray-300">
+              {tagPageData.tagContent.description}
+            </p>
           </div>
         )
       }
 
       {
         tagPageData.tagContent?.content && (
-          <div class="prose prose-invert max-w-none mb-8 p-4 bg-gray-800 rounded-lg">
+          <div class="prose prose-gray dark:prose-invert max-w-none mb-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
             <Fragment set:html={tagPageData.tagContent.content} />
           </div>
         )
@@ -61,13 +63,15 @@ const tagPageData = await getTagPageData(tag);
           <div class="space-y-8">
             {tagPageData.years.map((year) => (
               <div class="year-group">
-                <h2 class="text-xl font-medium mb-4 text-gray-200">{year}</h2>
+                <h2 class="text-xl font-medium mb-4 text-gray-800 dark:text-gray-200">
+                  {year}
+                </h2>
                 <ul class="space-y-4">
                   {tagPageData.groupedPostsByYear[year].map((post) => (
                     <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
                       <time
                         datetime={post.data.publishDate}
-                        class="min-w-[120px] text-gray-400 text-xs pt-1"
+                        class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs pt-1"
                       >
                         {(() => {
                           const date = new Date(post.data.publishDate);

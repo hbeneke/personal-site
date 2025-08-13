@@ -2,30 +2,22 @@
 import "@styles/global.css";
 import Header from "@components/site-header.astro";
 import Footer from "@components/site-footer.astro";
+import { getThemeInitScript } from "@utils/theme";
 
 const { title, description } = Astro.props;
+const themeScript = getThemeInitScript();
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <script is:inline set:html={themeScript} />
+
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
-
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <script defer>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("/service-worker.js")
-            .then((registration) => console.log("SW registered"))
-            .catch((error) => console.log("SW failed:", error));
-        });
-      }
-    </script>
-
     <title>{title}</title>
   </head>
   <body

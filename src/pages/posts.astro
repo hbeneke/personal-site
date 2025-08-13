@@ -27,13 +27,15 @@ const years = Object.keys(postsGroupedByYear)
             <div class="space-y-8">
               {years.map((year) => (
                 <div class="year-group">
-                  <h2 class="text-xl font-medium mb-4 text-gray-200">{year}</h2>
+                  <h2 class="text-xl font-medium mb-4 text-gray-800 dark:text-gray-200">
+                    {year}
+                  </h2>
                   <ul class="space-y-4">
                     {postsGroupedByYear[year].map((post) => (
                       <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
                         <time
                           datetime={post.data.publishDate}
-                          class="min-w-[120px] text-gray-400 text-xs pt-1"
+                          class="min-w-[120px] text-gray-600 dark:text-gray-400 text-xs pt-1"
                         >
                           {formatPostDate(post.data.publishDate)}
                         </time>

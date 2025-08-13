@@ -6,6 +6,15 @@
 
 @layer base {
   :root {
+    --primary: 22, 163, 74;
+    --primary-hovered: 34, 197, 94;
+    --secondary: 234, 179, 8;
+    --secondary-hovered: 253, 224, 71;
+    --bg: 255, 255, 255;
+    --foreground: 31, 41, 55;
+  }
+
+  :root[data-theme="dark"] {
     --primary: 16, 185, 129;
     --primary-hovered: 187, 247, 208;
     --secondary: 250, 204, 21;
@@ -18,15 +27,11 @@
     background-color: rgb(var(--bg));
     color: rgb(var(--foreground));
     line-height: 1.2;
-    transition:
-      background-color 0.2s ease-in-out,
-      color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   }
 
   * {
-    transition:
-      background-color 0.2s ease-in-out,
-      border-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
   }
 }
 

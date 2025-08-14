@@ -50,7 +50,7 @@ describe("siteConfig", () => {
   });
 
   it("should have correct site information", () => {
-    expect(siteConfig.siteTitle).toBe("Enrique Quero's Resume");
+    expect(siteConfig.siteTitle).toBe("Enrique Quero");
     expect(siteConfig.siteCreationYear).toBe("2024");
   });
 

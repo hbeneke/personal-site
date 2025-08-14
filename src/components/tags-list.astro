@@ -1,5 +1,6 @@
 ---
 import { getSortedTagsWithCounts } from "@utils/tag";
+import HashIcon from "@icons/hash.svg?raw";
 
 const sortedTags = await getSortedTagsWithCounts();
 const tagNames = sortedTags.map((tag) => tag.name);
@@ -7,17 +8,9 @@ const tagNames = sortedTags.map((tag) => tag.name);
 
 <section>
   <header class="mb-4 flex items-center justify">
-    <svg
-      class="w-4 h-4 mr-1"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.94l1-4H9.03z"
-        clip-rule="evenodd"></path>
-    </svg>
+    <div class="inline-flex items-center">
+      <Fragment set:html={HashIcon} />
+    </div>
     <h2 class="font-semibold text-lg">Tags</h2>
   </header>
   <div>
@@ -27,7 +20,7 @@ const tagNames = sortedTags.map((tag) => tag.name);
           {tagNames.map((tagName) => (
             <a
               href={`/tags/${tagName}/`}
-              class="transition-colors duration-200 hover:text-gray-400 underline-offset-2 underline text-xs"
+              class="transition-colors duration-200 hover:text-gray-100 underline-offset-2 underline text-xs"
             >
               #{tagName}
             </a>
@@ -39,7 +32,7 @@ const tagNames = sortedTags.map((tag) => tag.name);
     }
     <a
       href="/tags/"
-      class="text-gray-400 hover:text-gray-200 text-xs block lg:text-right xs:text-left mt-3"
+      class="text-gray-400 hover:text-gray-100 text-xs block lg:text-right xs:text-left mt-3"
     >
       View all ->
     </a>

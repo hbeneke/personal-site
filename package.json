@@ -7,24 +7,16 @@
     "nickname": "Habakuk Beneke",
     "e-mail": "habakukBeneke [at] proton [dot] me"
   },
-  "keywords": [
-    "resume",
-    "portfolio",
-    "cv",
-    "vite",
-    "astro",
-    "tailwind",
-    "unit-test"
-  ],
+  "keywords": ["resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test"],
   "private": false,
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HabakukBeneke/resume.git"
+    "url": "git+ssh://git@github.com/HabakukBeneke/personal-site.git"
   },
-  "homepage": "https://github.com/HabakukBeneke/resume#readme",
+  "homepage": "https://github.com/HabakukBeneke/personal-site#readme",
   "bugs": {
-    "url": "https://github.com/HabakukBeneke/resume/issues"
+    "url": "https://github.com/HabakukBeneke/personal-site/issues"
   },
   "scripts": {
     "dev": "astro dev",

@@ -7,7 +7,16 @@
     "nickname": "Habakuk Beneke",
     "e-mail": "habakukBeneke [at] proton [dot] me"
   },
-  "keywords": ["blog", "resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test"],
+  "keywords": [
+    "blog",
+    "resume",
+    "portfolio",
+    "cv",
+    "vite",
+    "astro",
+    "tailwind",
+    "unit-test"
+  ],
   "private": false,
   "license": "GPL-3.0-only",
   "repository": {
@@ -33,6 +42,7 @@
     "@astrojs/rss": "^4.0.12",
     "@astrojs/tailwind": "^6.0.2",
     "@astrojs/vercel": "^8.0.4",
+    "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.12.8",
     "astro-icon": "^1.1.5",
     "shiki": "^3.0.0",

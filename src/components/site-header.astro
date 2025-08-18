@@ -1,29 +1,39 @@
 ---
 import { menuLinks } from "@site-config";
+import MagnifierIcon from "@icons/magnifier.svg";
 
 const url = new URL(Astro.request.url);
 ---
 
-<header id="main-header" class="relative mb-16 flex items-center">
-  <div class="flex flex-col">
-    <nav
-      aria-label="Main menu"
-      class="-ms-4 mt-1 flex divide-x divide-dashed pt-0 primary"
-      id="navigation-menu"
-    >
-      {
-        menuLinks.map((link) => (
-          <a
-            aria-current={url.pathname === link.path ? "page" : false}
-            aria-label={`Navigate to ${link.title} page`}
-            class="px-4 py-0 underline-offset-2 hover:underline divide-primary"
-            data-astro-prefetch
-            href={link.path}
-          >
-            {link.title}
-          </a>
-        ))
-      }
-    </nav>
-  </div>
+<header
+  id="main-header"
+  class="relative mb-16 flex items-center justify-between"
+>
+  <nav
+    aria-label="Main menu"
+    class="-ms-4 mt-1 flex divide-x divide-dashed pt-0 primary"
+    id="navigation-menu"
+  >
+    {
+      menuLinks.map((link) => (
+        <a
+          aria-current={url.pathname === link.path ? "page" : false}
+          aria-label={`Navigate to ${link.title} page`}
+          class="px-4 py-0 underline-offset-2 hover:underline divide-primary"
+          data-astro-prefetch
+          href={link.path}
+        >
+          {link.title}
+        </a>
+      ))
+    }
+  </nav>
+  <button
+    id="search-button"
+    aria-label="Search"
+    class="text-gray-200 hover:primary transition-colors duration-200 cursor-pointer"
+    type="button"
+  >
+    <MagnifierIcon class="h-8 w-8 pr-2" />
+  </button>
 </header>

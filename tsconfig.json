@@ -1,29 +1,22 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [
-    ".astro/types.d.ts",
-    "**/*"
-  ],
-  "exclude": [
-    "dist",
-    "coverage",
-    "node_modules"
-  ],
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "coverage", "node_modules", "playwright-report"],
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": [
-      "es2022"
-    ],
+    "lib": ["es2022"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@site-config": [
-        "src/site.config.ts"
-      ],
-      "@icons/*": [
-        "public/icons/*"
-      ]
+      "@/*": ["src/*"],
+      "@pages/*": ["src/pages/*"],
+      "@components/*": ["src/components/*"],
+      "@content/*": ["src/content/*"],
+      "@styles/*": ["src/styles/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@type": ["src/types/*"],
+      "@types": ["src/types/index.ts"],
+      "@site-config": ["src/site.config.ts"],
+      "@utils/*": ["src/utils/*"],
+      "@icons/*": ["public/icons/*"]
     }
   }
 }

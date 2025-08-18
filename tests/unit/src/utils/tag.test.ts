@@ -8,7 +8,6 @@ import {
   getTagPageData,
   getAllTagPaths,
 } from "@/utils/tag";
-import type { TagWithCount, Post, TagContent, TagPageData } from "@/types";
 import { getAllTags, getPostsByTag } from "@/utils/post";
 import { getCollection } from "astro:content";
 

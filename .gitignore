@@ -28,6 +28,16 @@ coverage/
 
 .vercel
 
-# Pagefind search index files
+# Pagefind search index files and cache
 _pagefind/
+.pagefind/
+.pagefind-cache/
 pagefind-build.log
+pagefind*.js
+pagefind*.css
+pagefind*.json
+pagefind*.pf_meta
+wasm*.pagefind
+filter/
+fragment/
+index/

@@ -59,7 +59,7 @@ function buildSearch() {
 
     console.log("✅ Search index built successfully!");
 
-    const pagefindDir = path.join(absolutePath, "_pagefind");
+    const pagefindDir = path.join(absolutePath, ".pagefind-cache");
     if (fs.existsSync(pagefindDir)) {
       const pagefindFiles = fs.readdirSync(pagefindDir);
       console.log(`📦 Created ${pagefindFiles.length} search index files`);

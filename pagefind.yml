@@ -1,11 +1,11 @@
-# pagefind.yml (optional configuration)
-site: dist
+# pagefind.yml - Updated configuration for better Windows compatibility
+site: "."
 source: ""
-bundle_dir: _pagefind
+output_subdir: _pagefind
 glob: "**/*.{html}"
 output_path: ""
-verbose: false
-logfile: ""
+verbose: true
+logfile: "pagefind-build.log"
 
 # Content indexing
 root_selector: "html"
@@ -22,3 +22,7 @@ ranking:
 
 # Custom excerpts
 excerpt_length: 30
+
+# Force specific settings for Windows compatibility
+force_language: "en"
+keep_index_url: false

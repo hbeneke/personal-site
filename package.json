@@ -7,16 +7,7 @@
     "nickname": "Habakuk Beneke",
     "e-mail": "habakukBeneke [at] proton [dot] me"
   },
-  "keywords": [
-    "blog",
-    "resume",
-    "portfolio",
-    "cv",
-    "vite",
-    "astro",
-    "tailwind",
-    "unit-test"
-  ],
+  "keywords": ["blog", "resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test"],
   "private": false,
   "license": "GPL-3.0-only",
   "repository": {
@@ -30,13 +21,13 @@
   "scripts": {
     "dev": "astro dev",
     "host": "astro dev --host",
-    "build": "astro check && astro build && pagefind --site dist",
+    "build": "astro check && astro build && node scripts/build-search.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest --ui",
     "coverage": "vitest run --coverage",
     "lint": "biome lint .",
-    "search:build": "pagefind --site dist"
+    "search:build": "pagefind --site .vercel/output/static || pagefind --site dist"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

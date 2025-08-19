@@ -41,12 +41,12 @@ export class SiteSearch extends HTMLElement {
     if (import.meta.env.DEV || this.searchInitialized) return;
 
     try {
-      const searchContainer = this.querySelector("#cactus__search");
+      const searchContainer = this.querySelector("#site__search");
       if (!searchContainer) return;
       const { PagefindUI } = await import("@pagefind/default-ui");
 
       this.pagefindUI = new PagefindUI({
-        element: "#cactus__search",
+        element: "#site__search",
         baseUrl: import.meta.env.BASE_URL,
         bundlePath: `${import.meta.env.BASE_URL.replace(/\/$/, "")}/pagefind/`,
         showImages: false,
@@ -67,7 +67,7 @@ export class SiteSearch extends HTMLElement {
   }
 
   private showSearchUnavailableMessage(): void {
-    const searchContainer = this.querySelector("#cactus__search");
+    const searchContainer = this.querySelector("#site__search");
     if (searchContainer) {
       searchContainer.innerHTML = `
         <div class="text-center p-4">

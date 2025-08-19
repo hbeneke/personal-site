@@ -27,3 +27,7 @@ pnpm-debug.log*
 coverage/
 
 .vercel
+
+# Pagefind search index files
+_pagefind/
+pagefind-build.log

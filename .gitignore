@@ -33,11 +33,18 @@ _pagefind/
 .pagefind/
 .pagefind-cache/
 pagefind-build.log
-pagefind*.js
-pagefind*.css
-pagefind*.json
+pagefind-entry.json
+pagefind-highlight.js
+pagefind-modular-ui.css
+pagefind-modular-ui.js
+pagefind-ui.css
+pagefind-ui.js
+pagefind.js
 pagefind*.pf_meta
 wasm*.pagefind
 filter/
 fragment/
 index/
+
+# Keep pagefind.yml configuration file (this should be tracked)
+!pagefind.yml

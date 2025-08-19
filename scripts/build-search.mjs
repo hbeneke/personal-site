@@ -31,26 +31,26 @@ function buildSearch() {
   }
 
   try {
-    console.log(`🔍 Running: pagefind --site "${targetDir}"`);
+    console.log(`🔍 Running: pagefind --site "${targetDir}" --output-subdir .pagefind-cache`);
     console.log(`📂 Absolute path: ${absolutePath}`);
 
     if (process.platform === "win32") {
       try {
-        execSync(`pagefind.exe --site "${targetDir}" --verbose`, {
+        execSync(`npx pagefind --site "${targetDir}" --output-subdir .pagefind-cache --verbose`, {
           stdio: "inherit",
           cwd: process.cwd(),
           timeout: 30000,
         });
       } catch (exeError) {
-        console.log("⚠️  pagefind.exe failed, trying pagefind...");
-        execSync(`pagefind --site "${targetDir}" --verbose`, {
+        console.log("⚠️  npx pagefind failed, trying direct command...");
+        execSync(`pagefind --site "${targetDir}" --output-subdir .pagefind-cache --verbose`, {
           stdio: "inherit",
           cwd: process.cwd(),
           timeout: 30000,
         });
       }
     } else {
-      execSync(`pagefind --site "${targetDir}" --verbose`, {
+      execSync(`npx pagefind --site "${targetDir}" --output-subdir .pagefind-cache --verbose`, {
         stdio: "inherit",
         cwd: process.cwd(),
         timeout: 30000,
@@ -71,8 +71,8 @@ function buildSearch() {
     try {
       const altCommand =
         process.platform === "win32"
-          ? `pagefind --site "${absolutePath.replace(/\\/g, "/")}"`
-          : `pagefind --site "${absolutePath}"`;
+          ? `npx pagefind --site "${absolutePath.replace(/\\/g, "/")}" --output-subdir .pagefind-cache`
+          : `npx pagefind --site "${absolutePath}" --output-subdir .pagefind-cache`;
 
       console.log(`🔄 Trying: ${altCommand}`);
       execSync(altCommand, {

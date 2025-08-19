@@ -27,7 +27,7 @@
     "test": "vitest --ui",
     "coverage": "vitest run --coverage",
     "lint": "biome lint .",
-    "search:build": "pagefind --site .vercel/output/static || pagefind --site dist"
+    "search:build": "npx pagefind --site .vercel/output/static --output-subdir .pagefind-cache || npx pagefind --site dist --output-subdir .pagefind-cache"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

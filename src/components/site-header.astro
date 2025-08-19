@@ -1,6 +1,6 @@
 ---
 import { menuLinks } from "@site-config";
-import MagnifierIcon from "@icons/magnifier.svg";
+import SearchBox from "@components/search-box.astro";
 
 const url = new URL(Astro.request.url);
 ---
@@ -28,12 +28,5 @@ const url = new URL(Astro.request.url);
       ))
     }
   </nav>
-  <button
-    id="search-button"
-    aria-label="Search"
-    class="text-gray-200 hover:primary transition-colors duration-200 cursor-pointer"
-    type="button"
-  >
-    <MagnifierIcon class="h-8 w-8 pr-2" />
-  </button>
+  <SearchBox />
 </header>

@@ -1,0 +1,24 @@
+# pagefind.yml (optional configuration)
+site: dist
+source: ""
+bundle_dir: _pagefind
+glob: "**/*.{html}"
+output_path: ""
+verbose: false
+logfile: ""
+
+# Content indexing
+root_selector: "html"
+exclude_selectors:
+- "nav"
+- "header > nav"
+- "footer"
+- ".no-search"
+- "[data-pagefind-ignore]"
+
+# Ranking boost for important content
+ranking:
+  page_rank_bonus: 0.2
+
+# Custom excerpts
+excerpt_length: 30

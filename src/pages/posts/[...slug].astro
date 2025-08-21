@@ -4,6 +4,7 @@ import { siteConfig } from "@site-config";
 import { getAllPosts } from "@utils/post";
 import { render } from "astro:content";
 import EtiquetteIcon from "@icons/etiquette.svg?raw";
+import ScrollToTop from "@components/scroll-to-top.astro";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts(false, false);
@@ -78,4 +79,5 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
       <Content />
     </div>
   </article>
+  <ScrollToTop />
 </BaseLayout>

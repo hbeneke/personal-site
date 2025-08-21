@@ -1,0 +1,46 @@
+---
+import ArrowUpIcon from "@icons/arrow-up.svg?raw";
+---
+
+<button
+  id="scroll-to-top"
+  class="rounded-full bg-gray-600 fixed bottom-10 right-10 w-12 h-12 text-white border-2 border-gray-600 hover:border-green-600 flex items-center justify-center opacity-0 invisible translate-y-4 pointer-events-none transition-all duration-200 ease-in-out"
+>
+  <span
+    class="transition-transform duration-200 origin-center"
+    set:html={ArrowUpIcon}
+  />
+</button>
+
+<script>
+  const button = document.getElementById("scroll-to-top");
+
+  const handleScroll = () => {
+    if (window.scrollY > 300) {
+      button?.classList.remove(
+        "opacity-0",
+        "invisible",
+        "translate-y-4",
+        "pointer-events-none"
+      );
+      button?.classList.add("opacity-100", "visible", "translate-y-0");
+    } else {
+      button?.classList.add(
+        "opacity-0",
+        "invisible",
+        "translate-y-4",
+        "pointer-events-none"
+      );
+      button?.classList.remove("opacity-100", "visible", "translate-y-0");
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  button?.addEventListener("click", scrollToTop);
+
+  handleScroll();
+</script>

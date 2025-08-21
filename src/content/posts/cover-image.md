@@ -8,6 +8,8 @@ tags: ["example", "tutorial", "astro"]
 featured: true
 draft: false
 readTime: 3
+updated: "2025-07-23T00:00:00.000Z"
+
 ---
 
 This is an example blog post demonstrating how to use cover images and other blog features in your Astro website.

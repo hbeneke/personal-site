@@ -17,6 +17,7 @@ export async function GET() {
       link: `/posts/${post.data.slug}/`,
       categories: post.data.tags || [],
       readTime: post.data.readTime,
+      updatedDate: post.data.updatedDate,
     })),
     customData: "<language>en-us</language>",
   });

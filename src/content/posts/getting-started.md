@@ -7,7 +7,7 @@ tags: ["web development", "tutorial", "beginners"]
 featured: false
 draft: false
 readTime: 5
-updated: "2025-07-23T00:00:00.000Z"
+updatedDate: "2025-07-23T00:00:00.000Z"
 ---
 
 Modern web development has evolved significantly over the past few years. This post will guide you through the essential tools and practices you need to know.

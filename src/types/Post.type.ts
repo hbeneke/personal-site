@@ -8,7 +8,7 @@ export interface Post {
   featured: boolean;
   draft: boolean;
   readTime?: number;
-  updated?: string;
+  updatedDate?: string;
 }
 
 export interface PostsCollection {

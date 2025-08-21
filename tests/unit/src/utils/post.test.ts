@@ -29,6 +29,7 @@ const mockPostsCollectionEntries = [
       tags: ["javascript", "tutorial"],
       featured: true,
       draft: false,
+      updatedDate: "2025-07-23T00:00:00.000Z",
     },
   },
   {
@@ -57,6 +58,7 @@ const mockPostsCollectionEntries = [
       tags: ["draft", "wip"],
       featured: false,
       draft: true,
+      updatedDate: "2025-07-23T00:00:00.000Z",
     },
   },
   {

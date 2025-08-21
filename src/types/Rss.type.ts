@@ -3,4 +3,5 @@ export interface RssItem {
   description: string;
   pubDate: Date;
   link: string;
+  updatedDate?: string;
 }

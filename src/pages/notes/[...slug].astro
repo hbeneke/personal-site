@@ -41,7 +41,7 @@ const formattedDate: string = new Date(publishDate).toLocaleString(
       <time datetime={publishDate} class="note-date block text-sm mb-6">
         {formattedDate}
       </time>
-      <div class="note-content prose prose-invert max-w-none">
+      <div class="note-content max-w-none">
         <p class="text-base leading-relaxed" set:html={description} />
       </div>
     </article>

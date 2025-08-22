@@ -27,23 +27,26 @@ import { siteConfig } from "@site-config";
     <div class="flex flex-wrap items-end gap-x-2 text-sm">
       <p class="mb-4">
         I'm based in Madrid/Spain, but you can easily reach me online via email
-        or social media. My email is <span class="primary italic text-xs"
+        or social media.
+      </p>
+      <p>
+        My email is <span class="secondary italic text-sm"
           >{`${siteConfig.obfuscatedEmail}`}</span
         >. You can connect with me on <a
-          class="primary-link"
+          class="bg-white text-black px-1 rounded hover:underline hover:bg-slate-200 transition-all duration-200"
           aria-label={`Navigate to Linkedin profile`}
           href={siteConfig.socialLinks.linkedin}>LinkedIn</a
         >, explore my code on <a
-          class="primary-link"
+          class="bg-white text-black px-1 rounded hover:underline hover:bg-slate-200 transition-all duration-200"
           href={siteConfig.socialLinks.github}
           aria-label={`Navigate to GitHub profile`}>GitHub</a
         >, or read my thoughts on <a
-          class="primary-link"
+          class="bg-white text-black px-1 rounded hover:underline hover:bg-slate-200 transition-all duration-200"
           href={siteConfig.socialLinks.x}
           aria-label={`Navigate to X profile`}>X</a
         >.
       </p>
-      <p class="text-xs">
+      <p class="text-sm mt-5">
         In some places, I am also known as {siteConfig.nickname}
       </p>
     </div>

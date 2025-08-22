@@ -30,7 +30,7 @@ export const siteConfig: SiteConfig = {
   siteUrl: "https://habakukbeneke.com",
   socialLinks: {
     linkedin: "https://www.linkedin.com/in/equerodev/",
-    github: "https://www.github.com/habakukbeneke",
+    github: "https://www.github.com/hbeneke",
     x: "https://x.com/habakukbeneke",
   },
   get copyrightYear() {

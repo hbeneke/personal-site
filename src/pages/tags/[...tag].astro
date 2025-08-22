@@ -49,7 +49,7 @@ const tagPageData = await getTagPageData(tag);
         )
       }
 
-      <div class="text-sm text-gray-500 mb-6">
+      <div class="text-sm text-gray-400 mb-6">
         {tagPageData.posts.length}
         {tagPageData.posts.length === 1 ? "post" : "posts"} found
       </div>
@@ -61,7 +61,7 @@ const tagPageData = await getTagPageData(tag);
           <div class="space-y-8">
             {tagPageData.years.map((year) => (
               <div class="year-group">
-                <h2 class="text-xl font-medium mb-4 text-gray-200">{year}</h2>
+                <h2 class="text-xl font-medium mb-4 text-yellow-400">{year}</h2>
                 <ul class="space-y-4">
                   {tagPageData.groupedPostsByYear[year].map((post) => (
                     <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">

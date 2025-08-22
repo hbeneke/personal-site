@@ -69,6 +69,15 @@
     @apply text-[rgb(var(--primary-hovered))] underline;
   }
 
+  .secondary-link {
+    @apply text-[rgb(var(--secondary))];
+    transition: color 0.2s ease-in-out;
+  }
+
+  .secondary-link:hover {
+    @apply text-[rgb(var(--secondary-hovered))] underline;
+  }
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -85,11 +94,11 @@
     overflow: hidden;
   }
 
-  .content h2 {
+  .prose-content h2 {
     @apply cursor-pointer;
   }
-  .content h2::before {
+  .prose-content h2::before {
     content: "#";
-    @apply hover:text-green-400 opacity-60 mr-2;
+    @apply hover:text-yellow-400 mr-2;
   }
 }

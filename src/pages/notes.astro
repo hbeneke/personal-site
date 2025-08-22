@@ -26,12 +26,12 @@ const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
                   class={`inline-grid rounded-md bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full mb-5`}
                 >
                   <h3 class="title text-base">
-                    <span class="text-vscode-primary">{note.title}</span>
+                    <span class="secondary">{note.title}</span>
                   </h3>
                   <time
                     datetime={note.publishDate}
                     title={note.publishDate}
-                    class="text-sm text-vscode-secondary"
+                    class="text-sm"
                   >
                     {new Date(note.publishDate).toLocaleString(
                       siteConfig.locale,
@@ -41,7 +41,7 @@ const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
                       }
                     )}
                   </time>
-                  <div class="prose prose-sm mt-4 max-w-none line-clamp-6 text-white">
+                  <div class="mt-4 max-w-none line-clamp-6 text-white">
                     <p>{note.description}</p>
                   </div>
                 </article>

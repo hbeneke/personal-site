@@ -15,7 +15,7 @@ const latestNote = await getLatestNote();
         <h3 class="title text-base">
           <a
             href={`/notes/${latestNote.slug}`}
-            class="underline hover:text-gray-100 text-sm"
+            class="underline hover:text-gray-100 hover:decoration-yellow-400 hover:decoration-2 transition-all duration-500 text-sm"
           >
             {latestNote.title}
           </a>
@@ -30,7 +30,7 @@ const latestNote = await getLatestNote();
             timeStyle: "short",
           })}
         </time>
-        <div class="prose prose-sm mt-4 max-w-none line-clamp-3 text-gray-300 text-sm">
+        <div class="mt-4 max-w-none line-clamp-3 text-gray-300 text-sm">
           <p>{latestNote.description}</p>
         </div>
       </article>

@@ -1,14 +1,13 @@
 ---
-import ArrowUpIcon from "@icons/arrow-up.svg?raw";
+import ArrowUpIcon from "@icons/arrow-up.svg";
 ---
 
 <button
   id="scroll-to-top"
   class="rounded-full bg-gray-600 fixed bottom-10 right-10 w-12 h-12 text-white border-2 border-gray-600 hover:border-green-600 flex items-center justify-center opacity-0 invisible translate-y-4 pointer-events-none transition-all duration-200 ease-in-out"
 >
-  <span
-    class="transition-transform duration-200 origin-center"
-    set:html={ArrowUpIcon}
+  <ArrowUpIcon
+    class="transition-transform duration-200 origin-center w-6 h-6"
   />
 </button>
 

@@ -6,15 +6,12 @@ function buildSearch() {
   const vercelPath = path.join(process.cwd(), ".vercel", "output", "static");
   const distPath = path.join(process.cwd(), "dist");
 
-  let targetDir = null;
   let absolutePath = null;
 
   if (fs.existsSync(vercelPath)) {
-    targetDir = ".vercel/output/static";
     absolutePath = vercelPath;
     console.log("📁 Found Vercel output directory, building search index...");
   } else if (fs.existsSync(distPath)) {
-    targetDir = "dist";
     absolutePath = distPath;
     console.log("📁 Found dist directory, building search index...");
   } else {
@@ -31,26 +28,31 @@ function buildSearch() {
   }
 
   try {
-    console.log(`🔍 Running: pagefind --site "${targetDir}" --output-subdir .pagefind-cache`);
-    console.log(`📂 Absolute path: ${absolutePath}`);
+    // Use the modern Pagefind 1.0+ API (no deprecation warnings)
+    const outputPath = path.join(absolutePath, ".pagefind-cache");
+    const command = `pagefind --site "${absolutePath}" --output-path "${outputPath}" --verbose`;
+
+    console.log(`🔍 Running: ${command}`);
+    console.log(`📂 Site path: ${absolutePath}`);
+    console.log(`📂 Output path: ${outputPath}`);
 
     if (process.platform === "win32") {
       try {
-        execSync(`npx pagefind --site "${targetDir}" --output-subdir .pagefind-cache --verbose`, {
+        execSync(`npx ${command}`, {
           stdio: "inherit",
           cwd: process.cwd(),
           timeout: 30000,
         });
       } catch (exeError) {
         console.log("⚠️  npx pagefind failed, trying direct command...");
-        execSync(`pagefind --site "${targetDir}" --output-subdir .pagefind-cache --verbose`, {
+        execSync(command, {
           stdio: "inherit",
           cwd: process.cwd(),
           timeout: 30000,
         });
       }
     } else {
-      execSync(`npx pagefind --site "${targetDir}" --output-subdir .pagefind-cache --verbose`, {
+      execSync(`npx ${command}`, {
         stdio: "inherit",
         cwd: process.cwd(),
         timeout: 30000,
@@ -59,10 +61,25 @@ function buildSearch() {
 
     console.log("✅ Search index built successfully!");
 
+    // Check if files were actually created
     const pagefindDir = path.join(absolutePath, ".pagefind-cache");
+    console.log(`📂 Checking for pagefind directory: ${pagefindDir}`);
+
     if (fs.existsSync(pagefindDir)) {
       const pagefindFiles = fs.readdirSync(pagefindDir);
       console.log(`📦 Created ${pagefindFiles.length} search index files`);
+      for (const file of pagefindFiles) {
+        console.log(`  - ${file}`);
+      }
+    } else {
+      console.log("❌ Pagefind directory was not created");
+      // List what was actually created in the target directory
+      console.log("📋 Current contents of target directory:");
+      const currentFiles = fs.readdirSync(absolutePath);
+      for (const file of currentFiles) {
+        const stat = fs.statSync(path.join(absolutePath, file));
+        console.log(`  - ${file} ${stat.isDirectory() ? "[DIR]" : `[${stat.size} bytes]`}`);
+      }
     }
   } catch (error) {
     console.error("❌ Failed to build search index:", error.message);

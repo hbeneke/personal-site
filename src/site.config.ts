@@ -23,7 +23,7 @@ export const siteConfig: SiteConfig = {
   locale: "en-US",
   authorName: "Enrique Quero",
   nickname: "Habakuk Beneke",
-  obfuscatedEmail: "habakukbeneke [at] proton [dot] me",
+  obfuscatedEmail: "hbeneke [at] proton [dot] me",
   jobTitle: "Frontend Developer",
   siteTitle: "Enrique Quero",
   siteCreationYear: "2024",

@@ -52,7 +52,7 @@ export class SiteSearch extends HTMLElement {
         showImages: false,
         showSubResults: true,
         showEmptyFilters: false,
-        resetStyles: false,
+        resetStyles: true,
         debounceTimeoutMs: 300,
         excerptLength: 30,
         autofocus: true,

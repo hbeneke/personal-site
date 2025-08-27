@@ -1,0 +1,51 @@
+---
+import { menuLinks } from "@site-config";
+import SideMenuIcon from "@icons/menu.svg";
+
+const url = new URL(Astro.request.url);
+---
+
+<mobile-menu class="sm:hidden">
+  <button
+    class="flex w-9 h-9 rounded-md hover:text-green-400 transition-colors duration-200 items-center justify-center"
+    type="button"
+    aria-label="Toggle mobile menu"
+    aria-expanded="false"
+  >
+    <SideMenuIcon />
+  </button>
+
+  <nav
+    class="fixed left-0 w-full bg-[rgb(var(--bg))]/90 backdrop-blur-md border-t border-[rgb(var(--primary))]/20 shadow-lg z-50 transform -translate-y-full transition-all duration-300 ease-in-out"
+    aria-label="Mobile menu"
+    style="top: var(--header-height, 0px);"
+  >
+    <div class="py-4 px-4">
+      {
+        menuLinks.map((link) => (
+          <a
+            aria-current={url.pathname === link.path ? "page" : false}
+            aria-label={`Navigate to ${link.title} page`}
+            class="block px-4 py-3 text-base hover:bg-[rgb(var(--primary))] hover:bg-opacity-10 transition-colors duration-200 rounded-md mb-1"
+            data-astro-prefetch
+            href={link.path}
+          >
+            <span
+              class={
+                url.pathname === link.path
+                  ? "primary font-semibold"
+                  : "text-[rgb(var(--foreground))]"
+              }
+            >
+              {link.title}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+</mobile-menu>
+
+<script>
+  import "../scripts/mobile-menu";
+</script>

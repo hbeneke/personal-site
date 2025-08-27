@@ -1,17 +1,18 @@
 ---
 import { menuLinks } from "@site-config";
 import SearchBox from "@components/search-box.astro";
+import MobileMenu from "@components/mobile-menu.astro";
 
 const url = new URL(Astro.request.url);
 ---
 
 <header
   id="main-header"
-  class="relative mb-16 flex items-center justify-between"
+  class="relative mb-16 flex items-center justify-between z-40"
 >
   <nav
     aria-label="Main menu"
-    class="-ms-4 mt-1 flex divide-x divide-dashed pt-0 primary"
+    class="-ms-4 mt-1 hidden sm:flex divide-x divide-dashed pt-0 primary"
     id="navigation-menu"
   >
     {
@@ -28,5 +29,7 @@ const url = new URL(Astro.request.url);
       ))
     }
   </nav>
+
+  <MobileMenu />
   <SearchBox />
 </header>

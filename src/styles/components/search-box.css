@@ -33,10 +33,18 @@
 }
 
 #personal__search .pagefind-ui__search-input {
-  @apply pl-12 pr-12 py-4 text-base bg-left bg-no-repeat;
-  background-image: url("/icons/magnifier.svg");
-  background-position: calc(26px * var(--pagefind-ui-scale)) calc(24px * var(--pagefind-ui-scale));
-  background-size: 22px 24px;
+  @apply pl-12 pr-12 py-4 text-base relative;
+}
+
+#personal__search .pagefind-ui__search-input::before {
+  content: "";
+  @apply absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 bg-gray-400;
+  -webkit-mask: url("/icons/magnifier.svg") center / contain no-repeat;
+  mask: url("/icons/magnifier.svg") center / contain no-repeat;
+}
+
+#personal__search .pagefind-ui__search-input:focus {
+  @apply outline-none;
 }
 
 #personal__search .pagefind-ui__result {

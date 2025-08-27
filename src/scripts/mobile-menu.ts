@@ -1,4 +1,4 @@
-class MobileMenu extends HTMLElement {
+export class MobileMenu extends HTMLElement {
   private button: HTMLButtonElement | null;
   private menu: HTMLElement | null;
   private isOpen = false;
@@ -97,4 +97,17 @@ class MobileMenu extends HTMLElement {
   }
 }
 
-customElements.define("mobile-menu", MobileMenu);
+// Initialize the custom element
+export function initMobileMenu(): void {
+  if (!customElements.get("mobile-menu")) {
+    customElements.define("mobile-menu", MobileMenu);
+  }
+}
+
+// Auto-initialize when module is imported (can be disabled by importing the class directly)
+export default function autoInit(): void {
+  initMobileMenu();
+}
+
+// Auto-initialize on import
+autoInit();

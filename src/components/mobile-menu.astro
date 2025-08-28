@@ -16,7 +16,7 @@ const url = new URL(Astro.request.url);
   </button>
 
   <nav
-    class="absolute left-0 w-full bg-[rgb(var(--bg))]/90 backdrop-blur-xl shadow-lg z-50 opacity-0 invisible transition-all duration-300 ease-in-out"
+    class="absolute left-0 w-full backdrop-blur-xl z-50 opacity-0 invisible transition-all duration-300 ease-in-out"
     aria-label="Mobile menu"
     style="top: var(--header-height, 0px);"
   >
@@ -26,7 +26,7 @@ const url = new URL(Astro.request.url);
           <a
             aria-current={url.pathname === link.path ? "page" : false}
             aria-label={`Navigate to ${link.title} page`}
-            class="block px-4 py-3 text-base hover:bg-[rgb(var(--foreground))]/10 active:bg-[rgb(var(--primary))]/5 active:scale-95 transition-all duration-150 rounded-md mb-6"
+            class="block px-4 py-3 text-base hover:bg-[rgb(var(--foreground))]/10 active:bg-[rgb(var(--primary))]/5 active:scale-95 transition-all duration-150 rounded-md mb-2 mt-5"
             data-astro-prefetch
             href={link.path}
           >

@@ -81,8 +81,8 @@ export class MobileMenu extends HTMLElement {
 
     this.isOpen = true;
     this.button.setAttribute("aria-expanded", "true");
-    this.menu.classList.remove("-translate-y-full");
-    this.menu.classList.add("translate-y-0");
+    this.menu.classList.remove("opacity-0", "invisible");
+    this.menu.classList.add("opacity-100", "visible");
     document.body.style.overflow = "hidden";
   }
 
@@ -91,8 +91,8 @@ export class MobileMenu extends HTMLElement {
 
     this.isOpen = false;
     this.button.setAttribute("aria-expanded", "false");
-    this.menu.classList.remove("translate-y-0");
-    this.menu.classList.add("-translate-y-full");
+    this.menu.classList.remove("opacity-100", "visible");
+    this.menu.classList.add("opacity-0", "invisible");
     document.body.style.overflow = "";
   }
 }

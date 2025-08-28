@@ -4,6 +4,54 @@
   --pagefind-ui-font: inherit;
 }
 
+/* Ensure search button is visible on mobile */
+site-search {
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+/* Collapse tag filters by default on mobile - keep functionality but closed */
+@media (max-width: 639px) {
+  /* Hide filter options by default on mobile */
+  #personal__search .pagefind-ui__filter-value {
+    display: none;
+  }
+
+  /* Show filter options when parent filter is active/clicked */
+  #personal__search .pagefind-ui__filter-group.active .pagefind-ui__filter-value,
+  #personal__search .pagefind-ui__filter-group:target .pagefind-ui__filter-value,
+  #personal__search .pagefind-ui__filter-panel.open .pagefind-ui__filter-value {
+    display: block;
+  }
+
+  /* Make filter names clickable and add visual cue */
+  #personal__search .pagefind-ui__filter-name {
+    cursor: pointer;
+    position: relative;
+    padding-right: 1.5rem;
+    user-select: none;
+  }
+
+  /* Add expand/collapse indicator */
+  #personal__search .pagefind-ui__filter-name::after {
+    content: "▼";
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease;
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  /* Rotate indicator when expanded */
+  #personal__search .pagefind-ui__filter-group.active .pagefind-ui__filter-name::after,
+  #personal__search .pagefind-ui__filter-group:target .pagefind-ui__filter-name::after,
+  #personal__search .pagefind-ui__filter-panel.open .pagefind-ui__filter-name::after {
+    transform: translateY(-50%) rotate(180deg);
+  }
+}
+
 #personal__search {
   --pagefind-ui-primary: rgb(var(--primary));
   --pagefind-ui-text: rgb(var(--foreground));

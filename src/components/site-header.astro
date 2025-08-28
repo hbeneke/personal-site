@@ -8,27 +8,29 @@ const url = new URL(Astro.request.url);
 
 <header
   id="main-header"
-  class="relative mb-16 flex items-center justify-between z-40"
+  class="relative mb-16 flex items-center justify-between gap-2 z-40"
 >
-  <nav
-    aria-label="Main menu"
-    class="-ms-4 mt-1 hidden sm:flex divide-x divide-dashed pt-0 primary"
-    id="navigation-menu"
-  >
-    {
-      menuLinks.map((link) => (
-        <a
-          aria-current={url.pathname === link.path ? "page" : false}
-          aria-label={`Navigate to ${link.title} page`}
-          class="px-4 py-0 underline-offset-2 hover:underline hover:primary-link divide-primary"
-          data-astro-prefetch
-          href={link.path}
-        >
-          {link.title}
-        </a>
-      ))
-    }
-  </nav>
+  <div class="flex-1 sm:flex-none">
+    <nav
+      aria-label="Main menu"
+      class="-ms-4 mt-1 hidden sm:flex divide-x divide-dashed pt-0 primary"
+      id="navigation-menu"
+    >
+      {
+        menuLinks.map((link) => (
+          <a
+            aria-current={url.pathname === link.path ? "page" : false}
+            aria-label={`Navigate to ${link.title} page`}
+            class="px-4 py-0 underline-offset-2 hover:underline hover:primary-link divide-primary"
+            data-astro-prefetch
+            href={link.path}
+          >
+            {link.title}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
 
   <SearchBox />
   <MobileMenu />

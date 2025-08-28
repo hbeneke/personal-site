@@ -3,9 +3,9 @@ import MagnifierIcon from "@icons/magnifier.svg";
 import "@styles/components/search-box.css";
 ---
 
-<site-search class="ms-auto" id="search">
+<site-search class="flex-shrink-0 sm:ms-auto" id="search">
   <button
-    class="hover:text-green-400 transition-colors duration-200 flex h-9 w-9 cursor-pointer items-center justify-center rounded-md"
+    class="hover:text-green-400 transition-colors duration-200 flex h-9 w-9 cursor-pointer items-center justify-center rounded-md touch-manipulation"
     aria-keyshortcuts="Control+K Meta+K"
     data-open-modal
     type="button"
@@ -15,9 +15,9 @@ import "@styles/components/search-box.css";
   </button>
   <dialog
     aria-label="search"
-    class="bg-zinc-900 h-full max-h-full w-full max-w-full border border-zinc-600 shadow-2xl backdrop:backdrop-blur-sm open:flex sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-lg"
+    class="bg-zinc-900 border border-zinc-600 shadow-2xl backdrop:backdrop-blur-sm open:flex fixed inset-0 w-full h-full max-w-none max-h-none rounded-none sm:fixed sm:top-16 sm:left-1/2 sm:-translate-x-1/2 sm:w-5/6 sm:max-w-[48rem] sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:rounded-lg sm:inset-auto"
   >
-    <div class="dialog-frame flex grow flex-col gap-4 p-6 pt-12 sm:pt-6">
+    <div class="dialog-frame flex grow flex-col gap-4 p-4 pt-16 sm:p-6 sm:pt-6">
       <button
         class="ms-auto cursor-pointer rounded-md bg-zinc-700 hover:bg-zinc-600 px-3 py-2 font-semibold text-zinc-200 hover:text-white transition-all duration-200 text-sm"
         data-close-modal

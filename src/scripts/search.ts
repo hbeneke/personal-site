@@ -58,12 +58,76 @@ export class SiteSearch extends HTMLElement {
         autofocus: true,
       });
 
+      // Hide tag filters by default on mobile
+      this.setupMobileTagBehavior();
+
       this.searchInitialized = true;
       console.log("Search initialized successfully");
     } catch (error) {
       console.warn('Pagefind not available. Run "npm run build" to enable search:', error);
       this.showSearchUnavailableMessage();
     }
+  }
+
+  private setupMobileTagBehavior(): void {
+    const isMobile = window.innerWidth <= 640;
+    if (isMobile) {
+      // Use a timeout to ensure the pagefind UI has rendered
+      setTimeout(() => {
+        const searchContainer = this.querySelector("#personal__search");
+        if (searchContainer) {
+          this.addMobileFilterHandlers(searchContainer);
+          console.log("Mobile search filters collapsed by default");
+        }
+      }, 600);
+    }
+  }
+
+  private addMobileFilterHandlers(searchContainer: Element): void {
+    // Add click handlers to filter names for mobile collapse/expand
+    const filterNames = searchContainer.querySelectorAll(".pagefind-ui__filter-name");
+
+    for (const filterName of Array.from(filterNames)) {
+      if (!filterName.hasAttribute("data-mobile-click")) {
+        filterName.setAttribute("data-mobile-click", "true");
+
+        filterName.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const filterGroup =
+            filterName.closest(".pagefind-ui__filter-group") ||
+            filterName.closest(".pagefind-ui__filter-panel");
+
+          if (filterGroup) {
+            const isOpen = filterGroup.classList.contains("open");
+
+            // Close all other filter groups
+            const allFilterGroups = searchContainer.querySelectorAll(
+              ".pagefind-ui__filter-group, .pagefind-ui__filter-panel",
+            );
+            for (const group of Array.from(allFilterGroups)) {
+              group.classList.remove("open", "active");
+            }
+
+            // Toggle current group
+            if (!isOpen) {
+              filterGroup.classList.add("open", "active");
+            }
+          }
+        });
+      }
+    }
+
+    // Watch for dynamic content
+    const observer = new MutationObserver(() => {
+      this.addMobileFilterHandlers(searchContainer);
+    });
+
+    observer.observe(searchContainer, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   private showSearchUnavailableMessage(): void {
@@ -82,7 +146,19 @@ export class SiteSearch extends HTMLElement {
     window.addEventListener("keydown", this.onWindowKeydown, {
       signal: this.controller.signal,
     });
+
+    // Listen for resize events to handle orientation changes
+    window.addEventListener("resize", this.handleResize, {
+      signal: this.controller.signal,
+    });
   }
+
+  private handleResize = (): void => {
+    if (this.dialog?.open && this.searchInitialized) {
+      // Reapply mobile tag behavior on resize
+      setTimeout(() => this.setupMobileTagBehavior(), 100);
+    }
+  };
 
   disconnectedCallback(): void {
     this.controller.abort();
@@ -100,6 +176,9 @@ export class SiteSearch extends HTMLElement {
     if (!this.searchInitialized) {
       const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
       onIdle(() => this.initializeSearch());
+    } else {
+      // Ensure mobile tag behavior is applied when reopening
+      this.setupMobileTagBehavior();
     }
 
     setTimeout(() => {

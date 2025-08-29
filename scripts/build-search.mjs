@@ -28,7 +28,6 @@ function buildSearch() {
   }
 
   try {
-    // Use the modern Pagefind 1.0+ API (no deprecation warnings)
     const outputPath = path.join(absolutePath, ".pagefind-cache");
     const command = `pagefind --site "${absolutePath}" --output-path "${outputPath}" --verbose`;
 
@@ -61,7 +60,6 @@ function buildSearch() {
 
     console.log("✅ Search index built successfully!");
 
-    // Check if files were actually created
     const pagefindDir = path.join(absolutePath, ".pagefind-cache");
     console.log(`📂 Checking for pagefind directory: ${pagefindDir}`);
 
@@ -72,27 +70,22 @@ function buildSearch() {
         console.log(`  - ${file}`);
       }
 
-      // Also copy to dist folder for local preview
       const distPath = path.join(process.cwd(), "dist");
       if (fs.existsSync(distPath) && absolutePath !== distPath) {
         const distPagefindDir = path.join(distPath, ".pagefind-cache");
         console.log(`📂 Copying search files to dist for local preview: ${distPagefindDir}`);
 
-        // Create dist pagefind directory if it doesn't exist
         if (!fs.existsSync(distPagefindDir)) {
           fs.mkdirSync(distPagefindDir, { recursive: true });
         }
 
-        // Copy all files
         for (const file of pagefindFiles) {
           const srcFile = path.join(pagefindDir, file);
           const destFile = path.join(distPagefindDir, file);
 
           if (fs.statSync(srcFile).isDirectory()) {
-            // Copy directory recursively
             fs.cpSync(srcFile, destFile, { recursive: true });
           } else {
-            // Copy file
             fs.copyFileSync(srcFile, destFile);
           }
         }
@@ -100,7 +93,6 @@ function buildSearch() {
       }
     } else {
       console.log("❌ Pagefind directory was not created");
-      // List what was actually created in the target directory
       console.log("📋 Current contents of target directory:");
       const currentFiles = fs.readdirSync(absolutePath);
       for (const file of currentFiles) {

@@ -61,9 +61,7 @@ export class SiteSearch extends HTMLElement {
       this.setupMobileTagBehavior();
 
       this.searchInitialized = true;
-      console.log("Search initialized successfully");
     } catch (error) {
-      console.warn('Pagefind not available. Run "npm run build" to enable search:', error);
       this.showSearchUnavailableMessage();
     }
   }
@@ -75,7 +73,6 @@ export class SiteSearch extends HTMLElement {
         const searchContainer = this.querySelector("#personal__search");
         if (searchContainer) {
           this.addMobileFilterHandlers(searchContainer);
-          console.log("Mobile search filters collapsed by default");
         }
       }, 600);
     }

@@ -19,7 +19,6 @@ const {
 </BaseLayout>
 
 <style is:global>
-  /* Print-specific styles */
   @media print {
     body {
       background: white !important;
@@ -36,13 +35,11 @@ const {
       display: none !important;
     }
 
-    /* Hide navigation and footer for print */
     header nav,
     footer {
       display: none !important;
     }
 
-    /* Adjust colors for print */
     .text-gray-400 {
       color: #666666 !important;
     }
@@ -64,14 +61,12 @@ const {
       text-decoration: none !important;
     }
 
-    /* Page breaks */
     .avoid-break {
       break-inside: avoid;
       page-break-inside: avoid;
     }
   }
 
-  /* Auto-print when print parameter is present */
   @media screen {
     body.auto-print {
       background: white;
@@ -81,7 +76,6 @@ const {
 </style>
 
 <script>
-  // Auto-print when ?print=true is in URL
   if (
     typeof window !== "undefined" &&
     window.location.search.includes("print=true")

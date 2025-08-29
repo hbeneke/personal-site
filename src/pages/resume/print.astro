@@ -1,79 +1,71 @@
 ---
-import PrintLayout from "../../layouts/print-layout.astro";
-import { calculateDuration } from "../../utils/date";
-import {
-  getAllWorkExperiences,
-  getWorkExperienceYears,
-} from "../../utils/resume";
-import { siteConfig } from "../../site.config";
+import PrintLayout from "@layouts/print-layout.astro";
+import { calculateDuration } from "@utils/date";
+import { getAllWorkExperiences, getWorkExperienceYears } from "@utils/resume";
+import { siteConfig } from "@site-config";
 
 const work_experience = await getAllWorkExperiences();
 const years = await getWorkExperienceYears();
 ---
 
 <PrintLayout
-  title={`${siteConfig.authorName} - Resume`}
-  description={`Professional resume of ${siteConfig.authorName}, ${siteConfig.jobTitle}`}
+  title={`Resume · ${siteConfig.siteTitle}`}
+  description={`Professional resume of ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle} specializing in Javascript and modern web technologies.`}
 >
-  <section>
-    <header>
-      <div class="text-center mb-8 avoid-break">
-        <h1 class="text-3xl font-bold mb-2">{siteConfig.authorName}</h1>
-        <p class="text-lg text-gray-600 mb-2">{siteConfig.jobTitle}</p>
-        <div class="text-sm text-gray-500 space-x-4">
-          <span
-            >{
-              siteConfig.obfuscatedEmail
-                .replace(" [at] ", "@")
-                .replace(" [dot] ", ".")
-            }</span
-          >
-          <span>•</span>
-          <span>{siteConfig.siteUrl}</span>
-          <span>•</span>
-          <span>LinkedIn</span>
-          <span>•</span>
-          <span>GitHub</span>
-        </div>
-      </div>
-
-      <h2 class="font-semibold text-2xl mb-6 pb-2 border-b">
-        Professional Experience
-        <span class="text-xs text-gray-400 block">
-          ({calculateDuration(years.start, years.end)})
-        </span>
-      </h2>
+  <section class="max-w-4xl mx-auto p-8">
+    <header class="mb-8 text-center border-b pb-6">
+      <h1 class="text-3xl font-bold mb-2">{siteConfig.authorName}</h1>
+      <h2 class="text-xl text-gray-600 mb-2">Senior {siteConfig.jobTitle}</h2>
+      <p class="text-sm text-gray-500">
+        Professional Experience: {calculateDuration(years.start, years.end)}
+      </p>
     </header>
 
-    <ol>
-      {
-        work_experience.map((experience) => (
-          <li class="mb-10 avoid-break">
-            <time class="mb-1 text-xs text-gray-400">
-              {`${experience.start_date} – ${experience.end_date} (${calculateDuration(experience.start_date, experience.end_date)})`}
-            </time>
-            <h3 class="text-xl font-semibold secondary">
-              <span>{experience.position}</span>
-              <span class="text-gray-400 text-sm">at</span>
-              <a
-                href={experience.company_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-gray-400 hover:underline hover:text-yellow-100 transition-colors duration-200"
-              >
-                @{experience.company}
-              </a>
-            </h3>
-            <p class="text-sm text-yellow-500 mb-1">{experience.location}</p>
-            <p class="text-xs text-white mb-2">{experience.description}</p>
-            <ul class="list-disc ms-4 text-gray-400 pl-4">
-              {experience.responsibilities.map((responsibility) => (
-                <li class="mb-2 text-xs">{responsibility}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
-    </ol>
+    <main>
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-6 border-b pb-2">
+          Work Experience
+        </h2>
+        <ol class="space-y-8">
+          {
+            work_experience.map((experience) => (
+              <li class="avoid-break">
+                <div class="mb-2">
+                  <time class="text-sm text-gray-500 font-medium">
+                    {`${experience.start_date} – ${experience.end_date}`}
+                  </time>
+                  <span class="text-sm text-gray-400 ml-2">
+                    (
+                    {calculateDuration(
+                      experience.start_date,
+                      experience.end_date
+                    )}
+                    )
+                  </span>
+                </div>
+                <h3 class="text-xl font-semibold mb-1">
+                  <span class="secondary">{experience.position}</span>
+                  <span class="text-gray-600 text-base ml-2">at</span>
+                  <span class="text-gray-700 ml-1">{experience.company}</span>
+                </h3>
+                <p class="text-sm text-yellow-600 mb-2">
+                  {experience.location}
+                </p>
+                <p class="text-sm text-gray-800 mb-3 leading-relaxed">
+                  {experience.description}
+                </p>
+                <ul class="list-disc ml-6 space-y-1">
+                  {experience.responsibilities.map((responsibility) => (
+                    <li class="text-sm text-gray-700 leading-relaxed">
+                      {responsibility}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+    </main>
   </section>
 </PrintLayout>

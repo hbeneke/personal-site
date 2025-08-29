@@ -1,32 +1,54 @@
 ---
-import BaseLayout from "@layouts/base-layout.astro";
-import CVDownload from "@components/cv-download.astro";
-import { calculateDuration } from "@utils/date";
-import { getAllWorkExperiences, getWorkExperienceYears } from "@utils/resume";
-import { siteConfig } from "@site-config";
+import PrintLayout from "../../layouts/print-layout.astro";
+import { calculateDuration } from "../../utils/date";
+import {
+  getAllWorkExperiences,
+  getWorkExperienceYears,
+} from "../../utils/resume";
+import { siteConfig } from "../../site.config";
 
 const work_experience = await getAllWorkExperiences();
 const years = await getWorkExperienceYears();
 ---
 
-<BaseLayout
-  title={`Resume · ${siteConfig.siteTitle}`}
-  description={`Explore the professional profile of ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle} specializing in Javascript and modern web technologies. Discover his career journey, key projects, and contributions to enterprise software development. Connect with ${siteConfig.authorName} and enhance your team with his expertise!`}
+<PrintLayout
+  title={`${siteConfig.authorName} - Resume`}
+  description={`Professional resume of ${siteConfig.authorName}, ${siteConfig.jobTitle}`}
 >
   <section>
-    <header class="flex justify-between items-start mb-6 pb-2">
-      <h2 class="font-semibold text-2xl">
-        Resume
+    <header>
+      <div class="text-center mb-8 avoid-break">
+        <h1 class="text-3xl font-bold mb-2">{siteConfig.authorName}</h1>
+        <p class="text-lg text-gray-600 mb-2">{siteConfig.jobTitle}</p>
+        <div class="text-sm text-gray-500 space-x-4">
+          <span
+            >{
+              siteConfig.obfuscatedEmail
+                .replace(" [at] ", "@")
+                .replace(" [dot] ", ".")
+            }</span
+          >
+          <span>•</span>
+          <span>{siteConfig.siteUrl}</span>
+          <span>•</span>
+          <span>LinkedIn</span>
+          <span>•</span>
+          <span>GitHub</span>
+        </div>
+      </div>
+
+      <h2 class="font-semibold text-2xl mb-6 pb-2 border-b">
+        Professional Experience
         <span class="text-xs text-gray-400 block">
           ({calculateDuration(years.start, years.end)})
         </span>
       </h2>
-      <CVDownload />
     </header>
+
     <ol>
       {
         work_experience.map((experience) => (
-          <li class="mb-10">
+          <li class="mb-10 avoid-break">
             <time class="mb-1 text-xs text-gray-400">
               {`${experience.start_date} – ${experience.end_date} (${calculateDuration(experience.start_date, experience.end_date)})`}
             </time>
@@ -54,4 +76,4 @@ const years = await getWorkExperienceYears();
       }
     </ol>
   </section>
-</BaseLayout>
+</PrintLayout>

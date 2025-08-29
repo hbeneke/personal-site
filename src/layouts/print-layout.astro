@@ -1,0 +1,95 @@
+---
+import BaseLayout from "@layouts/base-layout.astro";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"html"> {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Resume",
+  description = "Professional Resume",
+  ...attrs
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <slot />
+</BaseLayout>
+
+<style is:global>
+  /* Print-specific styles */
+  @media print {
+    body {
+      background: white !important;
+      color: #1a1a1a !important;
+      font-size: 12pt !important;
+      line-height: 1.4 !important;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    .cv-download-container {
+      display: none !important;
+    }
+
+    /* Hide navigation and footer for print */
+    header nav,
+    footer {
+      display: none !important;
+    }
+
+    /* Adjust colors for print */
+    .text-gray-400 {
+      color: #666666 !important;
+    }
+
+    .text-yellow-500 {
+      color: #d97706 !important;
+    }
+
+    .text-white {
+      color: #1a1a1a !important;
+    }
+
+    .secondary {
+      color: #059669 !important;
+    }
+
+    a {
+      color: #1a1a1a !important;
+      text-decoration: none !important;
+    }
+
+    /* Page breaks */
+    .avoid-break {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
+
+  /* Auto-print when print parameter is present */
+  @media screen {
+    body.auto-print {
+      background: white;
+      color: #1a1a1a;
+    }
+  }
+</style>
+
+<script>
+  // Auto-print when ?print=true is in URL
+  if (
+    typeof window !== "undefined" &&
+    window.location.search.includes("print=true")
+  ) {
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        window.print();
+      }, 500);
+    });
+  }
+</script>

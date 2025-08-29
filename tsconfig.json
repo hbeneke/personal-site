@@ -49,6 +49,9 @@
       ],
       "@icons/*": [
         "public/icons/*"
+      ],
+      "@scripts/*": [
+        "src/scripts/*"
       ]
     }
   }

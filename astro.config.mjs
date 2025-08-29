@@ -11,6 +11,8 @@ export default defineConfig({
       alias: {
         "@": "/src",
         "@types": "/src/types/index.ts",
+        "@scripts": "/src/scripts",
+        "@icons": "/public/icons",
       },
     },
   },

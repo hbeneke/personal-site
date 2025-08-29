@@ -58,7 +58,6 @@ export class SiteSearch extends HTMLElement {
         autofocus: true,
       });
 
-      // Hide tag filters by default on mobile
       this.setupMobileTagBehavior();
 
       this.searchInitialized = true;
@@ -72,7 +71,6 @@ export class SiteSearch extends HTMLElement {
   private setupMobileTagBehavior(): void {
     const isMobile = window.innerWidth <= 640;
     if (isMobile) {
-      // Use a timeout to ensure the pagefind UI has rendered
       setTimeout(() => {
         const searchContainer = this.querySelector("#personal__search");
         if (searchContainer) {
@@ -84,7 +82,6 @@ export class SiteSearch extends HTMLElement {
   }
 
   private addMobileFilterHandlers(searchContainer: Element): void {
-    // Add click handlers to filter names for mobile collapse/expand
     const filterNames = searchContainer.querySelectorAll(".pagefind-ui__filter-name");
 
     for (const filterName of Array.from(filterNames)) {
@@ -102,7 +99,6 @@ export class SiteSearch extends HTMLElement {
           if (filterGroup) {
             const isOpen = filterGroup.classList.contains("open");
 
-            // Close all other filter groups
             const allFilterGroups = searchContainer.querySelectorAll(
               ".pagefind-ui__filter-group, .pagefind-ui__filter-panel",
             );
@@ -110,7 +106,6 @@ export class SiteSearch extends HTMLElement {
               group.classList.remove("open", "active");
             }
 
-            // Toggle current group
             if (!isOpen) {
               filterGroup.classList.add("open", "active");
             }
@@ -119,7 +114,6 @@ export class SiteSearch extends HTMLElement {
       }
     }
 
-    // Watch for dynamic content
     const observer = new MutationObserver(() => {
       this.addMobileFilterHandlers(searchContainer);
     });
@@ -147,7 +141,6 @@ export class SiteSearch extends HTMLElement {
       signal: this.controller.signal,
     });
 
-    // Listen for resize events to handle orientation changes
     window.addEventListener("resize", this.handleResize, {
       signal: this.controller.signal,
     });
@@ -155,7 +148,6 @@ export class SiteSearch extends HTMLElement {
 
   private handleResize = (): void => {
     if (this.dialog?.open && this.searchInitialized) {
-      // Reapply mobile tag behavior on resize
       setTimeout(() => this.setupMobileTagBehavior(), 100);
     }
   };
@@ -177,7 +169,6 @@ export class SiteSearch extends HTMLElement {
       const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
       onIdle(() => this.initializeSearch());
     } else {
-      // Ensure mobile tag behavior is applied when reopening
       this.setupMobileTagBehavior();
     }
 

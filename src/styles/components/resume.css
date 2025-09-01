@@ -239,11 +239,11 @@
     margin: 0;
     size: A4;
   }
-  
+
   body {
     @apply m-0 p-0;
   }
-  
+
   .resume-container {
     @apply m-0;
     font-size: 12pt !important;
@@ -251,61 +251,61 @@
     padding: 0.8cm 1.4cm 1.8cm 1.4cm !important;
     box-sizing: border-box;
   }
-  
+
   .resume-entry {
     page-break-inside: avoid;
     break-inside: avoid;
   }
-  
+
   .resume-section {
     page-break-after: avoid;
   }
-  
+
   .resume-header-firstname,
   .resume-header-lastname {
     font-size: 28pt;
   }
-  
+
   .resume-header-position {
     font-size: 7pt;
   }
-  
+
   .resume-header-address {
     font-size: 7pt;
   }
-  
+
   .resume-header-social {
     font-size: 6pt;
   }
-  
+
   .resume-header-quote {
     font-size: 8pt;
   }
-  
+
   .resume-section-title {
     font-size: 14pt;
   }
-  
+
   .resume-entry-title {
     font-size: 9pt;
   }
-  
+
   .resume-entry-position {
     font-size: 7pt;
   }
-  
+
   .resume-entry-location,
   .resume-entry-date {
     font-size: 8pt;
   }
-  
+
   .resume-entry-description,
   .resume-items li,
   .resume-skill-set,
   .resume-paragraph {
     font-size: 8pt;
   }
-  
+
   .resume-skill-type {
     font-size: 9pt;
   }
@@ -315,32 +315,32 @@
   .resume-entry-header {
     @apply block;
   }
-  
+
   .resume-entry-left,
   .resume-entry-right {
     @apply block w-full;
   }
-  
+
   .resume-entry-right {
     @apply text-left mt-2;
   }
-  
+
   .resume-skill {
     @apply block;
   }
-  
+
   .resume-skill-type {
     @apply block w-full text-left pr-0 mb-2;
   }
-  
+
   .resume-skill-set {
     @apply block;
   }
-  
+
   .resume-honor {
     @apply block;
   }
-  
+
   .resume-honor-date,
   .resume-honor-content,
   .resume-honor-location {
@@ -348,18 +348,36 @@
   }
 }
 
-.resume-text-red { color: var(--resume-red); }
-.resume-text-dark { color: var(--resume-dark); }
-.resume-text-gray { color: var(--resume-gray); }
-.resume-text-light { color: var(--resume-light); }
+.resume-text-red {
+  color: var(--resume-red);
+}
+.resume-text-dark {
+  color: var(--resume-dark);
+}
+.resume-text-gray {
+  color: var(--resume-gray);
+}
+.resume-text-light {
+  color: var(--resume-light);
+}
 
-.resume-font-light { font-weight: 300; }
-.resume-font-normal { font-weight: 400; }
-.resume-font-medium { font-weight: 500; }
-.resume-font-bold { font-weight: 700; }
+.resume-font-light {
+  font-weight: 300;
+}
+.resume-font-normal {
+  font-weight: 400;
+}
+.resume-font-medium {
+  font-weight: 500;
+}
+.resume-font-bold {
+  font-weight: 700;
+}
 
-.resume-italic { @apply italic; }
-.resume-small-caps { 
-  font-variant: small-caps; 
+.resume-italic {
+  @apply italic;
+}
+.resume-small-caps {
+  font-variant: small-caps;
   @apply tracking-wide;
 }

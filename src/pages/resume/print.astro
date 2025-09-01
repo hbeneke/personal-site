@@ -15,7 +15,9 @@ const years = await getWorkExperienceYears();
   <div class="resume-container max-w-[210mm] mx-auto">
     <header class="resume-header">
       <div class="resume-header-name">
-        <span class="resume-header-firstname">Enrique</span><span class="resume-header-lastname">Quero</span>
+        <span class="resume-header-firstname">Enrique</span><span
+          class="resume-header-lastname">Quero</span
+        >
       </div>
       <div class="resume-header-position">Senior {siteConfig.jobTitle}</div>
       <div class="resume-header-address">Madrid, Spain</div>
@@ -38,7 +40,10 @@ const years = await getWorkExperienceYears();
         <span class="resume-section-title-colored">Summary</span>
       </h2>
       <div class="resume-paragraph">
-        {calculateDuration(years.start, years.end)} experience specializing in Web Development. Linux Lover and interested in devising a better problem-solving method for challenging tasks, and learning new technologies and tools if the need arises.
+        {calculateDuration(years.start, years.end)} experience specializing in Web
+        Development. Linux Lover and interested in devising a better problem-solving
+        method for challenging tasks, and learning new technologies and tools if
+        the need arises.
       </div>
     </section>
 
@@ -65,13 +70,14 @@ const years = await getWorkExperienceYears();
               <div class="resume-entry-description">
                 {experience.description}
               </div>
-              {experience.responsibilities && experience.responsibilities.length > 0 && (
-                <ul class="resume-items">
-                  {experience.responsibilities.map((responsibility) => (
-                    <li>{responsibility}</li>
-                  ))}
-                </ul>
-              )}
+              {experience.responsibilities &&
+                experience.responsibilities.length > 0 && (
+                  <ul class="resume-items">
+                    {experience.responsibilities.map((responsibility) => (
+                      <li>{responsibility}</li>
+                    ))}
+                  </ul>
+                )}
             </div>
           ))
         }
@@ -85,39 +91,64 @@ const years = await getWorkExperienceYears();
       <div class="resume-skills">
         <div class="resume-skill">
           <div class="resume-skill-type">Web Layout</div>
-          <div class="resume-skill-set">Extensive experience with CSS, HTML, and CSS extension languages (SASS, LESS).</div>
+          <div class="resume-skill-set">
+            Extensive experience with CSS, HTML, and CSS extension languages
+            (SASS, LESS).
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">Frontend & Web Frameworks</div>
-          <div class="resume-skill-set">Expertise in AngularJS, Angular2+, NgRx, Vue.js, Vuex, JavaScript (Vanilla), jQuery, TypeScript, ES6+.</div>
+          <div class="resume-skill-set">
+            Expertise in AngularJS, Angular2+, NgRx, Vue.js, Vuex, JavaScript
+            (Vanilla), jQuery, TypeScript, ES6+.
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">Backend & Frameworks</div>
-          <div class="resume-skill-set">Proficient in PHP, Python, Symfony. Intermediate experience with Laravel and Node.js.</div>
+          <div class="resume-skill-set">
+            Proficient in PHP, Python, Symfony. Intermediate experience with
+            Laravel and Node.js.
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">Compiled Programming Languages</div>
-          <div class="resume-skill-set">Basic experience with Java, focused on Android app development.</div>
+          <div class="resume-skill-set">
+            Basic experience with Java, focused on Android app development.
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">Databases</div>
-          <div class="resume-skill-set">Intermediate experience with MongoDB, SQL (MariaDB, MySQL). Currently pursuing MongoDB official certification.</div>
+          <div class="resume-skill-set">
+            Intermediate experience with MongoDB, SQL (MariaDB, MySQL).
+            Currently pursuing MongoDB official certification.
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">DevOps</div>
-          <div class="resume-skill-set">Advanced proficiency in Linux environments, AWS, Google Cloud Platform. Experienced with Docker, currently undertaking a 40-hour course in Kubernetes.</div>
+          <div class="resume-skill-set">
+            Advanced proficiency in Linux environments, AWS, Google Cloud
+            Platform. Experienced with Docker, currently undertaking a 40-hour
+            course in Kubernetes.
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">Agile Methodologies</div>
-          <div class="resume-skill-set">Highly experienced with Scrum and Continuous Integration.</div>
+          <div class="resume-skill-set">
+            Highly experienced with Scrum and Continuous Integration.
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">Tools</div>
-          <div class="resume-skill-set">Advanced proficiency in Git (GitFlow, ForkFlow).</div>
+          <div class="resume-skill-set">
+            Advanced proficiency in Git (GitFlow, ForkFlow).
+          </div>
         </div>
         <div class="resume-skill">
           <div class="resume-skill-type">Languages</div>
-          <div class="resume-skill-set">First Certificate in English (B2), Cambridge College. Native Spanish speaker.</div>
+          <div class="resume-skill-set">
+            First Certificate in English (B2), Cambridge College. Native Spanish
+            speaker.
+          </div>
         </div>
       </div>
     </section>
@@ -153,56 +184,72 @@ const years = await getWorkExperienceYears();
         <div class="resume-honor">
           <div class="resume-honor-date">2015</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">Finalist, Copper Prize</span>, <span class="resume-honor-title">Startup Weekend Europe</span>
+            <span class="resume-honor-position">Finalist, Copper Prize</span>, <span
+              class="resume-honor-title">Startup Weekend Europe</span
+            >
           </div>
           <div class="resume-honor-location">Madrid, Spain</div>
         </div>
         <div class="resume-honor">
           <div class="resume-honor-date">2015</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">Finalist</span>, <span class="resume-honor-title">Startup Weekend Madrid</span>
+            <span class="resume-honor-position">Finalist</span>, <span
+              class="resume-honor-title">Startup Weekend Madrid</span
+            >
           </div>
           <div class="resume-honor-location">Madrid, Spain</div>
         </div>
         <div class="resume-honor">
           <div class="resume-honor-date">2016</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">2nd Place</span>, <span class="resume-honor-title">Startup Weekend Madrid</span>
+            <span class="resume-honor-position">2nd Place</span>, <span
+              class="resume-honor-title">Startup Weekend Madrid</span
+            >
           </div>
           <div class="resume-honor-location">Madrid, Spain</div>
         </div>
         <div class="resume-honor">
           <div class="resume-honor-date">2017</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">5th Position</span>, <span class="resume-honor-title">Startup Weekend Madrid</span>
+            <span class="resume-honor-position">5th Position</span>, <span
+              class="resume-honor-title">Startup Weekend Madrid</span
+            >
           </div>
           <div class="resume-honor-location">Madrid, Spain</div>
         </div>
         <div class="resume-honor">
           <div class="resume-honor-date">2014</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span
+              class="resume-honor-title">Betabeers Meetups</span
+            >
           </div>
           <div class="resume-honor-location">Almeria, Spain</div>
         </div>
         <div class="resume-honor">
           <div class="resume-honor-date">2015</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span
+              class="resume-honor-title">Betabeers Meetups</span
+            >
           </div>
           <div class="resume-honor-location">Almeria, Spain</div>
         </div>
         <div class="resume-honor">
           <div class="resume-honor-date">2016</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span
+              class="resume-honor-title">Betabeers Meetups</span
+            >
           </div>
           <div class="resume-honor-location">Almeria, Spain</div>
         </div>
         <div class="resume-honor">
           <div class="resume-honor-date">2017</div>
           <div class="resume-honor-content">
-            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span
+              class="resume-honor-title">Betabeers Meetups</span
+            >
           </div>
           <div class="resume-honor-location">Almeria, Spain</div>
         </div>
@@ -211,7 +258,9 @@ const years = await getWorkExperienceYears();
 
     <section class="resume-section">
       <h2 class="resume-section-title">
-        <span class="resume-section-title-colored">Extracurricular Activity</span>
+        <span class="resume-section-title-colored"
+          >Extracurricular Activity</span
+        >
       </h2>
       <div class="resume-entries">
         <div class="resume-entry">
@@ -226,7 +275,10 @@ const years = await getWorkExperienceYears();
             </div>
           </div>
           <ul class="resume-items">
-            <li>I develop web pages for end customers from time to time. The last development: Room reservations platform for spa.</li>
+            <li>
+              I develop web pages for end customers from time to time. The last
+              development: Room reservations platform for spa.
+            </li>
           </ul>
         </div>
       </div>

@@ -1,6 +1,6 @@
 ---
 import "@styles/global.css";
-import "@styles/awesome-cv.css";
+import "@styles/components/resume.css";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"html"> {
@@ -25,7 +25,7 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="awesome-cv">
+  <body class="resume-container">
     <main class="print-main">
       <slot />
     </main>

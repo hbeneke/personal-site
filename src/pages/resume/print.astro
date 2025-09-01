@@ -12,64 +12,61 @@ const years = await getWorkExperienceYears();
   title={`Resume · ${siteConfig.siteTitle}`}
   description={`Professional resume of ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle} specializing in Javascript and modern web technologies.`}
 >
-  <div class="awesome-cv" style="max-width: 210mm; margin: 0 auto; padding: 1.4cm;">
-    <!-- Header -->
-    <header class="awesome-header">
-      <div class="awesome-header-name">
-        <span class="awesome-header-firstname">Enrique</span><span class="awesome-header-lastname">Quero</span>
+  <div class="resume-container max-w-[210mm] mx-auto">
+    <header class="resume-header">
+      <div class="resume-header-name">
+        <span class="resume-header-firstname">Enrique</span><span class="resume-header-lastname">Quero</span>
       </div>
-      <div class="awesome-header-position">Senior {siteConfig.jobTitle}</div>
-      <div class="awesome-header-address">Madrid, Spain</div>
-      <div class="awesome-header-social">
+      <div class="resume-header-position">Senior {siteConfig.jobTitle}</div>
+      <div class="resume-header-address">Madrid, Spain</div>
+      <div class="resume-header-social">
         <span>📱 (+34) 654-080-196</span>
-        <span class="awesome-header-social-sep"></span>
+        <span class="resume-header-social-sep"></span>
         <span>✉️ equero@kracode.com</span>
-        <span class="awesome-header-social-sep"></span>
-        <span>🌐 {siteConfig.siteUrl.replace('https://', '')}</span>
-        <span class="awesome-header-social-sep"></span>
+        <span class="resume-header-social-sep"></span>
+        <span>🌐 {siteConfig.siteUrl.replace("https://", "")}</span>
+        <span class="resume-header-social-sep"></span>
         <span>💼 LinkedIn</span>
-        <span class="awesome-header-social-sep"></span>
+        <span class="resume-header-social-sep"></span>
         <span>🐙 GitHub</span>
       </div>
-      <div class="awesome-header-quote">"Never Stop Learning."</div>
+      <div class="resume-header-quote">"Never Stop Learning."</div>
     </header>
 
-    <!-- Summary Section -->
-    <section class="awesome-section">
-      <h2 class="awesome-section-title">
-        <span class="awesome-section-title-colored">Summary</span>
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-title-colored">Summary</span>
       </h2>
-      <div class="awesome-paragraph">
+      <div class="resume-paragraph">
         {calculateDuration(years.start, years.end)} experience specializing in Web Development. Linux Lover and interested in devising a better problem-solving method for challenging tasks, and learning new technologies and tools if the need arises.
       </div>
     </section>
 
-    <!-- Work Experience Section -->
-    <section class="awesome-section">
-      <h2 class="awesome-section-title">
-        <span class="awesome-section-title-colored">Work Experience</span>
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-title-colored">Work Experience</span>
       </h2>
-      <div class="awesome-entries">
+      <div class="resume-entries">
         {
           work_experience.map((experience) => (
-            <div class="awesome-entry">
-              <div class="awesome-entry-header">
-                <div class="awesome-entry-left">
-                  <div class="awesome-entry-title">{experience.company}</div>
-                  <div class="awesome-entry-position">{experience.position}</div>
+            <div class="resume-entry">
+              <div class="resume-entry-header">
+                <div class="resume-entry-left">
+                  <div class="resume-entry-title">{experience.company}</div>
+                  <div class="resume-entry-position">{experience.position}</div>
                 </div>
-                <div class="awesome-entry-right">
-                  <div class="awesome-entry-location">{experience.location}</div>
-                  <div class="awesome-entry-date">
+                <div class="resume-entry-right">
+                  <div class="resume-entry-location">{experience.location}</div>
+                  <div class="resume-entry-date">
                     {`${experience.start_date} – ${experience.end_date}`}
                   </div>
                 </div>
               </div>
-              <div class="awesome-entry-description">
+              <div class="resume-entry-description">
                 {experience.description}
               </div>
               {experience.responsibilities && experience.responsibilities.length > 0 && (
-                <ul class="awesome-items">
+                <ul class="resume-items">
                   {experience.responsibilities.map((responsibility) => (
                     <li>{responsibility}</li>
                   ))}
@@ -78,6 +75,160 @@ const years = await getWorkExperienceYears();
             </div>
           ))
         }
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-title-colored">Skills</span>
+      </h2>
+      <div class="resume-skills">
+        <div class="resume-skill">
+          <div class="resume-skill-type">Web Layout</div>
+          <div class="resume-skill-set">Extensive experience with CSS, HTML, and CSS extension languages (SASS, LESS).</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">Frontend & Web Frameworks</div>
+          <div class="resume-skill-set">Expertise in AngularJS, Angular2+, NgRx, Vue.js, Vuex, JavaScript (Vanilla), jQuery, TypeScript, ES6+.</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">Backend & Frameworks</div>
+          <div class="resume-skill-set">Proficient in PHP, Python, Symfony. Intermediate experience with Laravel and Node.js.</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">Compiled Programming Languages</div>
+          <div class="resume-skill-set">Basic experience with Java, focused on Android app development.</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">Databases</div>
+          <div class="resume-skill-set">Intermediate experience with MongoDB, SQL (MariaDB, MySQL). Currently pursuing MongoDB official certification.</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">DevOps</div>
+          <div class="resume-skill-set">Advanced proficiency in Linux environments, AWS, Google Cloud Platform. Experienced with Docker, currently undertaking a 40-hour course in Kubernetes.</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">Agile Methodologies</div>
+          <div class="resume-skill-set">Highly experienced with Scrum and Continuous Integration.</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">Tools</div>
+          <div class="resume-skill-set">Advanced proficiency in Git (GitFlow, ForkFlow).</div>
+        </div>
+        <div class="resume-skill">
+          <div class="resume-skill-type">Languages</div>
+          <div class="resume-skill-set">First Certificate in English (B2), Cambridge College. Native Spanish speaker.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-title-colored">Education</span>
+      </h2>
+      <div class="resume-entries">
+        <div class="resume-entry">
+          <div class="resume-entry-header">
+            <div class="resume-entry-left">
+              <div class="resume-entry-title">IES AL-Andalus</div>
+              <div class="resume-entry-position">Top Technician ~ DAM</div>
+            </div>
+            <div class="resume-entry-right">
+              <div class="resume-entry-location">Almeria, Spain</div>
+              <div class="resume-entry-date">2013</div>
+            </div>
+          </div>
+          <ul class="resume-items">
+            <li>This course is more oriented to the mobile app development</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-title-colored">Honors & Awards</span>
+      </h2>
+      <div class="resume-honors">
+        <div class="resume-honor">
+          <div class="resume-honor-date">2015</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">Finalist, Copper Prize</span>, <span class="resume-honor-title">Startup Weekend Europe</span>
+          </div>
+          <div class="resume-honor-location">Madrid, Spain</div>
+        </div>
+        <div class="resume-honor">
+          <div class="resume-honor-date">2015</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">Finalist</span>, <span class="resume-honor-title">Startup Weekend Madrid</span>
+          </div>
+          <div class="resume-honor-location">Madrid, Spain</div>
+        </div>
+        <div class="resume-honor">
+          <div class="resume-honor-date">2016</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">2nd Place</span>, <span class="resume-honor-title">Startup Weekend Madrid</span>
+          </div>
+          <div class="resume-honor-location">Madrid, Spain</div>
+        </div>
+        <div class="resume-honor">
+          <div class="resume-honor-date">2017</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">5th Position</span>, <span class="resume-honor-title">Startup Weekend Madrid</span>
+          </div>
+          <div class="resume-honor-location">Madrid, Spain</div>
+        </div>
+        <div class="resume-honor">
+          <div class="resume-honor-date">2014</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+          </div>
+          <div class="resume-honor-location">Almeria, Spain</div>
+        </div>
+        <div class="resume-honor">
+          <div class="resume-honor-date">2015</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+          </div>
+          <div class="resume-honor-location">Almeria, Spain</div>
+        </div>
+        <div class="resume-honor">
+          <div class="resume-honor-date">2016</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+          </div>
+          <div class="resume-honor-location">Almeria, Spain</div>
+        </div>
+        <div class="resume-honor">
+          <div class="resume-honor-date">2017</div>
+          <div class="resume-honor-content">
+            <span class="resume-honor-position">Betabeers Organizator</span>, <span class="resume-honor-title">Betabeers Meetups</span>
+          </div>
+          <div class="resume-honor-location">Almeria, Spain</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-title-colored">Extracurricular Activity</span>
+      </h2>
+      <div class="resume-entries">
+        <div class="resume-entry">
+          <div class="resume-entry-header">
+            <div class="resume-entry-left">
+              <div class="resume-entry-title">Kracode</div>
+              <div class="resume-entry-position">Freelancer Developer</div>
+            </div>
+            <div class="resume-entry-right">
+              <div class="resume-entry-location">Madrid, Spain</div>
+              <div class="resume-entry-date">Jun. 2015 - PRESENT</div>
+            </div>
+          </div>
+          <ul class="resume-items">
+            <li>I develop web pages for end customers from time to time. The last development: Room reservations platform for spa.</li>
+          </ul>
+        </div>
       </div>
     </section>
   </div>

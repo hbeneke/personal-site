@@ -1,5 +1,6 @@
 ---
-import BaseLayout from "@layouts/base-layout.astro";
+import "@styles/global.css";
+import "@styles/awesome-cv.css";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"html"> {
@@ -14,15 +15,35 @@ const {
 } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
-  <slot />
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="awesome-cv">
+    <main class="print-main">
+      <slot />
+    </main>
+  </body>
+</html>
 
 <style is:global>
+  .print-body {
+    @apply mx-auto min-w-[350px] font-jetbrains min-h-screen max-w-3xl bg-white text-sm font-normal text-gray-900 antialiased px-4 pt-4;
+  }
+
+  .print-main {
+    @apply flex-grow;
+  }
+
   @media print {
-    body {
-      background: white !important;
-      color: #1a1a1a !important;
+    .print-body {
+      @apply bg-white text-gray-900;
       font-size: 12pt !important;
       line-height: 1.4 !important;
     }
@@ -35,30 +56,24 @@ const {
       display: none !important;
     }
 
-    header nav,
-    footer {
-      display: none !important;
+    .print-text-gray {
+      @apply text-gray-600;
     }
 
-    .text-gray-400 {
-      color: #666666 !important;
+    .print-text-yellow {
+      @apply text-yellow-600;
     }
 
-    .text-yellow-500 {
-      color: #d97706 !important;
+    .print-text-primary {
+      @apply text-gray-900;
     }
 
-    .text-white {
-      color: #1a1a1a !important;
+    .print-text-secondary {
+      @apply text-emerald-600;
     }
 
-    .secondary {
-      color: #059669 !important;
-    }
-
-    a {
-      color: #1a1a1a !important;
-      text-decoration: none !important;
+    .print-link {
+      @apply text-gray-900 no-underline;
     }
 
     .avoid-break {
@@ -69,8 +84,7 @@ const {
 
   @media screen {
     body.auto-print {
-      background: white;
-      color: #1a1a1a;
+      @apply bg-white text-gray-900;
     }
   }
 </style>

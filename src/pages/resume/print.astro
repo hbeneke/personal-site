@@ -12,60 +12,73 @@ const years = await getWorkExperienceYears();
   title={`Resume · ${siteConfig.siteTitle}`}
   description={`Professional resume of ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle} specializing in Javascript and modern web technologies.`}
 >
-  <section class="max-w-4xl mx-auto p-8">
-    <header class="mb-8 text-center border-b pb-6">
-      <h1 class="text-3xl font-bold mb-2">{siteConfig.authorName}</h1>
-      <h2 class="text-xl text-gray-600 mb-2">Senior {siteConfig.jobTitle}</h2>
-      <p class="text-sm text-gray-500">
-        Professional Experience: {calculateDuration(years.start, years.end)}
-      </p>
+  <div class="awesome-cv" style="max-width: 210mm; margin: 0 auto; padding: 1.4cm;">
+    <!-- Header -->
+    <header class="awesome-header">
+      <div class="awesome-header-name">
+        <span class="awesome-header-firstname">Enrique</span><span class="awesome-header-lastname">Quero</span>
+      </div>
+      <div class="awesome-header-position">Senior {siteConfig.jobTitle}</div>
+      <div class="awesome-header-address">Madrid, Spain</div>
+      <div class="awesome-header-social">
+        <span>📱 (+34) 654-080-196</span>
+        <span class="awesome-header-social-sep"></span>
+        <span>✉️ equero@kracode.com</span>
+        <span class="awesome-header-social-sep"></span>
+        <span>🌐 {siteConfig.siteUrl.replace('https://', '')}</span>
+        <span class="awesome-header-social-sep"></span>
+        <span>💼 LinkedIn</span>
+        <span class="awesome-header-social-sep"></span>
+        <span>🐙 GitHub</span>
+      </div>
+      <div class="awesome-header-quote">"Never Stop Learning."</div>
     </header>
 
-    <main>
-      <section class="mb-8">
-        <h2 class="text-2xl font-semibold mb-6 border-b pb-2">
-          Work Experience
-        </h2>
-        <ol class="space-y-8">
-          {
-            work_experience.map((experience) => (
-              <li class="avoid-break">
-                <div class="mb-2">
-                  <time class="text-sm text-gray-500 font-medium">
-                    {`${experience.start_date} – ${experience.end_date}`}
-                  </time>
-                  <span class="text-sm text-gray-400 ml-2">
-                    (
-                    {calculateDuration(
-                      experience.start_date,
-                      experience.end_date
-                    )}
-                    )
-                  </span>
+    <!-- Summary Section -->
+    <section class="awesome-section">
+      <h2 class="awesome-section-title">
+        <span class="awesome-section-title-colored">Summary</span>
+      </h2>
+      <div class="awesome-paragraph">
+        {calculateDuration(years.start, years.end)} experience specializing in Web Development. Linux Lover and interested in devising a better problem-solving method for challenging tasks, and learning new technologies and tools if the need arises.
+      </div>
+    </section>
+
+    <!-- Work Experience Section -->
+    <section class="awesome-section">
+      <h2 class="awesome-section-title">
+        <span class="awesome-section-title-colored">Work Experience</span>
+      </h2>
+      <div class="awesome-entries">
+        {
+          work_experience.map((experience) => (
+            <div class="awesome-entry">
+              <div class="awesome-entry-header">
+                <div class="awesome-entry-left">
+                  <div class="awesome-entry-title">{experience.company}</div>
+                  <div class="awesome-entry-position">{experience.position}</div>
                 </div>
-                <h3 class="text-xl font-semibold mb-1">
-                  <span class="secondary">{experience.position}</span>
-                  <span class="text-gray-600 text-base ml-2">at</span>
-                  <span class="text-gray-700 ml-1">{experience.company}</span>
-                </h3>
-                <p class="text-sm text-yellow-600 mb-2">
-                  {experience.location}
-                </p>
-                <p class="text-sm text-gray-800 mb-3 leading-relaxed">
-                  {experience.description}
-                </p>
-                <ul class="list-disc ml-6 space-y-1">
+                <div class="awesome-entry-right">
+                  <div class="awesome-entry-location">{experience.location}</div>
+                  <div class="awesome-entry-date">
+                    {`${experience.start_date} – ${experience.end_date}`}
+                  </div>
+                </div>
+              </div>
+              <div class="awesome-entry-description">
+                {experience.description}
+              </div>
+              {experience.responsibilities && experience.responsibilities.length > 0 && (
+                <ul class="awesome-items">
                   {experience.responsibilities.map((responsibility) => (
-                    <li class="text-sm text-gray-700 leading-relaxed">
-                      {responsibility}
-                    </li>
+                    <li>{responsibility}</li>
                   ))}
                 </ul>
-              </li>
-            ))
-          }
-        </ol>
-      </section>
-    </main>
-  </section>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 </PrintLayout>

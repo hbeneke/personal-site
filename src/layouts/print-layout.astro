@@ -1,6 +1,6 @@
 ---
 import "@styles/global.css";
-import "@styles/components/resume.css";
+import "@styles/components/print.css";
 import { siteConfig } from "@site-config";
 ---
 
@@ -17,13 +17,8 @@ import { siteConfig } from "@site-config";
     <meta name="generator" content={Astro.generator} />
     <title>{`Resume print · ${siteConfig.siteTitle}`}</title>
   </head>
-  <body
-    class="text-gray-800 bg-white font-jetbrains"
-    style="color: var(--resume-text);"
-  >
-    <main class="print-main">
-      <slot />
-    </main>
+  <body class="text-gray-800 bg-white font-jetbrains">
+    <slot />
   </body>
 </html>
 

@@ -1,29 +1,21 @@
 ---
 import "@styles/global.css";
 import "@styles/components/resume.css";
-import type { HTMLAttributes } from "astro/types";
-
-interface Props extends HTMLAttributes<"html"> {
-  title?: string;
-  description?: string;
-}
-
-const {
-  title = "Resume",
-  description = "Professional Resume",
-  ...attrs
-} = Astro.props;
+import { siteConfig } from "@site-config";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
+    <meta
+      name="description"
+      content="Professional resume of Enrique Quero - Software Engineer and Developer"
+    />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{`Resume print · ${siteConfig.siteTitle}`}</title>
   </head>
   <body
     class="text-gray-800 bg-white font-jetbrains"
@@ -34,63 +26,6 @@ const {
     </main>
   </body>
 </html>
-
-<style is:global>
-  .print-body {
-    @apply mx-auto min-w-[350px] min-h-screen max-w-3xl bg-white text-sm font-normal text-gray-900 antialiased px-4 pt-4;
-  }
-
-  .print-main {
-    @apply flex-grow;
-  }
-
-  @media print {
-    .print-body {
-      @apply bg-white text-gray-900;
-      font-size: 12pt !important;
-      line-height: 1.4 !important;
-    }
-
-    .no-print {
-      display: none !important;
-    }
-
-    .cv-download-container {
-      display: none !important;
-    }
-
-    .print-text-gray {
-      @apply text-gray-600;
-    }
-
-    .print-text-yellow {
-      @apply text-yellow-600;
-    }
-
-    .print-text-primary {
-      @apply text-gray-900;
-    }
-
-    .print-text-secondary {
-      @apply text-emerald-600;
-    }
-
-    .print-link {
-      @apply text-gray-900 no-underline;
-    }
-
-    .avoid-break {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-  }
-
-  @media screen {
-    body.auto-print {
-      @apply bg-white text-gray-900;
-    }
-  }
-</style>
 
 <script>
   if (

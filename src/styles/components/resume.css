@@ -6,12 +6,6 @@
   --resume-light: #999999;
 }
 
-.resume-container {
-  color: var(--resume-text);
-  background: white;
-}
-
-/* Clases de colores personalizadas */
 .text-resume-red {
   color: var(--resume-red);
 }
@@ -32,36 +26,6 @@
   color: var(--resume-light);
 }
 
-/* Tamaños de fuente personalizados (no disponibles en Tailwind) */
-.text-32pt {
-  font-size: 32pt;
-}
-
-.text-7pt {
-  font-size: 7.6pt;
-}
-
-.text-8pt {
-  font-size: 8pt;
-}
-
-.text-6pt {
-  font-size: 6.8pt;
-}
-
-.text-9pt {
-  font-size: 9pt;
-}
-
-.text-16pt {
-  font-size: 16pt;
-}
-
-.text-10pt {
-  font-size: 10pt;
-}
-
-/* Variantes de fuente personalizadas */
 .font-small-caps {
   font-variant: small-caps;
 }
@@ -70,13 +34,11 @@
   margin-bottom: -0.5mm;
 }
 
-/* Control de salto de página */
 .break-inside-avoid {
   page-break-inside: avoid;
   break-inside: avoid;
 }
 
-/* Layouts de tabla específicos para el CV */
 .resume-entry-header {
   display: table;
   width: 100%;
@@ -133,8 +95,6 @@
   width: 2.5cm;
 }
 
-/* Estilos complejos que no se pueden reemplazar fácilmente con Tailwind */
-
 .resume-header-social-sep::before {
   content: "|";
   color: var(--resume-gray);
@@ -155,7 +115,6 @@
   left: 0;
 }
 
-/* Estilos específicos de tamaño de fuente que son difíciles de manejar con Tailwind */
 .resume-header-firstname,
 .resume-header-lastname {
   font-size: 32pt;
@@ -210,7 +169,6 @@
   font-size: 10pt;
 }
 
-/* Estilos de table layout específicos */
 .resume-entry-header {
   display: table;
   width: 100%;
@@ -267,130 +225,80 @@
   width: 2.5cm;
 }
 
-/* Estilos de impresión */
-@media print {
-  @page {
-    margin: 0;
-    size: A4;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  .resume-container {
-    margin: 0;
-    font-size: 12pt !important;
-    line-height: 1.4 !important;
-    padding: 0.8cm 1.4cm 1.8cm 1.4cm !important;
-    box-sizing: border-box;
-  }
-
-  /* Page break controls */
-  .resume-entry {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  .resume-section {
-    page-break-after: avoid;
-  }
-
-  /* Font size adjustments for print */
-  .resume-header-firstname,
-  .resume-header-lastname {
-    font-size: 28pt !important;
-  }
-
-  .resume-header-position {
-    font-size: 7pt !important;
-  }
-
-  .resume-header-address {
-    font-size: 7pt !important;
-  }
-
-  .resume-header-social {
-    font-size: 6pt !important;
-  }
-
-  .resume-header-quote {
-    font-size: 8pt !important;
-  }
-
-  .resume-section-title {
-    font-size: 14pt !important;
-  }
-
-  .resume-entry-title {
-    font-size: 9pt !important;
-  }
-
-  .resume-entry-position {
-    font-size: 7pt !important;
-  }
-
-  .resume-entry-location,
-  .resume-entry-date {
-    font-size: 8pt !important;
-  }
-
-  .resume-entry-description,
-  .resume-items li,
-  .resume-skill-set,
-  .resume-paragraph {
-    font-size: 8pt !important;
-  }
-
-  .resume-skill-type {
-    font-size: 9pt !important;
-  }
+@page {
+  margin: 0;
+  size: A4;
 }
 
-/* Estilos responsive para móvil */
-@media screen and (max-width: 768px) {
-  .resume-entry-header {
-    display: block;
-  }
+body {
+  margin: 0;
+  padding: 0;
+}
 
-  .resume-entry-left,
-  .resume-entry-right {
-    display: block;
-    width: 100%;
-  }
+.resume-container {
+  margin: 0;
+  font-size: 12pt !important;
+  line-height: 1.4 !important;
+  padding: 0.8cm 1.4cm 1.8cm 1.4cm !important;
+  box-sizing: border-box;
+}
 
-  .resume-entry-right {
-    text-align: left;
-    margin-top: 0.5rem;
-  }
+/* Page break controls */
+.resume-entry {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
 
-  .resume-skill {
-    display: block;
-  }
+.resume-section {
+  page-break-after: avoid;
+}
 
-  .resume-skill-type {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding-right: 0;
-    margin-bottom: 0.5rem;
-  }
+/* Font size adjustments for print */
+.resume-header-firstname,
+.resume-header-lastname {
+  font-size: 28pt !important;
+}
 
-  .resume-skill-set {
-    display: block;
-  }
+.resume-header-position {
+  font-size: 7pt !important;
+}
 
-  .resume-honor {
-    display: block;
-  }
+.resume-header-address {
+  font-size: 7pt !important;
+}
 
-  .resume-honor-date,
-  .resume-honor-content,
-  .resume-honor-location {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 0;
-  }
+.resume-header-social {
+  font-size: 6pt !important;
+}
+
+.resume-header-quote {
+  font-size: 8pt !important;
+}
+
+.resume-section-title {
+  font-size: 14pt !important;
+}
+
+.resume-entry-title {
+  font-size: 9pt !important;
+}
+
+.resume-entry-position {
+  font-size: 7pt !important;
+}
+
+.resume-entry-location,
+.resume-entry-date {
+  font-size: 8pt !important;
+}
+
+.resume-entry-description,
+.resume-items li,
+.resume-skill-set,
+.resume-paragraph {
+  font-size: 8pt !important;
+}
+
+.resume-skill-type {
+  font-size: 9pt !important;
 }

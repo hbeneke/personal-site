@@ -25,7 +25,10 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="resume-container">
+  <body
+    class="text-gray-800 bg-white font-jetbrains"
+    style="color: var(--resume-text);"
+  >
     <main class="print-main">
       <slot />
     </main>
@@ -34,7 +37,7 @@ const {
 
 <style is:global>
   .print-body {
-    @apply mx-auto min-w-[350px] font-jetbrains min-h-screen max-w-3xl bg-white text-sm font-normal text-gray-900 antialiased px-4 pt-4;
+    @apply mx-auto min-w-[350px] min-h-screen max-w-3xl bg-white text-sm font-normal text-gray-900 antialiased px-4 pt-4;
   }
 
   .print-main {

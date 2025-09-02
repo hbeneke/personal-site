@@ -7,233 +7,267 @@
 }
 
 .resume-container {
-  @apply font-sans text-sm leading-relaxed;
   color: var(--resume-text);
   background: white;
 }
 
-.resume-header {
-  @apply text-center mb-6;
-}
-
-.resume-header-name {
-  @apply mb-1 leading-none;
-}
-
-.resume-header-firstname {
-  @apply mr-1;
-  font-size: 32pt;
-  font-weight: 300;
-  color: var(--resume-gray);
-}
-
-.resume-header-lastname {
-  font-size: 32pt;
-  font-weight: 700;
-  color: var(--resume-text);
-}
-
-.resume-header-position {
-  @apply mb-1 tracking-wider uppercase;
-  font-size: 7.6pt;
-  font-variant: small-caps;
+/* Clases de colores personalizadas */
+.text-resume-red {
   color: var(--resume-red);
 }
 
-.resume-header-address {
-  @apply italic;
-  font-size: 8pt;
-  color: var(--resume-light);
-  margin-bottom: -0.5mm;
+.text-resume-dark {
+  color: var(--resume-dark);
 }
 
-.resume-header-social {
-  @apply mb-6;
-  font-size: 6.8pt;
+.text-resume-text {
   color: var(--resume-text);
 }
 
-.resume-header-social-sep {
-  @apply mx-2;
+.text-resume-gray {
+  color: var(--resume-gray);
 }
+
+.text-resume-light {
+  color: var(--resume-light);
+}
+
+/* Tamaños de fuente personalizados (no disponibles en Tailwind) */
+.text-32pt {
+  font-size: 32pt;
+}
+
+.text-7pt {
+  font-size: 7.6pt;
+}
+
+.text-8pt {
+  font-size: 8pt;
+}
+
+.text-6pt {
+  font-size: 6.8pt;
+}
+
+.text-9pt {
+  font-size: 9pt;
+}
+
+.text-16pt {
+  font-size: 16pt;
+}
+
+.text-10pt {
+  font-size: 10pt;
+}
+
+/* Variantes de fuente personalizadas */
+.font-small-caps {
+  font-variant: small-caps;
+}
+
+.mb-negative {
+  margin-bottom: -0.5mm;
+}
+
+/* Control de salto de página */
+.break-inside-avoid {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Layouts de tabla específicos para el CV */
+.resume-entry-header {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.resume-entry-left {
+  display: table-cell;
+  vertical-align: top;
+  width: calc(100% - 4.5cm);
+}
+
+.resume-entry-right {
+  display: table-cell;
+  vertical-align: top;
+  width: 4.5cm;
+}
+
+.resume-skill {
+  display: table;
+  width: 100%;
+}
+
+.resume-skill-type {
+  display: table-cell;
+  vertical-align: top;
+  width: 20%;
+}
+
+.resume-skill-set {
+  display: table-cell;
+}
+
+.resume-honor {
+  display: table;
+  width: 100%;
+}
+
+.resume-honor-date {
+  display: table-cell;
+  vertical-align: top;
+  width: 1.5cm;
+}
+
+.resume-honor-content {
+  display: table-cell;
+  vertical-align: top;
+  width: calc(100% - 4cm);
+}
+
+.resume-honor-location {
+  display: table-cell;
+  vertical-align: top;
+  width: 2.5cm;
+}
+
+/* Estilos complejos que no se pueden reemplazar fácilmente con Tailwind */
 
 .resume-header-social-sep::before {
   content: "|";
   color: var(--resume-gray);
 }
 
-.resume-header-quote {
-  @apply italic mt-5;
-  font-size: 9pt;
-  color: var(--resume-dark);
+.resume-section-title::after {
+  content: "";
+  flex: 1;
+  height: 0.9pt;
+  background-color: var(--resume-gray);
+  margin-left: 1rem;
 }
 
-.resume-section {
-  @apply mt-3 mb-3;
+.resume-items li::before {
+  content: "•";
+  color: var(--resume-text);
+  position: absolute;
+  left: 0;
+}
+
+/* Estilos específicos de tamaño de fuente que son difíciles de manejar con Tailwind */
+.resume-header-firstname,
+.resume-header-lastname {
+  font-size: 32pt;
+}
+
+.resume-header-position {
+  font-size: 7.6pt;
+  font-variant: small-caps;
+}
+
+.resume-header-address {
+  font-size: 8pt;
+  margin-bottom: -0.5mm;
+}
+
+.resume-header-social {
+  font-size: 6.8pt;
+}
+
+.resume-header-quote {
+  font-size: 9pt;
 }
 
 .resume-section-title {
-  @apply font-bold mb-2 flex items-center;
   font-size: 16pt;
-  color: var(--resume-text);
 }
 
-.resume-section-title::after {
-  @apply flex-1 ml-4;
-  content: "";
-  height: 0.9pt;
-  background-color: var(--resume-gray);
+.resume-entry-title {
+  font-size: 10pt;
 }
 
-.resume-section-title-colored {
-  color: var(--resume-red);
+.resume-entry-position {
+  font-size: 8pt;
+  font-variant: small-caps;
 }
 
-.resume-entries {
-  @apply mt-3;
+.resume-entry-location,
+.resume-entry-date {
+  font-size: 9pt;
 }
 
-.resume-entry {
-  @apply mb-2;
-  page-break-inside: avoid;
-  break-inside: avoid;
+.resume-entry-description,
+.resume-items li,
+.resume-skill-set,
+.resume-paragraph,
+.resume-honor-position,
+.resume-honor-title {
+  font-size: 9pt;
 }
 
+.resume-skill-type {
+  font-size: 10pt;
+}
+
+/* Estilos de table layout específicos */
 .resume-entry-header {
-  @apply table w-full mb-1;
+  display: table;
+  width: 100%;
   table-layout: fixed;
 }
 
 .resume-entry-left {
-  @apply table-cell align-top pr-4;
+  display: table-cell;
+  vertical-align: top;
   width: calc(100% - 4.5cm);
 }
 
 .resume-entry-right {
-  @apply table-cell align-top text-right;
+  display: table-cell;
+  vertical-align: top;
   width: 4.5cm;
 }
 
-.resume-entry-title {
-  @apply font-bold mb-1;
-  font-size: 10pt;
-  color: var(--resume-dark);
-}
-
-.resume-entry-position {
-  @apply tracking-wide;
-  font-size: 8pt;
-  font-variant: small-caps;
-  color: var(--resume-gray);
-}
-
-.resume-entry-location {
-  @apply italic;
-  font-size: 9pt;
-  font-weight: 300;
-  color: var(--resume-red);
-}
-
-.resume-entry-date {
-  @apply italic;
-  font-size: 8pt;
-  font-weight: 300;
-  color: var(--resume-gray);
-}
-
-.resume-entry-description {
-  @apply mt-1 leading-relaxed;
-  font-size: 9pt;
-  font-weight: 300;
-  color: var(--resume-text);
-}
-
-.resume-items {
-  @apply my-1 pl-8 list-none;
-}
-
-.resume-items li {
-  @apply relative mb-1 pl-4 leading-relaxed;
-  font-size: 9pt;
-  font-weight: 300;
-  color: var(--resume-text);
-}
-
-.resume-items li::before {
-  @apply absolute left-0;
-  content: "•";
-  color: var(--resume-text);
-}
-
-.resume-skills {
-  @apply mt-3;
-}
-
 .resume-skill {
-  @apply table w-full mb-1;
+  display: table;
+  width: 100%;
 }
 
 .resume-skill-type {
-  @apply table-cell align-top text-right pr-4 font-bold;
+  display: table-cell;
+  vertical-align: top;
   width: 20%;
-  font-size: 10pt;
-  color: var(--resume-dark);
 }
 
 .resume-skill-set {
-  @apply table-cell leading-relaxed;
-  font-size: 9pt;
-  font-weight: 300;
-  color: var(--resume-text);
-}
-
-.resume-honors {
-  @apply mt-3;
+  display: table-cell;
 }
 
 .resume-honor {
-  @apply table w-full mb-2;
+  display: table;
+  width: 100%;
 }
 
 .resume-honor-date {
-  @apply table-cell align-top text-center;
+  display: table-cell;
+  vertical-align: top;
   width: 1.5cm;
-  font-size: 9pt;
-  color: var(--resume-gray);
 }
 
 .resume-honor-content {
-  @apply table-cell align-top px-1;
+  display: table-cell;
+  vertical-align: top;
   width: calc(100% - 4cm);
 }
 
-.resume-honor-position {
-  @apply font-bold inline;
-  font-size: 9pt;
-  color: var(--resume-dark);
-}
-
-.resume-honor-title {
-  @apply inline;
-  font-size: 9pt;
-  color: var(--resume-gray);
-}
-
 .resume-honor-location {
-  @apply table-cell align-top text-right italic;
+  display: table-cell;
+  vertical-align: top;
   width: 2.5cm;
-  font-size: 9pt;
-  font-weight: 300;
-  color: var(--resume-red);
 }
 
-.resume-paragraph {
-  @apply mt-3 leading-relaxed text-justify;
-  font-size: 9pt;
-  font-weight: 300;
-  color: var(--resume-text);
-}
-
+/* Estilos de impresión */
 @media print {
   @page {
     margin: 0;
@@ -241,17 +275,19 @@
   }
 
   body {
-    @apply m-0 p-0;
+    margin: 0;
+    padding: 0;
   }
 
   .resume-container {
-    @apply m-0;
+    margin: 0;
     font-size: 12pt !important;
     line-height: 1.4 !important;
     padding: 0.8cm 1.4cm 1.8cm 1.4cm !important;
     box-sizing: border-box;
   }
 
+  /* Page break controls */
   .resume-entry {
     page-break-inside: avoid;
     break-inside: avoid;
@@ -261,123 +297,100 @@
     page-break-after: avoid;
   }
 
+  /* Font size adjustments for print */
   .resume-header-firstname,
   .resume-header-lastname {
-    font-size: 28pt;
+    font-size: 28pt !important;
   }
 
   .resume-header-position {
-    font-size: 7pt;
+    font-size: 7pt !important;
   }
 
   .resume-header-address {
-    font-size: 7pt;
+    font-size: 7pt !important;
   }
 
   .resume-header-social {
-    font-size: 6pt;
+    font-size: 6pt !important;
   }
 
   .resume-header-quote {
-    font-size: 8pt;
+    font-size: 8pt !important;
   }
 
   .resume-section-title {
-    font-size: 14pt;
+    font-size: 14pt !important;
   }
 
   .resume-entry-title {
-    font-size: 9pt;
+    font-size: 9pt !important;
   }
 
   .resume-entry-position {
-    font-size: 7pt;
+    font-size: 7pt !important;
   }
 
   .resume-entry-location,
   .resume-entry-date {
-    font-size: 8pt;
+    font-size: 8pt !important;
   }
 
   .resume-entry-description,
   .resume-items li,
   .resume-skill-set,
   .resume-paragraph {
-    font-size: 8pt;
+    font-size: 8pt !important;
   }
 
   .resume-skill-type {
-    font-size: 9pt;
+    font-size: 9pt !important;
   }
 }
 
+/* Estilos responsive para móvil */
 @media screen and (max-width: 768px) {
   .resume-entry-header {
-    @apply block;
+    display: block;
   }
 
   .resume-entry-left,
   .resume-entry-right {
-    @apply block w-full;
+    display: block;
+    width: 100%;
   }
 
   .resume-entry-right {
-    @apply text-left mt-2;
+    text-align: left;
+    margin-top: 0.5rem;
   }
 
   .resume-skill {
-    @apply block;
+    display: block;
   }
 
   .resume-skill-type {
-    @apply block w-full text-left pr-0 mb-2;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding-right: 0;
+    margin-bottom: 0.5rem;
   }
 
   .resume-skill-set {
-    @apply block;
+    display: block;
   }
 
   .resume-honor {
-    @apply block;
+    display: block;
   }
 
   .resume-honor-date,
   .resume-honor-content,
   .resume-honor-location {
-    @apply block w-full text-left p-0;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0;
   }
-}
-
-.resume-text-red {
-  color: var(--resume-red);
-}
-.resume-text-dark {
-  color: var(--resume-dark);
-}
-.resume-text-gray {
-  color: var(--resume-gray);
-}
-.resume-text-light {
-  color: var(--resume-light);
-}
-
-.resume-font-light {
-  font-weight: 300;
-}
-.resume-font-normal {
-  font-weight: 400;
-}
-.resume-font-medium {
-  font-weight: 500;
-}
-.resume-font-bold {
-  font-weight: 700;
-}
-
-.resume-italic {
-  @apply italic;
-}
-.resume-small-caps {
-  font-variant: small-caps;
-  @apply tracking-wide;
 }

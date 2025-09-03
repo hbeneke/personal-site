@@ -6,9 +6,11 @@ location: "Madrid, Spain"
 position: "Senior Frontend Developer"
 start_date: "Sep. 2018"
 end_date: "Jun. 2020"
-description: "Developed interactive business simulation games for IE Business School, enabling students to experiment with real-world pricing and R&D strategies. Simultaneously served as a JavaScript instructor in a full-time Bootcamp, mentoring students in frontend and full-stack development."
+description: "Joined as Senior Frontend Developer creating business management simulation applications for IE Business School, a prestigious international business school. Developed interactive educational platforms using Vue.js and BEM methodology. Promoted to Lead JavaScript Instructor for the company's development bootcamp, teaching and mentoring junior developers while continuing frontend development responsibilities."
+
 responsibilities:
-    - "Taught Angular, Node.js, and modern ES6+ JavaScript best practices to Bootcamp students."
-    - "Provided hands-on mentoring and code reviews, guiding students to build real-world web applications."
-    - "Contributed to IoT-based smart home automation projects for Mercadona, collaborating with cross-functional teams to integrate devices and data analytics."
+   - "Developed business simulation applications that enabled MBA students to practice strategic decision-making in realistic corporate scenarios."
+   - "Promoted to Lead JavaScript Instructor in the company's internal development bootcamp."
+   - "Built using Vue.js and BEM block methodology."
+   - "Balanced dual responsibilities of software development and technical education"
 ---

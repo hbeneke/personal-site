@@ -1,5 +1,5 @@
 @page {
-  margin: 0 0 1cm 0;
+  margin: 1cm 0 1cm 0;
   size: A4;
   @bottom-center {
     content: "Enrique Quero - Resume";
@@ -43,10 +43,4 @@
 
 .w-honor-location {
   width: 2.5cm;
-}
-
-@media print {
-  body {
-    padding: 1cm;
-  }
 }

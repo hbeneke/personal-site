@@ -6,8 +6,10 @@ location: "Madrid, Spain"
 position: "Senior Full Stack Developer"
 start_date: "Dec. 2016"
 end_date: "Jan. 2018"
-description: "Developed and maintained a real-time advertising bidding platform, similar to Google AdSense, that enabled dynamic ad placements and campaign optimization."
+description: "Developed a real-time advertising platform similar to Google AdSense, providing programmatic advertising solutions for websites using our web plugin. Built to handle millions of data points per second, creating both frontend interfaces and backend bidding systems."
+
 responsibilities:
-    - "Implemented Angular 2+ for the frontend, creating a user-friendly interface with advanced analytics and reporting modules."
-    - "Developed backend services in Python to handle ad auctions and real-time bidding algorithms."
+   - "Create a platform for campaign management, analytics dashboards, and real-time reporting for advertisers and publishers."
+   - "Built using Angular and Python for backend."
+   - "Tackled significant technical challenges in handling high-volume data streams for real-time ad delivery."
 ---

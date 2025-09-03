@@ -37,7 +37,7 @@ const years = await getWorkExperienceYears();
       <div
         class="text-[9pt] mt-3 leading-relaxed text-justify font-light text-gray-800"
       >
-        I am a developer with over 10 years of experience in web development,
+        Web developer with over 10 years of experience in web development,
         always looking for new challenges and projects that feed my motto of
         "Never Stop Learning."
       </div>
@@ -73,9 +73,9 @@ const years = await getWorkExperienceYears();
               </div>
               {experience.responsibilities &&
                 experience.responsibilities.length > 0 && (
-                  <ul class="my-1 list-none">
+                  <ul class="list-none pl-1">
                     {experience.responsibilities.map((responsibility) => (
-                      <li class="relative mb-1 pl-4 font-light text-[9pt] text-gray-800 bullet-point">
+                      <li class="relative pl-3 font-light text-[9pt] text-gray-800 bullet-point tracking-tighter">
                         {responsibility}
                       </li>
                     ))}

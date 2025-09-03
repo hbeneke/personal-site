@@ -3,13 +3,13 @@ company: "Dimática"
 company_url: https://www.dimaticasoftware.com/
 startup: false
 location: "Madrid, Spain"
-position: "Senior Frontend Developer"
+position: "Head of Frontend Development"
 start_date: "Jun. 2020"
 end_date: "Jun. 2021"
-description: "Developed and led the real-time consumption monitoring system for ACS, optimizing energy and water usage in large-scale construction projects like the Berlin Metro. Expanded scope from frontend development to backend services, ultimately leading a team of 30 developers."
+description: "Started as a Frontend Developer in a 4-person innovation pod creating an MVP for ACS that was selected for full-scale production. Promoted to Frontend Development Lead as the project expanded to a 20-developer team. Built a comprehensive dashboard connecting field engineers via tablets to hundreds of sensors deployed across the Berlin Metro construction site."
+
 responsibilities:
-    - "Created a customizable dashboard for engineering teams to track and analyze data from on-site sensors, improving resource allocation and reducing costs."
-    - "Promoted to Development Lead when the team grew from 3 to 30 members, overseeing sprint planning, code reviews, and cross-team communication."
-    - "Integrated new sensor types to monitor cement pouring metrics, enabling data-driven decisions during critical construction phases."
-    - "Employed Agile methodologies to ensure rapid prototyping, iterative development, and seamless scaling across various construction sites."
+   - "Developed the initial MVP dashboard that enabled engineers to monitor hundreds of construction sensors in real-time via tablets, contributing to its selection for full production."
+   - "Promoted to Head of Frontend as the project scaled from a 4-person pod to a 20-developer team."
+   - "Built using Angular, then led the migration to React when the team expanded."
 ---

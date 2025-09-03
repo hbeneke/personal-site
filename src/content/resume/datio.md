@@ -6,8 +6,9 @@ location: "Madrid, Spain"
 position: "Big Data Script Developer"
 start_date: "Jan. 2018"
 end_date: "Sep. 2018"
-description: "Designed and implemented ETL pipelines and real-time dashboards for an energy company managing wind turbines and solar plants. Focused on large-scale data processing and automation to improve operational efficiency."
+description: "Developed ETL pipelines and data processing solutions using Python at a leading big data company, specializing in monitoring systems for Spanish renewable energy infrastructure including wind turbines and solar plants. Focused on large-scale data processing and automation to optimize operational efficiency."
+
 responsibilities:
-    - "Automated report generation and data cleaning, drastically reducing manual workload."
-    - "Optimized data processing scripts for scalability and reliability, improving overall system throughput."
+   - "Built ETL pipelines to process and analyze data streams from renewable energy installations across Spain"
+   - "Built using Python for scripting to collect the data."
 ---

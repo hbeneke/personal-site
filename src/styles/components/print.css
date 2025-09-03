@@ -1,6 +1,11 @@
 @page {
-  margin: 0;
+  margin: 0 0 1cm 0;
   size: A4;
+  @bottom-center {
+    content: "Enrique Quero - Resume";
+    font-size: 9pt;
+    color: #bbbaba;
+  }
 }
 
 .section-title-line::after {
@@ -9,6 +14,8 @@
   height: 0.9pt;
   background-color: #5d5d5d;
   margin-left: 1rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .bullet-point::before {
@@ -16,4 +23,30 @@
   color: #333333;
   position: absolute;
   left: 0;
+}
+
+.w-entry-left {
+  width: calc(100% - 4.5cm);
+}
+
+.w-entry-right {
+  width: 4.5cm;
+}
+
+.w-honor-date {
+  width: 1.5cm;
+}
+
+.w-honor-content {
+  width: calc(100% - 4cm);
+}
+
+.w-honor-location {
+  width: 2.5cm;
+}
+
+@media print {
+  body {
+    padding: 1cm;
+  }
 }

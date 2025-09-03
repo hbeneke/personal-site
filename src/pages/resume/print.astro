@@ -12,12 +12,12 @@ const years = await getWorkExperienceYears();
   title={`Resume · ${siteConfig.siteTitle}`}
   description={`Professional resume of ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle} specializing in Javascript and modern web technologies.`}
 >
-  <div class="resume-container max-w-3xl">
+  <div class="m-0 text-xs leading-relaxed p-8 max-w-3xl">
     <header class="text-center mb-6">
-      <span class="text-[32pt] mr-1 font-light text-resume-gray">Enrique</span>
-      <span class="text-[32pt] font-bold text-resume-text">Quero</span>
+      <span class="text-[32pt] mr-1 font-light text-gray-600">Enrique</span>
+      <span class="text-[32pt] font-bold text-gray-800">Quero</span>
       <div
-        class="text-[8pt] mb-1 tracking-wider uppercase font-small-caps text-resume-red"
+        class="text-[8pt] mb-1 tracking-wider uppercase font-small-caps text-red-600"
       >
         Senior {siteConfig.jobTitle} / Tech lead
       </div>
@@ -31,12 +31,12 @@ const years = await getWorkExperienceYears();
 
     <section class="my-3">
       <h2
-        class="resume-section-title text-[16pt] font-bold mb-2 flex items-center text-resume-text"
+        class="text-lg font-bold mb-2 flex items-center text-gray-800 section-title-line"
       >
-        <span class="text-resume-red">Summary</span>
+        <span class="text-red-600">Summary</span>
       </h2>
       <div
-        class="text-[9pt] mt-3 leading-relaxed text-justify font-light text-resume-text"
+        class="text-[9pt] mt-3 leading-relaxed text-justify font-light text-gray-800"
       >
         {calculateDuration(years.start, years.end)} experience specializing in Web
         Development. Linux Lover and interested in devising a better problem-solving
@@ -47,41 +47,46 @@ const years = await getWorkExperienceYears();
 
     <section class="my-3">
       <h2
-        class="resume-section-title text-[16pt] font-bold mb-2 flex items-center text-resume-text"
+        class="text-lg font-bold mb-2 flex items-center text-gray-800 section-title-line"
       >
-        <span class="text-resume-red">Work Experience</span>
+        <span class="text-red-600">Work Experience</span>
       </h2>
       <div class="mt-3">
         {
           work_experience.map((experience) => (
             <div class="mb-2 break-inside-avoid">
-              >
-              <div class="resume-entry-header mb-1">
-                <div class="resume-entry-left pr-4">
-                  <div class="text-[10pt] font-bold mb-1 text-resume-dark">
+              <div class="table w-full table-fixed mb-1">
+                <div
+                  class="table-cell align-top pr-4"
+                  style="width: calc(100% - 4.5cm);"
+                >
+                  <div class="text-sm font-bold mb-1 text-gray-700">
                     {experience.company}
                   </div>
-                  <div class="text-[8pt] tracking-wide font-small-caps text-resume-gray">
+                  <div class="text-xs tracking-wide font-semibold uppercase text-gray-600">
                     {experience.position}
                   </div>
                 </div>
-                <div class="resume-entry-right text-right">
-                  <div class="text-[9pt] italic font-light text-resume-red">
+                <div
+                  class="table-cell align-top text-right"
+                  style="width: 4.5cm;"
+                >
+                  <div class="text-sm italic font-light text-red-600">
                     {experience.location}
                   </div>
-                  <div class="text-[8pt] italic font-light text-resume-gray">
+                  <div class="text-xs italic font-light text-gray-600">
                     {`${experience.start_date} – ${experience.end_date}`}
                   </div>
                 </div>
               </div>
-              <div class="text-[9pt] mt-1 leading-relaxed font-light text-resume-text">
+              <div class="text-sm mt-1 leading-relaxed font-light text-gray-800">
                 {experience.description}
               </div>
               {experience.responsibilities &&
                 experience.responsibilities.length > 0 && (
-                  <ul class="resume-items my-1 pl-8 list-none">
+                  <ul class="my-1 pl-8 list-none">
                     {experience.responsibilities.map((responsibility) => (
-                      <li class="relative mb-1 pl-4 leading-relaxed font-light text-[9pt] text-resume-text">
+                      <li class="relative mb-1 pl-4 leading-relaxed font-light text-sm text-gray-800 bullet-point">
                         {responsibility}
                       </li>
                     ))}
@@ -95,121 +100,130 @@ const years = await getWorkExperienceYears();
 
     <section class="my-3">
       <h2
-        class="resume-section-title text-[16pt] font-bold mb-2 flex items-center text-resume-text"
+        class="text-lg font-bold mb-2 flex items-center text-gray-800 section-title-line"
       >
-        <span class="text-resume-red">Skills</span>
+        <span class="text-red-600">Skills</span>
       </h2>
       <div class="mt-3">
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Web Layout
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Extensive experience with CSS, HTML, and CSS extension languages
             (SASS, LESS).
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Frontend & Web Frameworks
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Expertise in AngularJS, Angular2+, NgRx, Vue.js, Vuex, JavaScript
             (Vanilla), jQuery, TypeScript, ES6+.
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Backend & Frameworks
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Proficient in PHP, Python, Symfony. Intermediate experience with
             Laravel and Node.js.
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Compiled Programming Languages
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Basic experience with Java, focused on Android app development.
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Databases
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Intermediate experience with MongoDB, SQL (MariaDB, MySQL).
             Currently pursuing MongoDB official certification.
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             DevOps
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Advanced proficiency in Linux environments, AWS, Google Cloud
             Platform. Experienced with Docker, currently undertaking a 40-hour
             course in Kubernetes.
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Agile Methodologies
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Highly experienced with Scrum and Continuous Integration.
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Tools
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             Advanced proficiency in Git (GitFlow, ForkFlow).
           </div>
         </div>
-        <div class="resume-skill mb-1">
+        <div class="table w-full mb-1">
           <div
-            class="resume-skill-type text-[10pt] text-right pr-4 font-bold text-resume-dark"
+            class="table-cell align-top text-right pr-4 font-bold text-gray-700 text-sm"
+            style="width: 20%;"
           >
             Languages
           </div>
           <div
-            class="resume-skill-set text-[9pt] leading-relaxed font-light text-resume-text"
+            class="table-cell text-sm leading-relaxed font-light text-gray-800"
           >
             First Certificate in English (B2), Cambridge College. Native Spanish
             speaker.
@@ -220,38 +234,36 @@ const years = await getWorkExperienceYears();
 
     <section class="my-3">
       <h2
-        class="resume-section-title text-[16pt] font-bold mb-2 flex items-center text-resume-text"
+        class="text-lg font-bold mb-2 flex items-center text-gray-800 section-title-line"
       >
-        <span class="text-resume-red">Education</span>
+        <span class="text-red-600">Education</span>
       </h2>
       <div class="mt-3">
-        <div
-          class="mb-2"
-          style="page-break-inside: avoid; break-inside: avoid;"
-        >
-          <div class="resume-entry-header mb-1">
-            <div class="resume-entry-left pr-4">
-              <div class="text-[10pt] font-bold mb-1 text-resume-dark">
+        <div class="mb-2 break-inside-avoid">
+          <div class="table w-full table-fixed mb-1">
+            <div
+              class="table-cell align-top pr-4"
+              style="width: calc(100% - 4.5cm);"
+            >
+              <div class="text-sm font-bold mb-1 text-gray-700">
                 IES AL-Andalus
               </div>
               <div
-                class="text-[8pt] tracking-wide font-small-caps text-resume-gray"
+                class="text-xs tracking-wide font-semibold uppercase text-gray-600"
               >
                 Top Technician ~ DAM
               </div>
             </div>
-            <div class="resume-entry-right text-right">
-              <div class="text-[9pt] italic font-light text-resume-red">
+            <div class="table-cell align-top text-right" style="width: 4.5cm;">
+              <div class="text-sm italic font-light text-red-600">
                 Almeria, Spain
               </div>
-              <div class="text-[8pt] italic font-light text-resume-gray">
-                2013
-              </div>
+              <div class="text-xs italic font-light text-gray-600">2013</div>
             </div>
           </div>
-          <ul class="resume-items my-1 pl-8 list-none">
+          <ul class="my-1 pl-8 list-none">
             <li
-              class="relative mb-1 pl-4 leading-relaxed font-light text-[9pt] text-resume-text"
+              class="relative mb-1 pl-4 leading-relaxed font-light text-sm text-gray-800 bullet-point"
             >
               This course is more oriented to the mobile app development
             </li>
@@ -262,159 +274,197 @@ const years = await getWorkExperienceYears();
 
     <section class="my-3">
       <h2
-        class="resume-section-title text-[16pt] font-bold mb-2 flex items-center text-resume-text"
+        class="text-lg font-bold mb-2 flex items-center text-gray-800 section-title-line"
       >
-        <span class="text-resume-red">Honors & Awards</span>
+        <span class="text-red-600">Honors & Awards</span>
       </h2>
       <div class="mt-3">
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2015
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700"
               >Finalist, Copper Prize</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+            >, <span class="text-sm inline text-gray-600"
               >Startup Weekend Europe</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Madrid, Spain
           </div>
         </div>
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2015
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
-              >Finalist</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700">Finalist</span
+            >, <span class="text-sm inline text-gray-600"
               >Startup Weekend Madrid</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Madrid, Spain
           </div>
         </div>
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2016
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
-              >2nd Place</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700">2nd Place</span
+            >, <span class="text-sm inline text-gray-600"
               >Startup Weekend Madrid</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Madrid, Spain
           </div>
         </div>
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2017
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700"
               >5th Position</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+            >, <span class="text-sm inline text-gray-600"
               >Startup Weekend Madrid</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Madrid, Spain
           </div>
         </div>
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2014
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700"
               >Betabeers Organizator</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+            >, <span class="text-sm inline text-gray-600"
               >Betabeers Meetups</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Almeria, Spain
           </div>
         </div>
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2015
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700"
               >Betabeers Organizator</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+            >, <span class="text-sm inline text-gray-600"
               >Betabeers Meetups</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Almeria, Spain
           </div>
         </div>
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2016
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700"
               >Betabeers Organizator</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+            >, <span class="text-sm inline text-gray-600"
               >Betabeers Meetups</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Almeria, Spain
           </div>
         </div>
-        <div class="resume-honor mb-2">
+        <div class="table w-full mb-2">
           <div
-            class="resume-honor-date text-[9pt] text-center text-resume-gray"
+            class="table-cell align-top text-center text-gray-600 text-sm"
+            style="width: 1.5cm;"
           >
             2017
           </div>
-          <div class="resume-honor-content px-1">
-            <span class="text-[9pt] font-bold inline text-resume-dark"
+          <div
+            class="table-cell align-top px-1"
+            style="width: calc(100% - 4cm);"
+          >
+            <span class="text-sm font-bold inline text-gray-700"
               >Betabeers Organizator</span
-            >, <span class="text-[9pt] inline text-resume-gray"
+            >, <span class="text-sm inline text-gray-600"
               >Betabeers Meetups</span
             >
           </div>
           <div
-            class="resume-honor-location text-[9pt] text-right italic font-light text-resume-red"
+            class="table-cell align-top text-right italic font-light text-red-600 text-sm"
+            style="width: 2.5cm;"
           >
             Almeria, Spain
           </div>
@@ -424,35 +474,36 @@ const years = await getWorkExperienceYears();
 
     <section class="my-3">
       <h2
-        class="resume-section-title text-[16pt] font-bold mb-2 flex items-center text-resume-text"
+        class="text-lg font-bold mb-2 flex items-center text-gray-800 section-title-line"
       >
-        <span class="text-resume-red">Extracurricular Activity</span>
+        <span class="text-red-600">Extracurricular Activity</span>
       </h2>
       <div class="mt-3">
         <div class="mb-2 break-inside-avoid">
-          <div class="resume-entry-header mb-1">
-            <div class="resume-entry-left pr-4">
-              <div class="text-[10pt] font-bold mb-1 text-resume-dark">
-                Kracode
-              </div>
+          <div class="table w-full table-fixed mb-1">
+            <div
+              class="table-cell align-top pr-4"
+              style="width: calc(100% - 4.5cm);"
+            >
+              <div class="text-sm font-bold mb-1 text-gray-700">Kracode</div>
               <div
-                class="text-[8pt] tracking-wide font-small-caps text-resume-gray"
+                class="text-xs tracking-wide font-semibold uppercase text-gray-600"
               >
                 Freelancer Developer
               </div>
             </div>
-            <div class="resume-entry-right text-right">
-              <div class="text-[9pt] italic font-light text-resume-red">
+            <div class="table-cell align-top text-right" style="width: 4.5cm;">
+              <div class="text-sm italic font-light text-red-600">
                 Madrid, Spain
               </div>
-              <div class="text-[8pt] italic font-light text-resume-gray">
+              <div class="text-xs italic font-light text-gray-600">
                 Jun. 2015 - PRESENT
               </div>
             </div>
           </div>
-          <ul class="resume-items my-1 pl-8 list-none">
+          <ul class="my-1 pl-8 list-none">
             <li
-              class="relative mb-1 pl-4 leading-relaxed font-light text-[9pt] text-resume-text"
+              class="relative mb-1 pl-4 leading-relaxed font-light text-sm text-gray-800 bullet-point"
             >
               I develop web pages for end customers from time to time. The last
               development: Room reservations platform for spa.

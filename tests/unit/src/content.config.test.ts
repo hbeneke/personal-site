@@ -6,6 +6,7 @@ describe("Content Collections Configuration", () => {
   it("should define all required collections", () => {
     expect(collections.resume).toBeDefined();
     expect(collections.skills).toBeDefined();
+    expect(collections.honors).toBeDefined();
     expect(collections.notes).toBeDefined();
     expect(collections.portfolioProjects).toBeDefined();
     expect(collections.posts).toBeDefined();
@@ -208,6 +209,227 @@ describe("Content Collections Configuration", () => {
 
       const result = schema.safeParse(invalidSkillsData);
       expect(result.success).toBe(false);
+    });
+  });
+
+  describe("Honors Collection", () => {
+    it("validates honors schema with valid data", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const validHonorsData = {
+        category: "International",
+        year: "2015",
+        title: "Most Voted by public",
+        location: "Berlin, Germany",
+      };
+
+      const schema =
+        typeof collections.honors.schema === "function"
+          ? collections.honors.schema({} as SchemaContext)
+          : collections.honors.schema;
+
+      const result = schema.safeParse(validHonorsData);
+      expect(result.success).toBe(true);
+    });
+
+    it("validates honors schema with year range", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const validHonorsDataWithRange = {
+        category: "National",
+        year: "2014-2017",
+        title: "Betabeers Organizator",
+        location: "Almeria, Spain",
+      };
+
+      const schema =
+        typeof collections.honors.schema === "function"
+          ? collections.honors.schema({} as SchemaContext)
+          : collections.honors.schema;
+
+      const result = schema.safeParse(validHonorsDataWithRange);
+      expect(result.success).toBe(true);
+    });
+
+    it("validates honors schema with different categories", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const categories = ["International", "National", "Regional", "Local"];
+
+      for (const category of categories) {
+        const validHonorsData = {
+          category,
+          year: "2020",
+          title: `Test ${category} Honor`,
+          location: "Test Location",
+        };
+
+        const schema =
+          typeof collections.honors.schema === "function"
+            ? collections.honors.schema({} as SchemaContext)
+            : collections.honors.schema;
+
+        const result = schema.safeParse(validHonorsData);
+        expect(result.success).toBe(true);
+      }
+    });
+
+    it("rejects invalid honors data missing category", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const invalidHonorsData = {
+        // Missing required 'category' field
+        year: "2015",
+        title: "Most Voted by public",
+        location: "Berlin, Germany",
+      };
+
+      const schema =
+        typeof collections.honors.schema === "function"
+          ? collections.honors.schema({} as SchemaContext)
+          : collections.honors.schema;
+
+      const result = schema.safeParse(invalidHonorsData);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects invalid honors data missing year", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const invalidHonorsData = {
+        category: "International",
+        // Missing required 'year' field
+        title: "Most Voted by public",
+        location: "Berlin, Germany",
+      };
+
+      const schema =
+        typeof collections.honors.schema === "function"
+          ? collections.honors.schema({} as SchemaContext)
+          : collections.honors.schema;
+
+      const result = schema.safeParse(invalidHonorsData);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects invalid honors data missing title", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const invalidHonorsData = {
+        category: "International",
+        year: "2015",
+        // Missing required 'title' field
+        location: "Berlin, Germany",
+      };
+
+      const schema =
+        typeof collections.honors.schema === "function"
+          ? collections.honors.schema({} as SchemaContext)
+          : collections.honors.schema;
+
+      const result = schema.safeParse(invalidHonorsData);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects invalid honors data missing location", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const invalidHonorsData = {
+        category: "International",
+        year: "2015",
+        title: "Most Voted by public",
+        // Missing required 'location' field
+      };
+
+      const schema =
+        typeof collections.honors.schema === "function"
+          ? collections.honors.schema({} as SchemaContext)
+          : collections.honors.schema;
+
+      const result = schema.safeParse(invalidHonorsData);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects invalid honors data with wrong data types", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const invalidHonorsDataTypes = [
+        {
+          category: 123, // Should be string
+          year: "2015",
+          title: "Most Voted by public",
+          location: "Berlin, Germany",
+        },
+        {
+          category: "International",
+          year: 2015, // Should be string
+          title: "Most Voted by public",
+          location: "Berlin, Germany",
+        },
+        {
+          category: "International",
+          year: "2015",
+          title: true, // Should be string
+          location: "Berlin, Germany",
+        },
+        {
+          category: "International",
+          year: "2015",
+          title: "Most Voted by public",
+          location: ["Berlin", "Germany"], // Should be string
+        },
+      ];
+
+      const schema =
+        typeof collections.honors.schema === "function"
+          ? collections.honors.schema({} as SchemaContext)
+          : collections.honors.schema;
+
+      for (const invalidData of invalidHonorsDataTypes) {
+        const result = schema.safeParse(invalidData);
+        expect(result.success).toBe(false);
+      }
+    });
+
+    it("accepts various year formats", () => {
+      if (!collections.honors || !collections.honors.schema) {
+        expect.fail("Honors schema is not defined");
+      }
+
+      const yearFormats = ["2015", "2014-2017", "2020-2022", "2010", "1999-2001"];
+
+      for (const year of yearFormats) {
+        const validHonorsData = {
+          category: "Test",
+          year,
+          title: "Test Honor",
+          location: "Test Location",
+        };
+
+        const schema =
+          typeof collections.honors.schema === "function"
+            ? collections.honors.schema({} as SchemaContext)
+            : collections.honors.schema;
+
+        const result = schema.safeParse(validHonorsData);
+        expect(result.success).toBe(true);
+      }
     });
   });
 

@@ -7,3 +7,4 @@ export * from "@/types/post.type";
 export * from "@/types/rss.type";
 export * from "@/types/tag.type";
 export * from "@/types/skill.type";
+export * from "@/types/honor.type";

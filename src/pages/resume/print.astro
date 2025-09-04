@@ -1,11 +1,13 @@
 ---
 import PrintLayout from "@layouts/print-layout.astro";
-import { getAllWorkExperiences, getWorkExperienceYears } from "@utils/resume";
+import { getAllWorkExperiences } from "@utils/resume";
 import { getAllSkills } from "@utils/skills";
+import { getAllHonorsGroupByCategory } from "@utils/honor";
 import { siteConfig } from "@site-config";
 
 const work_experience = await getAllWorkExperiences();
 const skills = await getAllSkills();
+const honors = await getAllHonorsGroupByCategory(true);
 ---
 
 <PrintLayout
@@ -116,97 +118,31 @@ const skills = await getAllSkills();
       >
         <span class="text-red-600">Hon</span>ors & Awards
       </h2>
-      <div class="mt-3">
-        <div class="text-[10pt] font-bold mb-1 text-gray-800">
-          International
-        </div>
-        <div class="table w-full mb-2 text-[8pt]">
-          <div
-            class="table-cell align-top text-right pr-4 text-gray-800 text-[8pt] w-honor-date"
-          >
-            2015
+      {
+        Object.entries(honors).map(([category, categoryHonors]) => (
+          <div class="mt-3">
+            <div class="text-[10pt] font-bold mb-1 text-gray-800">
+              {category}
+            </div>
+            {categoryHonors.map((honor) => (
+              <div class="table w-full mb-2 text-[8pt]">
+                <div class="table-cell align-top text-right pr-4 text-gray-800 text-[8pt] w-honor-date">
+                  {honor.year}
+                </div>
+                <div class="table-cell text-[8pt] align-top px-1 w-honor-content">
+                  <span class="font-bold inline text-gray-700">
+                    {honor.title}
+                  </span>
+                  , <span class="inline text-gray-600">{honor.location}</span>
+                </div>
+                <div class="table-cell align-top text-right italic font-light text-red-600 w-honor-location">
+                  {honor.location}
+                </div>
+              </div>
+            ))}
           </div>
-          <div class="table-cell text-[8pt] align-top px-1 w-honor-content">
-            <span class="font-bold inline text-gray-700"
-              >Most Voted by public</span
-            >, <span class="inline text-gray-600">Startup Weekend Europe</span>
-          </div>
-          <div
-            class="table-cell align-top text-right italic font-light text-red-600 w-honor-location"
-          >
-            Berlin, Germany
-          </div>
-        </div>
-        <div class="text-[10pt] font-bold mb-1 text-gray-800">National</div>
-        <div class="table w-full text-[8pt]">
-          <div
-            class="table-cell align-top text-right pr-4 text-gray-800 text-[8pt] w-honor-date"
-          >
-            2017
-          </div>
-          <div class="table-cell text-[8pt] align-top px-1 w-honor-content">
-            <span class="font-bold inline text-gray-700">5th Position</span>, <span
-              class="inline text-gray-600">Startup Weekend Madrid</span
-            >
-          </div>
-          <div
-            class="table-cell align-top text-right italic font-light text-red-600 w-honor-location"
-          >
-            Madrid, Spain
-          </div>
-        </div>
-        <div class="table w-full text-[8pt]">
-          <div
-            class="table-cell align-top text-right pr-4 text-gray-800 text-[8pt] w-honor-date"
-          >
-            2016
-          </div>
-          <div class="table-cell text-[8pt] align-top px-1 w-honor-content">
-            <span class="font-bold inline text-gray-700">2nd Place</span>, <span
-              class="inline text-gray-600">Startup Weekend Madrid</span
-            >
-          </div>
-          <div
-            class="table-cell align-top text-right italic font-light text-red-600 w-honor-location"
-          >
-            Madrid, Spain
-          </div>
-        </div>
-        <div class="table w-full text-[8pt]">
-          <div
-            class="table-cell align-top text-right pr-4 text-gray-800 text-[8pt] w-honor-date"
-          >
-            2015
-          </div>
-          <div class="table-cell text-[8pt] align-top px-1 w-honor-content">
-            <span class="font-bold inline text-gray-700">Finalist</span>, <span
-              class="inline text-gray-600">Startup Weekend Madrid</span
-            >
-          </div>
-          <div
-            class="table-cell align-top text-right italic font-light text-red-600 w-honor-location"
-          >
-            Madrid, Spain
-          </div>
-        </div>
-        <div class="table w-full text-[8pt]">
-          <div
-            class="table-cell align-top text-right pr-4 text-gray-800 text-[8pt] w-honor-date"
-          >
-            2014-2017
-          </div>
-          <div class="table-cell text-[8pt] align-top px-1 w-honor-content">
-            <span class="font-bold inline text-gray-700"
-              >Betabeers Organizator</span
-            >, <span class="inline text-gray-600">Betabeers Meetups</span>
-          </div>
-          <div
-            class="table-cell align-top text-right italic font-light text-red-600 w-honor-location"
-          >
-            Almeria, Spain
-          </div>
-        </div>
-      </div>
+        ))
+      }
     </section>
   </div>
 </PrintLayout>

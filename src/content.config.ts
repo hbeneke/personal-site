@@ -25,6 +25,16 @@ const skills = defineCollection({
   }),
 });
 
+const honors = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/honors" }),
+  schema: z.object({
+    category: z.string(),
+    year: z.string(),
+    title: z.string(),
+    location: z.string(),
+  }),
+});
+
 const notes = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
   schema: z.object({
@@ -76,4 +86,4 @@ const tags = defineCollection({
   }),
 });
 
-export const collections = { resume, skills, notes, portfolioProjects, posts, tags };
+export const collections = { resume, skills, honors, notes, portfolioProjects, posts, tags };

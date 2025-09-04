@@ -1,10 +1,11 @@
 ---
 import PrintLayout from "@layouts/print-layout.astro";
 import { getAllWorkExperiences, getWorkExperienceYears } from "@utils/resume";
+import { getAllSkills } from "@utils/skills";
 import { siteConfig } from "@site-config";
 
 const work_experience = await getAllWorkExperiences();
-const years = await getWorkExperienceYears();
+const skills = await getAllSkills();
 ---
 
 <PrintLayout
@@ -93,95 +94,22 @@ const years = await getWorkExperienceYears();
       >
         <span class="text-red-600">Ski</span>lls
       </h2>
-      <div class="mt-3">
-        <div class="table w-full mb-1">
-          <div
-            class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5"
-          >
-            Frontend
+      {
+        skills.map((skill) => (
+          <div class="mt-3">
+            <div class="table w-full mb-1">
+              <div class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5">
+                {skill.name}
+              </div>
+              <div class="table-cell text-xs tracking-tighter font-light text-gray-800">
+                {skill.perks?.map((perk) => `${perk}, `)}
+              </div>
+            </div>
           </div>
-          <div
-            class="table-cell text-xs tracking-tighter font-light text-gray-800"
-          >
-            Angular, Vue, jQuery (Vanilla), TypeScript, ES6+
-          </div>
-        </div>
-        <div class="table w-full mb-1">
-          <div
-            class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5"
-          >
-            Backend
-          </div>
-          <div
-            class="table-cell text-xs tracking-tighter font-light text-gray-800"
-          >
-            PHP, Python, Symfony, Laravel, Node.js
-          </div>
-        </div>
-        <div class="table w-full mb-1">
-          <div
-            class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5"
-          >
-            Databases
-          </div>
-          <div
-            class="table-cell text-xs tracking-tighter font-light text-gray-800"
-          >
-            MongoDB, SQL (MySQL, Oracle), Supabase, SqlLite, Redis
-          </div>
-        </div>
-        <div class="table w-full mb-1">
-          <div
-            class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5"
-          >
-            DevOps
-          </div>
-          <div
-            class="table-cell text-xs tracking-tighter font-light text-gray-800"
-          >
-            CI/CD, AWS, Google Cloud, Docker, Kubernetes, Github Actions,
-            Jenkins
-          </div>
-        </div>
-        <div class="table w-full mb-1">
-          <div
-            class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5"
-          >
-            Agile
-          </div>
-          <div
-            class="table-cell text-xs tracking-tighter font-light text-gray-800"
-          >
-            Scrum, CI/CD, Kanban
-          </div>
-        </div>
-        <div class="table w-full mb-1">
-          <div
-            class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5"
-          >
-            Tools
-          </div>
-          <div
-            class="table-cell text-xs tracking-tighter font-light text-gray-800"
-          >
-            Git (GitFlow, ForkFlow, PullRequestFlow), SVN
-          </div>
-        </div>
-        <div class="table w-full mb-1">
-          <div
-            class="table-cell align-top text-right pr-4 font-bold text-gray-800 text-xs w-1/5"
-          >
-            Languages
-          </div>
-          <div
-            class="table-cell text-xs tracking-tighter font-light text-gray-800"
-          >
-            First Certificate in English (B2), Cambridge College. Native Spanish
-            speaker.
-          </div>
-        </div>
-      </div>
+        ))
+      }
     </section>
+
     <section class="my-3">
       <h2
         class="text-[16pt] font-bold mb-2 flex items-center text-gray-800 section-title-line"

@@ -5,6 +5,7 @@ import type { SchemaContext } from "astro:content";
 describe("Content Collections Configuration", () => {
   it("should define all required collections", () => {
     expect(collections.resume).toBeDefined();
+    expect(collections.skills).toBeDefined();
     expect(collections.notes).toBeDefined();
     expect(collections.portfolioProjects).toBeDefined();
   });

@@ -8,6 +8,8 @@ describe("Content Collections Configuration", () => {
     expect(collections.skills).toBeDefined();
     expect(collections.notes).toBeDefined();
     expect(collections.portfolioProjects).toBeDefined();
+    expect(collections.posts).toBeDefined();
+    expect(collections.tags).toBeDefined();
   });
 
   describe("Resume Collection", () => {
@@ -109,6 +111,103 @@ describe("Content Collections Configuration", () => {
       if (result.success) {
         expect(result.data.startup).toBe(false);
       }
+    });
+  });
+
+  describe("Skills Collection", () => {
+    it("validates skills schema with valid data", () => {
+      if (!collections.skills || !collections.skills.schema) {
+        expect.fail("Skills schema is not defined");
+      }
+
+      const validSkillsData = {
+        name: "Frontend Development",
+        perks: ["React", "Vue.js", "TypeScript", "Tailwind CSS"],
+      };
+
+      const schema =
+        typeof collections.skills.schema === "function"
+          ? collections.skills.schema({} as SchemaContext)
+          : collections.skills.schema;
+
+      const result = schema.safeParse(validSkillsData);
+      expect(result.success).toBe(true);
+    });
+
+    it("validates skills schema with empty perks array", () => {
+      if (!collections.skills || !collections.skills.schema) {
+        expect.fail("Skills schema is not defined");
+      }
+
+      const validSkillsDataEmptyPerks = {
+        name: "New Skill Area",
+        perks: [],
+      };
+
+      const schema =
+        typeof collections.skills.schema === "function"
+          ? collections.skills.schema({} as SchemaContext)
+          : collections.skills.schema;
+
+      const result = schema.safeParse(validSkillsDataEmptyPerks);
+      expect(result.success).toBe(true);
+    });
+
+    it("rejects invalid skills data missing name", () => {
+      if (!collections.skills || !collections.skills.schema) {
+        expect.fail("Skills schema is not defined");
+      }
+
+      const invalidSkillsData = {
+        // Missing required 'name' field
+        perks: ["React", "Vue.js"],
+      };
+
+      const schema =
+        typeof collections.skills.schema === "function"
+          ? collections.skills.schema({} as SchemaContext)
+          : collections.skills.schema;
+
+      const result = schema.safeParse(invalidSkillsData);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects invalid skills data missing perks", () => {
+      if (!collections.skills || !collections.skills.schema) {
+        expect.fail("Skills schema is not defined");
+      }
+
+      const invalidSkillsData = {
+        name: "Frontend Development",
+        // Missing required 'perks' field
+      };
+
+      const schema =
+        typeof collections.skills.schema === "function"
+          ? collections.skills.schema({} as SchemaContext)
+          : collections.skills.schema;
+
+      const result = schema.safeParse(invalidSkillsData);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects invalid skills data with non-array perks", () => {
+      if (!collections.skills || !collections.skills.schema) {
+        expect.fail("Skills schema is not defined");
+      }
+
+      const invalidSkillsData = {
+        name: "Frontend Development",
+        perks: "React, Vue.js", // Should be array, not string
+      };
+
+      const schema =
+        typeof collections.skills.schema === "function"
+          ? collections.skills.schema({} as SchemaContext)
+          : collections.skills.schema;
+
+      const result = schema.safeParse(invalidSkillsData);
+      expect(result.success).toBe(false);
     });
   });
 
@@ -251,6 +350,181 @@ describe("Content Collections Configuration", () => {
       if (result.success) {
         expect(result.data.featured).toBe(false);
       }
+    });
+  });
+
+  describe("Posts Collection", () => {
+    it("validates posts schema with valid data", () => {
+      if (!collections.posts || !collections.posts.schema) {
+        expect.fail("Posts schema is not defined");
+      }
+
+      const validPostData = {
+        title: "Test Blog Post",
+        publishDate: "2023-05-15",
+        slug: "test-blog-post",
+        description: "This is a test blog post",
+        content: "Lorem ipsum dolor sit amet...",
+        tags: ["technology", "programming"],
+        featured: true,
+        draft: false,
+        readTime: 5,
+        updatedDate: "2023-05-16",
+      };
+
+      const schema =
+        typeof collections.posts.schema === "function"
+          ? collections.posts.schema({} as SchemaContext)
+          : collections.posts.schema;
+
+      const result = schema.safeParse(validPostData);
+      expect(result.success).toBe(true);
+    });
+
+    it("validates posts schema with minimal required fields", () => {
+      if (!collections.posts || !collections.posts.schema) {
+        expect.fail("Posts schema is not defined");
+      }
+
+      const minimalPostData = {
+        title: "Minimal Post",
+        publishDate: "2023-05-15",
+        slug: "minimal-post",
+        description: "A minimal post for testing",
+      };
+
+      const schema =
+        typeof collections.posts.schema === "function"
+          ? collections.posts.schema({} as SchemaContext)
+          : collections.posts.schema;
+
+      const result = schema.safeParse(minimalPostData);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.featured).toBe(false);
+        expect(result.data.draft).toBe(false);
+      }
+    });
+
+    it("rejects invalid posts data", () => {
+      if (!collections.posts || !collections.posts.schema) {
+        expect.fail("Posts schema is not defined");
+      }
+
+      const invalidPostData = {
+        // Missing required 'title' field
+        publishDate: "2023-05-15",
+        slug: "test-post",
+        description: "A test post",
+      };
+
+      const schema =
+        typeof collections.posts.schema === "function"
+          ? collections.posts.schema({} as SchemaContext)
+          : collections.posts.schema;
+
+      const result = schema.safeParse(invalidPostData);
+      expect(result.success).toBe(false);
+    });
+
+    it("handles default values for featured and draft fields", () => {
+      if (!collections.posts || !collections.posts.schema) {
+        expect.fail("Posts schema is not defined");
+      }
+
+      const postDataWithoutDefaults = {
+        title: "Test Post",
+        publishDate: "2023-05-15",
+        slug: "test-post",
+        description: "A test post",
+      };
+
+      const schema =
+        typeof collections.posts.schema === "function"
+          ? collections.posts.schema({} as SchemaContext)
+          : collections.posts.schema;
+
+      const result = schema.safeParse(postDataWithoutDefaults);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.featured).toBe(false);
+        expect(result.data.draft).toBe(false);
+      }
+    });
+  });
+
+  describe("Tags Collection", () => {
+    it("validates tags schema with valid data", () => {
+      if (!collections.tags || !collections.tags.schema) {
+        expect.fail("Tags schema is not defined");
+      }
+
+      const validTagData = {
+        title: "Technology Posts",
+        description: "All posts related to technology and programming",
+      };
+
+      const schema =
+        typeof collections.tags.schema === "function"
+          ? collections.tags.schema({} as SchemaContext)
+          : collections.tags.schema;
+
+      const result = schema.safeParse(validTagData);
+      expect(result.success).toBe(true);
+    });
+
+    it("validates tags schema with minimal data", () => {
+      if (!collections.tags || !collections.tags.schema) {
+        expect.fail("Tags schema is not defined");
+      }
+
+      const minimalTagData = {};
+
+      const schema =
+        typeof collections.tags.schema === "function"
+          ? collections.tags.schema({} as SchemaContext)
+          : collections.tags.schema;
+
+      const result = schema.safeParse(minimalTagData);
+      expect(result.success).toBe(true);
+    });
+
+    it("validates title length constraint", () => {
+      if (!collections.tags || !collections.tags.schema) {
+        expect.fail("Tags schema is not defined");
+      }
+
+      const tagDataWithLongTitle = {
+        title: "This is a very long title that exceeds the sixty character limit",
+        description: "A tag with a title that's too long",
+      };
+
+      const schema =
+        typeof collections.tags.schema === "function"
+          ? collections.tags.schema({} as SchemaContext)
+          : collections.tags.schema;
+
+      const result = schema.safeParse(tagDataWithLongTitle);
+      expect(result.success).toBe(false);
+    });
+
+    it("accepts title within length constraint", () => {
+      if (!collections.tags || !collections.tags.schema) {
+        expect.fail("Tags schema is not defined");
+      }
+
+      const tagDataWithValidTitle = {
+        title: "Tech", // Well within 60 character limit
+        description: "Technology related posts",
+      };
+
+      const schema =
+        typeof collections.tags.schema === "function"
+          ? collections.tags.schema({} as SchemaContext)
+          : collections.tags.schema;
+
+      const result = schema.safeParse(tagDataWithValidTitle);
+      expect(result.success).toBe(true);
     });
   });
 });

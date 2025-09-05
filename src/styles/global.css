@@ -101,4 +101,21 @@
     content: "#";
     @apply hover:text-yellow-400 mr-2;
   }
+
+  .section-title-line::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: rgb(var(--secondary));
+    margin-left: 1rem;
+    align-self: center;
+  }
+
+  .bullet-point-dark::before {
+    content: "•";
+    color: rgb(var(--secondary));
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
 }

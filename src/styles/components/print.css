@@ -8,12 +8,17 @@
   }
 }
 
+@page :first {
+  margin-top: 0cm;
+}
+
 .section-title-line::after {
   content: "";
   flex: 1;
   height: 0.9pt;
   background-color: #5d5d5d;
   margin-left: 1rem;
+  align-self: center;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }

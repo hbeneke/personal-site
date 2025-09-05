@@ -49,14 +49,12 @@ export async function getNotesGroupedByYear(): Promise<GroupedNotesByYear> {
     {} as Record<number, Note[]>,
   );
 
-  // Sort each year's notes by date (newest first)
   for (const yearNotes of Object.values(groupedNotes)) {
     yearNotes.sort(
       (a: Note, b: Note) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
     );
   }
 
-  // Sort years in descending order
   return Object.entries(groupedNotes).sort(
     (a: [string, Note[]], b: [string, Note[]]) => Number(b[0]) - Number(a[0]),
   );

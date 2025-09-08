@@ -1,6 +1,6 @@
 ---
-import { getSortedTagsWithCounts } from "@utils/tag";
 import HashIcon from "@icons/hash.svg?raw";
+import { getSortedTagsWithCounts } from "@utils/tag";
 
 const sortedTags = await getSortedTagsWithCounts();
 const tagNames = sortedTags.map((tag) => tag.name);

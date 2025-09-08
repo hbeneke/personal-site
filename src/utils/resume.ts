@@ -1,5 +1,5 @@
-import type { WorkExperience } from "@types";
 import { getCollection } from "astro:content";
+import type { WorkExperience } from "@types";
 
 async function getWorkExperiences(sorted = false): Promise<WorkExperience[]> {
   const resumeCollection = await getCollection("resume");

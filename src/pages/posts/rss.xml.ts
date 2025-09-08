@@ -1,6 +1,6 @@
-import rss from "@astrojs/rss";
-import { getLatestPosts } from "@/utils/post";
 import { siteConfig } from "@/site.config";
+import { getLatestPosts } from "@/utils/post";
+import rss from "@astrojs/rss";
 
 export async function GET() {
   const latestPosts = await getLatestPosts(20);

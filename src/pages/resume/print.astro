@@ -1,9 +1,9 @@
 ---
 import PrintLayout from "@layouts/print-layout.astro";
+import { siteConfig } from "@site-config";
+import { getAllHonorsGroupByCategory } from "@utils/honor";
 import { getAllWorkExperiences } from "@utils/resume";
 import { getAllSkills } from "@utils/skills";
-import { getAllHonorsGroupByCategory } from "@utils/honor";
-import { siteConfig } from "@site-config";
 
 const work_experience = await getAllWorkExperiences();
 const skills = await getAllSkills();

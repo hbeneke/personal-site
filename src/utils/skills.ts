@@ -1,5 +1,5 @@
-import type { Skill } from "@types";
 import { getCollection } from "astro:content";
+import type { Skill } from "@types";
 
 async function getSkills(): Promise<Skill[]> {
   const skillCollection = await getCollection("skills");

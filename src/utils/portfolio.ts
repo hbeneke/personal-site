@@ -1,5 +1,5 @@
-import type { Project } from "@types";
 import { getCollection } from "astro:content";
+import type { Project } from "@types";
 
 async function getProjects(sorted = false): Promise<Project[]> {
   const portfolioCollection = await getCollection("portfolioProjects");

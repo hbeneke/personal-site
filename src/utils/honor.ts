@@ -1,5 +1,5 @@
-import type { Honor } from "@types";
 import { getCollection } from "astro:content";
+import type { Honor } from "@types";
 
 async function getHonors(sorted = false): Promise<Honor[]> {
   const honorsCollection = await getCollection("honors");

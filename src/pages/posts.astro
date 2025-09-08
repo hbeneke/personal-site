@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "@layouts/base-layout.astro";
 import TagsList from "@components/tags-list.astro";
+import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
-import { getPostsGroupedByYear } from "@utils/post";
 import { formatPostDate } from "@utils/date";
+import { getPostsGroupedByYear } from "@utils/post";
 
 const postsGroupedByYear = await getPostsGroupedByYear(false);
 const years = Object.keys(postsGroupedByYear)

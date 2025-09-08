@@ -1,6 +1,6 @@
-import type { TagWithCount, TagContent, TagPageData } from "@types";
+import { type CollectionEntry, getCollection } from "astro:content";
+import type { TagContent, TagPageData, TagWithCount } from "@types";
 import { getAllTags, getPostsByTag } from "@utils/post";
-import { getCollection, type CollectionEntry } from "astro:content";
 
 async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
   const allTags = await getAllTags(includeDrafts || false);

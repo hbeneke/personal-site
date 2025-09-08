@@ -78,6 +78,208 @@ describe("portfolioUtils", () => {
       expect(result[1].title).toBe("Project B");
       expect(result[2].title).toBe("Project C");
     });
+
+    it("should return projects sorted by featured first when sortByFeatured is true", async () => {
+      const result = await getAllProjects(false, true);
+
+      expect(result).toHaveLength(3);
+      // Featured projects should come first
+      expect(result[0].featured).toBe(true);
+      expect(result[1].featured).toBe(true);
+      expect(result[2].featured).toBe(false);
+      expect(result[0].title).toBe("Project A");
+      expect(result[1].title).toBe("Project C");
+      expect(result[2].title).toBe("Project B");
+    });
+
+    it("should return projects sorted by featured first, then by order when both flags are true", async () => {
+      // Modifying the mock to have two featured projects with different orders
+      const testMockEntries = [
+        {
+          id: "project-a",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project A",
+            date: "2024-01-15",
+            description: "Description A",
+            featured: true,
+            order: 3, // Higher order
+            technologies: ["React", "TypeScript"],
+            github: "https://github.com/user/project-a",
+            demo: "https://project-a.com",
+          },
+        },
+        {
+          id: "project-c",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project C",
+            date: "2024-03-05",
+            description: "Description C",
+            featured: true,
+            order: 1, // Lower order - should come first
+            technologies: ["Astro", "Tailwind"],
+            demo: "https://project-c.com",
+          },
+        },
+        {
+          id: "project-b",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project B",
+            date: "2024-02-10",
+            description: "Description B",
+            featured: false,
+            order: 2,
+            technologies: ["Vue", "JavaScript"],
+            github: "https://github.com/user/project-b",
+          },
+        },
+      ];
+
+      mockGetCollection.mockResolvedValue(testMockEntries);
+      const result = await getAllProjects(true, true);
+
+      expect(result).toHaveLength(3);
+      // Featured projects should come first, but also sorted by order
+      expect(result[0].featured).toBe(true);
+      expect(result[0].title).toBe("Project C"); // featured, order 1 (should be first)
+      expect(result[0].order).toBe(1);
+      
+      expect(result[1].featured).toBe(true);
+      expect(result[1].title).toBe("Project A"); // featured, order 3 (should be second)
+      expect(result[1].order).toBe(3);
+      
+      expect(result[2].featured).toBe(false);
+      expect(result[2].title).toBe("Project B"); // not featured, order 2
+      expect(result[2].order).toBe(2);
+    });
+
+    it("should handle projects with mixed featured status and preserve order within groups", async () => {
+      const mixedMockEntries = [
+        {
+          id: "project-d",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project D",
+            date: "2024-04-01",
+            description: "Description D",
+            featured: false,
+            order: 1,
+            technologies: ["Angular"],
+          },
+        },
+        {
+          id: "project-e",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project E",
+            date: "2024-05-01",
+            description: "Description E",
+            featured: true,
+            order: 2,
+            technologies: ["Svelte"],
+          },
+        },
+        {
+          id: "project-f",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project F",
+            date: "2024-06-01",
+            description: "Description F",
+            featured: false,
+            order: 3,
+            technologies: ["Next.js"],
+          },
+        },
+      ];
+
+      mockGetCollection.mockResolvedValue(mixedMockEntries);
+      const result = await getAllProjects(true, true);
+
+      expect(result).toHaveLength(3);
+      expect(result[0].title).toBe("Project E"); // featured, order 2
+      expect(result[1].title).toBe("Project D"); // not featured, order 1
+      expect(result[2].title).toBe("Project F"); // not featured, order 3
+    });
+
+    it("should sort featured projects by order when multiple featured projects exist", async () => {
+      // Create multiple featured projects with different orders to test the order sorting within featured group
+      const multipleFeaturedMockEntries = [
+        {
+          id: "project-g",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project G",
+            date: "2024-07-01",
+            description: "Description G",
+            featured: true,
+            order: 5,
+            technologies: ["React"],
+          },
+        },
+        {
+          id: "project-h",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project H",
+            date: "2024-08-01",
+            description: "Description H",
+            featured: true,
+            order: 1,
+            technologies: ["Vue"],
+          },
+        },
+        {
+          id: "project-i",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project I",
+            date: "2024-09-01",
+            description: "Description I",
+            featured: true,
+            order: 3,
+            technologies: ["Angular"],
+          },
+        },
+        {
+          id: "project-j",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project J",
+            date: "2024-10-01",
+            description: "Description J",
+            featured: false,
+            order: 2,
+            technologies: ["Svelte"],
+          },
+        },
+      ];
+
+      mockGetCollection.mockResolvedValue(multipleFeaturedMockEntries);
+      const result = await getAllProjects(true, true);
+
+      expect(result).toHaveLength(4);
+      
+      // All featured projects should come first, sorted by order
+      expect(result[0].featured).toBe(true);
+      expect(result[0].title).toBe("Project H"); // featured, order 1
+      expect(result[0].order).toBe(1);
+      
+      expect(result[1].featured).toBe(true);
+      expect(result[1].title).toBe("Project I"); // featured, order 3
+      expect(result[1].order).toBe(3);
+      
+      expect(result[2].featured).toBe(true);
+      expect(result[2].title).toBe("Project G"); // featured, order 5
+      expect(result[2].order).toBe(5);
+      
+      // Non-featured project should come last
+      expect(result[3].featured).toBe(false);
+      expect(result[3].title).toBe("Project J"); // not featured, order 2
+      expect(result[3].order).toBe(2);
+    });
   });
 
   describe("getFeaturedProjects", () => {

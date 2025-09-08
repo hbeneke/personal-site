@@ -3,7 +3,7 @@ import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getAllProjects } from "@utils/portfolio";
 
-const sortedProjects = await getAllProjects(true);
+const sortedProjects = await getAllProjects(true, true);
 ---
 
 <BaseLayout
@@ -12,24 +12,32 @@ const sortedProjects = await getAllProjects(true);
 >
   <section>
     <header class="mb-8">
-      <h2 class="font-semibold text-2xl secondary">Repository List</h2>
+      <h2 class="font-semibold text-2xl">Portfolio</h2>
     </header>
 
     <div class="space-y-4">
       {
         sortedProjects.map((project) => (
-          <div class="px-4 py-4 hover:bg-gray-800/40 transition-colors group rounded-lg">
-            <div class="flex justify-between items-start gap-8">
+          <div class="py-4">
+            <div class="flex justify-between items-center gap-28">
               <div class="flex-1 min-w-0">
-                <h3 class="font-semibold text-primary hover:underline cursor-pointer">
-                  {project.title.toLowerCase().replace(/\s+/g, "-")}
+                <h3 class="font-semibold text-primary hover:secondary-hovered cursor-pointer secondary">
+                  {project.featured && <span class="mr-1">📌</span>}
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:underline"
+                  >
+                    {project.title.toLowerCase().replace(/\s+/g, "-")}
+                  </a>
                 </h3>
                 <p class="text-xs text-gray-400 mt-1 leading-relaxed">
                   {project.description}
                 </p>
                 <div class="flex flex-wrap gap-1.5 mt-2">
                   {project.technologies.map((tech: string) => (
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-800/50 text-gray-300 border border-gray-600/50">
+                    <span class="text-[10px] px-2 py-0.2 rounded-full bg-gray-800/50 text-gray-300 border border-gray-600/50">
                       {tech}
                     </span>
                   ))}

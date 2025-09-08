@@ -11,82 +11,48 @@ const sortedProjects = await getAllProjects(true);
   description={`Welcome to my portfolio! I'm a senior ${siteConfig.jobTitle} specializing in modern web technologies. Explore my projects, skills, and professional experience in software development.`}
 >
   <section>
-    <header>
-      <h2 class="font-semibold text-2xl mb-6 pb-2">Portfolio</h2>
+    <header class="mb-8">
+      <h2 class="font-semibold text-2xl secondary">Repository List</h2>
     </header>
 
-    <ol class="space-y-8">
+    <div class="space-y-4">
       {
         sortedProjects.map((project) => (
-          <li>
-            <div class="mb-1 flex items-center gap-2">
-              <time class="text-xs text-gray-400">
-                {new Date(project.date).toLocaleDateString(siteConfig.locale, {
-                  year: "numeric",
-                  month: "short",
-                })}
-              </time>
-              {project.featured && (
-                <span class="text-xs bg-gray-700 text-green-400 px-2 py-0.5 rounded">
-                  Featured
-                </span>
-              )}
+          <div class="px-4 py-4 hover:bg-gray-800/40 transition-colors group rounded-lg">
+            <div class="flex justify-between items-start gap-8">
+              <div class="flex-1 min-w-0">
+                <h3 class="font-semibold text-primary hover:underline cursor-pointer">
+                  {project.title.toLowerCase().replace(/\s+/g, "-")}
+                </h3>
+                <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+                  {project.description}
+                </p>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  {project.technologies.map((tech: string) => (
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-800/50 text-gray-300 border border-gray-600/50">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="text-right flex-shrink-0">
+                <div class="text-xs text-gray-500">Last Updated</div>
+                <time class="text-xs text-gray-400 font-mono">
+                  {new Date(project.date).toLocaleDateString(
+                    siteConfig.locale,
+                    {
+                      year: "2-digit",
+                      month: "short",
+                      day: "numeric",
+                    }
+                  )}
+                </time>
+              </div>
             </div>
-
-            <h3 class="text-xl font-semibold secondary mb-1">
-              {project.title}
-            </h3>
-
-            <p class="text-xs text-white mb-2">{project.description}</p>
-
-            <div class="flex flex-wrap gap-1 mb-3">
-              {project.technologies.map((tech: string) => (
-                <span class="text-xs text-gray-400">
-                  {tech}
-                  {project.technologies.indexOf(tech) <
-                    project.technologies.length - 1 && " • "}
-                </span>
-              ))}
-            </div>
-
-            <div class="flex gap-4 text-xs">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${project.title} source code on GitHub`}
-                  class="primary-link"
-                >
-                  source
-                </a>
-              )}
-              {project.demo && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${project.title} live demo`}
-                  class="primary-link"
-                >
-                  demo
-                </a>
-              )}
-              {project.link && !project.demo && !project.github && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Visit ${project.title}`}
-                  class="primary-link"
-                >
-                  visit
-                </a>
-              )}
-            </div>
-          </li>
+          </div>
         ))
       }
-    </ol>
+    </div>
   </section>
 </BaseLayout>

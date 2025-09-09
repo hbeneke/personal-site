@@ -50,7 +50,7 @@ const sortedProjects = await getAllProjects(true, true);
                   {new Date(project.date).toLocaleDateString(
                     siteConfig.locale,
                     {
-                      year: "2-digit",
+                      year: "numeric",
                       month: "short",
                       day: "numeric",
                     }

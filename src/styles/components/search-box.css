@@ -93,11 +93,13 @@ site-search {
 }
 
 #personal__search .pagefind-ui__result-link {
-  @apply secondary text-base transition-colors duration-200;
+  @apply text-base transition-colors duration-200;
+  color: rgb(var(--secondary));
 }
 
 #personal__search .pagefind-ui__result-link:hover {
-  @apply underline secondary-hovered;
+  @apply underline;
+  color: rgb(var(--secondary-hovered));
 }
 
 #personal__search .pagefind-ui__result-tag {

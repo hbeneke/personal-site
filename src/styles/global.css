@@ -9,10 +9,15 @@
     --primary-hovered: 187, 247, 208;
     --secondary: 250, 204, 21;
     --secondary-hovered: 254, 249, 195;
-    --bg: 26, 27, 30;
-    --foreground: 212, 212, 212;
+    --bg: 255, 255, 255;
+    --foreground: 0, 0, 0;
     --pale-green: 233, 249, 241;
     --pale-green-oklch: oklch(94.8% 0.106 136.49);
+  }
+
+  :root.dark {
+    --bg: 26, 27, 30;
+    --foreground: 212, 212, 212;
   }
 
   body {

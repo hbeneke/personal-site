@@ -16,7 +16,6 @@ export class ThemeToggle extends HTMLElement {
     }
 
     this.setupEventListeners();
-    this.applyInitialTheme();
   }
 
   private setupEventListeners(): void {
@@ -41,16 +40,10 @@ export class ThemeToggle extends HTMLElement {
   private applyTheme(theme: "dark" | "light"): void {
     if (theme === "dark") {
       this.html.classList.add("dark");
-      document.body.style.backgroundColor = "#000000";
     } else {
       this.html.classList.remove("dark");
-      document.body.style.backgroundColor = "#ffffff";
     }
     localStorage.setItem("theme", theme);
-  }
-
-  private applyInitialTheme(): void {
-    this.applyTheme(this.getCurrentTheme());
   }
 
   private toggleTheme(): void {

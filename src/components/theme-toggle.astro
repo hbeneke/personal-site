@@ -3,54 +3,17 @@ import SunIcon from "@components/icons/sun-icon.astro";
 import MoonIcon from "@components/icons/moon-icon.astro";
 ---
 
-<button
-  id="theme-toggle"
-  class="flex items-center justify-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-  aria-label="Toggle theme"
-  type="button"
->
-  <SunIcon class="w-7 h-7 hidden dark:block" />
-  <MoonIcon class="w-7 h-7 block dark:hidden" />
-</button>
+<theme-toggle>
+  <button
+    class="flex items-center justify-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+    aria-label="Toggle theme"
+    type="button"
+  >
+    <SunIcon class="w-7 h-7 hidden dark:block" />
+    <MoonIcon class="w-7 h-7 block dark:hidden" />
+  </button>
+</theme-toggle>
 
 <script>
-  const themeToggle = document.getElementById("theme-toggle");
-  const html = document.documentElement;
-
-  const getSystemPreference = () => {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  };
-
-  const getCurrentTheme = () => {
-    return localStorage.getItem("theme") || getSystemPreference();
-  };
-
-  const applyTheme = (theme: string) => {
-    if (theme === "dark") {
-      html.classList.add("dark");
-      document.body.style.backgroundColor = "#000000";
-    } else {
-      html.classList.remove("dark");
-      document.body.style.backgroundColor = "#ffffff";
-    }
-    localStorage.setItem("theme", theme);
-  };
-
-  applyTheme(getCurrentTheme());
-
-  themeToggle?.addEventListener("click", () => {
-    const currentTheme = getCurrentTheme();
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    applyTheme(newTheme);
-  });
-
-  window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", (e) => {
-      if (!localStorage.getItem("theme")) {
-        applyTheme(e.matches ? "dark" : "light");
-      }
-    });
+  import("@/scripts/theme-toggle");
 </script>

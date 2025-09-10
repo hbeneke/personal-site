@@ -40,7 +40,7 @@ export async function getTagContent(tag: string): Promise<TagContent | null> {
       };
     }
   } catch (error) {
-    // Tag collection entry doesn't exist or error accessing it
+    console.error("Error accessing tag collection:", error);
   }
 
   return null;
@@ -52,7 +52,6 @@ export function groupPostsByYear(
   return posts.reduce((acc: Record<number, CollectionEntry<"posts">[]>, post) => {
     const date = new Date(post.data.publishDate);
     if (Number.isNaN(date.getTime())) {
-      // Skip posts with invalid dates
       return acc;
     }
     const year = date.getFullYear();

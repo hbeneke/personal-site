@@ -5,19 +5,25 @@
 
 @layer base {
   :root {
+    --primary: 5, 150, 105;
+    --primary-hovered: 167, 243, 208;
+    --secondary: 239, 68, 68;
+    --secondary-hovered: 252, 165, 165;
+    --bg: 255, 255, 255;
+    --foreground: 0, 0, 0;
+    --pale-green: 233, 249, 241;
+    --pale-green-oklch: 220, 248, 235;
+  }
+
+  :root.dark {
     --primary: 16, 185, 129;
     --primary-hovered: 187, 247, 208;
     --secondary: 250, 204, 21;
     --secondary-hovered: 254, 249, 195;
-    --bg: 255, 255, 255;
-    --foreground: 0, 0, 0;
-    --pale-green: 233, 249, 241;
-    --pale-green-oklch: oklch(94.8% 0.106 136.49);
-  }
-
-  :root.dark {
     --bg: 26, 27, 30;
     --foreground: 212, 212, 212;
+    --pale-green: 233, 249, 241;
+    --pale-green-oklch: 220, 248, 235;
   }
 
   body {
@@ -35,7 +41,7 @@
 @layer components {
   @supports (color: color-mix(in lab, red, red)) {
     .bg-quote\/5 {
-      background-color: color-mix(in oklab, var(--pale-green-oklch) 5%, transparent);
+      background-color: color-mix(in oklab, rgb(var(--pale-green-oklch)) 5%, transparent);
     }
   }
 

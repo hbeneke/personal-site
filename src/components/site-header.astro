@@ -22,7 +22,7 @@ const url = new URL(Astro.request.url);
           <a
             aria-current={url.pathname === link.path ? "page" : false}
             aria-label={`Navigate to ${link.title} page`}
-            class="px-4 py-0 underline-offset-2 hover:underline hover:primary-link divide-primary"
+            class="px-4 py-0 underline-offset-2 hover:primary-link divide-primary"
             data-astro-prefetch
             href={link.path}
           >
@@ -33,9 +33,9 @@ const url = new URL(Astro.request.url);
     </nav>
   </div>
 
-  <div class="flex items-center gap-2">
-    <ThemeToggle />
+  <div class="flex items-center">
     <SearchBox />
+    <ThemeToggle />
     <MobileMenu />
   </div>
 </header>

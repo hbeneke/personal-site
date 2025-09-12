@@ -11,11 +11,11 @@ const latestNote = await getLatestNote();
 
   {
     latestNote && (
-      <article class="inline-grid rounded-md bg-zinc-800 px-4 py-3 group border border-transparent transition-all duration-200 w-full">
+      <article class="inline-grid rounded-md bg-gray-100 dark:bg-zinc-800 px-4 py-3 group border border-gray-200 dark:border-transparent transition-all duration-200 w-full">
         <h3 class="title text-base">
           <a
             href={`/notes/${latestNote.slug}`}
-            class="underline hover:text-gray-100 hover:decoration-2 transition-all duration-500 text-sm"
+            class="hover:underline hover:text-gray-700 dark:hover:text-gray-100 hover:decoration-2 transition-all duration-200 text-sm"
           >
             {latestNote.title}
           </a>
@@ -23,14 +23,14 @@ const latestNote = await getLatestNote();
         <time
           datetime={latestNote.publishDate}
           title={latestNote.publishDate}
-          class="text-xs"
+          class="text-xs transition-colors duration-200"
         >
           {new Date(latestNote.publishDate).toLocaleString("es-ES", {
             dateStyle: "short",
             timeStyle: "short",
           })}
         </time>
-        <div class="mt-4 max-w-none line-clamp-3 text-gray-300 text-sm">
+        <div class="mt-4 max-w-none line-clamp-3 text-gray-600 dark:text-gray-300 text-sm transition-colors duration-200">
           <p>{latestNote.description}</p>
         </div>
       </article>

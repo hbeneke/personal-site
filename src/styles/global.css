@@ -48,7 +48,6 @@
   .primary {
     color: rgb(var(--primary));
     font-weight: bold;
-    -webkit-text-stroke: 0.1px rgba(0, 0, 0, 0.1);
     transition: color 0.2s ease-in-out;
   }
 
@@ -62,7 +61,6 @@
 
   .secondary {
     color: rgb(var(--secondary));
-    -webkit-text-stroke: 0.1px rgba(0, 0, 0, 0.1);
     transition: color 0.2s ease-in-out;
   }
 
@@ -77,7 +75,6 @@
   .primary-link {
     @apply text-[rgb(var(--primary))];
     font-weight: bold;
-    -webkit-text-stroke: 0.1px rgba(0, 0, 0, 0.1);
     transition: color 0.2s ease-in-out;
   }
 
@@ -87,7 +84,6 @@
 
   .secondary-link {
     @apply text-[rgb(var(--secondary))];
-    -webkit-text-stroke: 0.1px rgba(0, 0, 0, 0.1);
     transition: color 0.2s ease-in-out;
   }
 

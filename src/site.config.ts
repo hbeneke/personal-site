@@ -17,6 +17,10 @@ export const menuLinks: MenuLink[] = [
     path: "/resume/",
     title: "Resume",
   },
+  {
+    path: "/about/",
+    title: "About",
+  },
 ];
 
 export const siteConfig: SiteConfig = {
@@ -32,6 +36,16 @@ export const siteConfig: SiteConfig = {
     linkedin: "https://www.linkedin.com/in/equerodev/",
     github: "https://www.github.com/hbeneke",
     x: "https://x.com/habakukbeneke",
+  },
+  // Información de contacto y disponibilidad
+  location: "Madrid, Spain",
+  timezone: "CET (UTC+1)",
+  availableForWork: true,
+  workAvailability: {
+    freelance: true,
+    fullTime: true,
+    remote: true,
+    hybrid: true,
   },
   get copyrightYear() {
     return `${this.siteCreationYear}-${new Date().getFullYear().toString().slice(-2)}`;

@@ -4,6 +4,13 @@ interface SocialLinks {
   x: string;
 }
 
+interface WorkAvailability {
+  freelance: boolean;
+  fullTime: boolean;
+  remote: boolean;
+  hybrid: boolean;
+}
+
 export interface SiteConfig {
   locale: string;
   authorName: string;
@@ -14,5 +21,9 @@ export interface SiteConfig {
   siteCreationYear: string;
   siteUrl: string;
   socialLinks: SocialLinks;
+  location: string;
+  timezone: string;
+  availableForWork: boolean;
+  workAvailability: WorkAvailability;
   copyrightYear: string;
 }

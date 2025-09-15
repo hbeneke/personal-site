@@ -1,0 +1,197 @@
+---
+import BaseLayout from "@layouts/base-layout.astro";
+import { siteConfig } from "@site-config";
+---
+
+<BaseLayout
+  title={`About · ${siteConfig.siteTitle}`}
+  description={`Get in touch with ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle}. Available for freelance projects and full-time opportunities.`}
+>
+  <section class="space-y-8">
+    <header>
+      <h1 class="font-semibold text-2xl mb-6">
+        About Me<span class="animate-blink">|</span>
+      </h1>
+    </header>
+
+    <div>
+      <p class="mb-4 text-sm">
+        I'm {siteConfig.authorName}, a <span class="secondary font-bold">{siteConfig.jobTitle}</span>
+        with over 10 years of experience. I'm currently employed full-time but open to 
+        interesting opportunities - whether freelance projects or new positions that 
+        offer real growth potential.
+      </p>
+
+      <p class="mb-6 text-sm">
+        Based in {siteConfig.location}, I work comfortably with remote and hybrid setups. 
+        If you have something challenging that matches my skills, let's talk.
+      </p>
+    </div>
+
+    <div
+      class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700"
+    >
+      <h2 class="text-lg font-semibold mb-4 flex items-center">
+        Current Availability
+      </h2>
+
+      <div class="space-y-3">
+        {
+          siteConfig.availableForWork ? (
+            <p class="text-sm text-green-600 dark:text-green-400 font-medium">
+              Available for new opportunities
+            </p>
+          ) : (
+            <p class="text-sm text-red-600 dark:text-red-400 font-medium">
+              Currently not available
+            </p>
+          )
+        }
+
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium secondary">Work Types</h3>
+            <ul class="text-sm space-y-1">
+              <li class="flex items-center">
+                <span
+                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.freelance ? 'bg-green-500' : 'bg-gray-300'}"
+                ></span>
+                Freelance Projects
+              </li>
+              <li class="flex items-center">
+                <span
+                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.fullTime ? 'bg-green-500' : 'bg-gray-300'}"
+                ></span>
+                Full-time Positions
+              </li>
+            </ul>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium secondary">Work Arrangements</h3>
+            <ul class="text-sm space-y-1">
+              <li class="flex items-center">
+                <span
+                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.remote ? 'bg-green-500' : 'bg-gray-300'}"
+                ></span>
+                Remote Work
+              </li>
+              <li class="flex items-center">
+                <span
+                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.hybrid ? 'bg-green-500' : 'bg-gray-300'}"
+                ></span>
+                Hybrid Work
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700"
+    >
+      <h2 class="text-lg font-semibold mb-4">Get In Touch</h2>
+
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 class="text-sm font-medium secondary mb-2">Location & Time</h3>
+            <p class="text-sm">Location: {siteConfig.location}</p>
+            <p class="text-sm">Timezone: {siteConfig.timezone}</p>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-medium secondary mb-2">Direct Contact</h3>
+            <p class="text-sm">
+              Email: <span class="secondary italic"
+                >{siteConfig.obfuscatedEmail}</span
+              >
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium secondary mb-3">
+            Social & Professional Networks
+          </h3>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href={siteConfig.socialLinks.linkedin}
+              class="primary-link text-sm hover:underline"
+              aria-label="Connect on LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+
+            <a
+              href={siteConfig.socialLinks.github}
+              class="primary-link text-sm hover:underline"
+              aria-label="View GitHub profile"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+
+            <a
+              href={siteConfig.socialLinks.x}
+              class="primary-link text-sm hover:underline"
+              aria-label="Follow on X"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              X (Twitter)
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h2 class="text-lg font-semibold">What I Do</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
+        >
+          <h3 class="font-medium mb-2 secondary">Freelance Projects</h3>
+          <p class="text-sm">
+            Custom web applications, performance optimization, code reviews, and
+            technical consulting for startups and established companies.
+          </p>
+        </div>
+
+        <div
+          class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
+        >
+          <h3 class="font-medium mb-2 secondary">Full-time Opportunities</h3>
+          <p class="text-sm">
+            Senior Frontend Developer and Tech Lead positions in innovative
+            companies looking to build exceptional user experiences.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-800"
+    >
+      <p class="text-sm">
+        <strong>Quick Response:</strong> I typically respond to emails and messages
+        within 24 hours. For urgent inquiries, feel free to reach out via LinkedIn
+        for faster communication.
+      </p>
+    </div>
+
+    <div class="text-center pt-6 border-t border-gray-200 dark:border-gray-700">
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        In some places, I am also known as <span class="secondary font-medium"
+          >{siteConfig.nickname}</span
+        >
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -2,6 +2,7 @@
 import "@styles/global.css";
 import Footer from "@components/site-footer.astro";
 import Header from "@components/site-header.astro";
+import Notes from "@components/recent-notes.astro";
 
 const { title, description } = Astro.props;
 ---
@@ -32,6 +33,7 @@ const { title, description } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <Notes />
     {
       import.meta.env.PROD && (
         <script>

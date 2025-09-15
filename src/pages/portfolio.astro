@@ -22,7 +22,9 @@ const sortedProjects = await getAllProjects(true, true);
             <div class="flex justify-between items-center gap-28">
               <div class="flex-1 min-w-0">
                 <h3 class="font-semibold text-primary hover:secondary-hovered cursor-pointer secondary">
-                  {project.featured && <span class="mr-1">📌</span>}
+                  <span class="inline-block w-4">
+                    {project.featured && <span class="mr-1">📌</span>}
+                  </span>
                   <a
                     href={project.github}
                     target="_blank"
@@ -32,10 +34,10 @@ const sortedProjects = await getAllProjects(true, true);
                     {project.title.toLowerCase().replace(/\s+/g, "-")}
                   </a>
                 </h3>
-                <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+                <p class="text-xs text-gray-400 mt-1 leading-relaxed ml-6">
                   {project.description}
                 </p>
-                <div class="flex flex-wrap gap-1.5 mt-2">
+                <div class="flex flex-wrap gap-1.5 mt-2 ml-6">
                   {project.technologies.map((tech: string) => (
                     <span class="text-[10px] px-2 py-0.2 rounded-full bg-gray-800/50 text-gray-300 border border-gray-600/50">
                       {tech}

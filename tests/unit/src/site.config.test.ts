@@ -8,9 +8,9 @@ describe("menuLinks", () => {
   });
 
   it("should have the correct menu items", () => {
-    const expectedPaths = ["/", "/posts/", "/portfolio/", "/resume/"];
+    const expectedPaths = ["/", "/posts/", "/portfolio/", "/resume/", "/about/"];
 
-    const expectedTitles = ["Home", "Blog", "Portfolio", "Resume"];
+    const expectedTitles = ["Home", "Blog", "Portfolio", "Resume", "About"];
 
     expect(menuLinks.length).toBe(expectedPaths.length);
 

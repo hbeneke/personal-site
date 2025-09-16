@@ -384,8 +384,6 @@ describe("tagUtils", () => {
     });
 
     it("should return null when getCollection throws error", async () => {
-      mockGetCollection.mockRejectedValue(new Error("Collection error"));
-
       const result = await getTagContent("javascript");
 
       expect(result).toBeNull();

@@ -1,5 +1,6 @@
 ---
 import { getLatestNote } from "@utils/note";
+import CloseIcon from "@icons/close.svg";
 
 const latestNote = await getLatestNote();
 ---
@@ -18,7 +19,7 @@ const latestNote = await getLatestNote();
           class="absolute top-1 right-1 w-5 h-5 bg-gray-200 dark:bg-zinc-700 hover:bg-gray-300 dark:hover:bg-zinc-600 rounded-full flex items-center justify-center transition-colors duration-200"
           aria-label="Close announcement"
         >
-          <img src="/icons/close.svg" alt="Close" class="w-2.5 h-2.5 dark:invert" />
+          <CloseIcon class="w-2.5 h-2.5 text-yellow-400" />
         </button>
 
         <!-- Content -->
@@ -50,6 +51,7 @@ const latestNote = await getLatestNote();
 
           <div class="mt-2 flex justify-end">
             <a
+              id="read-more-link"
               href={`/notes/${latestNote.slug}`}
               class="primary-link text-xs font-medium"
             >

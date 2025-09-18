@@ -34,66 +34,6 @@ import { siteConfig } from "@site-config";
     <div
       class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700"
     >
-      <h2 class="text-lg font-semibold mb-4 flex items-center">
-        Current Availability
-      </h2>
-
-      <div class="space-y-3">
-        {
-          siteConfig.availableForWork ? (
-            <p class="text-sm text-green-600 dark:text-green-400 font-medium">
-              Available for new opportunities
-            </p>
-          ) : (
-            <p class="text-sm text-red-600 dark:text-red-400 font-medium">
-              Currently not available
-            </p>
-          )
-        }
-
-        <div class="grid grid-cols-2 gap-4 mt-4">
-          <div class="space-y-2">
-            <h3 class="text-sm font-medium secondary">Work Types</h3>
-            <ul class="text-sm space-y-1">
-              <li class="flex items-center">
-                <span
-                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.freelance ? 'bg-green-500' : 'bg-gray-300'}"
-                ></span>
-                Freelance Projects
-              </li>
-              <li class="flex items-center">
-                <span
-                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.fullTime ? 'bg-green-500' : 'bg-gray-300'}"
-                ></span>
-                Full-time Positions
-              </li>
-            </ul>
-          </div>
-
-          <div class="space-y-2">
-            <h3 class="text-sm font-medium secondary">Work Arrangements</h3>
-            <ul class="text-sm space-y-1">
-              <li class="flex items-center">
-                <span
-                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.remote ? 'bg-green-500' : 'bg-gray-300'}"
-                ></span>
-                Remote Work
-              </li>
-              <li class="flex items-center">
-                <span
-                  class="w-2 h-2 rounded-full mr-2 {siteConfig.workAvailability.hybrid ? 'bg-green-500' : 'bg-gray-300'}"
-                ></span>
-                Hybrid Work
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700"
-    >
       <h2 class="text-lg font-semibold mb-4">Get In Touch</h2>
 
       <div class="space-y-4">
@@ -111,43 +51,6 @@ import { siteConfig } from "@site-config";
                 >{siteConfig.obfuscatedEmail}</span
               >
             </p>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="text-sm font-medium secondary mb-3">
-            Social & Professional Networks
-          </h3>
-          <div class="flex flex-wrap gap-4">
-            <a
-              href={siteConfig.socialLinks.linkedin}
-              class="primary-link text-sm hover:underline"
-              aria-label="Connect on LinkedIn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-
-            <a
-              href={siteConfig.socialLinks.github}
-              class="primary-link text-sm hover:underline"
-              aria-label="View GitHub profile"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-
-            <a
-              href={siteConfig.socialLinks.x}
-              class="primary-link text-sm hover:underline"
-              aria-label="Follow on X"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              X (Twitter)
-            </a>
           </div>
         </div>
       </div>

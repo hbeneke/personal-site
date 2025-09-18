@@ -19,54 +19,70 @@ const sortedProjects = await getAllProjects(true, true);
       </h1>
     </header>
 
-    <div class="space-y-4">
+    <div class="grid gap-6 md:grid-cols-2">
       {
         sortedProjects.map((project) => (
-          <div class="py-4">
-            <div class="flex justify-between items-center gap-28">
-              <div class="flex-1 min-w-0">
-                <h3 class="font-semibold text-primary hover:secondary-hovered cursor-pointer secondary">
-                  <span class="inline-block w-4">
-                    {project.featured && <span class="mr-1">📌</span>}
-                  </span>
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="hover:underline"
-                  >
-                    {project.title.toLowerCase().replace(/\s+/g, "-")}
-                  </a>
-                </h3>
-                <p class="text-xs text-gray-400 mt-1 leading-relaxed ml-6">
-                  {project.description}
-                </p>
-                <div class="flex flex-wrap gap-1.5 mt-2 ml-6">
-                  {project.technologies.map((tech: string) => (
-                    <span class="text-[10px] px-2 py-0.2 rounded-full bg-gray-800/50 text-gray-300 border border-gray-600/50">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
+          <article class="group border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-colors duration-200 p-6">
+            <div class="flex items-center gap-2 mb-1">
+              {project.featured && <span class="secondary text-sm">★</span>}
+              <h3 class="text-lg font-medium">{project.title}</h3>
+            </div>
 
-              <div class="text-right flex-shrink-0">
-                <div class="text-xs text-gray-500">Last Updated</div>
-                <time class="text-xs text-gray-400 font-mono">
-                  {new Date(project.date).toLocaleDateString(
-                    siteConfig.locale,
-                    {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    }
-                  )}
-                </time>
+            <div class="mb-4">
+              <div class="text-xs text-gray-500 dark:text-gray-400">
+                Last updated{" "}
+                {new Date(project.date).toLocaleDateString(siteConfig.locale, {
+                  year: "numeric",
+                  month: "short",
+                })}
               </div>
             </div>
-          </div>
+
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+              {project.description}
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.technologies.map((tech: string) => (
+                <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <div class="flex gap-4 text-sm">
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="primary-link"
+                >
+                  Code
+                </a>
+              )}
+              {project.demo && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="primary-link"
+                >
+                  Demo
+                </a>
+              )}
+            </div>
+          </article>
         ))
       }
     </div>
+
+    {
+      sortedProjects.length === 0 && (
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          No projects available yet.
+        </p>
+      )
+    }
   </section>
 </BaseLayout>

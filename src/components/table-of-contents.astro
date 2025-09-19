@@ -10,51 +10,65 @@ interface Props {
 const { headings } = Astro.props;
 
 // Filter headings to only include h2 and h3 for better readability
-const filteredHeadings = headings.filter(heading => heading.depth <= 3);
+const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
 ---
 
-{filteredHeadings.length > 1 && (
-  <details 
-    open 
-    class="table-of-contents hidden md:block fixed top-1/4 right-2 lg:right-4 xl:right-6 z-10 max-w-64"
-  >
-    <summary class="cursor-pointer text-xs font-medium text-gray-400 hover:text-gray-200 transition-colors duration-200 mb-3 list-none">
-      <span class="flex items-center">
-        <svg class="w-3 h-3 mr-1.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
-        </svg>
-        Table of Contents
-      </span>
-    </summary>
-    
-    <nav class="bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg p-3 shadow-lg">
-      <ul class="space-y-1 list-none">
-        {filteredHeadings.map((heading) => (
-          <li class={`${heading.depth > 2 ? "ml-3" : ""} list-none`}>
-            <a 
-              href={`#${heading.slug}`}
-              class={`
+{
+  filteredHeadings.length > 1 && (
+    <details
+      open
+      class="table-of-contents hidden md:block fixed top-1/4 right-2 lg:right-4 xl:right-6 z-10 max-w-64"
+    >
+      <summary class="cursor-pointer text-xs font-medium text-gray-400 hover:text-gray-200 transition-colors duration-200 mb-3 list-none">
+        <span class="flex items-center">
+          <svg
+            class="w-3 h-3 mr-1.5 transition-transform duration-200"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h7"
+            />
+          </svg>
+          Table of Contents
+        </span>
+      </summary>
+
+      <nav class="bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg p-3 shadow-lg">
+        <ul class="space-y-1 list-none">
+          {filteredHeadings.map((heading) => (
+            <li class={`${heading.depth > 2 ? "ml-3" : ""} list-none`}>
+              <a
+                href={`#${heading.slug}`}
+                class={`
                 block text-gray-600 dark:text-gray-300 hover:text-primary transition-colors duration-200 line-clamp-2
                 ${heading.depth <= 2 ? "text-xs mt-2" : "text-[10px] mt-1"}
               `}
-              data-toc-link
-            >
-              <span aria-hidden="true" class="mr-1 opacity-60">#</span>
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  </details>
-)}
+                data-toc-link
+              >
+                <span aria-hidden="true" class="mr-1 opacity-60">
+                  #
+                </span>
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  )
+}
 
 <style>
   .table-of-contents {
     max-height: 60vh;
     overflow-y: auto;
   }
-  
+
   /* Remove all list styling */
   .table-of-contents ul,
   .table-of-contents ol,
@@ -63,24 +77,24 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
     margin: 0;
     padding: 0;
   }
-  
+
   /* Custom details/summary styling */
   .table-of-contents[open] summary svg {
     transform: rotate(90deg);
   }
-  
+
   .table-of-contents summary {
     list-style: none;
   }
-  
+
   .table-of-contents summary::-webkit-details-marker {
     display: none;
   }
-  
+
   .table-of-contents nav {
     animation: slideDown 0.2s ease-out;
   }
-  
+
   @keyframes slideDown {
     from {
       opacity: 0;
@@ -91,7 +105,7 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
       transform: translateY(0);
     }
   }
-  
+
   /* Link styling */
   .table-of-contents a {
     position: relative;
@@ -102,11 +116,11 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
     margin: 1px 0;
     text-decoration: none;
   }
-  
+
   .table-of-contents a:hover {
     background-color: rgba(var(--primary), 0.05);
   }
-  
+
   /* Active link styling - simple underline */
   .table-of-contents a.active {
     color: rgb(var(--primary));
@@ -115,7 +129,7 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
     text-decoration-thickness: 1px;
     font-weight: 500;
   }
-  
+
   /* Line clamp for long titles */
   .line-clamp-2 {
     display: -webkit-box;
@@ -128,30 +142,30 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
   html {
     scroll-behavior: smooth;
   }
-  
+
   /* Offset scroll position */
   :target {
     scroll-margin-top: 2rem;
   }
-  
+
   /* Custom scrollbar */
   .table-of-contents nav::-webkit-scrollbar {
     width: 2px;
   }
-  
+
   .table-of-contents nav::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   .table-of-contents nav::-webkit-scrollbar-thumb {
     background: rgba(var(--primary), 0.3);
     border-radius: 1px;
   }
-  
+
   .table-of-contents nav::-webkit-scrollbar-thumb:hover {
     background: rgba(var(--primary), 0.5);
   }
-  
+
   /* Responsive adjustments - closer to content */
   @media (max-width: 1200px) {
     .table-of-contents {
@@ -159,7 +173,7 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
       max-width: 200px;
     }
   }
-  
+
   @media (max-width: 1024px) {
     .table-of-contents {
       max-width: 180px;
@@ -169,58 +183,62 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
 
 <script>
   // Highlight current section in TOC while scrolling
-  document.addEventListener('DOMContentLoaded', function() {
-    const tocLinks = document.querySelectorAll('.table-of-contents a') as NodeListOf<HTMLAnchorElement>;
-    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6') as NodeListOf<HTMLHeadingElement>;
-    
+  document.addEventListener("DOMContentLoaded", function () {
+    const tocLinks = document.querySelectorAll(
+      ".table-of-contents a"
+    ) as NodeListOf<HTMLAnchorElement>;
+    const headings = document.querySelectorAll(
+      "h1, h2, h3, h4, h5, h6"
+    ) as NodeListOf<HTMLHeadingElement>;
+
     // Add click tracking to TOC links
-    tocLinks.forEach(link => {
-      link.addEventListener('click', function() {
+    tocLinks.forEach((link) => {
+      link.addEventListener("click", function () {
         // Close the details element on mobile after clicking
-        const details = this.closest('details');
+        const details = this.closest("details");
         if (details && window.innerWidth < 1024) {
           setTimeout(() => {
-            details.removeAttribute('open');
+            details.removeAttribute("open");
           }, 300);
         }
       });
     });
-    
+
     function updateTOC() {
-      let current = '';
+      let current = "";
       let closestHeading = null;
       let closestDistance = Infinity;
-      
-      headings.forEach(heading => {
+
+      headings.forEach((heading) => {
         const rect = heading.getBoundingClientRect();
         const distance = Math.abs(rect.top - 120); // Distance from ideal position
-        
+
         if (rect.top <= 120 && distance < closestDistance) {
           closestDistance = distance;
           closestHeading = heading;
           current = heading.id;
         }
       });
-      
+
       // If no heading is above the threshold, use the first visible one
       if (!current) {
-        Array.from(headings).forEach(heading => {
+        Array.from(headings).forEach((heading) => {
           const rect = heading.getBoundingClientRect();
           if (rect.top > 0 && !current) {
             current = heading.id;
           }
         });
       }
-      
-      tocLinks.forEach(link => {
-        link.classList.remove('active');
-        
-        if (link.getAttribute('href') === `#${current}`) {
-          link.classList.add('active');
+
+      tocLinks.forEach((link) => {
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === `#${current}`) {
+          link.classList.add("active");
         }
       });
     }
-    
+
     // Throttle scroll events for better performance
     let ticking = false;
     function scrollHandler() {
@@ -232,8 +250,8 @@ const filteredHeadings = headings.filter(heading => heading.depth <= 3);
         ticking = true;
       }
     }
-    
-    window.addEventListener('scroll', scrollHandler);
+
+    window.addEventListener("scroll", scrollHandler);
     updateTOC(); // Initial call
   });
 </script>

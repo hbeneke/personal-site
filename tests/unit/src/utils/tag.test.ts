@@ -384,9 +384,19 @@ describe("tagUtils", () => {
     });
 
     it("should return null when getCollection throws error", async () => {
+      // Mock console.error to avoid console output during tests
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
+      // Mock getCollection to throw an error
+      mockGetCollection.mockRejectedValue(new Error("Collection access failed"));
+
       const result = await getTagContent("javascript");
 
       expect(result).toBeNull();
+      expect(consoleSpy).toHaveBeenCalledWith("Error accessing tag collection:", expect.any(Error));
+      
+      // Restore console.error
+      consoleSpy.mockRestore();
     });
 
     it("should handle partial tag data", async () => {

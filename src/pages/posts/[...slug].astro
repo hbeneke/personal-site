@@ -1,6 +1,7 @@
 ---
 import { render } from "astro:content";
 import ScrollToTop from "@components/scroll-to-top.astro";
+import TableOfContents from "@components/table-of-contents.astro";
 import EtiquetteIcon from "@icons/etiquette.svg?raw";
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
@@ -16,11 +17,15 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { title, publishDate, description, tags, readTime, updatedDate } = post.data;
-const { Content } = await render(post);
-const formattedDate: string = new Date(publishDate).toLocaleString(siteConfig.locale, {
-  dateStyle: "long",
-});
+const { title, publishDate, description, tags, readTime, updatedDate } =
+  post.data;
+const { Content, headings } = await render(post);
+const formattedDate: string = new Date(publishDate).toLocaleString(
+  siteConfig.locale,
+  {
+    dateStyle: "long",
+  }
+);
 ---
 
 <BaseLayout
@@ -87,8 +92,9 @@ const formattedDate: string = new Date(publishDate).toLocaleString(siteConfig.lo
       }
     </header>
 
-    <div class="prose-content text-sm" data-pagefind-body>
+    <div class="prose-content text-sm relative" data-pagefind-body>
       <Content />
+      <TableOfContents headings={headings} />
     </div>
   </article>
   <ScrollToTop />

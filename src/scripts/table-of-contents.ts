@@ -47,7 +47,6 @@ export class TableOfContents extends HTMLElement {
 
   private updateTOC(): void {
     let current = "";
-    let closestHeading = null;
     let closestDistance = Number.POSITIVE_INFINITY;
 
     for (const heading of Array.from(this.headings)) {
@@ -56,7 +55,6 @@ export class TableOfContents extends HTMLElement {
 
       if (rect.top <= 120 && distance < closestDistance) {
         closestDistance = distance;
-        closestHeading = heading;
         current = heading.id;
       }
     }

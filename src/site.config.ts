@@ -31,7 +31,7 @@ export const siteConfig: SiteConfig = {
   jobTitle: "Frontend Developer",
   siteTitle: "Enrique Quero",
   siteCreationYear: "2024",
-  siteUrl: "https://habakukbeneke.com",
+  siteUrl: "https://equero.dev",
   socialLinks: {
     linkedin: "https://www.linkedin.com/in/equerodev/",
     github: "https://www.github.com/hbeneke",

@@ -17,8 +17,15 @@ export class TableOfContents extends HTMLElement {
       return;
     }
 
+    this.applyTransitionStyles();
     this.setupEventListeners();
     this.updateTOC();
+  }
+
+  private applyTransitionStyles(): void {
+    for (const link of Array.from(this.tocLinks)) {
+      link.style.transition = "all 0.3s ease";
+    }
   }
 
   private setupEventListeners(): void {
@@ -64,10 +71,14 @@ export class TableOfContents extends HTMLElement {
     }
 
     for (const link of Array.from(this.tocLinks)) {
-      link.removeAttribute("data-active");
+      link.classList.remove("active");
+      link.style.backgroundColor = "";
+      link.style.transform = "";
 
       if (link.getAttribute("href") === `#${current}`) {
-        link.setAttribute("data-active", "true");
+        link.classList.add("active");
+        link.style.backgroundColor = "rgba(var(--primary), 0.08)";
+        link.style.transform = "translateX(2px)";
       }
     }
   }

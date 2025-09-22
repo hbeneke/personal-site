@@ -112,7 +112,7 @@
   }
   .prose-content h2::before {
     content: "#";
-    @apply hover:text-yellow-400 mr-2;
+    @apply text-yellow-400 mr-2;
   }
 
   .section-title-line::after {

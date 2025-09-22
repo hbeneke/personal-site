@@ -30,7 +30,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
         </summary>
 
         <nav class="bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg p-3 shadow-lg">
-          <ul class="list-none m-0 p-0 pl-0">
+          <ul class="list-none m-0 p-0 pl-0 toc-list">
             {filteredHeadings.map((heading) => (
               <li
                 class={`${heading.depth > 2 ? "ml-3" : ""} list-none m-0 p-0`}
@@ -38,16 +38,15 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
                 <a
                   href={`#${heading.slug}`}
                   class={`
-                    relative block break-words rounded px-1.5 py-1 mt-1 mb-1 no-underline
+                    relative block break-words rounded px-1.5 py-1 mt-1 mb-1
                     text-gray-600 dark:text-gray-300 hover:primary hover:bg-primary/5 
                     transition-colors duration-200 line-clamp-2
-                    [&.active]:primary [&.active]:underline [&.active]:underline-offset-2 
-                    [&.active]:decoration-1 [&.active]:font-medium
+                    [&.active]:primary 
                     ${heading.depth <= 2 ? "text-xs mt-2" : "text-[10px] mt-1"}
                   `}
                   data-toc-link
                 >
-                  <span aria-hidden="true" class="mr-1 opacity-60">
+                  <span aria-hidden="true" class="mr-1 no-underline">
                     #
                   </span>
                   {heading.text}
@@ -64,6 +63,11 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
 <style>
   table-of-contents[open] summary svg {
     transform: rotate(90deg);
+  }
+
+  table-of-contents .toc-list {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
   }
 
   table-of-contents nav::-webkit-scrollbar {

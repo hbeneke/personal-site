@@ -1,0 +1,8 @@
+.prose-content h2 {
+  @apply cursor-pointer;
+}
+
+.prose-content h2::before {
+  content: "#";
+  @apply text-yellow-400 mr-2;
+}

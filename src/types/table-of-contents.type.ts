@@ -3,3 +3,7 @@ export interface TableOfContent {
   text: string;
   slug: string;
 }
+
+export interface Props {
+  headings: TableOfContent[];
+}

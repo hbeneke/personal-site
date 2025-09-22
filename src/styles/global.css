@@ -33,6 +33,14 @@
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :target {
+    scroll-margin-top: 2rem;
+  }
+
   * {
     transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
   }
@@ -105,14 +113,6 @@
     line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  .prose-content h2 {
-    @apply cursor-pointer;
-  }
-  .prose-content h2::before {
-    content: "#";
-    @apply text-yellow-400 mr-2;
   }
 
   .section-title-line::after {

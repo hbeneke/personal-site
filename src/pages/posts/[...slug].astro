@@ -6,6 +6,7 @@ import EtiquetteIcon from "@icons/etiquette.svg?raw";
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getAllPosts } from "@utils/post";
+import "@styles/components/post.css";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts(false, false);

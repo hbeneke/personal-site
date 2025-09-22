@@ -4,8 +4,9 @@ import { siteConfig } from "@site-config";
 ---
 
 <BaseLayout
-  title={`404 Error · ${siteConfig.siteTitle}`}
-  description={`Arrr! Ye be lost, matey! This page be buried treasure that no one can find.`}
+  title="Page Not Found"
+  description="Sorry, the page you're looking for doesn't exist. Explore other areas of my website or return to the homepage."
+  canonicalUrl={new URL("/404/", siteConfig.siteUrl)}
 >
   <h1 class="title mb-6">
     <span class="text-5xl text-yellow-400 font-extrabold">404</span> | Arrr! Page

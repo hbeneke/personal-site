@@ -1,0 +1,153 @@
+---
+import { siteConfig } from "@site-config";
+
+export interface SEOProps {
+  title: string;
+  description: string;
+  image?: string;
+  article?: boolean;
+  publishDate?: string;
+  modifiedDate?: string;
+  canonicalUrl?: URL | string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  author?: string;
+  tags?: string[];
+}
+
+const {
+  title,
+  description,
+  image = "/favicon.svg",
+  article = false,
+  publishDate,
+  modifiedDate,
+  canonicalUrl = Astro.url,
+  noindex = false,
+  nofollow = false,
+  author = siteConfig.authorName,
+  tags = [],
+} = Astro.props as SEOProps;
+
+// Ensure title doesn't duplicate site name
+const fullTitle = title.includes(siteConfig.siteTitle)
+  ? title
+  : `${title} · ${siteConfig.siteTitle}`;
+
+// Create absolute URLs
+const canonical =
+  typeof canonicalUrl === "string"
+    ? new URL(canonicalUrl, siteConfig.siteUrl)
+    : canonicalUrl;
+const ogImage = new URL(image, siteConfig.siteUrl).href;
+
+// Robots content
+const robotsContent = [
+  noindex ? "noindex" : "index",
+  nofollow ? "nofollow" : "follow",
+].join(", ");
+
+// Structured data for articles
+const articleStructuredData = article
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: title,
+      description: description,
+      url: canonical.href,
+      image: ogImage,
+      datePublished: publishDate,
+      dateModified: modifiedDate || publishDate,
+      author: {
+        "@type": "Person",
+        name: author,
+        url: siteConfig.siteUrl,
+        sameAs: [
+          siteConfig.socialLinks.linkedin,
+          siteConfig.socialLinks.github,
+          siteConfig.socialLinks.x,
+        ],
+      },
+      publisher: {
+        "@type": "Person",
+        name: siteConfig.authorName,
+        url: siteConfig.siteUrl,
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonical.href,
+      },
+      ...(tags.length > 0 && { keywords: tags.join(", ") }),
+    }
+  : null;
+---
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={author} />
+<link rel="canonical" href={canonical.href} />
+
+<!-- Robots -->
+<meta name="robots" content={robotsContent} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:url" content={canonical.href} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteConfig.siteTitle} />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical.href} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:site" content="@habakukbeneke" />
+<meta name="twitter:creator" content="@habakukbeneke" />
+
+<!-- Article specific meta tags -->
+{
+  article && publishDate && (
+    <meta property="article:published_time" content={publishDate} />
+  )
+}
+{
+  article && modifiedDate && (
+    <meta property="article:modified_time" content={modifiedDate} />
+  )
+}
+{article && <meta property="article:author" content={author} />}
+{
+  article &&
+    tags.length > 0 &&
+    tags.map((tag) => <meta property="article:tag" content={tag} />)
+}
+
+<!-- RSS Feeds -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${siteConfig.siteTitle} - Posts`}
+  href="/posts/rss.xml"
+/>
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${siteConfig.siteTitle} - Notes`}
+  href="/notes/rss.xml"
+/>
+
+<!-- Structured Data for Articles -->
+{
+  articleStructuredData && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(articleStructuredData)}
+    />
+  )
+}

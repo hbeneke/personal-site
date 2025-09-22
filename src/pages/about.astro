@@ -4,8 +4,10 @@ import { siteConfig } from "@site-config";
 ---
 
 <BaseLayout
-  title={`About · ${siteConfig.siteTitle}`}
-  description={`Get in touch with ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle}. Available for freelance projects and full-time opportunities.`}
+  title="About"
+  description={`Get to know ${siteConfig.authorName}, a Senior ${siteConfig.jobTitle} with over 10 years of experience. Based in ${siteConfig.location}, available for freelance projects and full-time opportunities in web development.`}
+  schemaType="Person"
+  canonicalUrl={new URL("/about/", siteConfig.siteUrl)}
 >
   <section class="space-y-8">
     <header>

@@ -5,8 +5,10 @@ import { siteConfig } from "@site-config";
 ---
 
 <BaseLayout
-  title={`Home · ${siteConfig.siteTitle}`}
-  description=`Welcome to my personal webpage and blog! I'm a senior ${siteConfig.jobTitle} in modern web technologies. Explore my thoughts, projects, and experiences in software development.`
+  title={siteConfig.siteTitle}
+  description={`Welcome to ${siteConfig.authorName}'s personal website and blog. I'm a senior ${siteConfig.jobTitle} with over 10 years of experience in modern web technologies. Explore my thoughts, projects, and professional journey in software development.`}
+  schemaType="WebSite"
+  canonicalUrl={new URL("/", siteConfig.siteUrl)}
 >
   <section>
     <header>

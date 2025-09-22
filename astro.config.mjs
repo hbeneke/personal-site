@@ -1,9 +1,11 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  integrations: [tailwind()],
+  site: "https://equero.dev",
+  integrations: [tailwind(), sitemap()],
   adapter: vercel(),
   output: "static",
   vite: {

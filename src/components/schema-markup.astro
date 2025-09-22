@@ -1,0 +1,152 @@
+---
+import { siteConfig } from "@site-config";
+
+export interface SchemaProps {
+  type: "WebSite" | "Person" | "BlogPosting" | "Article" | "BreadcrumbList";
+  title?: string;
+  description?: string;
+  url?: string;
+  image?: string;
+  publishDate?: string;
+  modifiedDate?: string;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+}
+
+const {
+  type,
+  title,
+  description,
+  url = Astro.url.href,
+  image,
+  publishDate,
+  modifiedDate,
+  breadcrumbs,
+} = Astro.props as SchemaProps;
+
+const getSchema = () => {
+  const baseSchema = {
+    "@context": "https://schema.org",
+  };
+
+  switch (type) {
+    case "WebSite":
+      return {
+        ...baseSchema,
+        "@type": "WebSite",
+        name: siteConfig.siteTitle,
+        description:
+          description ||
+          `Personal website and blog of ${siteConfig.authorName}, ${siteConfig.jobTitle}`,
+        url: siteConfig.siteUrl,
+        author: {
+          "@type": "Person",
+          name: siteConfig.authorName,
+          jobTitle: siteConfig.jobTitle,
+          url: siteConfig.siteUrl,
+          sameAs: [
+            siteConfig.socialLinks.linkedin,
+            siteConfig.socialLinks.github,
+            siteConfig.socialLinks.x,
+          ],
+        },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${siteConfig.siteUrl}/search?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
+      };
+
+    case "Person":
+      return {
+        ...baseSchema,
+        "@type": "Person",
+        name: siteConfig.authorName,
+        alternateName: siteConfig.nickname,
+        jobTitle: siteConfig.jobTitle,
+        description:
+          description ||
+          `${siteConfig.jobTitle} with over 10 years of experience`,
+        url: siteConfig.siteUrl,
+        image: image
+          ? new URL(image, siteConfig.siteUrl).href
+          : `${siteConfig.siteUrl}/favicon.svg`,
+        sameAs: [
+          siteConfig.socialLinks.linkedin,
+          siteConfig.socialLinks.github,
+          siteConfig.socialLinks.x,
+        ],
+        knowsAbout: [
+          "Frontend Development",
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Vue.js",
+          "Web Development",
+          "Software Engineering",
+        ],
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Madrid",
+          addressCountry: "Spain",
+        },
+      };
+
+    case "BlogPosting":
+    case "Article":
+      return {
+        ...baseSchema,
+        "@type": type,
+        headline: title,
+        description: description,
+        url: url,
+        image: image
+          ? new URL(image, siteConfig.siteUrl).href
+          : `${siteConfig.siteUrl}/favicon.svg`,
+        datePublished: publishDate,
+        dateModified: modifiedDate || publishDate,
+        author: {
+          "@type": "Person",
+          name: siteConfig.authorName,
+          url: siteConfig.siteUrl,
+          sameAs: [
+            siteConfig.socialLinks.linkedin,
+            siteConfig.socialLinks.github,
+            siteConfig.socialLinks.x,
+          ],
+        },
+        publisher: {
+          "@type": "Person",
+          name: siteConfig.authorName,
+          url: siteConfig.siteUrl,
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": url,
+        },
+      };
+
+    case "BreadcrumbList":
+      return {
+        ...baseSchema,
+        "@type": "BreadcrumbList",
+        itemListElement:
+          breadcrumbs?.map((crumb, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: crumb.name,
+            item: new URL(crumb.url, siteConfig.siteUrl).href,
+          })) || [],
+      };
+
+    default:
+      return baseSchema;
+  }
+};
+
+const schema = getSchema();
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

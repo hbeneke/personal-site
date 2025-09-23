@@ -5,7 +5,13 @@ import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://equero.dev",
-  integrations: [tailwind(), sitemap()],
+  integrations: [
+    tailwind(),
+    sitemap({
+      filter: (page) => !page.includes("404") && !page.includes("_draft"),
+      customPages: [],
+    }),
+  ],
   adapter: vercel(),
   output: "static",
   vite: {

@@ -8,7 +8,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
 
 {
   filteredHeadings.length > 1 && (
-    <table-of-contents class="hidden md:block fixed top-1/4 right-2 lg:right-4 xl:right-6 z-10 max-w-64 max-h-[60vh] overflow-y-auto xl:max-w-64 lg:max-w-[200px] md:max-w-[180px]">
+    <table-of-contents class="hidden md:block fixed top-1/4 right-2 lg:right-4 xl:right-6 z-10 max-w-64 max-h-[60vh] overflow-y-auto xl:max-w-64 lg:max-w-[200px] md:max-w-[180px] not-prose">
       <details open>
         <summary class="cursor-pointer text-xs font-medium text-gray-400 hover:text-gray-200 transition-colors duration-200 mb-3 list-none [&::-webkit-details-marker]:hidden">
           <span class="flex items-center">
@@ -40,7 +40,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
                   class={`
                     relative block break-words rounded px-1.5 py-1 mt-1 mb-1
                     text-gray-600 dark:text-gray-300 hover:primary hover:bg-primary/5 
-                    transition-colors duration-200 line-clamp-2
+                    transition-colors duration-200 line-clamp-2 no-underline
                     [&.active]:primary 
                     ${heading.depth <= 2 ? "text-xs mt-2" : "text-[10px] mt-1"}
                   `}

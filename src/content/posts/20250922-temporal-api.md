@@ -45,8 +45,11 @@ Want a date with time and timezone? Easy:
 
 ```javascript
 const { Temporal } = require('@js-temporal/polyfill');
-const dateTime = Temporal.ZonedDateTime.from('2025-09-26T14:00:00+02:00[Europe/Madrid]');
-console.log(dateTime.toString()); // "2025-09-26T14:00:00+02:00[Europe/Madrid]"
+const dateTime = Temporal.ZonedDateTime.from(
+  '2025-09-26T14:00:00+02:00[Europe/Madrid]'
+);
+console.log(dateTime.toString()); 
+// "2025-09-26T14:00:00+02:00[Europe/Madrid]"
 ```
 
 But here's where it gets really cool - working with dates becomes stupidly simple. Need to add 10 days to a date?

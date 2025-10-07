@@ -78,3 +78,14 @@ If you're lucky enough to have full browser support already, the migration is pr
 Look, the Temporal API is a total game changer. It's here to stay and finally put that trainwreck of a Date object out of its misery (no offense to [Brendan Eich](https://github.com/BrendanEich) - the guy did what he could under impossible circumstances).
 
 If you're a JavaScript developer, **THIS IS MANDATORY**. Seriously, learn this API. It'll make your life so much better, and anyone who has to maintain your code later will actually thank you instead of cursing your name.
+
+---
+
+## References
+
+- [TC39 Temporal Proposal](https://tc39.es/proposal-temporal/)
+- [Temporal API GitHub Repository](https://github.com/tc39/proposal-temporal)
+- [Official Temporal Polyfill](https://github.com/js-temporal/temporal-polyfill)
+- [Can I Use Temporal](https://caniuse.com/temporal)
+- [Moment.js](https://momentjs.com/)
+- [day.js](https://day.js.org/)

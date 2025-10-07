@@ -90,3 +90,13 @@ The most telling part? Even experienced framework developers who've seen it all 
 Until we break this cycle, we'll keep going in circles, learning new frameworks every few years, splitting our industry into smaller pieces, and wondering why no one takes frontend development seriously.
 
 So here comes another one called [Ripple](https://github.com/trueadm/ripple). Pull up a chair and get comfortable, because you know how this goes. Who knows, maybe this one will actually stick around longer than the others.
+
+---
+
+## References
+
+- [RippleJS Official Website](https://www.ripplejs.com/)
+- [RippleJS GitHub Repository](https://github.com/trueadm/ripple)
+- [Dominic Gannaway (@trueadm)](https://github.com/trueadm)
+
+````

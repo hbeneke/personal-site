@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getSortedTagsWithCounts } from "@utils/tag";
+import ScrollToTop from "@components/scroll-to-top.astro";
 
 const sortedTags = await getSortedTagsWithCounts();
 ---
@@ -41,4 +42,5 @@ const sortedTags = await getSortedTagsWithCounts();
       }
     </div>
   </section>
+  <ScrollToTop />
 </BaseLayout>

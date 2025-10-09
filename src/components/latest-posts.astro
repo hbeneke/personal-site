@@ -5,14 +5,14 @@ import { getLatestPosts } from "@utils/post";
 const latestPosts = await getLatestPosts(4);
 ---
 
-<section id="post-section" class="mt-20">
+<section id="post-section" class="mt-10">
   <header class="mb-5">
     <h2 class="font-semibold text-xl secondary">Posts</h2>
   </header>
   <ul class="space-y-4">
     {
       latestPosts.map((post) => (
-        <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+        <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2 text-xs">
           <time
             datetime={post.data.publishDate}
             class="min-w-[120px] text-gray-600 dark:text-gray-400 transition-colors duration-200"
@@ -33,7 +33,7 @@ const latestPosts = await getLatestPosts(4);
     }
     {
       latestPosts.length > 0 && (
-        <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+        <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2 text-xs">
           <div class="min-w-[120px]" />
           <div>
             <a

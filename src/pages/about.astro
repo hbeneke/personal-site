@@ -11,18 +11,18 @@ import { siteConfig } from "@site-config";
 >
   <section class="max-w-4xl mx-auto space-y-12">
     <div class="text-center space-y-6">
-      <h1 class="text-3xl font-bold secondary">
+      <h1 class="text-2xl font-bold secondary">
         Hey! I'm {siteConfig.authorName}
       </h1>
       <p
-        class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
+        class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
       >
         I'm a <span class="secondary font-semibold">{siteConfig.jobTitle}</span>
         who's been coding for over 10 years and still gets excited about it! Currently
         working full-time but always curious about cool new projects.
       </p>
       <div
-        class="flex justify-center items-center space-x-4 text-sm text-gray-500 dark:text-gray-400"
+        class="flex justify-center items-center space-x-4 text-xs text-gray-500 dark:text-gray-400"
       >
         <span>{siteConfig.location}</span>
         <span>•</span>
@@ -66,7 +66,7 @@ import { siteConfig } from "@site-config";
           >
             Giving Back
           </h2>
-          <p class="text-sm text-green-700 dark:text-green-300">
+          <p class="text-xs text-green-700 dark:text-green-300">
             I believe in giving back to the developer community. If you're
             working on an open-source project, educational initiative, or
             nonprofit that could use my help, don't hesitate to reach out!
@@ -94,7 +94,7 @@ import { siteConfig } from "@site-config";
             <div>
               <h3 class="text-sm font-medium secondary mb-2">Direct Contact</h3>
               <p class="text-xs text-gray-600 dark:text-gray-300">
-                <span class="secondary">{siteConfig.obfuscatedEmail}</span>
+                <span>{siteConfig.obfuscatedEmail}</span>
               </p>
             </div>
           </div>

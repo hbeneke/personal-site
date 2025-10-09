@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
+import GitHubIcon from "@icons/github.svg";
+import LinkedInIcon from "@icons/linkedin.svg";
+import XIcon from "@icons/x.svg";
 ---
 
 <BaseLayout
@@ -27,6 +30,39 @@ import { siteConfig } from "@site-config";
         <span>{siteConfig.location}</span>
         <span>•</span>
         <span>{siteConfig.timezone}</span>
+      </div>
+
+      <div class="flex justify-center gap-4 mt-6">
+        <a
+          href={siteConfig.socialLinks.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 px-6 py-3 bg-gray-800 dark:bg-gray-700 text-white text-sm font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors duration-200"
+          aria-label="Visit GitHub profile"
+        >
+          <GitHubIcon class="w-5 h-5" />
+          GitHub
+        </a>
+        <a
+          href={siteConfig.socialLinks.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200"
+          aria-label="Visit LinkedIn profile"
+        >
+          <LinkedInIcon class="w-5 h-5" />
+          LinkedIn
+        </a>
+        <a
+          href={siteConfig.socialLinks.x}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 px-6 py-3 bg-black dark:bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-700 transition-colors duration-200"
+          aria-label="Visit X (Twitter) profile"
+        >
+          <XIcon class="w-5 h-5" />
+          X
+        </a>
       </div>
     </div>
 

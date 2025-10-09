@@ -19,30 +19,30 @@ const sortedProjects = await getAllProjects(true, true);
       </h1>
     </header>
 
-    <div class="grid gap-6 md:grid-cols-2">
+    <div class="space-y-5">
       {
         sortedProjects.map((project) => (
-          <article class="group border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-colors duration-200 p-6">
-            <div class="flex items-center gap-2 mb-1">
-              {project.featured && <span class="secondary text-sm">★</span>}
-              <h3 class="text-lg font-medium">{project.title}</h3>
-            </div>
-
-            <div class="mb-4">
-              <div class="text-xs text-gray-500 dark:text-gray-400">
-                Last updated{" "}
+          <article class="project-item border-b border-gray-200 dark:border-gray-700 pb-5">
+            <div class="flex items-start justify-between gap-4 mb-2">
+              <h3 class="text-base">
+                <span class="secondary">{project.title}</span>
+                {project.featured && (
+                  <span class="text-yellow-400 ml-2 text-sm">★</span>
+                )}
+              </h3>
+              <time class="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0">
                 {new Date(project.date).toLocaleDateString(siteConfig.locale, {
                   year: "numeric",
                   month: "short",
                 })}
-              </div>
+              </time>
             </div>
 
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+            <p class="text-xs text-gray-600 dark:text-gray-400 mb-3">
               {project.description}
             </p>
 
-            <div class="flex flex-wrap gap-2 mb-4">
+            <div class="flex flex-wrap gap-2 mb-3">
               {project.technologies.map((tech: string) => (
                 <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
                   {tech}

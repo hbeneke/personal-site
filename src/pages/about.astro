@@ -1,9 +1,6 @@
 ---
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
-import GitHubIcon from "@icons/github.svg";
-import LinkedInIcon from "@icons/linkedin.svg";
-import XIcon from "@icons/x.svg";
 ---
 
 <BaseLayout
@@ -12,154 +9,137 @@ import XIcon from "@icons/x.svg";
   schemaType="Person"
   canonicalUrl={new URL("/about/", siteConfig.siteUrl)}
 >
-  <section class="max-w-4xl mx-auto space-y-12">
-    <div class="text-center space-y-6">
-      <h1 class="text-2xl font-bold secondary">
-        Hey! I'm {siteConfig.authorName}
+  <section>
+    <header class="mb-8">
+      <h1
+        class="text-xl font-medium secondary mb-6 border-b border-gray-200 dark:border-gray-700 pb-2"
+      >
+        About
       </h1>
-      <p
-        class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
-      >
-        I'm a <span class="secondary font-semibold">{siteConfig.jobTitle}</span>
-        who's been coding for over 10 years and still gets excited about it! Currently
-        working full-time but always curious about cool new projects.
-      </p>
-      <div
-        class="flex justify-center items-center space-x-4 text-xs text-gray-500 dark:text-gray-400"
-      >
-        <span>{siteConfig.location}</span>
-        <span>•</span>
-        <span>{siteConfig.timezone}</span>
+    </header>
+
+    <div class="space-y-8">
+      <!-- Intro -->
+      <div>
+        <p class="text-xs mb-2">
+          Hi, I'm <span class="secondary font-bold"
+            >{siteConfig.authorName}</span
+          > (aka <span class="secondary">{siteConfig.nickname}</span>)
+        </p>
+        <p class="text-xs">
+          <span class="secondary font-bold">{siteConfig.jobTitle}</span> → {
+            siteConfig.location
+          } → {siteConfig.timezone}
+        </p>
       </div>
 
-      <div class="flex justify-center gap-4 mt-6">
-        <a
-          href={siteConfig.socialLinks.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-2 px-6 py-3 bg-gray-800 dark:bg-gray-700 text-white text-sm font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors duration-200"
-          aria-label="Visit GitHub profile"
-        >
-          <GitHubIcon class="w-5 h-5" />
-          GitHub
-        </a>
-        <a
-          href={siteConfig.socialLinks.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-2 px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200"
-          aria-label="Visit LinkedIn profile"
-        >
-          <LinkedInIcon class="w-5 h-5" />
-          LinkedIn
-        </a>
-        <a
-          href={siteConfig.socialLinks.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-2 px-6 py-3 bg-black dark:bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-700 transition-colors duration-200"
-          aria-label="Visit X (Twitter) profile"
-        >
-          <XIcon class="w-5 h-5" />
-          X
-        </a>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2 space-y-8">
-        <div
-          class="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm"
-        >
-          <h2 class="text-lg font-semibold mb-4 secondary">What I'm Up To</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="space-y-2">
-              <h3 class="font-medium text-sm secondary">
-                Side Projects & Freelance
-              </h3>
-              <p class="text-xs text-gray-600 dark:text-gray-300">
-                Building cool stuff, fixing performance issues, reviewing code,
-                and generally helping people make their web dreams come true.
-              </p>
-            </div>
-            <div class="space-y-2">
-              <h3 class="font-medium text-sm secondary">
-                Maybe Your Next Teammate?
-              </h3>
-              <p class="text-xs text-gray-600 dark:text-gray-300">
-                Always open to interesting full-time opportunities with teams
-                that value creativity and good vibes.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800"
-        >
-          <h2
-            class="text-lg font-semibold mb-3 text-green-800 dark:text-green-200"
-          >
-            Giving Back
-          </h2>
-          <p class="text-xs text-green-700 dark:text-green-300">
-            I believe in giving back to the developer community. If you're
-            working on an open-source project, educational initiative, or
-            nonprofit that could use my help, don't hesitate to reach out!
-          </p>
-        </div>
-      </div>
-
+      <!-- Timeline style content -->
       <div class="space-y-6">
-        <div
-          class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700"
-        >
-          <h2 class="text-lg font-semibold mb-4 secondary">Get In Touch</h2>
-          <div class="space-y-4">
-            <div>
-              <h3 class="text-sm font-medium secondary mb-2">
-                Location & Time
-              </h3>
-              <p class="text-xs text-gray-600 dark:text-gray-300">
-                {siteConfig.location}
-              </p>
-              <p class="text-xs text-gray-600 dark:text-gray-300">
-                {siteConfig.timezone}
-              </p>
+        <!-- Item 1 -->
+        <div class="flex gap-4">
+          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
+            <div
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
+            >
             </div>
-            <div>
-              <h3 class="text-sm font-medium secondary mb-2">Direct Contact</h3>
-              <p class="text-xs text-gray-600 dark:text-gray-300">
-                <span>{siteConfig.obfuscatedEmail}</span>
-              </p>
-            </div>
+          </div>
+          <div class="flex-1 -mt-1">
+            <h2 class="text-sm font-semibold mb-2 secondary">The Journey</h2>
+            <p class="text-xs leading-relaxed">
+              10+ years coding and still loving it. Started with curiosity,
+              stayed for the constant evolution. Every project teaches me
+              something new, and that's what keeps me excited about this field.
+            </p>
           </div>
         </div>
 
-        <div
-          class="bg-yellow-50 dark:bg-yellow-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-800"
-        >
-          <h3
-            class="text-sm font-semibold mb-2 text-yellow-800 dark:text-yellow-200"
-          >
-            Quick Response
-          </h3>
-          <p class="text-xs text-yellow-700 dark:text-yellow-300">
-            I typically respond to emails and messages within 24 hours. For
-            urgent inquiries, feel free to reach out via LinkedIn for faster
-            communication.
-          </p>
+        <!-- Item 2 -->
+        <div class="flex gap-4">
+          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
+            <div
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
+            >
+            </div>
+          </div>
+          <div class="flex-1 -mt-1">
+            <h2 class="text-sm font-semibold mb-2 secondary">Right Now</h2>
+            <p class="text-xs leading-relaxed mb-2">
+              Working full-time, building cool things, solving interesting
+              problems. Also taking on freelance projects when they align with
+              my interests.
+            </p>
+            <p class="text-xs leading-relaxed">
+              My sweet spot: performance optimizations, code reviews,
+              architecture decisions, and helping teams write better code.
+            </p>
+          </div>
         </div>
 
-        <div
-          class="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"
-        >
-          <p class="text-xs text-gray-600 dark:text-gray-400">
-            Also known as <span class="secondary font-medium"
-              >{siteConfig.nickname}</span
+        <!-- Item 3 -->
+        <div class="flex gap-4">
+          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
+            <div
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
             >
-          </p>
+            </div>
+          </div>
+          <div class="flex-1 -mt-1">
+            <h2 class="text-sm font-semibold mb-2 secondary">Open To</h2>
+            <p class="text-xs leading-relaxed">
+              → Freelance projects & consulting<br />
+              → Full-time opportunities (if the fit is right)<br />
+              → Open source contributions<br />
+              → Helping nonprofits & educational projects
+            </p>
+          </div>
         </div>
+
+        <!-- Item 4 -->
+        <div class="flex gap-4">
+          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
+            <div
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
+            >
+            </div>
+          </div>
+          <div class="flex-1 -mt-1">
+            <h2 class="text-sm font-semibold mb-2 secondary">Let's Connect</h2>
+            <p class="text-xs leading-relaxed mb-3">
+              Best way to reach me: <span class="secondary italic"
+                >{siteConfig.obfuscatedEmail}</span
+              >
+              <br />I typically respond within 24 hours.
+            </p>
+            <p class="text-xs">
+              Find me on <a
+                class="primary-link"
+                href={siteConfig.socialLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer">LinkedIn</a
+              >,
+              <a
+                class="primary-link"
+                href={siteConfig.socialLinks.github}
+                target="_blank"
+                rel="noopener noreferrer">GitHub</a
+              >, or
+              <a
+                class="primary-link"
+                href={siteConfig.socialLinks.x}
+                target="_blank"
+                rel="noopener noreferrer">X</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom note -->
+      <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+        <p class="text-xs italic">
+          I Believe in giving back to the developer community. If you're working
+          on something meaningful that could use my help, let's talk!
+        </p>
       </div>
     </div>
   </section>

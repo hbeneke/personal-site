@@ -1,22 +1,13 @@
 {
   "name": "@habakukbeneke/personal-site",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "My digital portfolio built with Astro and Tailwind CSS, highlighting my development expertise and professional journey.",
   "author": {
     "name": "Enrique Quero Vilar",
     "nickname": "Habakuk Beneke",
     "e-mail": "habakukBeneke [at] proton [dot] me"
   },
-  "keywords": [
-    "blog",
-    "resume",
-    "portfolio",
-    "cv",
-    "vite",
-    "astro",
-    "tailwind",
-    "unit-test"
-  ],
+  "keywords": ["blog", "resume", "portfolio", "cv", "vite", "astro", "tailwind", "unit-test"],
   "private": false,
   "license": "GPL-3.0-only",
   "repository": {

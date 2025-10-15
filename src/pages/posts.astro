@@ -4,6 +4,7 @@ import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { formatPostDate } from "@utils/date";
 import { getPostsGroupedByYear } from "@utils/post";
+import RssIcon from "@icons/rss.svg";
 
 const postsGroupedByYear = await getPostsGroupedByYear(false);
 const years = Object.keys(postsGroupedByYear)
@@ -18,11 +19,22 @@ const years = Object.keys(postsGroupedByYear)
   <div class="flex flex-col gap-y-10 sm:flex-row sm:gap-y-0 sm:gap-x-12">
     <section class="flex-1">
       <header class="mb-8">
-        <h1
-          class="text-xl font-medium secondary mb-6 border-b border-gray-200 dark:border-gray-700 pb-2"
+        <div
+          class="flex items-center justify-between mb-6 border-b border-gray-200 dark:border-gray-700 pb-2"
         >
-          Posts
-        </h1>
+          <h1 class="text-xl font-medium secondary">Posts</h1>
+          <a
+            href="/posts/rss.xml"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:secondary dark:hover:secondary transition-colors duration-200"
+            title="Subscribe to RSS feed"
+            aria-label="Subscribe to RSS feed"
+          >
+            <RssIcon class="w-5 h-5" />
+            <span>RSS</span>
+          </a>
+        </div>
       </header>
 
       <div class="posts-list">

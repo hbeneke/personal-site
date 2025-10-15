@@ -9,8 +9,14 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.1.0"
+version: "1.2.0"
 changelog:
+  - version: "1.2.0"
+    date: "2025-10-15T15:00:00.000Z"
+    changes:
+      - "Added automated sync:master command to prevent version conflicts"
+      - "Improved Git hooks to prevent double version bumps during merges"
+      - "Implemented automatic version synchronization between develop and master branches"
   - version: "1.1.0"
     date: "2025-10-15T14:07:06.000Z"
     changes:

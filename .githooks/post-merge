@@ -33,12 +33,21 @@ if [ "$BRANCH" = "master" ] && [ "$MERGED_BRANCH" = "develop" ]; then
         echo "Tag v$NEW_VERSION created"
         
         # Sync version back to develop branch
+        echo "Syncing version to develop branch..."
         git checkout develop
         npm version $NEW_VERSION --no-git-tag-version
         git add package.json package-lock.json
         git commit -m "chore: sync version to $NEW_VERSION from master"
-        git checkout master
         
         echo "Version also synced to develop branch"
+        echo ""
+        echo "   IMPORTANT: Remember to push both branches and tags:"
+        echo "   git push origin master"
+        echo "   git push origin develop"
+        echo "   git push origin v$NEW_VERSION"
+        echo ""
+        
+        # Return to master (your workflow will handle the rest)
+        git checkout master
     fi
 fi

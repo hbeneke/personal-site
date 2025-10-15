@@ -1,16 +1,22 @@
 #!/bin/bash
 
-# Skip version bump if this is a post-merge commit
+# Skip version bump if this is a post-merge commit or sync commit
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+COMMIT_MSG_FILE=".git/COMMIT_EDITMSG"
+
+# Check if we're in a merge
 if [ -f ".git/MERGE_HEAD" ]; then
-    echo "✓ Merge in progress. Skipping pre-commit version bump (post-merge will handle it)."
+    echo "✓ Merge in progress. Skipping pre-commit version bump."
     exit 0
 fi
 
-# Skip version bump if commit message contains "chore: bump version"
-COMMIT_MSG=$(cat .git/COMMIT_EDITMSG 2>/dev/null || echo "")
-if [[ "$COMMIT_MSG" == *"chore: bump version"* ]] || [[ "$COMMIT_MSG" == *"chore: sync version"* ]]; then
-    echo "✓ Version bump commit detected. Skipping pre-commit version bump."
-    exit 0
+# Check if commit message contains version-related keywords
+if [ -f "$COMMIT_MSG_FILE" ]; then
+    COMMIT_MSG=$(cat "$COMMIT_MSG_FILE" 2>/dev/null || echo "")
+    if [[ "$COMMIT_MSG" == *"bump version"* ]] || [[ "$COMMIT_MSG" == *"sync version"* ]] || [[ "$COMMIT_MSG" == *"resolve version conflict"* ]]; then
+        echo "✓ Version-related commit detected. Skipping pre-commit version bump."
+        exit 0
+    fi
 fi
 
 if [ ! -f "package.json" ]; then

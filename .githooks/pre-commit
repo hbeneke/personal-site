@@ -1,0 +1,41 @@
+#!/bin/bash
+
+if [ ! -f "package.json" ]; then
+    echo "package.json not found"
+    exit 0
+fi
+
+CHANGED_FILES=$(git diff-tree -r --name-only --no-commit-id HEAD)
+
+NON_MD_FILES=$(echo "$CHANGED_FILES" | grep -v '\.md$')
+
+if [ -z "$NON_MD_FILES" ]; then
+    echo "✓ Only markdown files modified. Version not updated."
+    exit 0
+fi
+
+current_version=$(node -p "require('./package.json').version")
+
+if [ -z "$current_version" ]; then
+    echo "Could not read version from package.json"
+    exit 1
+fi
+
+IFS='.' read -r major minor patch <<< "$current_version"
+
+new_patch=$((patch + 1))
+new_version="$major.$minor.$new_patch"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s/\"version\": \"$current_version\"/\"version\": \"$new_version\"/" package.json
+else
+    sed -i "s/\"version\": \"$current_version\"/\"version\": \"$new_version\"/" package.json
+fi
+
+git add package.json
+
+git commit --amend --no-edit --no-verify
+
+echo "✓ Version updated: $current_version → $new_version"
+
+exit 0

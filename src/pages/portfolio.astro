@@ -21,13 +21,18 @@ const sortedProjects = await getAllProjects(true, true);
 
     <div class="space-y-5">
       {
-        sortedProjects.map((project) => (
+        sortedProjects.map((project, index) => (
           <article class="project-item border-b border-gray-200 dark:border-gray-700 pb-5">
             <div class="flex items-start justify-between gap-4 mb-2">
               <h3 class="text-base">
                 <span class="secondary">{project.title}</span>
                 {project.featured && (
                   <span class="text-yellow-400 ml-2 text-sm">★</span>
+                )}
+                {project.version && (
+                  <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                    v{project.version}
+                  </span>
                 )}
               </h3>
               <time class="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0">
@@ -50,7 +55,7 @@ const sortedProjects = await getAllProjects(true, true);
               ))}
             </div>
 
-            <div class="flex gap-4 text-sm">
+            <div class="flex gap-4 text-sm items-center">
               {project.github && (
                 <a
                   href={project.github}
@@ -71,7 +76,73 @@ const sortedProjects = await getAllProjects(true, true);
                   Demo
                 </a>
               )}
+              {project.changelog && project.changelog.length > 0 && (
+                <button
+                  type="button"
+                  class="primary-link accordion-toggle flex items-center gap-1"
+                  data-target={`changelog-${index}`}
+                  aria-expanded="false"
+                >
+                  <span>Changelog</span>
+                  <svg
+                    class="w-4 h-4 transition-transform duration-200 accordion-icon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
+
+            {project.changelog && project.changelog.length > 0 && (
+              <div
+                id={`changelog-${index}`}
+                class="accordion-content hidden mt-4 pl-4 border-l-2 border-gray-300 dark:border-gray-600"
+              >
+                <h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">
+                  Version History
+                </h4>
+                <div class="space-y-3">
+                  {project.changelog
+                    .sort(
+                      (a, b) =>
+                        new Date(b.date).getTime() - new Date(a.date).getTime()
+                    )
+                    .slice(0, 3)
+                    .map((entry) => (
+                      <div class="changelog-entry">
+                        <div class="flex items-baseline gap-2 mb-1">
+                          <span class="text-xs font-medium text-gray-800 dark:text-gray-200">
+                            v{entry.version}
+                          </span>
+                          <span class="text-xs text-gray-500 dark:text-gray-400">
+                            {new Date(entry.date).toLocaleDateString(
+                              siteConfig.locale,
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
+                          </span>
+                        </div>
+                        <ul class="list-disc list-inside text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                          {entry.changes.map((change) => (
+                            <li>{change}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
           </article>
         ))
       }
@@ -86,3 +157,7 @@ const sortedProjects = await getAllProjects(true, true);
     }
   </section>
 </BaseLayout>
+
+<script>
+  import "@scripts/portfolio";
+</script>

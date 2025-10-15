@@ -53,6 +53,8 @@ This project leverages modern web technologies:
    pnpm install
    ```
 
+   This will automatically install Git hooks for version management. See [Git Hooks](#git-hooks) section for details.
+
 1. Start the development server:
 
    ```bash
@@ -90,6 +92,31 @@ npm run lint
 # or
 pnpm lint
 ```
+
+## Git Hooks
+
+The project includes automated Git hooks for version management:
+
+### Available Hooks
+
+- **pre-commit**: Automatically increments the patch version (e.g., 1.0.0 → 1.0.1) when committing non-markdown files
+- **post-merge**: Automatically increments the minor version (e.g., 1.0.5 → 1.1.0) when merging `develop` into `master`
+
+### Installation
+
+Hooks are automatically installed when you run `npm install`. To manually install or reinstall:
+
+```bash
+npm run hooks:install
+```
+
+To uninstall hooks:
+
+```bash
+npm run hooks:uninstall
+```
+
+For more details, see [`.githooks/README.md`](./.githooks/README.md).
 
 ## Project Structure
 

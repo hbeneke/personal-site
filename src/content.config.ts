@@ -59,6 +59,16 @@ const portfolioProjects = defineCollection({
     demo: z.string().optional(),
     featured: z.boolean().default(false),
     order: z.number().optional(),
+    version: z.string().optional(),
+    changelog: z
+      .array(
+        z.object({
+          version: z.string(),
+          date: z.string(),
+          changes: z.array(z.string()),
+        }),
+      )
+      .optional(),
   }),
 });
 

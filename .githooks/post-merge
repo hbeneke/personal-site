@@ -31,5 +31,14 @@ if [ "$BRANCH" = "master" ] && [ "$MERGED_BRANCH" = "develop" ]; then
         
         echo "Version bumped from $CURRENT_VERSION to $NEW_VERSION"
         echo "Tag v$NEW_VERSION created"
+        
+        # Sync version back to develop branch
+        git checkout develop
+        npm version $NEW_VERSION --no-git-tag-version
+        git add package.json package-lock.json
+        git commit -m "chore: sync version to $NEW_VERSION from master"
+        git checkout master
+        
+        echo "Version also synced to develop branch"
     fi
 fi

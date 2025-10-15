@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Skip version bump if this is a post-merge commit
+if [ -f ".git/MERGE_HEAD" ]; then
+    echo "✓ Merge in progress. Skipping pre-commit version bump (post-merge will handle it)."
+    exit 0
+fi
+
+# Skip version bump if commit message contains "chore: bump version"
+COMMIT_MSG=$(cat .git/COMMIT_EDITMSG 2>/dev/null || echo "")
+if [[ "$COMMIT_MSG" == *"chore: bump version"* ]] || [[ "$COMMIT_MSG" == *"chore: sync version"* ]]; then
+    echo "✓ Version bump commit detected. Skipping pre-commit version bump."
+    exit 0
+fi
+
 if [ ! -f "package.json" ]; then
     echo "package.json not found"
     exit 0

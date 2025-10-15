@@ -3,10 +3,8 @@
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
-/**
- * Script para sincronizar develop con master
- * Automatiza: push develop -> merge a master -> push master y tags -> volver a develop
- */
+const args = process.argv.slice(2);
+const noTag = args.includes("--no-tag");
 
 const exec = (command, options = {}) => {
   try {
@@ -25,9 +23,12 @@ const execSilent = (command) => {
   }
 };
 
-console.log("🔄 Syncing develop to master...\n");
+if (noTag) {
+  console.log("🔄 Syncing develop to master (without tagging)...\n");
+} else {
+  console.log("🔄 Syncing develop to master...\n");
+}
 
-// 1. Verificar que estamos en develop
 const currentBranch = execSilent("git rev-parse --abbrev-ref HEAD");
 if (currentBranch !== "develop") {
   console.error('❌ Error: You must be on "develop" branch');
@@ -35,7 +36,6 @@ if (currentBranch !== "develop") {
   process.exit(1);
 }
 
-// 2. Verificar que no hay cambios sin commit
 const hasChanges = execSilent('git diff-index --quiet HEAD -- || echo "changes"');
 if (hasChanges === "changes") {
   console.error("❌ Error: You have uncommitted changes");
@@ -43,54 +43,63 @@ if (hasChanges === "changes") {
   process.exit(1);
 }
 
-// 3. Push develop
 console.log("📤 Pushing develop...");
 exec("git push origin develop");
 
-// 4. Checkout master
 console.log("🔀 Switching to master...");
 exec("git checkout master");
 
-// 5. Merge develop
 console.log("🔗 Merging develop into master...");
-exec("git merge develop --no-edit");
+if (noTag) {
+  const env = { ...process.env, SKIP_VERSION_BUMP: "1" };
+  try {
+    execSync("git merge develop --no-edit", {
+      encoding: "utf8",
+      stdio: "inherit",
+      env,
+    });
+  } catch (error) {
+    console.error("❌ Error executing: git merge develop --no-edit");
+    process.exit(1);
+  }
+} else {
+  exec("git merge develop --no-edit");
+}
 
-// El hook post-merge se ejecuta aquí y:
-// - Incrementa versión (MINOR)
-// - Crea tag
-// - Sincroniza versión a develop
-
-// 6. Push master
 console.log("📤 Pushing master...");
 exec("git push origin master");
 
-// 7. Push develop (con la versión sincronizada)
 console.log("📤 Pushing develop (synced version)...");
 exec("git push origin develop");
 
-// 8. Push tags
-const latestTag = execSilent("git describe --tags --abbrev=0");
-if (latestTag) {
-  console.log(`📤 Pushing tag ${latestTag}...`);
-  exec(`git push origin ${latestTag}`);
+let latestTag = "";
+if (!noTag) {
+  latestTag = execSilent("git describe --tags --abbrev=0");
+  if (latestTag) {
+    console.log(`📤 Pushing tag ${latestTag}...`);
+    exec(`git push origin ${latestTag}`);
+  }
 }
 
-// 9. Volver a develop
 console.log("🔙 Returning to develop...");
 exec("git checkout develop");
 
-// Mostrar información final
 console.log("\n✅ Sync completed!");
 
-try {
-  const packageJson = JSON.parse(readFileSync("./package.json", "utf8"));
-  console.log(`📦 Current version: ${packageJson.version}`);
-} catch (error) {
-  console.log("📦 Current version: unknown");
-}
+if (skipTag) {
+  console.log("⚠️  No tag was created (--no-tag flag used)");
+} else {
+  try {
+    const packageJson = JSON.parse(readFileSync("./package.json", "utf8"));
+    console.log(`📦 Current version: ${packageJson.version}`);
+  } catch (error) {
+    console.log("📦 Current version: unknown");
+  }
 
-if (latestTag) {
-  console.log(`🏷️  Tag: ${latestTag}`);
+  const latestTag = execSilent("git describe --tags --abbrev=0");
+  if (latestTag) {
+    console.log(`🏷️  Tag: ${latestTag}`);
+  }
 }
 
 console.log("");

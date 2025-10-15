@@ -3,6 +3,7 @@ import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { getSortedTagsWithCounts } from "@utils/tag";
 import ScrollToTop from "@components/scroll-to-top.astro";
+import Pagination from "@components/pagination.astro";
 
 const sortedTags = await getSortedTagsWithCounts();
 ---
@@ -20,11 +21,11 @@ const sortedTags = await getSortedTagsWithCounts();
       </h1>
     </header>
 
-    <div>
-      {
-        sortedTags.length > 0 ? (
-          <ul class="space-y-7 text-xs">
-            {sortedTags.map((tag) => (
+    <Pagination itemsPerPage={10} itemLabel="tags">
+      <ul class="space-y-7 text-xs">
+        {
+          sortedTags.length > 0 ? (
+            sortedTags.map((tag) => (
               <li>
                 <a
                   href={`/tags/${tag.name}/`}
@@ -34,13 +35,15 @@ const sortedTags = await getSortedTagsWithCounts();
                 </a>
                 - {tag.count} {tag.count === 1 ? "Post" : "Posts"}
               </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No tags found.</p>
-        )
-      }
-    </div>
+            ))
+          ) : (
+            <li>
+              <p>No tags found.</p>
+            </li>
+          )
+        }
+      </ul>
+    </Pagination>
   </section>
   <ScrollToTop />
 </BaseLayout>

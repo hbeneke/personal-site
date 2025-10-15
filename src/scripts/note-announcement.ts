@@ -40,8 +40,6 @@ export class NoteAnnouncement extends HTMLElement {
 
   private handleClose(): void {
     if (!this.announcement) return;
-    console.log("Estoy aqui");
-
     const noteSlug = this.announcement.getAttribute("data-note-slug");
 
     this.announcement.style.transform = "translateX(100%)";

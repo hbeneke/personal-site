@@ -1,0 +1,377 @@
+---
+import type { PaginationProps } from "@/types/pagination.type";
+
+interface Props extends PaginationProps {}
+
+const {
+  itemsPerPage = 10,
+  itemLabel = "items",
+  showSearch = true,
+  searchPlaceholder,
+} = Astro.props;
+
+const finalSearchPlaceholder = searchPlaceholder || `Search ${itemLabel}...`;
+---
+
+<div class="pagination-wrapper" data-pagination-wrapper>
+  {
+    showSearch && (
+      <div class="mb-6">
+        <input
+          type="text"
+          data-pagination-search
+          placeholder={finalSearchPlaceholder}
+          class="w-full px-3 py-2 text-sm bg-transparent border border-gray-700 rounded-md focus:outline-none focus:border-gray-500 text-gray-300 placeholder-gray-500 transition-colors"
+        />
+      </div>
+    )
+  }
+
+  <div
+    data-pagination-items
+    data-items-per-page={itemsPerPage}
+    data-item-label={itemLabel}
+    class="opacity-0 transition-opacity duration-300"
+  >
+    <slot />
+  </div>
+
+  <div
+    class="mt-12 space-y-4 opacity-0 transition-opacity duration-300"
+    data-pagination-footer
+  >
+    <div class="text-center text-sm text-gray-400">
+      <span data-page-info></span>
+    </div>
+
+    <nav
+      data-pagination-controls
+      class="flex items-center justify-center gap-2"
+      aria-label={`${itemLabel} pagination`}
+    >
+      <button
+        type="button"
+        data-page-btn="prev"
+        class="px-3 py-2 text-sm rounded-md transition-colors hover:bg-gray-700 text-gray-300 hover:text-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+        aria-label="Previous page"
+      >
+        ← Previous
+      </button>
+
+      <div data-page-numbers class="flex items-center gap-2"></div>
+
+      <button
+        type="button"
+        data-page-btn="next"
+        class="px-3 py-2 text-sm rounded-md transition-colors hover:bg-gray-700 text-gray-300 hover:text-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+        aria-label="Next page"
+      >
+        Next →
+      </button>
+    </nav>
+  </div>
+</div>
+
+<script>
+  import { calculatePagination, getPageRange } from "@utils/pagination";
+
+  class PaginationComponent {
+    private currentPage = 1;
+    private itemsPerPage = 10;
+    private allItems: HTMLElement[] = [];
+    private filteredItems: HTMLElement[] = [];
+    private itemLabel = "items";
+    private searchTerm = "";
+
+    private wrapper: HTMLElement;
+    private itemsContainer: HTMLElement;
+    private paginationFooter: HTMLElement | null;
+    private paginationControls: HTMLElement | null;
+    private pageInfo: HTMLElement | null;
+    private searchInput: HTMLInputElement | null;
+    private pageNumbersContainer: HTMLElement | null;
+    private prevBtn: HTMLButtonElement | null;
+    private nextBtn: HTMLButtonElement | null;
+
+    constructor(wrapper: HTMLElement) {
+      this.wrapper = wrapper;
+
+      this.itemsContainer = wrapper.querySelector("[data-pagination-items]")!;
+      this.paginationFooter = wrapper.querySelector("[data-pagination-footer]");
+      this.paginationControls = wrapper.querySelector(
+        "[data-pagination-controls]"
+      );
+      this.pageInfo = wrapper.querySelector("[data-page-info]");
+      this.searchInput = wrapper.querySelector("[data-pagination-search]");
+      this.pageNumbersContainer = wrapper.querySelector("[data-page-numbers]");
+      this.prevBtn = wrapper.querySelector("[data-page-btn='prev']");
+      this.nextBtn = wrapper.querySelector("[data-page-btn='next']");
+
+      this.init();
+    }
+
+    private init(): void {
+      if (!this.itemsContainer) {
+        console.error("Pagination items container not found");
+        return;
+      }
+
+      const itemsPerPageAttr = this.itemsContainer.getAttribute(
+        "data-items-per-page"
+      );
+      if (itemsPerPageAttr) {
+        this.itemsPerPage = Number.parseInt(itemsPerPageAttr, 10);
+      }
+
+      const itemLabelAttr = this.itemsContainer.getAttribute("data-item-label");
+      if (itemLabelAttr) {
+        this.itemLabel = itemLabelAttr;
+      }
+
+      const firstChild = this.itemsContainer.firstElementChild;
+
+      if (firstChild?.tagName === "UL" || firstChild?.tagName === "OL") {
+        this.allItems = Array.from(firstChild.children) as HTMLElement[];
+      } else if (
+        firstChild?.classList.contains("grid") ||
+        firstChild?.classList.contains("space-y-")
+      ) {
+        this.allItems = Array.from(firstChild.children) as HTMLElement[];
+      } else {
+        this.allItems = Array.from(
+          this.itemsContainer.children
+        ) as HTMLElement[];
+      }
+
+      this.filteredItems = [...this.allItems];
+
+      if (this.allItems.length === 0) {
+        console.warn("No items found for pagination");
+        this.itemsContainer.classList.remove("opacity-0");
+        return;
+      }
+
+      if (this.allItems.length <= this.itemsPerPage) {
+        this.hidePagination();
+        this.showAllItems();
+        return;
+      }
+
+      if (this.searchInput) {
+        this.setupSearch();
+      }
+
+      this.setupPaginationListeners();
+      this.renderPage(1);
+    }
+
+    private showAllItems(): void {
+      for (const item of this.allItems) {
+        item.classList.remove("hidden");
+        item.classList.add("animate-fade-in");
+      }
+      this.itemsContainer.classList.remove("opacity-0");
+      this.itemsContainer.classList.add("animate-fade-in");
+    }
+
+    private hidePagination(): void {
+      if (this.paginationFooter) {
+        this.paginationFooter.style.display = "none";
+      }
+      this.itemsContainer.classList.remove("opacity-0");
+      this.itemsContainer.classList.add("animate-fade-in");
+    }
+
+    private setupSearch(): void {
+      if (!this.searchInput) return;
+
+      this.searchInput.addEventListener("input", (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        this.searchTerm = target.value.toLowerCase().trim();
+        this.applyFilter();
+      });
+    }
+
+    private applyFilter(): void {
+      if (this.searchTerm === "") {
+        this.filteredItems = [...this.allItems];
+      } else {
+        this.filteredItems = this.allItems.filter((item) => {
+          const text = item.textContent?.toLowerCase() || "";
+          return text.includes(this.searchTerm);
+        });
+      }
+
+      if (this.filteredItems.length <= this.itemsPerPage) {
+        if (this.paginationControls) {
+          this.paginationControls.style.display = "none";
+        }
+        if (this.paginationFooter) {
+          this.paginationFooter.style.display = "none";
+        }
+      } else {
+        if (this.paginationControls) {
+          this.paginationControls.style.display = "flex";
+        }
+        if (this.paginationFooter) {
+          this.paginationFooter.style.display = "block";
+        }
+      }
+
+      this.renderPage(1);
+    }
+
+    private renderPage(pageNumber: number): void {
+      const pagination = calculatePagination({
+        totalItems: this.filteredItems.length,
+        itemsPerPage: this.itemsPerPage,
+        currentPage: pageNumber,
+      });
+
+      this.currentPage = pagination.currentPage;
+
+      for (const item of this.allItems) {
+        item.classList.add("hidden");
+        item.classList.remove("animate-fade-in");
+      }
+
+      this.filteredItems.forEach((item, index) => {
+        if (index >= pagination.startIndex && index < pagination.endIndex) {
+          item.classList.remove("hidden");
+          item.classList.add("animate-fade-in");
+        }
+      });
+
+      // Mostrar contenedor si estaba oculto
+      if (this.itemsContainer.classList.contains("opacity-0")) {
+        this.itemsContainer.classList.remove("opacity-0");
+        this.itemsContainer.classList.add("animate-fade-in");
+      }
+
+      if (this.paginationFooter?.classList.contains("opacity-0")) {
+        this.paginationFooter.classList.remove("opacity-0");
+        this.paginationFooter.classList.add("animate-fade-in");
+      }
+
+      this.updatePaginationControls(pagination);
+      this.updatePageInfo(pagination);
+      this.scrollToTop();
+    }
+
+    private setupPaginationListeners(): void {
+      if (this.prevBtn) {
+        this.prevBtn.addEventListener("click", () => {
+          if (!this.prevBtn?.disabled) {
+            this.renderPage(this.currentPage - 1);
+          }
+        });
+      }
+
+      if (this.nextBtn) {
+        this.nextBtn.addEventListener("click", () => {
+          if (!this.nextBtn?.disabled) {
+            this.renderPage(this.currentPage + 1);
+          }
+        });
+      }
+
+      if (this.pageNumbersContainer) {
+        this.pageNumbersContainer.addEventListener("click", (e: Event) => {
+          const target = e.target as HTMLElement;
+          if (
+            target.tagName === "BUTTON" &&
+            target.hasAttribute("data-page-num")
+          ) {
+            const pageNum = target.getAttribute("data-page-num");
+            if (pageNum) {
+              this.renderPage(Number.parseInt(pageNum, 10));
+            }
+          }
+        });
+      }
+    }
+
+    private updatePaginationControls(
+      pagination: ReturnType<typeof calculatePagination>
+    ): void {
+      if (this.prevBtn) {
+        this.prevBtn.disabled = !pagination.hasPrevPage;
+      }
+
+      if (this.nextBtn) {
+        this.nextBtn.disabled = !pagination.hasNextPage;
+      }
+
+      if (!this.pageNumbersContainer) return;
+
+      const pageRange = getPageRange(
+        pagination.currentPage,
+        pagination.totalPages
+      );
+      const pageElements: HTMLElement[] = [];
+
+      for (const page of pageRange) {
+        if (page === null) {
+          const ellipsis = document.createElement("span");
+          ellipsis.className = "px-3 py-2 text-gray-500";
+          ellipsis.textContent = "...";
+          pageElements.push(ellipsis);
+        } else {
+          const isActive = page === pagination.currentPage;
+          const button = document.createElement("button");
+          button.type = "button";
+          button.setAttribute("data-page-num", page.toString());
+          button.className = `px-3 py-2 text-sm rounded-md transition-colors ${
+            isActive
+              ? "bg-yellow-400 text-gray-900 font-medium"
+              : "hover:bg-gray-700 text-gray-300 hover:text-gray-100"
+          }`;
+          if (isActive) {
+            button.setAttribute("aria-current", "page");
+          }
+          button.setAttribute("aria-label", `Page ${page}`);
+          button.textContent = page.toString();
+          pageElements.push(button);
+        }
+      }
+
+      this.pageNumbersContainer.replaceChildren(...pageElements);
+    }
+
+    private updatePageInfo(
+      pagination: ReturnType<typeof calculatePagination>
+    ): void {
+      if (!this.pageInfo) return;
+
+      const start = pagination.startIndex + 1;
+      const end = pagination.endIndex;
+      const total = this.filteredItems.length;
+
+      if (this.searchTerm && total < this.allItems.length) {
+        this.pageInfo.textContent = `Showing ${start}-${end} of ${total} ${this.itemLabel} (filtered from ${this.allItems.length})`;
+      } else {
+        this.pageInfo.textContent = `Showing ${start}-${end} of ${total} ${this.itemLabel}`;
+      }
+    }
+
+    private scrollToTop(): void {
+      const headerOffset = 100;
+      const elementPosition = this.wrapper.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const wrappers = document.querySelectorAll<HTMLElement>(
+      "[data-pagination-wrapper]"
+    );
+    for (const wrapper of Array.from(wrappers)) {
+      new PaginationComponent(wrapper);
+    }
+  });
+</script>

@@ -6,8 +6,4 @@ Allow: /posts/rss.xml
 Allow: /notes/rss.xml
 
 # Sitemap
-Sitemap: https://equero.dev/sitemap.xml
-
-# Disallow specific paths if needed
-Disallow: /admin/
-Disallow: /.well-known/
+Sitemap: https://equero.dev/sitemap-index.xml

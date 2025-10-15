@@ -132,10 +132,12 @@ For more details, see [`.githooks/README.md`](./.githooks/README.md).
 │   ├── styles/          # Global styles and CSS
 │   ├── types/           # TypeScript type definitions
 │   └── utils/           # Utility functions
-├── scripts/             # Build scripts
+├── scripts/             # Build and automation scripts (see scripts/README.md)
 ├── tests/               # Unit tests
 └── astro.config.mjs     # Astro configuration
 ```
+
+For detailed information about build and automation scripts, see [`scripts/README.md`](./scripts/README.md).
 
 ## Contributing
 

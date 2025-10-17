@@ -53,8 +53,6 @@ fi
 
 git add package.json
 
-git commit --amend --no-edit --no-verify
-
-echo "✓ Version updated: $current_version → $new_version"
+echo "✓ Version updated: $current_version → $new_version (added to commit)"
 
 exit 0

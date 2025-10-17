@@ -50,20 +50,49 @@ console.log("🔀 Switching to master...");
 exec("git checkout master");
 
 console.log("🔗 Merging develop into master...");
-if (noTag) {
-  const env = { ...process.env, SKIP_VERSION_BUMP: "1" };
-  try {
-    execSync("git merge develop --no-edit", {
+const env = noTag ? { ...process.env, SKIP_VERSION_BUMP: "1" } : process.env;
+
+try {
+  execSync("git merge develop --no-edit", {
+    encoding: "utf8",
+    stdio: "pipe",
+    env,
+  });
+  console.log("✓ Merge completed successfully");
+} catch (error) {
+  // Check if there are merge conflicts
+  const conflictedFiles = execSilent("git diff --name-only --diff-filter=U");
+  
+  if (conflictedFiles) {
+    console.log("⚠️  Merge conflicts detected, resolving automatically...");
+    
+    // For package.json conflicts, always use develop's version
+    if (conflictedFiles.includes("package.json")) {
+      console.log("   → Resolving package.json: using develop's version");
+      execSync("git checkout --theirs package.json", { stdio: "pipe" });
+      execSync("git add package.json", { stdio: "pipe" });
+    }
+    
+    // Check if there are other conflicted files
+    const remainingConflicts = execSilent("git diff --name-only --diff-filter=U");
+    
+    if (remainingConflicts) {
+      console.error(`❌ Unresolved conflicts in: ${remainingConflicts}`);
+      console.error("   Please resolve them manually");
+      process.exit(1);
+    }
+    
+    // Complete the merge
+    execSync("git commit --no-edit", {
       encoding: "utf8",
       stdio: "inherit",
       env,
     });
-  } catch (error) {
-    console.error("❌ Error executing: git merge develop --no-edit");
+    console.log("✓ Conflicts resolved and merge completed");
+  } else {
+    console.error("❌ Error executing merge");
     process.exit(1);
   }
-} else {
-  exec("git merge develop --no-edit");
 }
 
 console.log("📤 Pushing master...");

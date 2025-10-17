@@ -115,7 +115,7 @@ exec("git checkout develop");
 
 console.log("\n✅ Sync completed!");
 
-if (skipTag) {
+if (noTag) {
   console.log("⚠️  No tag was created (--no-tag flag used)");
 } else {
   try {

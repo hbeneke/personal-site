@@ -22,11 +22,21 @@ if [ "$BRANCH" = "master" ] && [ "$MERGED_BRANCH" = "develop" ]; then
         
         CURRENT_VERSION=$(node -p "require('./package.json').version")
         
+        # Check if VERSION_BUMP_TYPE is set, default to 'minor'
+        BUMP_TYPE="${VERSION_BUMP_TYPE:-minor}"
+        
         MAJOR=$(echo $CURRENT_VERSION | cut -d'.' -f1)
         MINOR=$(echo $CURRENT_VERSION | cut -d'.' -f2)
+        PATCH=$(echo $CURRENT_VERSION | cut -d'.' -f3)
         
-        NEW_MINOR=$((MINOR + 1))
-        NEW_VERSION="$MAJOR.$NEW_MINOR.0"
+        if [ "$BUMP_TYPE" = "patch" ]; then
+            NEW_PATCH=$((PATCH + 1))
+            NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+        else
+            # Default to minor bump
+            NEW_MINOR=$((MINOR + 1))
+            NEW_VERSION="$MAJOR.$NEW_MINOR.0"
+        fi
         
         npm version $NEW_VERSION --no-git-tag-version
         

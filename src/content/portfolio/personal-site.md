@@ -9,8 +9,16 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.2.0"
+version: "1.2.1"
 changelog:
+  - version: "1.2.1"
+    date: "2025-10-31T00:00:00.000Z"
+    changes:
+      - "Added demo preview dialog component for portfolio items with dynamic content support"
+      - "Implemented open/close functionality with event listeners for demo previews"
+      - "Added --minor and --patch parameters to sync-master script for version control"
+      - "Improved version bump flexibility with manual selection of increment type"
+      - "Enhanced console output to show selected version bump type"
   - version: "1.2.0"
     date: "2025-10-15T15:00:00.000Z"
     changes:

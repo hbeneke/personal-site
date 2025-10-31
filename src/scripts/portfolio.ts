@@ -23,4 +23,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  const demoButtons = document.querySelectorAll(".demo-preview-btn");
+
+  for (const button of Array.from(demoButtons)) {
+    button.addEventListener("click", () => {
+      const demoUrl = button.getAttribute("data-demo-url");
+      const demoImage = button.getAttribute("data-demo-image");
+      const projectTitle = button.getAttribute("data-project-title");
+
+      if (demoUrl && projectTitle) {
+        // Use the global function exposed by the component
+        const openDialog = (
+          window as typeof window & {
+            openDemoDialog?: (title: string, url: string, image?: string) => void;
+          }
+        ).openDemoDialog;
+        if (openDialog) {
+          openDialog(projectTitle, demoUrl, demoImage || undefined);
+        }
+      }
+    });
+  }
 });

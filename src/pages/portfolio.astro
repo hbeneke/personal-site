@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@layouts/base-layout.astro";
+import DemoPreviewDialog from "@components/demo-preview-dialog.astro";
 import { siteConfig } from "@site-config";
 import { getAllProjects } from "@utils/portfolio";
 
@@ -67,14 +68,15 @@ const sortedProjects = await getAllProjects(true, true);
                 </a>
               )}
               {project.demo && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="primary-link"
+                <button
+                  type="button"
+                  class="primary-link demo-preview-btn"
+                  data-demo-url={project.demo}
+                  data-demo-image={project.image || ""}
+                  data-project-title={project.title}
                 >
                   Demo
-                </a>
+                </button>
               )}
               {project.changelog && project.changelog.length > 0 && (
                 <button
@@ -156,6 +158,8 @@ const sortedProjects = await getAllProjects(true, true);
       )
     }
   </section>
+
+  <DemoPreviewDialog />
 </BaseLayout>
 
 <script>

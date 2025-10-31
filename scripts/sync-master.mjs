@@ -5,6 +5,8 @@ import { readFileSync } from "node:fs";
 
 const args = process.argv.slice(2);
 const noTag = args.includes("--no-tag");
+const minor = args.includes("--minor");
+const patch = args.includes("--patch");
 
 const exec = (command, options = {}) => {
   try {
@@ -25,6 +27,10 @@ const execSilent = (command) => {
 
 if (noTag) {
   console.log("🔄 Syncing develop to master (without tagging)...\n");
+} else if (minor) {
+  console.log("🔄 Syncing develop to master (minor version bump)...\n");
+} else if (patch) {
+  console.log("🔄 Syncing develop to master (patch version bump)...\n");
 } else {
   console.log("🔄 Syncing develop to master...\n");
 }
@@ -52,6 +58,12 @@ exec("git checkout master");
 console.log("🔗 Merging develop into master...");
 const env = noTag ? { ...process.env, SKIP_VERSION_BUMP: "1" } : process.env;
 
+if (minor) {
+  env.VERSION_BUMP_TYPE = "minor";
+} else if (patch) {
+  env.VERSION_BUMP_TYPE = "patch";
+}
+
 try {
   execSync("git merge develop --no-edit", {
     encoding: "utf8",
@@ -62,26 +74,26 @@ try {
 } catch (error) {
   // Check if there are merge conflicts
   const conflictedFiles = execSilent("git diff --name-only --diff-filter=U");
-  
+
   if (conflictedFiles) {
     console.log("⚠️  Merge conflicts detected, resolving automatically...");
-    
+
     // For package.json conflicts, always use develop's version
     if (conflictedFiles.includes("package.json")) {
       console.log("   → Resolving package.json: using develop's version");
       execSync("git checkout --theirs package.json", { stdio: "pipe" });
       execSync("git add package.json", { stdio: "pipe" });
     }
-    
+
     // Check if there are other conflicted files
     const remainingConflicts = execSilent("git diff --name-only --diff-filter=U");
-    
+
     if (remainingConflicts) {
       console.error(`❌ Unresolved conflicts in: ${remainingConflicts}`);
       console.error("   Please resolve them manually");
       process.exit(1);
     }
-    
+
     // Complete the merge
     execSync("git commit --no-edit", {
       encoding: "utf8",
@@ -121,6 +133,13 @@ if (noTag) {
   try {
     const packageJson = JSON.parse(readFileSync("./package.json", "utf8"));
     console.log(`📦 Current version: ${packageJson.version}`);
+    if (minor) {
+      console.log("   Version bump type: minor (second digit)");
+    } else if (patch) {
+      console.log("   Version bump type: patch (third digit)");
+    } else {
+      console.log("   Version bump type: default");
+    }
   } catch (error) {
     console.log("📦 Current version: unknown");
   }

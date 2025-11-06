@@ -1,8 +1,11 @@
 import { type CollectionEntry, getCollection } from "astro:content";
+import { getCached } from "./cache";
 
 async function getRawPosts(): Promise<CollectionEntry<"posts">[]> {
-  const postsCollection = await getCollection("posts");
-  return postsCollection;
+  return getCached("posts-collection", async () => {
+    const postsCollection = await getCollection("posts");
+    return postsCollection;
+  });
 }
 
 export async function getAllPosts(

@@ -1,6 +1,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { TagContent, TagPageData, TagWithCount } from "@types";
 import { getAllTags, getPostsByTag } from "@utils/post";
+import { getCached } from "./cache";
 
 async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
   const allTags = await getAllTags(includeDrafts || false);
@@ -29,7 +30,10 @@ export async function getSortedTagsWithCounts(includeDrafts = false): Promise<Ta
 
 export async function getTagContent(tag: string): Promise<TagContent | null> {
   try {
-    const tagCollection = await getCollection("tags");
+    const tagCollection = await getCached("tags-collection", async () => {
+      return await getCollection("tags");
+    });
+
     const tagEntry = tagCollection.find((entry) => entry.id === tag);
 
     if (tagEntry) {

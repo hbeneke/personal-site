@@ -1,8 +1,12 @@
 import { getCollection } from "astro:content";
 import type { Project } from "@types";
+import { getCached } from "./cache";
 
 async function getProjects(sorted = false, sortByFeatured = false): Promise<Project[]> {
-  const portfolioCollection = await getCollection("portfolioProjects");
+  const portfolioCollection = await getCached("portfolio-collection", async () => {
+    return await getCollection("portfolioProjects");
+  });
+
   const projects: Project[] = portfolioCollection.map((entry) => entry.data);
 
   let sortedProjects = [...projects];

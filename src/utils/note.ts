@@ -1,8 +1,12 @@
 import { getCollection } from "astro:content";
 import type { GroupedNotesByYear, Note } from "@types";
+import { getCached } from "./cache";
 
 async function getNotes(sorted = false): Promise<Note[]> {
-  const notesCollection = await getCollection("notes");
+  const notesCollection = await getCached("notes-collection", async () => {
+    return await getCollection("notes");
+  });
+
   const allNotes: Note[] = notesCollection.map((entry) => ({
     title: entry.data.title,
     publishDate: entry.data.publishDate,

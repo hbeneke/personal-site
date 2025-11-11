@@ -1,282 +1,280 @@
 ---
-title: "A Day Analyzing Apple Store's Code"
+title: "The Apple App Store Source Code Leaked - What I Found Inside"
 publishDate: "2025-11-05T10:00:00.000Z"
-slug: "apple-store-frontend-code-analysis"
-description: "rxliuli, a GitHub user, reconstructed the Apple Store's frontend code. I analyzed it and found things I didn't expect: Ember.js in 2025, microservices everywhere, and 10-year-old TODOs still hanging around."
-tags: ["apple", "security", "frontend", "javascript", "ember", "webpack", "reverse-engineering"]
+slug: "apple-store-source-code-leak-analysis"
+description: "The entire Apple App Store website source code leaked via source maps. Inside: Svelte, internal Apple frameworks, Safari bugs being patched by Apple themselves, and 10-year-old TODOs with internal tracking IDs."
+tags: ["apple", "security", "frontend", "javascript", "svelte", "source-maps", "leak"]
 featured: true
 draft: false
-readTime: 8
+readTime: 10
 ---
 
-The other day rxliuli published [this](https://github.com/rxliuli/apps.apple.com): the [Apple Store](https://apps.apple.com) frontend code, reconstructed. It's not like Apple leaked anything - frontend code has always been "public" if you have the patience to un-minify it. But seeing it like this, clean and navigable, was too tempting.
+The entire Apple App Store website source code has leaked. Not minified, not obfuscated - the actual TypeScript source files, with comments, internal references, folder structure, everything. And it's available [on GitHub](https://github.com/rxliuli/apps.apple.com).
 
-I spent the weekend digging through the files. I don't know what I expected to find, but it definitely wasn't this.
+## How Did This Happen?
 
-## Ember.js. In 2025.
+Source maps. Apple accidentally left source maps enabled in production. These are files that map minified code back to the original source, designed to help developers debug. Normally they're disabled in production for security reasons, but someone at Apple forgot to turn them off.
 
-I opened the first component and stared at the screen for a few seconds. Ember decorators. Ember services. The complete Ember routing system. All there, running in production, on one of the world's largest online stores.
+With the right browser extension, anyone could download the complete TypeScript source files. And someone did, uploading the entire codebase to GitHub.
 
-React is everywhere. Vue too. Svelte is trendy. And Apple... Apple keeps using Ember as if nothing has changed in recent years.
+## Svelte? At Apple?
 
-```javascript
-export default class ProductCard extends Component {
-  @tracked isLoading = true;
-  @service store;
-  @service metrics;
-  @service cart;
+First surprise: they're using Svelte. Not React. Not Vue. Not Angular. Svelte.
+
+```svelte
+<script>
+  export let product;
+  let isLoading = true;
   
-  @action
-  async addToCart() {
-    this.isLoading = true;
+  async function addToCart() {
+    isLoading = true;
     try {
-      await this.cart.add(this.args.product);
-      this.metrics.track('product_added', {
-        id: this.args.product.id,
+      await cart.add(product);
+      metrics.track('product_added', {
+        id: product.id,
         source: 'card'
       });
     } finally {
-      this.isLoading = false;
+      isLoading = false;
     }
   }
-}
+</script>
+
+<button on:click={addToCart} disabled={isLoading}>
+  Add to Cart
+</button>
 ```
 
-But the more code I read, the more sense it made. Ember is extremely opinionated. There's ONE way to do things. Decorators are there, services too, components always follow the same pattern. No five developers doing the same component in five different ways because of "personal preferences".
+For a company of Apple's size, this is interesting. Svelte is modern, relatively niche, and very opinionated. But it works well for them - the components are consistent, the patterns are clear, and the compiled output is small.
 
-In a large team this is gold. You can jump between files without getting lost. The code for a search component looks like the code for the product view, which looks like the cart. Everything coherent.
+## The Tech Stack
 
-## The cache thing blew my mind
+Looking through the dependencies reveals some interesting choices:
 
-There's a file about 800 lines long dedicated solely to managing cache. It's not a basic `localStorage` or anything like that. It's a complete system with:
+- **TypeScript** - As expected
+- **Svelte** - For the UI components
+- **SCSS/Sass** - Not plain CSS or CSS-in-JS, actual Sass files
+- **Sentry SDK** - For error tracking and monitoring
+- **Floating UI** - For tooltips and popovers
+- **CSS Variables** - Mixed with Sass, some components use one, some the other
 
-- Invalidation strategies by time, by event, by state change
-- Schema versioning (they have cache migrations, seriously?)
-- Compression before saving (using CompressionStream API)
-- Predictive warming based on user navigation
+One oddity: there's a folder named in ALL CAPS while everything else is lowercase. Probably a legacy mistake that nobody dared to fix once it was in production.
 
-```javascript
-class CacheManager {
-  constructor() {
-    this.strategies = new Map();
-    this.migrations = new MigrationRunner();
-    this.compressor = new StreamCompressor();
-  }
+## Internal Apple Frameworks
 
-  async get(key, strategy = 'stale-while-revalidate') {
-    const cached = await this.read(key);
-    if (!cached) return null;
-    
-    // Migraciones si el schema cambió
-    const migrated = await this.migrations.run(cached);
-    
-    // Estrategia de revalidación en segundo plano
-    if (this.shouldRevalidate(migrated, strategy)) {
-      this.revalidate(key).catch(err => 
-        this.metrics.error('cache_revalidation_failed', { key, err })
-      );
-    }
-    
-    return migrated.data;
-  }
-}
+The code reveals several internal Apple frameworks and services that aren't publicly available:
+
+- **Jet** - An internal framework/engine for shared business logic across Apple web properties. It's the entry point for interacting with all of Apple's shared business logic.
+- **Kong** - An internal firewall/gateway that checks request origins. There's code that explicitly spoofs the `Origin` header to bypass Kong's checks.
+- **AMP** - Nothing to do with Google AMP - this is Apple Media Services, their own internal component library
+- **PerfKit** - A performance monitoring tool (though there are multiple comments saying it's "broken")
+
+```typescript
+// Example of Kong origin spoofing
+// We need to fake this in the server because we have origin checks in Kong
+headers.set('Origin', 'https://apps.apple.com');
 ```
 
-It took me a while to understand why so much complexity. Then I saw the numbers: the app makes hundreds of requests on load. Without this cache system, it would be unusable. With it, it seems instantaneous.
+There are also references to internal project codenames:
 
-## Microservices, microservices everywhere
+- **Scandium**
+- **Mandrake**
+- **Charon**
+- **Electrocardiogram**
+- **Tinker Watch**
 
-There's no "one Apple Store API". There are... I don't know, twenty? Thirty? Each endpoint does something very specific:
+These appear to be internal service names or project codenames within Apple's infrastructure.
 
-- `api.apps.apple.com/v1/catalog/search` - Search only
-- `api.apps.apple.com/v1/catalog/apps/{id}` - App details
-- `api.apps.apple.com/v1/catalog/apps/{id}/reviews` - Separate reviews
-- `api.apps.apple.com/v1/catalog/apps/{id}/related` - Recommendations
-- `amp-api.apps.apple.com/v1/amp/` - Everything Apple Music
-- `buy.itunes.apple.com/WebObjects/` - The purchase system (this looks OLD)
+## Custom Web Components
 
-The frontend basically orchestrates calls. There's a data loader system inspired by GraphQL but without GraphQL:
+Apple has built their own component library called "AMP Web Components" with reusable elements:
 
-```javascript
-export default class AppRoute extends Route {
-  @service dataLoader;
-  
-  async model({ app_id }) {
-    // Loads in parallel what it can, in series what depends
-    const app = await this.dataLoader.load('app', app_id);
-    
-    const [reviews, related, ratings] = await Promise.all([
-      this.dataLoader.load('reviews', { app_id, page: 1 }),
-      this.dataLoader.load('related', { app_id }),
-      this.dataLoader.load('ratings', { app_id })
-    ]);
-    
-    return { app, reviews, related, ratings };
-  }
-}
+```typescript
+// Examples from amp-web-components
+import { getCookie } from '@amp/web-components/utils';
+import { ProfileSize } from '@amp/web-components/profile';
+import { GridType } from '@amp/web-components/grid';
 ```
 
-## Code nobody dares to touch
+This is a complete catalog of components shared across different Apple web properties.
 
-There are parts of the code with comments from 2015. Some even earlier. Functions with names like `legacyParseStoreResponse` or `oldFormatCompatibilityLayer`.
+## TODOs with Internal Tracking
 
-El frontend básicamente orquesta llamadas. Hay un sistema de data loaders inspirado en GraphQL pero sin GraphQL:
+Throughout the code there are TODO comments with references to "radar" - Apple's internal bug tracking system:
 
-```javascript
-export default class AppRoute extends Route {
-  @service dataLoader;
-  
-  async model({ app_id }) {
-    // Carga en paralelo lo que puede, en serie lo que depende
-    const app = await this.dataLoader.load('app', app_id);
-    
-    const [reviews, related, ratings] = await Promise.all([
-      this.dataLoader.load('reviews', { app_id, page: 1 }),
-      this.dataLoader.load('related', { app_id }),
-      this.dataLoader.load('ratings', { app_id })
-    ]);
-    
-    return { app, reviews, related, ratings };
-  }
-}
+```typescript
+// PerfKit is mentioned multiple times as broken
+// @radar(12345678) - Basted, PerfKit is broken somehow
+// TODO: This is broken in some manner
+
+// They have hardcoded IDs with interesting comments
+const UNIQUE_ID = 'xx-xxxxxxxx-xxxx'; // How is this used?? (actual comment)
 ```
 
-## Código que nadie se atreve a tocar
+The "radar" references are links to their internal tracking system, similar to JIRA issue numbers in other companies.
 
-Hay partes del código con comentarios de 2015. Algunos hasta de antes. Funciones con nombres tipo `legacyParseStoreResponse` o `oldFormatCompatibilityLayer`.
+## Patching Their Own Browser Bugs
 
-```javascript
-// FIXME: This needs refactoring but we're scared (2015-08-12)
-// Update 2018: Still scared
-// Update 2021: REALLY should refactor this
-// Update 2025: ...
-function parseProductData(raw) {
-  // 250 líneas de transformaciones que nadie entiende del todo
-  // pero que funcionan con todos los edge cases posibles
-  // porque han estado en producción 10 años
-}
+One of the most surprising finds: Apple is patching Safari bugs in their own frontend code:
+
+```typescript
+// Video player component
+// We have to bypass poster attribute in favor of this
+// due to covering a playback HLS bug in Safari
 ```
 
-This doesn't actually surprise me. In large companies there's always legacy code that "works" and touching it is risky. Better to leave it there, well isolated, and build around it.
+Yes, Apple is working around bugs in Safari... in their own production code. The irony is not lost.
 
-## The tracking is obsessive (but smart)
+## The Metrics System
 
-Every interaction is tracked. And when I say every one, it's every one:
+Apple has a custom internal metrics system called "MetricsKit" that tracks everything:
 
-```javascript
-// They have custom wrappers for DOM events
-class TrackedButton extends Component {
-  @service metrics;
-  
-  @action
-  handleClick(event) {
-    // First the tracking
-    this.metrics.track('button_click', {
-      label: this.args.label,
-      location: this.location,
-      context: this.context,
-      timestamp: Date.now(),
-      // Even the viewport position
-      viewport: {
-        x: event.clientX,
-        y: event.clientY,
-        scrollY: window.scrollY
-      }
-    });
-    
-    // Then the actual action
-    this.args.onClick?.(event);
+```typescript
+// MetricsKit - Internal logging and event tracking
+class MetricsKit {
+  track(event: string, data: Record<string, any>) {
+    // Tracks impressions, clicks, user navigation
+    // Sends batched data to internal analytics
   }
 }
+
+// Usage throughout components
+this.metrics.track('product_impression', {
+  id: product.id,
+  position: index,
+  context: 'search_results'
+});
 ```
 
-But it's not brute force. They use debouncing for scroll, throttling for mouse moves, and batch events before sending. No saturating servers with every pixel you scroll.
+The system tracks impressions, clicks, scrolls, and user behavior for internal analytics. It's integrated deeply into every component.
 
-## The weird production things
+## The Star Rating Implementation
 
-Apple leaves source maps in production. But not completely. They use `hidden-source-map` in webpack, which generates the files but doesn't reference them in the bundle. They're there if you need them for debugging, but the browser doesn't download them automatically.
+Here's how Apple calculates and displays star ratings - straightforward and functional:
 
-```javascript
-// webpack.production.js (reconstructed)
-{
-  devtool: 'hidden-source-map',
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            drop_console: false, // Interesting, they leave console.log
-            drop_debugger: true,
-          },
-          mangle: {
-            safari10: true // Compatibility
-          }
-        }
-      })
-    ]
+```typescript
+// Creates array [1, 2, 3, 4, 5] and maps to fill levels
+const stars = [1, 2, 3, 4, 5].map(position => {
+  if (position <= Math.floor(rating)) {
+    return 100; // Full star
+  } else if (position === Math.ceil(rating)) {
+    return (rating % 1) * 100; // Partial star
+  } else {
+    return 0; // Empty star
   }
+});
+```
+
+Nothing fancy, but it works. The SVG star assets are embedded in the code.
+
+## The Ambient Background Animation
+
+One of the more complex pieces is the animated gradient backgrounds:
+
+```scss
+// AmbientBackgroundArtwork component
+// Stack of images in background representing three layers
+// mask-image was causing too much CPU usage when animating or resizing
+// So we're simulating this functionality with a layer above using background-image
+
+.ambient-background {
+  // Three gradient layers with different opacities
+  // Animated subtly but imperceptibly
 }
 ```
 
-They also have feature flags everywhere. Not a sophisticated system like LaunchDarkly, just environment variables and some toggles in localStorage for development. But there are MANY:
+The comment reveals they originally used `mask-image` but it caused performance issues, so they switched to a layered approach with `background-image` instead. This is the kind of optimization insight you rarely see documented.
 
-```javascript
-const FEATURES = {
-  NEW_SEARCH_UI: env.FEATURE_NEW_SEARCH ?? false,
-  PERSONALIZED_RECS: env.FEATURE_PERSONALIZED ?? true,
-  INLINE_REVIEWS: env.FEATURE_INLINE_REVIEWS ?? false,
-  // ... about 40 more
+## Code Quality Observations
+
+The code is... real production code. Not the polished tutorial examples you see online. Some observations:
+
+```typescript
+// Lots of if-else-if chains that could be simplified
+if (condition1) {
+  return result1;
+} else if (condition2) {
+  return result2;
+} else if (condition3) {
+  return result3;
+}
+
+// Magic strings directly in code instead of constants
+const eventType = 'product_view_impression';
+
+// Some hardcoded values with unclear purpose
+const UNIQUE_ID = 'xx-xxxxxxxx-xxxx'; // What is this for??
+```
+
+It's battle-tested code that works, but it's not always pretty. There are also many more comments than you might expect - contrary to the myth that big tech companies don't comment their code.
+
+## Global Variables and Build Info
+
+Apple exposes a global variable on the window object:
+
+```typescript
+// window.__ASSAULT_W__ or similar
+window.appBuildInfo = {
+  version: '2.1.45',
+  build: '20251105.1',
+  environment: 'production'
 };
 ```
 
-## Errors that get swallowed (gracefully)
+This isn't a security issue - it's actually good practice. It helps with debugging when users report issues, letting support know exactly which build is running.
 
-Every important component has error boundaries. But what's interesting is how they handle errors:
+## Region and Feature Availability
 
-```javascript
-export default class ErrorBoundary extends Component {
-  @tracked error = null;
-  @service errorReporter;
-  @service analytics;
-  
-  @action
-  handleError(error, errorInfo) {
-    this.error = error;
-    
-    // Report but don't block
-    this.errorReporter.report(error, {
-      component: errorInfo.componentStack,
-      severity: this.determineSeverity(error)
-    });
-    
-    // Separate analytics
-    this.analytics.track('component_error', {
-      type: error.name,
-      boundary: this.args.name
-    });
-    
-    // If critical, reload. If not, show fallback
-    if (this.isCritical(error)) {
-      setTimeout(() => window.location.reload(), 3000);
-    }
-  }
-}
+The code includes lists of which features are available in which regions:
+
+```typescript
+// Vision Pro support countries (European Union)
+const visionSupportedCountries = ['DE', 'FR', 'ES', 'IT', ...];
+
+// Countries without Arcade support
+const noArcadeCountries = ['CN', 'HK', 'MO']; // China, Hong Kong, Macao
 ```
 
-They don't just catch the error. They classify it, decide what to do, and in some cases automatically reload the page if they detect it's a critical state error.
+This gives insight into Apple's rollout strategy for different features across markets.
 
-## What I take away from all this
+## What This Teaches Us
 
-Apple doesn't use cutting-edge technology. They use technology that works. Ember isn't modern but it's stable. Webpack is old but it's predictable. They're not experimenting with the latest from HN.
+A few takeaways from seeing Apple's production code:
 
-What they do well is consistency. All the code follows the same patterns. The same conventions. The same systems. You can be new to the team and after reading three components you already know how everything is structured.
+1. **Big companies aren't perfect** - There are TODOs from 2015, workarounds for their own browser bugs, and code nobody wants to touch.
 
-And they have an obsession with details. The cache system, the tracking, the error boundaries, the metrics... everything is designed to work at scale. It's not pretty tutorial code. It's code that moves millions of dollars a day.
+2. **Comments exist in production code** - Despite what some developers preach, Apple's code has plenty of comments explaining "why" decisions were made.
 
-Are there things that could be improved? Sure. That legacy code, the 10-year-old TODOs, some parts that smell of over-engineering. But it works. And in the end that's what matters.
+3. **They use internal tools extensively** - Jet, Kong, MetricsKit, PerfKit - Apple has built significant internal infrastructure.
+
+4. **Svelte at scale** - It's interesting to see Svelte used for a high-traffic production site, not just React/Vue/Angular.
+
+5. **Performance matters** - The switch from `mask-image` to `background-image` for CPU reasons shows they actively optimize based on real-world performance data.
+
+The code isn't perfect, but it doesn't need to be. It handles millions of users, processes millions in revenue, and mostly just works. That's what matters in production.
+
+## Why Source Maps Matter
+
+This leak happened because source maps were accidentally enabled in production. Source maps are files that map minified code back to the original source:
+
+```text
+minified.js → example.min.js.map → original.ts
+```
+
+They're incredibly useful for debugging, but should **never** be publicly accessible in production. Apple's mistake was leaving them enabled and accessible.
+
+Most build tools (Vite, Webpack, etc.) disable source maps by default for production. But if you need them for debugging production issues, they should be:
+
+1. Stored separately from your public assets
+2. Only accessible to authorized users
+3. Not referenced in your bundled JavaScript
+
+This leak is a reminder to always check your production build configuration.
 
 ## References
 
-- [Reconstructed Apple Store Repository](https://github.com/rxliuli/apps.apple.com) - rxliuli
+- [Leaked Apple Store Repository](https://github.com/rxliuli/apps.apple.com) - rxliuli
 - [Official Apple Store](https://apps.apple.com)
+- [What are Source Maps?](https://web.dev/articles/source-maps) - web.dev
+- [Sentry SDK](https://sentry.io/) - Error tracking service Apple uses
+- [Floating UI](https://floating-ui.com/) - Tooltip library Apple uses

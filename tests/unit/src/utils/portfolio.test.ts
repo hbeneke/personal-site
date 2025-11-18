@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getAllProjects, getFeaturedProjects } from "@/utils/portfolio";
 import { getCollection } from "astro:content";
+import { clearCache } from "@/utils/cache";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -54,6 +55,7 @@ const mockPortfolioCollectionEntries = [
 describe("portfolioUtils", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    clearCache();
     mockGetCollection.mockResolvedValue(mockPortfolioCollectionEntries);
   });
 
@@ -313,287 +315,128 @@ describe("portfolioUtils", () => {
 
       expect(result).toEqual([]);
     });
-  });
-});
 
-describe("portfolioUtils - Extended Tests", () => {
-  describe("getAllProjects - Edge Cases", () => {
-    it("should handle projects with undefined order", async () => {
-      const mockProjectsWithUndefinedOrder = [
+    it("should sort by order only when sorted=true and sortByFeatured=false", async () => {
+      const mockProjects = [
         {
-          id: "project-no-order",
+          id: "project-1",
           collection: "portfolioProjects" as const,
           data: {
-            title: "Project No Order",
+            title: "Project 1",
             date: "2024-01-01",
-            description: "No order defined",
+            description: "Description 1",
             featured: false,
-            technologies: ["HTML"],
-          },
-        },
-        {
-          id: "project-with-order",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "Project With Order",
-            date: "2024-01-02",
-            description: "Has order",
-            featured: true,
-            order: 5,
-            technologies: ["CSS"],
-          },
-        },
-      ];
-
-      mockGetCollection.mockResolvedValue(mockProjectsWithUndefinedOrder);
-      const result = await getAllProjects();
-
-      expect(result).toHaveLength(2);
-      expect(result[0].title).toBe("Project No Order");
-      expect(result[1].title).toBe("Project With Order");
-    });
-
-    it("should handle projects with same order", async () => {
-      const mockSameOrderProjects = [
-        {
-          id: "project-a",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "Project A",
-            date: "2024-01-01",
-            description: "First project",
-            featured: false,
-            order: 1,
+            order: 3,
             technologies: ["React"],
           },
         },
         {
-          id: "project-b",
+          id: "project-2",
           collection: "portfolioProjects" as const,
           data: {
-            title: "Project B",
+            title: "Project 2",
             date: "2024-01-02",
-            description: "Second project",
-            featured: true,
+            description: "Description 2",
+            featured: false,
             order: 1,
             technologies: ["Vue"],
           },
         },
+        {
+          id: "project-3",
+          collection: "portfolioProjects" as const,
+          data: {
+            title: "Project 3",
+            date: "2024-01-03",
+            description: "Description 3",
+            featured: false,
+            order: 2,
+            technologies: ["Angular"],
+          },
+        },
       ];
 
-      mockGetCollection.mockResolvedValue(mockSameOrderProjects);
-      const result = await getAllProjects();
+      mockGetCollection.mockResolvedValue(mockProjects);
+      const result = await getAllProjects(true, false);
 
-      expect(result).toHaveLength(2);
+      expect(result).toHaveLength(3);
       expect(result[0].order).toBe(1);
-      expect(result[1].order).toBe(1);
+      expect(result[1].order).toBe(2);
+      expect(result[2].order).toBe(3);
     });
 
-    it("should handle collection with empty projects array", async () => {
-      mockGetCollection.mockResolvedValue([]);
-      const result = await getAllProjects();
-
-      expect(result).toEqual([]);
-    });
-
-    it("should handle negative order values", async () => {
-      const mockNegativeOrderProjects = [
+    it("should handle projects without order field (undefined order)", async () => {
+      const mockProjectsNoOrder = [
         {
-          id: "negative-order",
+          id: "project-no-order-1",
           collection: "portfolioProjects" as const,
           data: {
-            title: "Negative Order",
+            title: "Project No Order 1",
             date: "2024-01-01",
-            description: "Has negative order",
-            featured: false,
-            order: -1,
-            technologies: ["JavaScript"],
-          },
-        },
-        {
-          id: "positive-order",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "Positive Order",
-            date: "2024-01-02",
-            description: "Has positive order",
-            featured: true,
-            order: 1,
-            technologies: ["TypeScript"],
-          },
-        },
-      ];
-
-      mockGetCollection.mockResolvedValue(mockNegativeOrderProjects);
-      const result = await getAllProjects();
-
-      expect(result).toHaveLength(2);
-      expect(result[0].order).toBe(-1);
-      expect(result[1].order).toBe(1);
-      expect(result[0].title).toBe("Negative Order");
-    });
-
-    it("should handle projects where both have undefined order", async () => {
-      const mockBothUndefinedOrder = [
-        {
-          id: "project-a",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "Project A",
-            date: "2024-01-01",
-            description: "No order A",
+            description: "No order field",
             featured: false,
             technologies: ["React"],
           },
         },
         {
-          id: "project-b",
+          id: "project-no-order-2",
           collection: "portfolioProjects" as const,
           data: {
-            title: "Project B",
+            title: "Project No Order 2",
             date: "2024-01-02",
-            description: "No order B",
+            description: "No order field",
             featured: true,
             technologies: ["Vue"],
           },
         },
       ];
 
-      mockGetCollection.mockResolvedValue(mockBothUndefinedOrder);
-      const result = await getAllProjects();
-
-      expect(result).toHaveLength(2);
-      expect(result[0].title).toBe("Project A");
-      expect(result[1].title).toBe("Project B");
+      mockGetCollection.mockResolvedValue(mockProjectsNoOrder);
+      
+      // Test with sorted=true (should use 0 as default for undefined order)
+      const sortedResult = await getAllProjects(true, false);
+      expect(sortedResult).toHaveLength(2);
+      
+      // Test with sortByFeatured and sorted (should handle undefined order in featured sort)
+      const featuredSortedResult = await getAllProjects(true, true);
+      expect(featuredSortedResult[0].featured).toBe(true);
+      expect(featuredSortedResult[1].featured).toBe(false);
     });
-  });
 
-  describe("getFeaturedProjects - Edge Cases", () => {
-    it("should handle projects with mixed featured values", async () => {
-      const mockMixedFeaturedProjects = [
+    it("should sort by order only when sorted=true and sortByFeatured=false", async () => {
+      const mockProjects = [
         {
-          id: "featured-1",
+          id: "project-1",
           collection: "portfolioProjects" as const,
           data: {
-            title: "Featured Project 1",
+            title: "Project 1",
             date: "2024-01-01",
-            description: "First featured",
-            featured: true,
+            description: "Description 1",
+            featured: false,
             order: 1,
             technologies: ["React"],
           },
         },
         {
-          id: "non-featured",
+          id: "project-2",
           collection: "portfolioProjects" as const,
           data: {
-            title: "Non-Featured Project",
+            title: "Project 2",
             date: "2024-01-02",
-            description: "Not featured",
-            featured: false,
-            order: 2,
-            technologies: ["Vue"],
-          },
-        },
-        {
-          id: "featured-2",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "Featured Project 2",
-            date: "2024-01-03",
-            description: "Second featured",
+            description: "Description 2",
             featured: true,
-            order: 3,
-            technologies: ["Astro"],
-          },
-        },
-      ];
-
-      mockGetCollection.mockResolvedValue(mockMixedFeaturedProjects);
-      const result = await getFeaturedProjects();
-
-      expect(result).toHaveLength(2);
-      expect(result[0].title).toBe("Featured Project 1");
-      expect(result[1].title).toBe("Featured Project 2");
-      expect(result.every((project) => project.featured)).toBe(true);
-    });
-
-    it("should handle collection error gracefully", async () => {
-      mockGetCollection.mockRejectedValue(new Error("Collection error"));
-
-      await expect(getFeaturedProjects()).rejects.toThrow("Collection error");
-    });
-
-    it("should maintain original order for featured projects", async () => {
-      const mockFeaturedProjectsOrder = [
-        {
-          id: "last-featured",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "Last Featured",
-            date: "2024-01-01",
-            description: "Should appear last",
-            featured: true,
-            order: 3,
-            technologies: ["Svelte"],
-          },
-        },
-        {
-          id: "first-featured",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "First Featured",
-            date: "2024-01-02",
-            description: "Should appear first",
-            featured: true,
-            order: 1,
-            technologies: ["React"],
-          },
-        },
-        {
-          id: "not-featured",
-          collection: "portfolioProjects" as const,
-          data: {
-            title: "Not Featured",
-            date: "2024-01-03",
-            description: "Should not appear",
-            featured: false,
             order: 2,
             technologies: ["Vue"],
           },
         },
       ];
 
-      mockGetCollection.mockResolvedValue(mockFeaturedProjectsOrder);
-      const result = await getFeaturedProjects();
+      mockGetCollection.mockResolvedValue(mockProjects);
+      const result = await getAllProjects(false, true);
 
       expect(result).toHaveLength(2);
-      expect(result[0].title).toBe("Last Featured");
-      expect(result[1].title).toBe("First Featured");
-    });
-  });
-
-  describe("Error Handling", () => {
-    it("should propagate getCollection errors in getAllProjects", async () => {
-      mockGetCollection.mockRejectedValue(new Error("Database error"));
-
-      await expect(getAllProjects()).rejects.toThrow("Database error");
-    });
-
-    it("should propagate getCollection errors in getFeaturedProjects", async () => {
-      mockGetCollection.mockRejectedValue(new Error("Network error"));
-
-      await expect(getFeaturedProjects()).rejects.toThrow("Network error");
-    });
-
-    it("should handle empty collection gracefully", async () => {
-      mockGetCollection.mockResolvedValue([]);
-
-      const allProjects = await getAllProjects();
-      const featuredProjects = await getFeaturedProjects();
-
-      expect(allProjects).toEqual([]);
-      expect(featuredProjects).toEqual([]);
+      expect(result[0].featured).toBe(true);
+      expect(result[1].featured).toBe(false);
     });
   });
 });

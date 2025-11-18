@@ -233,6 +233,20 @@ describe("Honor Utils functions", () => {
       // Verify original data structure is not modified
       expect(mockHonorsCollectionEntries).toEqual(originalData);
     });
+
+    it("should handle unsorted getAllHonors correctly", async () => {
+      mockGetCollection.mockResolvedValue(mockHonorsCollectionEntries);
+
+      const result = await getAllHonors(false);
+
+      expect(result).toHaveLength(5);
+      // When unsorted, should maintain original order
+      expect(result[0].year).toBe("2015");
+      expect(result[1].year).toBe("2017");
+      expect(result[2].year).toBe("2016");
+      expect(result[3].year).toBe("2014-2017");
+      expect(result[4].year).toBe("2015");
+    });
   });
 
   describe("getAllHonorsGroupByCategory function", () => {

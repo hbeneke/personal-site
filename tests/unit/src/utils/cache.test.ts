@@ -3,12 +3,12 @@ import { clearCache, getCached, getCacheStats } from "@/utils/cache";
 
 describe("Cache System", () => {
   beforeEach(() => {
-    // Limpiar caché antes de cada test
+    // Clear cache before each test
     clearCache();
   });
 
   afterEach(() => {
-    // Limpiar después de cada test para evitar efectos secundarios
+    // Clean up after each test to avoid side effects
     clearCache();
     vi.clearAllTimers();
   });
@@ -26,15 +26,15 @@ describe("Cache System", () => {
     it("should return cached data on second access (cache hit)", async () => {
       const fetcher = vi.fn(async () => "test data");
 
-      // Primera llamada - cache miss
+      // First call - cache miss
       const result1 = await getCached("test-key", fetcher);
       expect(result1).toBe("test data");
       expect(fetcher).toHaveBeenCalledTimes(1);
 
-      // Segunda llamada - cache hit
+      // Second call - cache hit
       const result2 = await getCached("test-key", fetcher);
       expect(result2).toBe("test data");
-      expect(fetcher).toHaveBeenCalledTimes(1); // No se llama de nuevo
+      expect(fetcher).toHaveBeenCalledTimes(1); // Not called again
     });
 
     it("should handle different keys independently", async () => {
@@ -91,7 +91,7 @@ describe("Cache System", () => {
 
     it("should handle async fetchers correctly", async () => {
       const fetcher = vi.fn(async () => {
-        // Simular operación async
+        // Simulate async operation
         await new Promise((resolve) => setTimeout(resolve, 100));
         return "async data";
       });
@@ -122,10 +122,10 @@ describe("Cache System", () => {
         return "success";
       });
 
-      // Primera llamada falla
+      // First call fails
       await expect(getCached("retry-key", fetcher)).rejects.toThrow("First call fails");
 
-      // Segunda llamada debería intentar de nuevo (no cachear error)
+      // Second call should retry (don't cache error)
       const result = await getCached("retry-key", fetcher);
       expect(result).toBe("success");
       expect(fetcher).toHaveBeenCalledTimes(2);
@@ -136,14 +136,14 @@ describe("Cache System", () => {
     it("should clear specific cache entry", async () => {
       const fetcher = vi.fn(async () => "test data");
 
-      // Cachear dato
+      // Cache data
       await getCached("test-key", fetcher);
       expect(fetcher).toHaveBeenCalledTimes(1);
 
-      // Limpiar caché específico
+      // Clear specific cache entry
       clearCache("test-key");
 
-      // Siguiente llamada debería ejecutar fetcher de nuevo
+      // Next call should execute fetcher again
       await getCached("test-key", fetcher);
       expect(fetcher).toHaveBeenCalledTimes(2);
     });
@@ -152,17 +152,17 @@ describe("Cache System", () => {
       const fetcher1 = vi.fn(async () => "data 1");
       const fetcher2 = vi.fn(async () => "data 2");
 
-      // Cachear múltiples datos
+      // Cache multiple data
       await getCached("key-1", fetcher1);
       await getCached("key-2", fetcher2);
 
       expect(fetcher1).toHaveBeenCalledTimes(1);
       expect(fetcher2).toHaveBeenCalledTimes(1);
 
-      // Limpiar todo el caché
+      // Clear all cache
       clearCache();
 
-      // Ambos fetchers deberían ejecutarse de nuevo
+      // Both fetchers should execute again
       await getCached("key-1", fetcher1);
       await getCached("key-2", fetcher2);
 
@@ -177,14 +177,14 @@ describe("Cache System", () => {
       await getCached("key-1", fetcher1);
       await getCached("key-2", fetcher2);
 
-      // Limpiar solo key-1
+      // Clear only key-1
       clearCache("key-1");
 
-      // key-1 debería llamar fetcher de nuevo
+      // key-1 should call fetcher again
       await getCached("key-1", fetcher1);
       expect(fetcher1).toHaveBeenCalledTimes(2);
 
-      // key-2 debería seguir cacheado
+      // key-2 should remain cached
       await getCached("key-2", fetcher2);
       expect(fetcher2).toHaveBeenCalledTimes(1);
     });
@@ -229,14 +229,14 @@ describe("Cache System", () => {
 
       await getCached("test-key", async () => "data");
 
-      // Avanzar 5 segundos
+      // Advance 5 seconds
       vi.setSystemTime(now + 5000);
 
       const stats = getCacheStats();
 
       expect(stats.entries).toHaveLength(1);
       expect(stats.entries[0].key).toBe("test-key");
-      expect(stats.entries[0].age).toBe(5); // 5 segundos
+      expect(stats.entries[0].age).toBe(5); // 5 seconds
 
       vi.useRealTimers();
     });
@@ -261,14 +261,14 @@ describe("Cache System", () => {
       expect(stats.size).toBe(3);
       expect(stats.entries).toHaveLength(3);
 
-      // Verificar edades aproximadas
+      // Verify approximate ages
       const key1Entry = stats.entries.find((e) => e.key === "key-1");
       const key2Entry = stats.entries.find((e) => e.key === "key-2");
       const key3Entry = stats.entries.find((e) => e.key === "key-3");
 
-      expect(key1Entry?.age).toBe(10); // 10s desde creación
-      expect(key2Entry?.age).toBe(8); // 8s desde creación
-      expect(key3Entry?.age).toBe(5); // 5s desde creación
+      expect(key1Entry?.age).toBe(10); // 10s since creation
+      expect(key2Entry?.age).toBe(8); // 8s since creation
+      expect(key3Entry?.age).toBe(5); // 5s since creation
 
       vi.useRealTimers();
     });
@@ -282,19 +282,19 @@ describe("Cache System", () => {
 
       const fetcher = vi.fn(async () => "data");
 
-      // Primera llamada
+      // First call
       await getCached("ttl-key", fetcher);
       expect(fetcher).toHaveBeenCalledTimes(1);
 
-      // Avanzar 4 minutos (menos que TTL de 5 minutos)
+      // Advance 4 minutes (less than 5-minute TTL)
       vi.setSystemTime(now + 4 * 60 * 1000);
       await getCached("ttl-key", fetcher);
-      expect(fetcher).toHaveBeenCalledTimes(1); // Aún cacheado
+      expect(fetcher).toHaveBeenCalledTimes(1); // Still cached
 
-      // Avanzar 6 minutos (más que TTL)
+      // Advance 6 minutes (more than TTL)
       vi.setSystemTime(now + 6 * 60 * 1000);
       await getCached("ttl-key", fetcher);
-      expect(fetcher).toHaveBeenCalledTimes(2); // Expiró, refetch
+      expect(fetcher).toHaveBeenCalledTimes(2); // Expired, refetch
 
       vi.useRealTimers();
     });
@@ -317,7 +317,7 @@ describe("Cache System", () => {
 
       const result = await getCached<Post[]>("typed-key", fetcher);
 
-      // TypeScript debería inferir el tipo correctamente
+      // TypeScript should infer the type correctly
       expect(result).toHaveLength(2);
       expect(result[0].title).toBe("Post 1");
       expect(result[0].tags).toContain("tag1");

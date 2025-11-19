@@ -9,8 +9,16 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.2.1"
+version: "1.3.0"
 changelog:
+  - version: "1.3.0"
+    date: "2025-11-18T00:00:00.000Z"
+    changes:
+      - "Implemented intelligent caching system to speed up data fetching and improve performance"
+      - "Added comprehensive test coverage for the new cache system"
+      - "Published new blog post analyzing Apple Store's frontend architecture and leaked source code"
+      - "Enhanced Git hooks with support for patch and minor version bumps"
+      - "Updated project dependencies to latest stable versions"
   - version: "1.2.1"
     date: "2025-10-31T00:00:00.000Z"
     changes:

@@ -2,7 +2,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://equero.dev)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/hbeneke/personal-site)
+[![Version](https://img.shields.io/badge/version-1.3.0-green.svg)](https://github.com/hbeneke/personal-site)
 
 A modern, fast, and SEO-optimized personal portfolio website built with Astro, featuring a blog, portfolio showcase, and interactive resume.
 

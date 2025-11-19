@@ -44,7 +44,10 @@ export async function getTagContent(tag: string): Promise<TagContent | null> {
       };
     }
   } catch (error) {
-    console.error("Error accessing tag collection:", error);
+    // Error silently handled in production
+    if (import.meta.env.DEV) {
+      console.error("Error accessing tag collection:", error);
+    }
   }
 
   return null;

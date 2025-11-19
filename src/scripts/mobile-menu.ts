@@ -12,7 +12,6 @@ export class MobileMenu extends HTMLElement {
 
   private init(): void {
     if (!this.button || !this.menu) {
-      console.warn("Mobile Menu: Required elements not found");
       return;
     }
 

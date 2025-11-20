@@ -24,7 +24,6 @@ export class ListPagination extends HTMLElement {
     this.searchInput = this.querySelector("[data-pagination-search]");
 
     if (!this.itemsContainer || !this.paginationContainer) {
-      console.error("Pagination elements not found");
       return;
     }
 
@@ -47,7 +46,6 @@ export class ListPagination extends HTMLElement {
     this.filteredItems = [...this.allItems];
 
     if (this.allItems.length === 0) {
-      console.warn("No pagination items found");
       this.itemsContainer.classList.remove("opacity-0");
       return;
     }

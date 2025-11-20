@@ -12,7 +12,6 @@ export class MobileMenu extends HTMLElement {
 
   private init(): void {
     if (!this.button || !this.menu) {
-      console.warn("Mobile Menu: Required elements not found");
       return;
     }
 
@@ -103,8 +102,12 @@ export function initMobileMenu(): void {
   }
 }
 
-export default function autoInit(): void {
+export function autoInit(): void {
   initMobileMenu();
 }
 
+// Auto-initialize
 autoInit();
+
+// Default export for backwards compatibility
+export default autoInit;

@@ -112,7 +112,6 @@ const finalSearchPlaceholder = searchPlaceholder || `Search ${itemLabel}...`;
 
     private init(): void {
       if (!this.itemsContainer) {
-        console.error("Pagination items container not found");
         return;
       }
 
@@ -146,7 +145,6 @@ const finalSearchPlaceholder = searchPlaceholder || `Search ${itemLabel}...`;
       this.filteredItems = [...this.allItems];
 
       if (this.allItems.length === 0) {
-        console.warn("No items found for pagination");
         this.itemsContainer.classList.remove("opacity-0");
         return;
       }

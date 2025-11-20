@@ -421,22 +421,29 @@ describe("postsUtils", () => {
       expect(result[2024]).toHaveLength(2);
     });
 
-    it("should propagate getCollection errors", async () => {
+    it("should handle getCollection errors gracefully", async () => {
       mockGetCollection.mockRejectedValue(new Error("Collection error"));
 
-      await expect(getPostsGroupedByYear()).rejects.toThrow("Collection error");
+      const result = await getPostsGroupedByYear();
+      expect(result).toEqual({});
     });
   });
 
   describe("Error handling", () => {
-    it("should propagate getCollection errors", async () => {
+    it("should handle getCollection errors gracefully", async () => {
       mockGetCollection.mockRejectedValue(new Error("Collection error"));
 
-      await expect(getAllPosts()).rejects.toThrow("Collection error");
-      await expect(getLatestPosts(3)).rejects.toThrow("Collection error");
-      await expect(getFeaturedPosts()).rejects.toThrow("Collection error");
-      await expect(getPostsByTag("tag")).rejects.toThrow("Collection error");
-      await expect(getAllTags()).rejects.toThrow("Collection error");
+      const allPosts = await getAllPosts();
+      const latestPosts = await getLatestPosts(3);
+      const featuredPosts = await getFeaturedPosts();
+      const postsByTag = await getPostsByTag("tag");
+      const allTags = await getAllTags();
+
+      expect(allPosts).toEqual([]);
+      expect(latestPosts).toEqual([]);
+      expect(featuredPosts).toEqual([]);
+      expect(postsByTag).toEqual([]);
+      expect(allTags).toEqual([]);
     });
   });
 });

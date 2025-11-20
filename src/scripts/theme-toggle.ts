@@ -11,7 +11,6 @@ export class ThemeToggle extends HTMLElement {
 
   private init(): void {
     if (!this.button) {
-      console.warn("Theme Toggle: Button element not found");
       return;
     }
 

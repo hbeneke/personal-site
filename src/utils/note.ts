@@ -3,25 +3,32 @@ import type { GroupedNotesByYear, Note } from "@types";
 import { getCached } from "./cache";
 
 async function getNotes(sorted = false): Promise<Note[]> {
-  const notesCollection = await getCached("notes-collection", async () => {
-    return await getCollection("notes");
-  });
+  try {
+    const notesCollection = await getCached("notes-collection", async () => {
+      return await getCollection("notes");
+    });
 
-  const allNotes: Note[] = notesCollection.map((entry) => ({
-    title: entry.data.title,
-    publishDate: entry.data.publishDate,
-    slug: entry.data.slug,
-    description: entry.data.description,
-    starred: entry.data.starred,
-  }));
+    const allNotes: Note[] = notesCollection.map((entry) => ({
+      title: entry.data.title,
+      publishDate: entry.data.publishDate,
+      slug: entry.data.slug,
+      description: entry.data.description,
+      starred: entry.data.starred,
+    }));
 
-  if (sorted) {
-    return allNotes.sort(
-      (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
-    );
+    if (sorted) {
+      return allNotes.sort(
+        (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+      );
+    }
+
+    return allNotes;
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.error("Error fetching notes collection:", error);
+    }
+    return [];
   }
-
-  return allNotes;
 }
 
 export async function getAllNotes(sorted = true): Promise<Note[]> {

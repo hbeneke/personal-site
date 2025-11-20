@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { clearCache, getCached, getCacheStats } from "@/utils/cache";
+import { CACHE_TTL_SECONDS, clearCache, getCached, getCacheStats } from "@/utils/cache";
 
 describe("Cache System", () => {
   beforeEach(() => {
@@ -321,6 +321,17 @@ describe("Cache System", () => {
       expect(result).toHaveLength(2);
       expect(result[0].title).toBe("Post 1");
       expect(result[0].tags).toContain("tag1");
+    });
+  });
+
+  describe("CACHE_TTL_SECONDS constant", () => {
+    it("should equal 300 seconds (5 minutes)", () => {
+      expect(CACHE_TTL_SECONDS).toBe(300);
+    });
+
+    it("should be a positive number", () => {
+      expect(CACHE_TTL_SECONDS).toBeGreaterThan(0);
+      expect(typeof CACHE_TTL_SECONDS).toBe("number");
     });
   });
 });

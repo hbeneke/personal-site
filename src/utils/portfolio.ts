@@ -10,22 +10,22 @@ async function getProjects(sorted = false, sortByFeatured = false): Promise<Proj
 
     const projects: Project[] = portfolioCollection.map((entry) => entry.data);
 
-  let sortedProjects = [...projects];
+    let sortedProjects = [...projects];
 
-  if (sortByFeatured && sorted) {
-    sortedProjects = sortedProjects.sort((a, b) => {
-      if (a.featured && !b.featured) return -1;
-      if (!a.featured && b.featured) return 1;
+    if (sortByFeatured && sorted) {
+      sortedProjects = sortedProjects.sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
 
-      return (a.order ?? 0) - (b.order ?? 0);
-    });
-  } else if (sortByFeatured) {
-    sortedProjects = sortedProjects.sort((a, b) => {
-      if (a.featured && !b.featured) return -1;
-      if (!a.featured && b.featured) return 1;
-      return 0;
-    });
-  } else if (sorted) {
+        return (a.order ?? 0) - (b.order ?? 0);
+      });
+    } else if (sortByFeatured) {
+      sortedProjects = sortedProjects.sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return 0;
+      });
+    } else if (sorted) {
       sortedProjects = sortedProjects.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     }
 

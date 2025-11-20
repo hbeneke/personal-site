@@ -37,7 +37,7 @@ export const siteConfig: SiteConfig = {
     github: "https://www.github.com/hbeneke",
     x: "https://x.com/habakukbeneke",
   },
-  // Información de contacto y disponibilidad
+  // Contact information and availability
   location: "Madrid, Spain",
   timezone: "CET (UTC+1)",
   availableForWork: true,

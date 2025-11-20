@@ -192,25 +192,23 @@ describe("Date Utils functions", () => {
   describe("calculateDuration with error handling", () => {
     it("throws error for invalid start date", () => {
       expect(() => calculateDuration("invalid-date", "2023-06-15")).toThrow(
-        "Invalid start date: invalid-date"
+        "Invalid start date: invalid-date",
       );
     });
 
     it("throws error for invalid end date", () => {
       expect(() => calculateDuration("2023-06-15", "invalid-date")).toThrow(
-        "Invalid end date: invalid-date"
+        "Invalid end date: invalid-date",
       );
     });
 
     it("throws error for empty start date", () => {
-      expect(() => calculateDuration("", "2023-06-15")).toThrow(
-        "Invalid start date: "
-      );
+      expect(() => calculateDuration("", "2023-06-15")).toThrow("Invalid start date: ");
     });
 
     it("throws error for both invalid dates", () => {
       expect(() => calculateDuration("invalid-start", "invalid-end")).toThrow(
-        "Invalid start date: invalid-start"
+        "Invalid start date: invalid-start",
       );
     });
 

@@ -17,13 +17,13 @@ export function isValidDate(date: string | Date): boolean {
  */
 export function calculateDuration(startDate: string, endDate: string): string {
   const start = new Date(startDate);
-  
+
   if (!isValidDate(start)) {
     throw new Error(`Invalid start date: ${startDate}`);
   }
 
   const end = endDate.toLowerCase() === "present" ? new Date() : new Date(endDate);
-  
+
   if (!isValidDate(end)) {
     throw new Error(`Invalid end date: ${endDate}`);
   }
@@ -51,7 +51,7 @@ export function formatPostDate(dateString: string): string {
   if (!isValidDate(dateString)) {
     return "Invalid date";
   }
-  
+
   return new Date(dateString).toLocaleDateString("en-US", {
     day: "2-digit",
     month: "short",

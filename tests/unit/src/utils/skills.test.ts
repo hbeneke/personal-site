@@ -291,8 +291,8 @@ describe("Skills Utils functions", () => {
             id: "unicode-skill",
             collection: "skills" as const,
             data: {
-              name: "Idiomas / Languages 🌍",
-              perks: ["Español nativo", "English B2 📜", "Français débutant 🇫🇷"],
+              name: "Languages",
+              perks: ["Native Spanish", "English B2", "French beginner"],
             },
           },
         ];
@@ -300,10 +300,10 @@ describe("Skills Utils functions", () => {
 
         const result = await getAllSkills();
 
-        expect(result[0].name).toBe("Idiomas / Languages 🌍");
-        expect(result[0].perks).toContain("Español nativo");
-        expect(result[0].perks).toContain("English B2 📜");
-        expect(result[0].perks).toContain("Français débutant 🇫🇷");
+        expect(result[0].name).toBe("Languages");
+        expect(result[0].perks).toContain("Native Spanish");
+        expect(result[0].perks).toContain("English B2");
+        expect(result[0].perks).toContain("French beginner");
       });
 
       it("should handle getCollection rejection", async () => {

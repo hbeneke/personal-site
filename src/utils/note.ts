@@ -9,12 +9,12 @@ async function getNotes(sorted = false): Promise<Note[]> {
     });
 
     const allNotes: Note[] = notesCollection.map((entry) => ({
-    title: entry.data.title,
-    publishDate: entry.data.publishDate,
-    slug: entry.data.slug,
-    description: entry.data.description,
-    starred: entry.data.starred,
-  }));
+      title: entry.data.title,
+      publishDate: entry.data.publishDate,
+      slug: entry.data.slug,
+      description: entry.data.description,
+      starred: entry.data.starred,
+    }));
 
     if (sorted) {
       return allNotes.sort(

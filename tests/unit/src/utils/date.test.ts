@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculateDuration, formatPostDate } from "@/utils/date";
+import { calculateDuration, formatPostDate, isValidDate } from "@/utils/date";
 
 describe("Date Utils functions", () => {
   describe("calculateDuration function", () => {
@@ -124,6 +124,100 @@ describe("Date Utils functions", () => {
         const result: string = formatPostDate("1990-07-04");
         expect(result).toBe("Jul 04, 1990");
       });
+
+      it("returns 'Invalid date' for invalid date string", () => {
+        const result: string = formatPostDate("invalid-date");
+        expect(result).toBe("Invalid date");
+      });
+
+      it("returns 'Invalid date' for empty string", () => {
+        const result: string = formatPostDate("");
+        expect(result).toBe("Invalid date");
+      });
+
+      it("returns 'Invalid date' for nonsensical date", () => {
+        const result: string = formatPostDate("2023-13-45");
+        expect(result).toBe("Invalid date");
+      });
+    });
+  });
+
+  describe("isValidDate function", () => {
+    describe("Valid dates", () => {
+      it("returns true for valid date string", () => {
+        expect(isValidDate("2023-06-15")).toBe(true);
+      });
+
+      it("returns true for valid Date object", () => {
+        expect(isValidDate(new Date("2023-06-15"))).toBe(true);
+      });
+
+      it("returns true for ISO date string", () => {
+        expect(isValidDate("2023-06-15T10:30:00.000Z")).toBe(true);
+      });
+
+      it("returns true for current date", () => {
+        expect(isValidDate(new Date())).toBe(true);
+      });
+
+      it("returns true for numeric timestamp passed to Date", () => {
+        expect(isValidDate(new Date(1687449600000))).toBe(true);
+      });
+    });
+
+    describe("Invalid dates", () => {
+      it("returns false for invalid date string", () => {
+        expect(isValidDate("invalid-date")).toBe(false);
+      });
+
+      it("returns false for empty string", () => {
+        expect(isValidDate("")).toBe(false);
+      });
+
+      it("returns false for nonsensical date", () => {
+        expect(isValidDate("2023-13-45")).toBe(false);
+      });
+
+      it("returns false for invalid Date object", () => {
+        expect(isValidDate(new Date("invalid"))).toBe(false);
+      });
+
+      it("returns false for NaN Date", () => {
+        const invalidDate = new Date(Number.NaN);
+        expect(isValidDate(invalidDate)).toBe(false);
+      });
+    });
+  });
+
+  describe("calculateDuration with error handling", () => {
+    it("throws error for invalid start date", () => {
+      expect(() => calculateDuration("invalid-date", "2023-06-15")).toThrow(
+        "Invalid start date: invalid-date"
+      );
+    });
+
+    it("throws error for invalid end date", () => {
+      expect(() => calculateDuration("2023-06-15", "invalid-date")).toThrow(
+        "Invalid end date: invalid-date"
+      );
+    });
+
+    it("throws error for empty start date", () => {
+      expect(() => calculateDuration("", "2023-06-15")).toThrow(
+        "Invalid start date: "
+      );
+    });
+
+    it("throws error for both invalid dates", () => {
+      expect(() => calculateDuration("invalid-start", "invalid-end")).toThrow(
+        "Invalid start date: invalid-start"
+      );
+    });
+
+    it("does not throw for valid 'present' as end date", () => {
+      expect(() => calculateDuration("2020-01", "present")).not.toThrow();
+      expect(() => calculateDuration("2020-01", "Present")).not.toThrow();
+      expect(() => calculateDuration("2020-01", "PRESENT")).not.toThrow();
     });
   });
 });

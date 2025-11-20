@@ -3,11 +3,12 @@ import type { Project } from "@types";
 import { getCached } from "./cache";
 
 async function getProjects(sorted = false, sortByFeatured = false): Promise<Project[]> {
-  const portfolioCollection = await getCached("portfolio-collection", async () => {
-    return await getCollection("portfolioProjects");
-  });
+  try {
+    const portfolioCollection = await getCached("portfolio-collection", async () => {
+      return await getCollection("portfolioProjects");
+    });
 
-  const projects: Project[] = portfolioCollection.map((entry) => entry.data);
+    const projects: Project[] = portfolioCollection.map((entry) => entry.data);
 
   let sortedProjects = [...projects];
 
@@ -25,10 +26,16 @@ async function getProjects(sorted = false, sortByFeatured = false): Promise<Proj
       return 0;
     });
   } else if (sorted) {
-    sortedProjects = sortedProjects.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  }
+      sortedProjects = sortedProjects.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    }
 
-  return sortedProjects;
+    return sortedProjects;
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.error("Error fetching portfolio collection:", error);
+    }
+    return [];
+  }
 }
 
 export async function getAllProjects(sorted = true, sortByFeatured = false): Promise<Project[]> {

@@ -1,11 +1,38 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import { getCached } from "./cache";
 
+/**
+ * Filters out draft posts from an array
+ * @param posts - Array of posts to filter
+ * @returns Filtered array without draft posts
+ */
+function filterDrafts(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts">[] {
+  return posts.filter((post) => !post.data.draft);
+}
+
+/**
+ * Sorts posts by publish date in descending order (newest first)
+ * @param posts - Array of posts to sort
+ * @returns Sorted array of posts
+ */
+function sortByDate(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts">[] {
+  return posts.sort(
+    (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
+  );
+}
+
 async function getRawPosts(): Promise<CollectionEntry<"posts">[]> {
-  return getCached("posts-collection", async () => {
-    const postsCollection = await getCollection("posts");
-    return postsCollection;
-  });
+  try {
+    return await getCached("posts-collection", async () => {
+      const postsCollection = await getCollection("posts");
+      return postsCollection;
+    });
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.error("Error fetching posts collection:", error);
+    }
+    return [];
+  }
 }
 
 export async function getAllPosts(
@@ -15,13 +42,11 @@ export async function getAllPosts(
   let posts = await getRawPosts();
 
   if (!includeDrafts) {
-    posts = posts.filter((post) => !post.data.draft);
+    posts = filterDrafts(posts);
   }
 
   if (sorted) {
-    posts = posts.sort(
-      (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
-    );
+    posts = sortByDate(posts);
   }
 
   return posts;
@@ -29,10 +54,8 @@ export async function getAllPosts(
 
 export async function getLatestPost(): Promise<CollectionEntry<"posts"> | null> {
   const posts = await getRawPosts();
-  const filteredPosts = posts.filter((post) => !post.data.draft);
-  const sortedPosts = filteredPosts.sort(
-    (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
-  );
+  const filteredPosts = filterDrafts(posts);
+  const sortedPosts = sortByDate(filteredPosts);
   return sortedPosts.length > 0 ? sortedPosts[0] : null;
 }
 
@@ -43,12 +66,10 @@ export async function getLatestPosts(
   let posts = await getRawPosts();
 
   if (!includeDrafts) {
-    posts = posts.filter((post) => !post.data.draft);
+    posts = filterDrafts(posts);
   }
 
-  const sortedPosts = posts.sort(
-    (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
-  );
+  const sortedPosts = sortByDate(posts);
   return sortedPosts.length > 0 ? sortedPosts.slice(0, count) : [];
 }
 
@@ -56,7 +77,7 @@ export async function getFeaturedPosts(includeDrafts = false): Promise<Collectio
   let posts = await getRawPosts();
 
   if (!includeDrafts) {
-    posts = posts.filter((post) => !post.data.draft);
+    posts = filterDrafts(posts);
   }
 
   return posts.filter((post) => post.data.featured);
@@ -69,7 +90,7 @@ export async function getPostsByTag(
   let posts = await getRawPosts();
 
   if (!includeDrafts) {
-    posts = posts.filter((post) => !post.data.draft);
+    posts = filterDrafts(posts);
   }
 
   return posts.filter((post) => post.data.tags?.includes(tag));
@@ -79,7 +100,7 @@ export async function getAllTags(includeDrafts = false): Promise<string[]> {
   let posts = await getRawPosts();
 
   if (!includeDrafts) {
-    posts = posts.filter((post) => !post.data.draft);
+    posts = filterDrafts(posts);
   }
 
   const tags = new Set<string>();
@@ -101,12 +122,10 @@ export async function getPostsGroupedByYear(
   let posts = await getRawPosts();
 
   if (!includeDrafts) {
-    posts = posts.filter((post) => !post.data.draft);
+    posts = filterDrafts(posts);
   }
 
-  const sortedPosts = posts.sort(
-    (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
-  );
+  const sortedPosts = sortByDate(posts);
 
   const groupedPosts: Record<number, CollectionEntry<"posts">[]> = {};
 

@@ -1,6 +1,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { TagContent, TagPageData, TagWithCount } from "@types";
 import { getAllTags, getPostsByTag } from "@utils/post";
+import { isValidDate } from "@utils/date";
 import { getCached } from "./cache";
 
 async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
@@ -58,7 +59,7 @@ export function groupPostsByYear(
 ): Record<number, CollectionEntry<"posts">[]> {
   return posts.reduce((acc: Record<number, CollectionEntry<"posts">[]>, post) => {
     const date = new Date(post.data.publishDate);
-    if (Number.isNaN(date.getTime())) {
+    if (!isValidDate(date)) {
       return acc;
     }
     const year = date.getFullYear();

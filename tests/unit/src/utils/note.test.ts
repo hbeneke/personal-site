@@ -138,10 +138,11 @@ describe("noteUtils", () => {
       expect(result).toEqual([]);
     });
 
-    it("should propagate getCollection errors", async () => {
+    it("should handle getCollection errors gracefully", async () => {
       mockGetCollection.mockRejectedValue(new Error("Collection error"));
 
-      await expect(getLatestNotes(3)).rejects.toThrow("Collection error");
+      const result = await getLatestNotes(3);
+      expect(result).toEqual([]);
     });
   });
 

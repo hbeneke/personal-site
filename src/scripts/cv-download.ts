@@ -1,15 +1,26 @@
 class CVDownloader {
+  private readonly buttonId = "cv-download-btn";
+
   constructor() {
     this.init();
   }
 
-  init() {
+  init(): void {
     this.bindEvents();
   }
 
-  bindEvents() {
-    const downloadButton = document.getElementById("cv-download-btn");
-    if (!downloadButton) return;
+  private getButton(): HTMLButtonElement | null {
+    return document.getElementById(this.buttonId) as HTMLButtonElement | null;
+  }
+
+  bindEvents(): void {
+    const downloadButton = this.getButton();
+    if (!downloadButton) {
+      if (import.meta.env.DEV) {
+        console.warn(`CV Download: Button with id "${this.buttonId}" not found`);
+      }
+      return;
+    }
 
     downloadButton.addEventListener("click", (e) => {
       e.preventDefault();
@@ -24,8 +35,8 @@ class CVDownloader {
     });
   }
 
-  async downloadCV() {
-    const button = document.getElementById("cv-download-btn");
+  async downloadCV(): Promise<void> {
+    const button = this.getButton();
     if (!button) return;
 
     try {
@@ -58,18 +69,22 @@ class CVDownloader {
         clearInterval(checkClosed);
       }, 5000);
     } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error occurred";
+      if (import.meta.env.DEV) {
+        console.error("CV Download error:", message);
+      }
       alert("Failed to download CV. Please try again or check if popups are blocked.");
       this.setLoadingState(false);
     }
   }
 
   setLoadingState(loading: boolean): void {
-    const button = document.getElementById("cv-download-btn") as HTMLButtonElement;
-    const downloadText = button?.querySelector(".download-text");
-    const loadingText = button?.querySelector(".loading-text");
-    const downloadIcon = button?.querySelector(".download-icon");
-
+    const button = this.getButton();
     if (!button) return;
+
+    const downloadText = button.querySelector(".download-text");
+    const loadingText = button.querySelector(".loading-text");
+    const downloadIcon = button.querySelector(".download-icon");
 
     if (loading) {
       button.disabled = true;
@@ -87,4 +102,5 @@ class CVDownloader {
   }
 }
 
+export { CVDownloader };
 export default CVDownloader;

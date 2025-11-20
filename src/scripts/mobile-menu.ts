@@ -102,8 +102,12 @@ export function initMobileMenu(): void {
   }
 }
 
-export default function autoInit(): void {
+export function autoInit(): void {
   initMobileMenu();
 }
 
+// Auto-initialize
 autoInit();
+
+// Default export for backwards compatibility
+export default autoInit;

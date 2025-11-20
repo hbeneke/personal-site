@@ -2,6 +2,11 @@ import fs from "node:fs";
 import { execSync } from "node:child_process";
 import path from "node:path";
 
+// Configurable timeout for pagefind command execution (in milliseconds)
+const PAGEFIND_TIMEOUT = process.env.PAGEFIND_TIMEOUT
+  ? Number.parseInt(process.env.PAGEFIND_TIMEOUT, 10)
+  : 30000; // Default: 30 seconds
+
 function buildSearch() {
   const vercelPath = path.join(process.cwd(), ".vercel", "output", "static");
   const distPath = path.join(process.cwd(), "dist");
@@ -40,21 +45,21 @@ function buildSearch() {
         execSync(`npx ${command}`, {
           stdio: "inherit",
           cwd: process.cwd(),
-          timeout: 30000,
+          timeout: PAGEFIND_TIMEOUT,
         });
       } catch (exeError) {
         console.log("⚠️  npx pagefind failed, trying direct command...");
         execSync(command, {
           stdio: "inherit",
           cwd: process.cwd(),
-          timeout: 30000,
+          timeout: PAGEFIND_TIMEOUT,
         });
       }
     } else {
       execSync(`npx ${command}`, {
         stdio: "inherit",
         cwd: process.cwd(),
-        timeout: 30000,
+        timeout: PAGEFIND_TIMEOUT,
       });
     }
 

@@ -5,7 +5,21 @@ interface CacheEntry<T> {
 
 const cache = new Map<string, CacheEntry<unknown>>();
 
-const CACHE_TTL = 1000 * 60 * 5;
+/**
+ * Cache Time-To-Live in milliseconds
+ * Default: 5 minutes (300,000 ms)
+ *
+ * This determines how long cached data remains valid before being refetched.
+ * Adjust this value based on your data freshness requirements:
+ * - Lower values: More frequent updates, higher load
+ * - Higher values: Better performance, potentially stale data
+ */
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * Cache TTL in seconds for external use
+ */
+export const CACHE_TTL_SECONDS = CACHE_TTL / 1000;
 
 export function getCached<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
   const cached = cache.get(key);

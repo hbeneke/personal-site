@@ -9,8 +9,18 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.3.0"
+version: "1.3.7"
 changelog:
+  - version: "1.3.7"
+    date: "2025-11-20T00:00:00.000Z"
+    changes:
+      - "Enhanced security headers and cache configuration for production deployment"
+      - "Improved code quality by removing debug console logs and adding production conditionals"
+      - "Added robust date validation with isValidDate() function"
+      - "Enhanced error handling in async operations"
+      - "Refactored code to eliminate duplication and improve maintainability"
+      - "Translated Spanish content to English for broader accessibility"
+      - "Achieved 98.97% test coverage across the project"
   - version: "1.3.0"
     date: "2025-11-18T00:00:00.000Z"
     changes:

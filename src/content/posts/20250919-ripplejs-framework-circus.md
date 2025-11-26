@@ -98,5 +98,3 @@ So here comes another one called [Ripple](https://github.com/trueadm/ripple). Pu
 - [RippleJS Official Website](https://www.ripplejs.com/)
 - [RippleJS GitHub Repository](https://github.com/trueadm/ripple)
 - [Dominic Gannaway (@trueadm)](https://github.com/trueadm)
-
-````

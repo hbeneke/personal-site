@@ -112,9 +112,11 @@ const sortedProjects = await getAllProjects(true, true);
                       (a, b) =>
                         new Date(b.date).getTime() - new Date(a.date).getTime()
                     )
-                    .slice(0, 3)
-                    .map((entry) => (
-                      <div class="changelog-entry">
+                    .map((entry, entryIndex) => (
+                      <div 
+                        class={`changelog-entry ${entryIndex >= 3 ? 'hidden changelog-extra' : ''}`}
+                        data-changelog-group={`changelog-${index}`}
+                      >
                         <div class="flex items-baseline gap-2 mb-1">
                           <span class="text-xs font-medium text-gray-800 dark:text-gray-200">
                             v{entry.version}
@@ -138,6 +140,24 @@ const sortedProjects = await getAllProjects(true, true);
                       </div>
                     ))}
                 </div>
+                {project.changelog.length > 3 && (
+                  <div class="mt-3">
+                    <button
+                      type="button"
+                      class="primary-link text-xs see-more-btn"
+                      data-target={`changelog-${index}`}
+                    >
+                      See more ({project.changelog.length - 3} more versions)
+                    </button>
+                    <button
+                      type="button"
+                      class="primary-link text-xs see-less-btn hidden"
+                      data-target={`changelog-${index}`}
+                    >
+                      See less
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </article>

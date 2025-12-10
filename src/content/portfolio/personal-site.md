@@ -9,8 +9,18 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.3.7"
+version: "1.3.21"
 changelog:
+  - version: "1.3.21"
+    date: "2025-12-10T00:00:00.000Z"
+    changes:
+      - "Added see more/less toggle for changelog entries in portfolio"
+      - "Updated About section with personal journey and current interests"
+      - "Added markdown files support in Tailwind CSS and markdownlint configuration"
+      - "Improved footer text visibility and project technology tags styling"
+      - "Standardized script exports and initialization patterns"
+      - "Various UI fixes for text sizing, pagination buttons, and alignment"
+      - "Updated dependencies to latest versions"
   - version: "1.3.7"
     date: "2025-11-20T00:00:00.000Z"
     changes:

@@ -45,7 +45,7 @@ export class TableOfContents extends HTMLElement {
     }
   }
 
-  private updateTOC(): void {
+  updateTOC(): void {
     let current = "";
     let closestDistance = Number.POSITIVE_INFINITY;
 
@@ -92,4 +92,13 @@ export class TableOfContents extends HTMLElement {
   }
 }
 
-customElements.define("table-of-contents", TableOfContents);
+export function initTableOfContents(): void {
+  if (!customElements.get("table-of-contents")) {
+    customElements.define("table-of-contents", TableOfContents);
+  }
+}
+
+// Auto-initialize
+initTableOfContents();
+
+export default TableOfContents;

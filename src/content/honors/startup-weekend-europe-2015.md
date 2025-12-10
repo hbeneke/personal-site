@@ -1,6 +1,6 @@
 ---
 category: 'International'
 year: '2015'
-title: 'Most Voted by public'
+title: 'Startup Weekend - Most Voted by public'
 location: 'Berlin, Germany'
 ---

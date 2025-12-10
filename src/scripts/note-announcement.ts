@@ -38,7 +38,7 @@ export class NoteAnnouncement extends HTMLElement {
     }, 300);
   }
 
-  private handleClose(): void {
+  handleClose(): void {
     if (!this.announcement) return;
     const noteSlug = this.announcement.getAttribute("data-note-slug");
 
@@ -54,4 +54,13 @@ export class NoteAnnouncement extends HTMLElement {
   }
 }
 
-customElements.define("note-announcement", NoteAnnouncement);
+export function initNoteAnnouncement(): void {
+  if (!customElements.get("note-announcement")) {
+    customElements.define("note-announcement", NoteAnnouncement);
+  }
+}
+
+// Auto-initialize
+initNoteAnnouncement();
+
+export default NoteAnnouncement;

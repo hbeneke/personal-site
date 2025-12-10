@@ -27,16 +27,16 @@ export class ThemeToggle extends HTMLElement {
     });
   }
 
-  private getSystemPreference(): "dark" | "light" {
+  getSystemPreference(): "dark" | "light" {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
 
-  private getCurrentTheme(): "dark" | "light" {
+  getCurrentTheme(): "dark" | "light" {
     const storedTheme = localStorage.getItem("theme") as "dark" | "light" | null;
     return storedTheme || this.getSystemPreference();
   }
 
-  private applyTheme(theme: "dark" | "light"): void {
+  applyTheme(theme: "dark" | "light"): void {
     if (theme === "dark") {
       this.html.classList.add("dark");
     } else {
@@ -45,21 +45,20 @@ export class ThemeToggle extends HTMLElement {
     localStorage.setItem("theme", theme);
   }
 
-  private toggleTheme(): void {
+  toggleTheme(): void {
     const currentTheme = this.getCurrentTheme();
     const newTheme = currentTheme === "dark" ? "light" : "dark";
     this.applyTheme(newTheme);
   }
+}
 
-  public getCurrentThemeForTesting(): "dark" | "light" {
-    return this.getCurrentTheme();
-  }
-
-  public setThemeForTesting(theme: "dark" | "light"): void {
-    this.applyTheme(theme);
+export function initThemeToggle(): void {
+  if (!customElements.get("theme-toggle")) {
+    customElements.define("theme-toggle", ThemeToggle);
   }
 }
 
-if (!customElements.get("theme-toggle")) {
-  customElements.define("theme-toggle", ThemeToggle);
-}
+// Auto-initialize
+initThemeToggle();
+
+export default ThemeToggle;

@@ -27,9 +27,6 @@ const sortedProjects = await getAllProjects(true, true);
             <div class="flex items-start justify-between gap-4 mb-2">
               <h3 class="text-base">
                 <span class="secondary">{project.title}</span>
-                {project.featured && (
-                  <span class="text-yellow-400 ml-2 text-sm">★</span>
-                )}
                 {project.version && (
                   <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">
                     v{project.version}
@@ -44,13 +41,11 @@ const sortedProjects = await getAllProjects(true, true);
               </time>
             </div>
 
-            <p class="text-xs text-gray-600 dark:text-gray-400 mb-3">
-              {project.description}
-            </p>
+            <p class="text-xs mb-3">{project.description}</p>
 
-            <div class="flex flex-wrap gap-2 mb-3">
+            <div class="flex flex-wrap gap-1.5 mb-3">
               {project.technologies.map((tech: string) => (
-                <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                <span class="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
                   {tech}
                 </span>
               ))}
@@ -108,7 +103,7 @@ const sortedProjects = await getAllProjects(true, true);
                 id={`changelog-${index}`}
                 class="accordion-content hidden mt-4 pl-4 border-l-2 border-gray-300 dark:border-gray-600"
               >
-                <h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">
+                <h4 class="text-sm font-medium mb-3 secondary">
                   Version History
                 </h4>
                 <div class="space-y-3">
@@ -117,9 +112,11 @@ const sortedProjects = await getAllProjects(true, true);
                       (a, b) =>
                         new Date(b.date).getTime() - new Date(a.date).getTime()
                     )
-                    .slice(0, 3)
-                    .map((entry) => (
-                      <div class="changelog-entry">
+                    .map((entry, entryIndex) => (
+                      <div
+                        class={`changelog-entry ${entryIndex >= 3 ? "hidden changelog-extra" : ""}`}
+                        data-changelog-group={`changelog-${index}`}
+                      >
                         <div class="flex items-baseline gap-2 mb-1">
                           <span class="text-xs font-medium text-gray-800 dark:text-gray-200">
                             v{entry.version}
@@ -143,6 +140,24 @@ const sortedProjects = await getAllProjects(true, true);
                       </div>
                     ))}
                 </div>
+                {project.changelog.length > 3 && (
+                  <div class="mt-3">
+                    <button
+                      type="button"
+                      class="primary-link text-xs see-more-btn"
+                      data-target={`changelog-${index}`}
+                    >
+                      See more ({project.changelog.length - 3} more versions)
+                    </button>
+                    <button
+                      type="button"
+                      class="primary-link text-xs see-less-btn hidden"
+                      data-target={`changelog-${index}`}
+                    >
+                      See less
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </article>

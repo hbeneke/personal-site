@@ -1,43 +1,83 @@
-const dialog = document.getElementById("demo-preview-dialog");
-const dialogContent = document.getElementById("demo-preview-content");
-const closeBtn = document.getElementById("close-demo-dialog");
-const dialogTitle = document.getElementById("demo-dialog-title");
-const previewImage = document.getElementById("demo-preview-image") as HTMLImageElement;
-const previewLink = document.getElementById("demo-preview-link") as HTMLAnchorElement;
+export class DemoPreviewDialog {
+  private dialog: HTMLElement | null;
+  private dialogContent: HTMLElement | null;
+  private closeBtn: HTMLElement | null;
+  private dialogTitle: HTMLElement | null;
+  private previewImage: HTMLImageElement | null;
+  private previewLink: HTMLAnchorElement | null;
 
-export function openDemoDialog(title: string, demoUrl: string, imageUrl?: string) {
-  if (dialog && dialogContent && dialogTitle && previewImage && previewLink && imageUrl) {
-    dialogTitle.textContent = title;
-    previewLink.href = demoUrl;
-    previewImage.src = imageUrl;
-    previewImage.alt = `${title} preview`;
+  constructor() {
+    this.dialog = document.getElementById("demo-preview-dialog");
+    this.dialogContent = document.getElementById("demo-preview-content");
+    this.closeBtn = document.getElementById("close-demo-dialog");
+    this.dialogTitle = document.getElementById("demo-dialog-title");
+    this.previewImage = document.getElementById("demo-preview-image") as HTMLImageElement;
+    this.previewLink = document.getElementById("demo-preview-link") as HTMLAnchorElement;
 
-    dialog.classList.remove("hidden");
-    dialog.classList.add("flex");
-    document.body.style.overflow = "hidden";
+    this.init();
+  }
+
+  private init(): void {
+    this.setupEventListeners();
+    this.exposeGlobalFunction();
+  }
+
+  private setupEventListeners(): void {
+    this.closeBtn?.addEventListener("click", () => this.closeDialog());
+
+    this.dialog?.addEventListener("click", (e) => {
+      if (e.target === this.dialog) {
+        this.closeDialog();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && this.dialog?.classList.contains("flex")) {
+        this.closeDialog();
+      }
+    });
+  }
+
+  openDialog(title: string, demoUrl: string, imageUrl?: string): void {
+    if (
+      this.dialog &&
+      this.dialogContent &&
+      this.dialogTitle &&
+      this.previewImage &&
+      this.previewLink &&
+      imageUrl
+    ) {
+      this.dialogTitle.textContent = title;
+      this.previewLink.href = demoUrl;
+      this.previewImage.src = imageUrl;
+      this.previewImage.alt = `${title} preview`;
+
+      this.dialog.classList.remove("hidden");
+      this.dialog.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  closeDialog(): void {
+    if (this.dialog && this.dialogContent) {
+      this.dialog.classList.add("hidden");
+      this.dialog.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+  }
+
+  private exposeGlobalFunction(): void {
+    type OpenDemoDialogFn = (title: string, demoUrl: string, imageUrl?: string) => void;
+    (window as Window & { openDemoDialog?: OpenDemoDialogFn }).openDemoDialog =
+      this.openDialog.bind(this);
   }
 }
 
-function closeDialog() {
-  if (dialog && dialogContent) {
-    dialog.classList.add("hidden");
-    dialog.classList.remove("flex");
-    document.body.style.overflow = "";
-  }
+export function initDemoPreviewDialog(): DemoPreviewDialog {
+  return new DemoPreviewDialog();
 }
 
-closeBtn?.addEventListener("click", closeDialog);
+// Auto-initialize
+initDemoPreviewDialog();
 
-dialog?.addEventListener("click", (e) => {
-  if (e.target === dialog) {
-    closeDialog();
-  }
-});
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && dialog?.classList.contains("flex")) {
-    closeDialog();
-  }
-});
-
-(window as Window & { openDemoDialog?: typeof openDemoDialog }).openDemoDialog = openDemoDialog;
+export default DemoPreviewDialog;

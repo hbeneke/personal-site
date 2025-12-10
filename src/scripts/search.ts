@@ -219,3 +219,11 @@ export class SiteSearch extends HTMLElement {
 if (typeof window !== "undefined" && !customElements.get("site-search")) {
   customElements.define("site-search", SiteSearch);
 }
+
+export function initSiteSearch(): void {
+  if (typeof window !== "undefined" && !customElements.get("site-search")) {
+    customElements.define("site-search", SiteSearch);
+  }
+}
+
+export default SiteSearch;

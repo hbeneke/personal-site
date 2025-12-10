@@ -269,3 +269,11 @@ export class ListPagination extends HTMLElement {
 if (!customElements.get("list-pagination")) {
   customElements.define("list-pagination", ListPagination);
 }
+
+export function initListPagination(): void {
+  if (!customElements.get("list-pagination")) {
+    customElements.define("list-pagination", ListPagination);
+  }
+}
+
+export default ListPagination;

@@ -19,7 +19,6 @@ import { siteConfig } from "@site-config";
     </header>
 
     <div class="space-y-8">
-      <!-- Intro -->
       <div>
         <p class="text-xs mb-2">
           Hi, I'm <span class="secondary font-bold"
@@ -33,119 +32,80 @@ import { siteConfig } from "@site-config";
         </p>
       </div>
 
-      <!-- Timeline style content -->
       <div class="space-y-6">
-        <!-- Item 1 -->
-        <div class="flex gap-4">
-          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
-            <div
-              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
-            >
-            </div>
-          </div>
-          <div class="flex-1 -mt-1">
-            <h2 class="text-sm font-semibold mb-2 secondary">How It Started</h2>
-            <p class="text-xs leading-relaxed mb-2">
-              I learned to code as a kid with BASIC. My mom worked at a bank and
-              they asked her to learn programming to manage the company's
-              software. She didn't understand computers, but I was enthusiastic
-              about them, so she asked me to learn together. That's how it all
-              began.
-            </p>
-            <p class="text-xs leading-relaxed">
-              Professionally, I've been at it for over 10 years across different
-              sectors: startups, banking, marketing, telecom, renewable energy.
-              Built real-time ad platforms, omnichannel contact centers, ETL
-              pipelines for big data, and led development teams. Currently
-              working as a Senior Full Stack Developer and Tech Lead.
-            </p>
-          </div>
+        <div>
+          <h2 class="text-sm font-semibold mb-2 secondary">How It Started</h2>
+          <p class="text-xs leading-relaxed mb-2">
+            I learned to code as a kid with BASIC. My mom worked at a bank and
+            they asked her to learn programming to manage the company's
+            software. She didn't understand computers, but I was enthusiastic
+            about them, so she asked me to learn together. That's how it all
+            began.
+          </p>
+          <p class="text-xs leading-relaxed">
+            Professionally, I've been at it for over 10 years across different
+            sectors: startups, banking, marketing, telecom, renewable energy.
+            Built real-time ad platforms, omnichannel contact centers, ETL
+            pipelines for big data, and led development teams. Currently working
+            as a Senior Full Stack Developer and Tech Lead.
+          </p>
         </div>
 
-        <!-- Item 2 -->
-        <div class="flex gap-4">
-          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
-            <div
-              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
-            >
-            </div>
-          </div>
-          <div class="flex-1 -mt-1">
-            <h2 class="text-sm font-semibold mb-2 secondary">What I'm Into</h2>
-            <p class="text-xs leading-relaxed mb-2">
-              I work mainly with Angular/Vue, TypeScript, and modern web
-              technologies. Also comfortable with Python, PHP/Laravel when
-              needed.
-            </p>
-            <p class="text-xs leading-relaxed">
-              I like building projects that challenge me, tinkering with new
-              technologies, and exploring different paradigms. Performance
-              optimization, code reviews, and architecture decisions are things
-              I naturally gravitate towards.
-            </p>
-          </div>
+        <div>
+          <h2 class="text-sm font-semibold mb-2 secondary">What I'm Into</h2>
+          <p class="text-xs leading-relaxed mb-2">
+            I work mainly with Angular/Vue, TypeScript, and modern web
+            technologies. Also comfortable with Python, PHP/Laravel when needed.
+          </p>
+          <p class="text-xs leading-relaxed">
+            I like building projects that challenge me, tinkering with new
+            technologies, and exploring different paradigms. Performance
+            optimization, code reviews, and architecture decisions are things I
+            naturally gravitate towards.
+          </p>
         </div>
 
-        <!-- Item 3 -->
-        <div class="flex gap-4">
-          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
-            <div
-              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
-            >
-            </div>
-          </div>
-          <div class="flex-1 -mt-1">
-            <h2 class="text-sm font-semibold mb-2 secondary">Open To</h2>
-            <p class="text-xs leading-relaxed">
-              → Freelance projects & consulting<br />
-              → Full-time opportunities (if it's a good fit)<br />
-              → Open source contributions<br />
-              → Helping nonprofits & educational projects
-            </p>
-          </div>
+        <div>
+          <h2 class="text-sm font-semibold mb-2 secondary">Open To</h2>
+          <p class="text-xs leading-relaxed">
+            → Freelance projects & consulting<br />
+            → Full-time opportunities (if it's a good fit)<br />
+            → Open source contributions<br />
+            → Helping nonprofits & educational projects
+          </p>
         </div>
 
-        <!-- Item 4 -->
-        <div class="flex gap-4">
-          <div class="flex-none w-1 bg-gray-300 dark:bg-gray-600 relative">
-            <div
-              class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-yellow-400"
+        <div>
+          <h2 class="text-sm font-semibold mb-2 secondary">Get in Touch</h2>
+          <p class="text-xs leading-relaxed mb-3">
+            Best way to reach me: <span class="secondary italic"
+              >{siteConfig.obfuscatedEmail}</span
             >
-            </div>
-          </div>
-          <div class="flex-1 -mt-1">
-            <h2 class="text-sm font-semibold mb-2 secondary">Get in Touch</h2>
-            <p class="text-xs leading-relaxed mb-3">
-              Best way to reach me: <span class="secondary italic"
-                >{siteConfig.obfuscatedEmail}</span
-              >
-              <br />I usually reply within 24 hours.
-            </p>
-            <p class="text-xs">
-              You can also find me on <a
-                class="primary-link"
-                href={siteConfig.socialLinks.linkedin}
-                target="_blank"
-                rel="noopener noreferrer">LinkedIn</a
-              >,
-              <a
-                class="primary-link"
-                href={siteConfig.socialLinks.github}
-                target="_blank"
-                rel="noopener noreferrer">GitHub</a
-              >, and
-              <a
-                class="primary-link"
-                href={siteConfig.socialLinks.x}
-                target="_blank"
-                rel="noopener noreferrer">X</a
-              >
-            </p>
-          </div>
+            <br />I usually reply within 24 hours.
+          </p>
+          <p class="text-xs">
+            You can also find me on <a
+              class="primary-link"
+              href={siteConfig.socialLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer">LinkedIn</a
+            >,
+            <a
+              class="primary-link"
+              href={siteConfig.socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer">GitHub</a
+            >, and
+            <a
+              class="primary-link"
+              href={siteConfig.socialLinks.x}
+              target="_blank"
+              rel="noopener noreferrer">X</a
+            >
+          </p>
         </div>
       </div>
 
-      <!-- Bottom note -->
       <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
         <p class="text-xs italic">
           I like helping the developer community. Used to organize Betabeers

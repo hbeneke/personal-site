@@ -113,8 +113,8 @@ const sortedProjects = await getAllProjects(true, true);
                         new Date(b.date).getTime() - new Date(a.date).getTime()
                     )
                     .map((entry, entryIndex) => (
-                      <div 
-                        class={`changelog-entry ${entryIndex >= 3 ? 'hidden changelog-extra' : ''}`}
+                      <div
+                        class={`changelog-entry ${entryIndex >= 3 ? "hidden changelog-extra" : ""}`}
                         data-changelog-group={`changelog-${index}`}
                       >
                         <div class="flex items-baseline gap-2 mb-1">

@@ -34,7 +34,7 @@ export function setupSeeMoreButtons(): void {
       if (!targetId) return;
 
       const extraEntries = document.querySelectorAll(
-        `.changelog-extra[data-changelog-group="${targetId}"]`
+        `.changelog-extra[data-changelog-group="${targetId}"]`,
       );
       const seeLessBtn = button.parentElement?.querySelector(".see-less-btn");
 
@@ -57,7 +57,7 @@ export function setupSeeLessButtons(): void {
       if (!targetId) return;
 
       const extraEntries = document.querySelectorAll(
-        `.changelog-extra[data-changelog-group="${targetId}"]`
+        `.changelog-extra[data-changelog-group="${targetId}"]`,
       );
       const seeMoreBtn = button.parentElement?.querySelector(".see-more-btn");
 

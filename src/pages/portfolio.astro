@@ -41,9 +41,7 @@ const sortedProjects = await getAllProjects(true, true);
               </time>
             </div>
 
-            <p class="text-xs text-gray-600 dark:text-gray-400 mb-3">
-              {project.description}
-            </p>
+            <p class="text-xs mb-3">{project.description}</p>
 
             <div class="flex flex-wrap gap-1.5 mb-3">
               {project.technologies.map((tech: string) => (

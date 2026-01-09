@@ -9,8 +9,15 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.3.21"
+version: "1.4.0"
 changelog:
+  - version: "1.4.0"
+    date: "2026-01-09T00:00:00.000Z"
+    changes:
+      - "Fixed Table of Contents scroll behavior - scroll now applies only within the bordered content area, keeping the title always visible on small screens"
+      - "Updated tags list to display only the first 10 tags for better UI"
+      - "Updated dependencies to latest versions"
+      - "Added personal website link to resume contact information"
   - version: "1.3.21"
     date: "2025-12-10T00:00:00.000Z"
     changes:

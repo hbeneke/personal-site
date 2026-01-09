@@ -4,6 +4,7 @@ import { getSortedTagsWithCounts } from "@utils/tag";
 
 const sortedTags = await getSortedTagsWithCounts();
 const tagNames = sortedTags.map((tag) => tag.name);
+const displayedTags = tagNames.slice(0, 10);
 ---
 
 <section>
@@ -17,7 +18,7 @@ const tagNames = sortedTags.map((tag) => tag.name);
     {
       tagNames.length > 0 ? (
         <div class="flex flex-wrap gap-x-3 gap-y-2">
-          {tagNames.map((tagName) => (
+          {displayedTags.map((tagName) => (
             <a
               href={`/tags/${tagName}/`}
               class="transition-colors duration-200 hover:text-gray-100 underline-offset-2 hover:underline  text-xs"

@@ -62,17 +62,19 @@ const sortedProjects = await getAllProjects(true, true);
                   Code
                 </a>
               )}
-              {project.demo && (
-                <button
-                  type="button"
-                  class="primary-link demo-preview-btn"
-                  data-demo-url={project.demo}
-                  data-demo-image={project.image || ""}
-                  data-project-title={project.title}
-                >
-                  Demo
-                </button>
-              )}
+              <button
+                type="button"
+                class:list={[
+                  "demo-preview-btn",
+                  project.demo ? "primary-link" : "primary-link-disabled"
+                ]}
+                data-demo-url={project.demo || ""}
+                data-demo-image={project.image || ""}
+                data-project-title={project.title}
+                disabled={!project.demo}
+              >
+                Demo
+              </button>
               {project.changelog && project.changelog.length > 0 && (
                 <button
                   type="button"

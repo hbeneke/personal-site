@@ -3,13 +3,21 @@ title: "Git Wayback"
 date: "2026-01-14T00:00:00.000Z"
 description: "Visualize the evolution of any GitHub repository. Git history analysis, branch visualization, and screenshot timeline of your project's visual evolution."
 technologies: ["TypeScript", "Vue", "Turborepo", "Neon", "Vercel"]
-link: "https://git-wayback-web.vercel.app"
+link: "https://git-wayback.com"
 image: "/portfolio/git-wayback.png"
 github: "https://github.com/hbeneke/git-wayback"
 featured: false
 order: 2
-version: "0.3.1"
+version: "0.4.0"
 changelog:
+  - version: "0.4.0"
+    date: "2026-01-21T00:00:00.000Z"
+    changes:
+      - "feat(web): reorganize tabs - Evolution as primary view"
+      - "feat(web): create RepoDiagram component with Gource-style visualization"
+      - "feat(api): add evolution endpoint with database caching"
+      - "feat(api): add timeline and tree endpoints for tag navigation"
+      - "feat(db): add evolution_snapshots schema for caching tag data"
   - version: "0.3.1"
     date: "2026-01-20T00:00:00.000Z"
     changes:

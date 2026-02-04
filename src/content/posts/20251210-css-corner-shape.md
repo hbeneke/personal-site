@@ -11,13 +11,13 @@ readTime: 15
 
 ## The Eternal Corner Problem
 
-We've been juggling with `border-radius` for years. Want rounded corners? Easy. Want a perfect circle? `border-radius: 50%` and done. But what happens when you need something more... interesting? That's where the suffering begins.
+Weve been stuck with `border-radius` for what feels like forever. Rounded corners? Easy. Perfect circle? `border-radius: 50%` done. But try to make something interesting - an Apple-style squircle, a hexagon, beveled edges - and suddenly youre knee deep in SVG paths, `clip-path` coordinates, or stacking pseudo-elements like some kind of CSS archaeologist reconstructing ancient artifacts.
 
-Until now, if you wanted to make an Apple-style squircle, a hexagon, or just some decent beveled corners, you had to resort to SVG, `clip-path`, pseudo-elements stacked like pancakes, or straight up images. And let's not even talk about trying to make borders and shadows follow those custom shapes. It was hell.
+I once spent four hours trying to make a button look like the iOS app icons. Four hours. For a button. I ended up using a PNG because I ran out of patience and my designer was asking why it was taking so long. Not my proudest moment.
 
-But hey, looks like someone at the [CSS Working Group](https://www.w3.org/Style/CSS/) finally heard our prayers. Let me introduce you to `corner-shape`, the property that should have existed a decade ago.
+But someone at the [CSS Working Group](https://www.w3.org/Style/CSS/) finally decided to help us out. Meet `corner-shape`, the property that shouldve existed in 2010.
 
-The idea is simple but brilliant: `border-radius` defines the **size** of the corner, and `corner-shape` defines the **shape**. They're inseparable companions, like gin and tonic, or like you and coffee at 3am debugging CSS.
+The concept is simple: `border-radius` controls the **size** of the corner, `corner-shape` controls the **shape**. They work together. Like salt and pepper, or me and coffee after midnight when I'm debugging CSS.
 
 <div class="flex justify-center my-6">
   <div class="w-28 h-28 bg-blue-500 rounded-[30px]" style="corner-shape: squircle;"></div>
@@ -30,17 +30,17 @@ The idea is simple but brilliant: `border-radius` defines the **size** of the co
 }
 ```
 
-That's it. Two lines and you've got a squircle. No SVG, no hacks, no selling your soul to the pseudo-element devil.
+Two lines. Thats a squircle. No SVG, no hacks, no selling your soul.
 
-The property is defined in the [CSS Borders and Box Decorations Level 4](https://drafts.csswg.org/css-backgrounds-4/#corner-shaping) module, which is still in Editor's Draft phase. But don't worry, you can already use it in Chrome and Edge. More on compatibility later.
+The spec lives in [CSS Borders and Box Decorations Level 4](https://drafts.csswg.org/css-backgrounds-4/#corner-shaping), still Editor's Draft but Chrome and Edge already support it. More on browser support later.
 
 ## Values and Syntax
 
-The `corner-shape` property accepts several predefined keyword values, each mapping to a specific mathematical function called a **superellipse**. Understanding this underlying math helps predict exactly how each value will render.
+`corner-shape` uses keywords that map to something called a **superellipse**. If you remember anything from math class (I barely do), the superellipse equation is:
 
-The superellipse equation is: $|x/a|^n + |y/b|^n = 1$
+$|x/a|^n + |y/b|^n = 1$
 
-Where `n` is the exponent that determines the curve shape. The CSS keywords are essentially shortcuts to specific `n` values:
+Where `n` is what determines the curve. The CSS keywords are shortcuts to specific `n` values. You dont need to remember this, but its useful if you want to understand why the curves look the way they do.
 
 <div class="grid grid-cols-3 md:grid-cols-6 gap-4 my-6">
   <div class="flex flex-col items-center gap-2">
@@ -69,17 +69,17 @@ Where `n` is the exponent that determines the curve shape. The CSS keywords are 
   </div>
 </div>
 
-**round** (n=1) is the default value. Produces a quarter-circle arc, identical to the traditional `border-radius` behavior. The curve follows the equation of a circle where the rate of curvature is constant throughout.
+**round** (n=1) - The default. Quarter-circle arc, same as normal `border-radius`. Nothing new here.
 
-**squircle** (n=2) generates a Lamé curve, specifically a superellipse with exponent 2. The curvature is more gradual near the center and tightens toward the endpoints. This is the curve Apple uses extensively in iOS icons and UI elements - it creates a smoother visual transition than a simple circular arc because the curvature derivative is continuous at the tangent points.
+**squircle** (n=2) - This is the one everyone wants. The Apple curve. More gradual than a circle, tightens toward the edges. iOS icons, MacOS buttons, everything Apple uses this. The reason it looks "smoother" is that the curvature derivative is continuous at the tangent points. I had to look that up.
 
-**bevel** (n=0) produces a straight diagonal line connecting the two tangent points. Mathematically, this is the limiting case as n approaches 0 - the curve collapses into a line segment. The corner essentially becomes a chamfer with a 45-degree angle (assuming equal horizontal and vertical radii).
+**bevel** (n=0) - Straight diagonal line. The corner becomes a 45-degree chamfer. Useful for industrial/techy looks.
 
-**scoop** (n=-1) inverts the curvature direction, creating a concave quarter-circle. The curve bows inward instead of outward. This is the negative-space equivalent of `round`.
+**scoop** (n=-1) - The curve goes inward instead of outward. Concave quarter-circle. Weird but sometimes thats what you need.
 
-**notch** (n=-infinity) is the limiting case of negative exponents. It produces two perpendicular line segments meeting at a right angle, pointing inward. Think of it as a rectangular bite taken out of the corner.
+**notch** (n=-infinity) - Two perpendicular lines meeting at a right angle pointing inward. Like someone took a rectangular bite out of your element.
 
-**square** (n=infinity) nullifies the border-radius entirely. The corner becomes a perfect 90-degree angle. This seems useless on its own, but it's essential for animations - you can transition smoothly from `square` to any other value.
+**square** (n=infinity) - Cancels the border-radius entirely. Seems useless but its essential for animations - you can transition smoothly from `square` to any other value.
 
 ```css
 .round { corner-shape: round; }
@@ -90,9 +90,9 @@ Where `n` is the exponent that determines the curve shape. The CSS keywords are 
 .square { corner-shape: square; }
 ```
 
-### The superellipse() Function
+### The superellipse() function
 
-For precise control beyond the keywords, use `superellipse(n)` directly. The `n` parameter accepts any real number:
+If the keywords arent enough, use `superellipse(n)` directly with any number:
 
 <div class="flex justify-center gap-4 my-6">
   <div class="flex flex-col items-center gap-2">
@@ -123,27 +123,20 @@ For precise control beyond the keywords, use `superellipse(n)` directly. The `n`
   border-radius: 40px;
   corner-shape: superellipse(3);
 }
-
-.subtle-scoop {
-  border-radius: 40px;
-  corner-shape: superellipse(-0.5);
-}
 ```
 
-The behavior follows these rules:
+Quick reference:
+- **0 < n < 1**: Sharper than a circle but still convex
+- **n = 1**: Perfect circle (same as `round`)
+- **1 < n < 2**: Getting flatter, approaching squircle territory
+- **n = 2**: The squircle
+- **n > 2**: More and more rectangular
+- **n < 0**: Concave curves
+- **n approaching infinity**: Approaches `square`
 
-- **0 < n < 1**: Curves that are "sharper" than a circle but still convex
-- **n = 1**: Perfect circular arc (equivalent to `round`)
-- **1 < n < 2**: Progressively flatter curves approaching the squircle
-- **n = 2**: The squircle (Lamé curve)
-- **n > 2**: Increasingly rectangular with rounded corners approaching a true rectangle
-- **n < 0**: Concave curves, with more negative values producing sharper concavity
-- **n approaching -infinity**: Approaches the `notch` shape
-- **n approaching +infinity**: Approaches the `square` shape
+### Multi-value syntax
 
-### Multi-Value Syntax
-
-The property accepts 1 to 4 values following the standard CSS box model order: top-left, top-right, bottom-right, bottom-left (clockwise from top-left).
+You can set different shapes for each corner. Same order as padding/margin: top-left, top-right, bottom-right, bottom-left.
 
 <div class="flex justify-center my-6">
   <div class="w-28 h-28 bg-amber-500 rounded-[30px]" style="corner-shape: round bevel notch squircle;"></div>
@@ -156,16 +149,11 @@ The property accepts 1 to 4 values following the standard CSS box model order: t
 }
 ```
 
-Value distribution follows the same logic as `margin`, `padding`, and `border-radius`:
+1 value = all corners. 2 values = top-left/bottom-right, top-right/bottom-left. 3 values = top-left, top-right/bottom-left, bottom-right. 4 values = each corner individually.
 
-- **1 value**: Applied to all four corners
-- **2 values**: First to top-left/bottom-right, second to top-right/bottom-left
-- **3 values**: First to top-left, second to top-right/bottom-left, third to bottom-right
-- **4 values**: Each corner individually in clockwise order
+### Individual corner properties
 
-### Individual Corner Properties
-
-For maximum specificity, physical properties target each corner directly:
+For when you need maximum control:
 
 ```css
 .granular-control {
@@ -177,7 +165,7 @@ For maximum specificity, physical properties target each corner directly:
 }
 ```
 
-Logical properties exist for internationalization (RTL layouts, vertical writing modes):
+Theres also logical properties for RTL layouts:
 
 ```css
 .logical-corners {
@@ -189,14 +177,9 @@ Logical properties exist for internationalization (RTL layouts, vertical writing
 }
 ```
 
-The mapping depends on `writing-mode` and `direction`:
+### Interactive demo
 
-- In LTR horizontal: `start-start` = top-left, `start-end` = top-right, etc.
-- In RTL horizontal: `start-start` = top-right, `start-end` = top-left, etc.
-
-### Interactive Demo
-
-Play with the slider below to see how `superellipse()` transforms the corners in real time. You'll need Chrome 139+ or Edge 139+ for this to work - if you're on Firefox or Safari, you'll just see a regular rounded box.
+Play with this slider to see how `superellipse()` transforms corners in real time. Needs Chrome 139+ or Edge 139+ - if youre on Firefox or Safari youll just see a normal rounded box.
 
 <div class="bg-white/5 border border-white/10 rounded-xl p-6 my-6">
   <div class="flex flex-col items-center gap-5">
@@ -233,7 +216,7 @@ Play with the slider below to see how `superellipse()` transforms the corners in
   const box = document.getElementById('demo-box');
   const valueDisplay = document.getElementById('slider-value');
   const cssOutput = document.getElementById('css-output');
-  
+
   function getKeyword(n) {
     if (n === -1) return 'scoop';
     if (n === 0) return 'bevel';
@@ -242,7 +225,7 @@ Play with the slider below to see how `superellipse()` transforms the corners in
     if (n >= 5) return 'square';
     return null;
   }
-  
+
   function updateShape(value) {
     const n = parseFloat(value);
     valueDisplay.textContent = n.toFixed(1);
@@ -255,27 +238,27 @@ Play with the slider below to see how `superellipse()` transforms the corners in
       cssOutput.textContent = 'corner-shape: superellipse(' + n.toFixed(1) + ');';
     }
   }
-  
+
   slider.addEventListener('input', function() {
     updateShape(this.value);
   });
-  
+
   window.setPreset = function(value) {
     slider.value = value;
     updateShape(value);
   };
-  
+
   updateShape(slider.value);
 })();
 </script>
 
-## Practical Examples
+## Practical examples
 
-Now let's put this into practice. Combined with `border-radius` and `aspect-ratio`, you can create shapes that previously required SVG or images.
+Alright enough theory. Lets make some stuff.
 
-### Discount Tag
+### Discount tag
 
-A common UI pattern - mixing different corner shapes on the same element:
+Mixing different corner shapes on one element:
 
 <div class="flex justify-center my-6">
   <div class="bg-red-600 text-white px-4 py-2 text-sm font-bold" style="border-radius: 10px 10px 10px 50%; corner-shape: round bevel bevel round;">-20% OFF</div>
@@ -291,13 +274,13 @@ A common UI pattern - mixing different corner shapes on the same element:
 }
 ```
 
-The asymmetric `border-radius` (three corners at 10px, bottom-left at 50%) combined with mixed `corner-shape` values creates a distinctive tag shape. The beveled bottom corners add a "cut" effect while keeping the top corners soft.
+The beveled bottom corners give it that "cut" look while the top stays soft. Used to need pseudo-elements for this.
 
-### Geometric Shapes
+### Geometric shapes
 
-You can also create geometric shapes with pure CSS. No `clip-path`, no SVG, no pseudo-elements.
+No `clip-path`, no SVG, no pseudo-elements. Just CSS.
 
-**Hexagon**: Using `bevel` on all corners with a specific aspect ratio:
+**Hexagon**:
 
 <div class="flex justify-center my-6">
   <div class="w-32 bg-blue-500" style="aspect-ratio: cos(30deg); border-radius: 50% / 25%; corner-shape: bevel;"></div>
@@ -306,16 +289,16 @@ You can also create geometric shapes with pure CSS. No `clip-path`, no SVG, no p
 ```css
 .hexagon {
   width: 200px;
-  aspect-ratio: cos(30deg);
+  aspect-ratio: cos(30deg); /* ~0.866 */
   background: #3b82f6;
   border-radius: 50% / 25%;
   corner-shape: bevel;
 }
 ```
 
-The ratio `cos(30deg)` equals approximately 0.866, giving us the correct width-to-height ratio for a regular hexagon. The elliptical `border-radius` of `50% / 25%` positions the tangent points correctly, and `bevel` connects them with straight lines.
+The `cos(30deg)` aspect ratio gives correct hexagon proportions. The elliptical border-radius positions the tangent points, `bevel` connects them with straight lines. I had to think about this one for a while but once it clicks it makes sense.
 
-**Octagon**: Simpler - just use a square aspect ratio with uniform corner bevel:
+**Octagon**:
 
 <div class="flex justify-center my-6">
   <div class="w-32 h-32 bg-green-500 rounded-[30%]" style="corner-shape: bevel;"></div>
@@ -331,9 +314,9 @@ The ratio `cos(30deg)` equals approximately 0.866, giving us the correct width-t
 }
 ```
 
-The 30% `border-radius` determines how far from each corner the beveled line begins. Larger values create a more circular octagon; smaller values approach a square.
+Easier than hexagon. The 30% determines how much of each corner gets beveled.
 
-**Diamond**: Rotate a beveled square by 45 degrees:
+**Diamond**:
 
 <div class="flex justify-center my-6">
   <div class="w-24 h-24 bg-amber-500 rounded-[50%] rotate-45" style="corner-shape: bevel;"></div>
@@ -350,7 +333,7 @@ The 30% `border-radius` determines how far from each corner the beveled line beg
 }
 ```
 
-**Isometric Cube Effect**: Combining `bevel` with asymmetric borders:
+**Isometric cube effect**:
 
 <div class="flex justify-center my-6">
   <div class="w-24 h-24 bg-purple-600" style="border-radius: 0 30px; corner-shape: bevel; border-right: 30px solid rgba(0,0,0,0.25); border-bottom: 30px solid rgba(0,0,0,0.5);"></div>
@@ -368,11 +351,11 @@ The 30% `border-radius` determines how far from each corner the beveled line beg
 }
 ```
 
-This exploits how borders interact with beveled corners. The darker borders on the right and bottom create the illusion of depth. The asymmetric `border-radius` (0 for top-left/bottom-right, 30px for top-right/bottom-left) ensures only specific corners are beveled.
+The dark borders on right and bottom fake depth. Cool trick.
 
-### Animations and Transitions
+### Animations
 
-`corner-shape` is fully animatable. The browser interpolates between values by converting keywords to their `superellipse()` equivalents and smoothly transitioning the `n` parameter.
+`corner-shape` is animatable. The browser converts keywords to `superellipse()` values and interpolates between them.
 
 <div class="flex justify-center my-6">
   <div class="w-28 h-28 bg-indigo-500 rounded-[40px] animate-pulse" style="corner-shape: squircle;"></div>
@@ -390,7 +373,7 @@ This exploits how borders interact with beveled corners. The darker borders on t
 }
 ```
 
-For keyframe animations:
+For keyframes:
 
 ```css
 @keyframes morph {
@@ -407,15 +390,9 @@ For keyframe animations:
 }
 ```
 
-The interpolation follows these rules:
+Transitioning from `round` (n=1) to `squircle` (n=2) passes through all intermediate curves smoothly. Pretty satisfying to watch.
 
-- Keywords convert to `superellipse(n)` first
-- The `n` values interpolate linearly
-- Intermediate frames render the corresponding superellipse curve
-
-This means transitioning from `round` (n=1) to `squircle` (n=2) will pass through all intermediate curves smoothly.
-
-## Browser Compatibility and Graceful Degradation
+## Browser support
 
 As of December 2025:
 
@@ -427,9 +404,9 @@ As of December 2025:
 | Firefox | No |
 | Safari | No |
 
-Global coverage is around **65-66%** of users. Not ideal, but not bad for such a new feature.
+About **65-66%** global coverage. Not great but not terrible for a new feature.
 
-The good news is that `corner-shape` degrades elegantly. If the browser doesn't support it, it simply ignores the property and shows the normal `border-radius`. Your layout doesn't break, your users don't see errors.
+Good news: `corner-shape` degrades gracefully. Unsupported browsers just ignore it and show normal `border-radius`. Nothing breaks.
 
 ```css
 .card {
@@ -438,38 +415,29 @@ The good news is that `corner-shape` degrades elegantly. If the browser doesn't 
 }
 ```
 
-In Chrome you'll see the squircle. In Safari you'll see normal rounded corners. Both work fine.
+Chrome gets the squircle. Safari gets normal rounded corners. Both work fine.
 
-For conditional styling based on support:
+If you want conditional styling:
 
 ```css
-.card {
-  border-radius: 20px;
-  corner-shape: squircle;
-}
-
 @supports not (corner-shape: squircle) {
   .card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* fallback styles */
   }
 }
 ```
 
-Although honestly, in most cases you don't need a special fallback. Normal rounded corners are perfectly acceptable.
+But honestly most of the time you dont need a fallback. Normal rounded corners are fine.
 
-## The Bottom Line
+## The bottom line
 
-Before `corner-shape`, getting custom corner shapes was a monumental headache. SVG was flexible but complex. `clip-path` clips borders and shadows too. Pseudo-elements are pure hackery. Images don't scale well and add HTTP requests.
+Before `corner-shape` we had SVG (flexible but complex), `clip-path` (clips borders and shadows too), pseudo-elements (hackery), or images (dont scale, extra HTTP requests).
 
-With `corner-shape` you get a single CSS property where borders, shadows and backgrounds follow the shape automatically. It's fully animatable with zero performance overhead compared to alternatives.
+Now its one CSS property. Borders, shadows, backgrounds all follow the shape automatically. Fully animatable. No performance overhead.
 
-`corner-shape` is just the beginning. The CSS Borders and Box Decorations Level 4 module has more things cooking. We're seeing a clear trend: CSS is evolving so we don't need SVG or JavaScript for visual effects that should be native to the language.
+CSS keeps getting better. We dont need SVG or JavaScript for visual effects that should be native. A hexagon shouldnt require calculating polygon coordinates. A button that looks like an iOS icon shouldnt take four hours.
 
-If you think about it, it makes total sense. Why should you need a vector graphic to make a button with nice corners? Why should you need to calculate polygon coordinates for a hexagon? CSS should be able to do it, and now it finally can.
-
-Once Firefox and Safari catch up, this will likely become as standard as `border-radius` itself.
-
-Meanwhile, if your audience is primarily Chrome users (which, let's be honest, is the majority), you can start using it today. The fallback is free and the enhanced experience for those who support it is worth it.
+Once Firefox and Safari catch up this will probably be as common as `border-radius` itself.
 
 ---
 
@@ -479,3 +447,4 @@ Meanwhile, if your audience is primarily Chrome users (which, let's be honest, i
 - [MDN - corner-shape](https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape)
 - [CSS-Tip: Corner Shape Demos](https://css-tip.com/corner-shape/)
 - [Can I Use - corner-shape](https://caniuse.com/mdn-css_properties_corner-shape)
+- The four hours I spent on that iOS button before this existed

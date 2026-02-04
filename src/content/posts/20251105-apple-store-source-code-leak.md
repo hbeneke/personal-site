@@ -9,52 +9,71 @@ draft: false
 readTime: 10
 ---
 
-The entire Apple App Store website source code has leaked. Not minified, not obfuscated - the actual TypeScript source files, with comments, internal references, folder structure, everything. And it's available [on GitHub](https://github.com/rxliuli/apps.apple.com).
+So the entire Apple App Store website source code is now on GitHub. Not minified, not obfuscated - actual TypeScript files with comments, folder structure, internal references, everything. Someone uploaded it [to a public repo](https://github.com/rxliuli/apps.apple.com) and I spent my whole Sunday going through it instead of doing literally anything else. Worth it though.
 
-## The leak that should never have happened
+## How this even happened
 
-It all started with something as simple as forgetting to disable source maps in production. These files map minified code back to the original source and are designed to help developers debug, but they should never be publicly accessible. Someone at Apple forgot to turn them off, and with the right browser extension, anyone could download the complete TypeScript files. Someone did exactly that, uploading everything to GitHub.
+Someone at Apple forgot to disable source maps in production. Thats it. Thats the whole security breach.
 
-The first thing that stands out when you review the code is that they're using **Svelte**. Not React, not Vue, not Angular. Svelte. For a company of Apple's size, this is surprising. Svelte is modern, relatively niche, and very opinionated. But it works well for them - the components are consistent, the patterns are clear, and the compiled output is small. Their tech stack also reveals interesting choices. Alongside TypeScript (as expected) and Svelte, they use **SCSS/Sass** instead of plain CSS or CSS-in-JS. They have **Sentry SDK** for error tracking, **Floating UI** for tooltips and popovers, and a curious mix of CSS Variables with Sass - some components use one, others use the other. There's even a folder named in ALL CAPS while everything else is lowercase. Probably a legacy mistake that nobody dared to fix once it was in production.
+Source maps are files that connect minified code back to the original source - super useful for debugging, absolutely should not be publicly accessible. With the right browser extension, anyone could download the complete TypeScript files. Someone did exactly that.
 
-## Inside Apple's internal ecosystem
+The first thing I noticed when I opened the code: **theyre using Svelte**. Not React. Not Vue. Svelte. For the App Store. One of Apple's most important web properties runs on the framework that everyone says is "too niche for enterprise." Guess Apple didnt get the memo.
 
-The most fascinating part is discovering the internal frameworks and services that Apple uses but aren't publicly available. **Jet** is an internal framework for shared business logic across all Apple web properties - it's the entry point for interacting with all of their shared business logic. Then there's **Kong**, an internal firewall/gateway that checks request origins. There's even code that explicitly spoofs the `Origin` header to bypass Kong's checks - they literally have comments saying "we need to fake this in the server because we have origin checks in Kong" and then set the header to `https://apps.apple.com`.
+Their stack is interesting. TypeScript obviously. SCSS/Sass instead of CSS-in-JS which honestly surprised me - I figured Apple would be all in on some proprietary styling solution. They use Sentry for error tracking and Floating UI for tooltips. Theres also this weird mix of CSS Variables and Sass variables - some components use one, some use the other, some use both. Nobody cleaned that up apparently.
 
-**AMP** has nothing to do with Google AMP - this is Apple Media Services, their own internal component library. There's also **PerfKit**, a performance monitoring tool, though there are multiple comments throughout the codebase saying it's "broken" or "basted somehow". Then you see references to internal project codenames scattered throughout: **Scandium**, **Mandrake**, **Charon**, **Electrocardiogram**, **Tinker Watch**. These all appear to be internal service names or project codenames within Apple's infrastructure.
+Oh and theres a folder named in ALL CAPS while everything else is lowercase. The kind of thing that bothers you every time you see it but nobody wants to be the person who renames it and potentially breaks something.
 
-Apple has built their own component library called "AMP Web Components" with reusable elements shared across different Apple web properties. The imports show a complete catalog of utilities, profile components, and grid systems - a full design system that we never knew existed.
+## The internal stuff
 
-## 10-year-old TODOs and patching their own browser bugs
+This is where it gets interesting. Apple has all these internal frameworks that arent publicly documented.
 
-Throughout the code there are TODO comments with references to "radar" - Apple's internal bug tracking system, similar to JIRA issue numbers in other companies. You see things like `@radar(12345678)` with comments saying "Basted, PerfKit is broken somehow" or "TODO: This is broken in some manner". There are hardcoded IDs with comments that literally say "How is this used??" - actual developers at Apple are confused by their own code.
+**Jet** is some kind of shared business logic layer. Every import related to core functionality goes through it. **Kong** is their internal firewall/gateway. And heres the funny part - theres code that explicitly spoofs the Origin header to bypass Kong's checks. The comment literally says "we need to fake this in the server because we have origin checks in Kong" and then hardcodes `https://apps.apple.com`. Apple bypassing their own security. Love it.
 
-But the most surprising find is that Apple is patching Safari bugs in their own frontend code. In the video player component, there's a comment explaining they have to bypass the poster attribute "due to covering a playback HLS bug in Safari". Yes, Apple is working around bugs in Safari... in their own production code. The irony is not lost.
+**AMP** has nothing to do with Google's AMP - this is Apple Media Services, their component library. **PerfKit** is performance monitoring, though I found multiple comments saying its "broken" or "basted somehow". Not sure if "basted" is a typo for "busted" or some internal slang but either way its not a confidence booster.
 
-They also have a custom internal metrics system called "MetricsKit" that tracks everything - impressions, clicks, scrolls, user navigation. It's deeply integrated into every component, sending batched data to internal analytics. Every product impression, every click, every scroll gets tracked with context about where it happened and what the user was doing.
+Throughout the code theres references to project codenames: **Scandium**, **Mandrake**, **Charon**, **Electrocardiogram**, **Tinker Watch**. No idea what any of these are. Electrocardiogram is my favorite though - either its actually health related or someone just really likes dramatic names.
 
-## Implementation details: ratings, animations, and real-world optimizations
+## The stuff that made me laugh
 
-The code reveals curious things about how Apple implements specific features. For example, their star rating calculation is straightforward and functional - they create an array of five positions and map each to a fill level based on whether it's a full star, partial star, or empty star. Nothing fancy, but it works. The SVG star assets are embedded directly in the code.
+TODOs everywhere. With internal bug tracker references - they use something called "radar" which is like their JIRA. Comments like `@radar(12345678)` followed by "Basted, PerfKit is broken somehow" or just "TODO: This is broken in some manner". There are hardcoded IDs with comments that say "How is this used??" - Apple developers are confused by their own code, just like the rest of us.
 
-One of the more complex pieces is the animated gradient backgrounds, and what's interesting isn't just the implementation but the comment explaining why they made specific technical decisions. The "AmbientBackgroundArtwork" component has a detailed comment explaining that they originally used `mask-image` but it was causing too much CPU usage when animating or resizing, so they switched to simulating the functionality with a layer above using `background-image` instead. This is the kind of optimization insight you rarely see documented - they tried one approach, measured its performance impact, and switched to something that works better in practice.
+But the best find? **Apple is patching Safari bugs in their own frontend code.**
 
-The code also reveals lists of which features are available in which regions, giving insight into Apple's rollout strategy. Vision Pro support countries are listed (mostly European Union countries like Germany, France, Spain, Italy), and there's a list of countries without Arcade support (China, Hong Kong, Macao). You can literally see Apple's business strategy encoded in arrays.
+In the video player component, theres a comment explaining they have to bypass the poster attribute "due to covering a playback HLS bug in Safari". Apple is working around bugs in Safari. In their own production code. For their own App Store.
 
-## The reality of production code
+I dont know why this is so funny to me but it is. The browser team ships a bug, the web team has to work around it, probably neither team talks to each other. Same dysfunction as every other company, just with nicer design.
 
-The code is... real production code. Not the polished tutorial examples you see online. There are lots of if-else-if chains that could be simplified, magic strings directly in code instead of constants, and hardcoded values with comments that say things like "What is this for??" It's battle-tested code that works, but it's not always pretty. There are also way more comments than you might expect - contrary to the myth that big tech companies don't comment their code. In fact, there are comments explaining the "why" of technical decisions, workarounds, and known problems.
+## MetricsKit tracks everything
 
-Apple also exposes a global variable on the window object with build information - this isn't a security issue, it's actually good practice that helps with debugging when users report issues. Support can know exactly which build is running. You also see code that reveals Apple's rollout strategy, their internal tools and frameworks, and the pragmatic decisions they make when their own browser has bugs they need to work around.
+They have an internal analytics system called MetricsKit. Every product impression, every click, every scroll - all tracked with context about where it happened and what the user was doing. Batched and sent to internal endpoints.
 
-Seeing Apple's production code teaches us several things. Big companies aren't perfect - there are TODOs from 2015, workarounds for their own browser bugs, and code nobody wants to touch. Comments exist in production code, and plenty of them, despite what some developers preach. Apple has built significant internal infrastructure (Jet, Kong, MetricsKit, PerfKit) and it's interesting to see Svelte used for a high-traffic production site, not just React/Vue/Angular. The switch from `mask-image` to `background-image` for CPU reasons shows they actively optimize based on real-world performance data.
+Not surprising, every big company does this. But seeing the actual implementation is interesting. Its deeply integrated into every component. You cant interact with the App Store without generating analytics events.
 
-The code isn't perfect, but it doesn't need to be. It handles millions of users, processes millions in revenue, and mostly just works. That's what matters in production. This leak happened because source maps were accidentally enabled in production - files that map minified code back to the original source. They're incredibly useful for debugging, but should **never** be publicly accessible in production. Apple's mistake was leaving them enabled and accessible. Most build tools disable source maps by default for production, but if you need them for debugging production issues, they should be stored separately from your public assets, only accessible to authorized users, and not referenced in your bundled JavaScript. This leak is a reminder to always check your production build configuration.
+## Random implementation details
+
+The star rating code is straightforward - create an array of five positions, map each to full/partial/empty based on the rating value. Nothing clever. SVG assets embedded directly. Sometimes boring code is good code.
+
+The animated gradient backgrounds though - those have a detailed comment explaining they originally used `mask-image` but it was killing CPU during animations. So they switched to simulating it with a layer using `background-image` instead. This is the kind of optimization note you almost never see documented. Someone measured, someone experimented, someone wrote down why they made the change. More codebases need this.
+
+Theres also arrays listing which features are available in which countries. Vision Pro stuff is mostly EU. Arcade isnt available in China, Hong Kong, or Macao. Business strategy encoded in TypeScript arrays. Someone updates these manually presumably.
+
+## What this tells us
+
+Apple's production code is... normal. Messy in places. Brilliant in others. TODOs from god knows when. Workarounds for their own browser's bugs. A folder named wrong that nobodys fixed.
+
+The myth that big tech companies have pristine codebases is exactly that - a myth. They have the same problems we do, just at scale. The code works. It handles millions of users. It makes billions of dollars. And it has comments that say "What is this for??" just like yours.
+
+The source map mistake is embarrassing but not catastrophic. No credentials leaked, no private APIs exposed, just the frontend code. Apple probably fixed the source map config within hours of this going public.
+
+Still, good reminder to check your own production builds. Source maps should be disabled or stored somewhere private. Most bundlers do this by default now but if youve got a custom setup, double check.
+
+---
 
 ## References
 
 - [Leaked Apple Store Repository](https://github.com/rxliuli/apps.apple.com) - rxliuli
 - [Official Apple Store](https://apps.apple.com)
 - [What are Source Maps?](https://web.dev/articles/source-maps) - web.dev
-- [Sentry SDK](https://sentry.io/) - Error tracking service Apple uses
-- [Floating UI](https://floating-ui.com/) - Tooltip library Apple uses
+- [Sentry SDK](https://sentry.io/)
+- [Floating UI](https://floating-ui.com/)
+- The folder thats still in ALL CAPS

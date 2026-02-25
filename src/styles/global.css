@@ -149,8 +149,12 @@
   }
 
   /* Wavy underline on hover — for nav links */
+  .wavy-hover {
+    transition: color 0.2s ease-in-out, text-decoration-color 0.2s ease-in-out;
+  }
+
   .wavy-hover:hover {
     @apply text-[rgb(var(--primary-hovered))] underline decoration-wavy underline-offset-4 decoration-[1.5px];
-    text-decoration-color: rgb(var(--secondary));
+    text-decoration-color: rgb(var(--primary-hovered));
   }
 }

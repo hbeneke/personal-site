@@ -33,7 +33,7 @@ const url = new URL(Astro.request.url);
             <span
               class={
                 url.pathname === link.path
-                  ? "primary font-semibold"
+                  ? "primary font-semibold wavy-underline-secondary"
                   : "text-[rgb(var(--foreground))]"
               }
             >

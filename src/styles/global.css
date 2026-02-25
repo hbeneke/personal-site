@@ -136,4 +136,21 @@
     left: 0;
     font-weight: bold;
   }
+
+  /* Wavy underline — reusable classes */
+  .wavy-underline {
+    @apply underline decoration-wavy underline-offset-4 decoration-[1.5px];
+    text-decoration-color: rgb(var(--primary));
+  }
+
+  .wavy-underline-secondary {
+    @apply underline decoration-wavy underline-offset-4 decoration-[1.5px];
+    text-decoration-color: rgb(var(--secondary));
+  }
+
+  /* Wavy underline on hover — for nav links */
+  .wavy-hover:hover {
+    @apply text-[rgb(var(--primary-hovered))] underline decoration-wavy underline-offset-4 decoration-[1.5px];
+    text-decoration-color: rgb(var(--secondary));
+  }
 }

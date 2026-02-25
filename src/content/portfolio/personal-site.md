@@ -9,8 +9,18 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.4.0"
+version: "1.5.0"
 changelog:
+  - version: "1.5.0"
+    date: "2026-02-25T00:00:00.000Z"
+    changes:
+      - "Added wavy underline to the active navigation link and hover states, with a smooth color transition"
+      - "Published three new blog posts: Anthropic's Safety Lead resignation, the Clawdbot controversy, and AI's impact on open source sustainability"
+      - "Added Git Wayback to the portfolio with demo URL and full changelog"
+      - "Disabled the demo button on portfolio cards when no demo URL is available"
+      - "Improved readability of several existing blog posts"
+      - "Added targeted JSDoc and inline comments across TypeScript utilities and scripts"
+      - "Upgraded Astro and updated project dependencies to latest versions"
   - version: "1.4.0"
     date: "2026-01-09T00:00:00.000Z"
     changes:

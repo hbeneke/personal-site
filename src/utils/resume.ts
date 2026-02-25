@@ -24,6 +24,12 @@ export async function getAllWorkExperiences(sorted = true): Promise<WorkExperien
   return await getWorkExperiences(sorted);
 }
 
+/**
+ * Returns the earliest and latest dates across all work experiences.
+ *
+ * `start` is the oldest `start_date` and `end` is the most recent `end_date`
+ * (which may be `"present"`). Useful for displaying the total career span.
+ */
 export async function getWorkExperienceYears(): Promise<{ start: string; end: string }> {
   const workExperiences = await getWorkExperiences();
 

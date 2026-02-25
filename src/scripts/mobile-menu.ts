@@ -1,3 +1,10 @@
+/**
+ * Custom element that manages the mobile navigation menu.
+ *
+ * Handles open/close toggling, outside-click dismissal, keyboard navigation
+ * (Escape to close), auto-close on link click, and repositioning below the
+ * site header on resize. Registers itself as the `<mobile-menu>` custom element.
+ */
 export class MobileMenu extends HTMLElement {
   private button: HTMLButtonElement | null;
   private menu: HTMLElement | null;
@@ -19,6 +26,7 @@ export class MobileMenu extends HTMLElement {
     this.setMenuPosition();
   }
 
+  // Reads the current height of `#main-header` and sets the menu `top` and `--header-height` CSS variable.
   private setMenuPosition(): void {
     const header = document.getElementById("main-header");
     if (header && this.menu) {

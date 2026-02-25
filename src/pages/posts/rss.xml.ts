@@ -2,6 +2,15 @@ import { siteConfig } from "@/site.config";
 import { getLatestPosts } from "@/utils/post";
 import rss from "@astrojs/rss";
 
+/**
+ * Astro GET endpoint that generates the RSS feed for the latest blog posts.
+ *
+ * Fetches the 20 most recent published posts and maps them to RSS items,
+ * including optional fields such as tags (as categories), read time, and
+ * last updated date when available.
+ *
+ * @returns An RSS response object for the `/posts/rss.xml` route.
+ */
 export async function GET() {
   const latestPosts = await getLatestPosts(20);
 

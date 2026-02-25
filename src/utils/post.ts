@@ -2,19 +2,15 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import { getCached } from "./cache";
 
 /**
- * Filters out draft posts from an array
- * @param posts - Array of posts to filter
- * @returns Filtered array without draft posts
+ * Filters out draft posts from an array.
+ *
+ * @param posts - Array of posts to filter.
+ * @returns A new array containing only published (non-draft) posts.
  */
 function filterDrafts(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts">[] {
   return posts.filter((post) => !post.data.draft);
 }
 
-/**
- * Sorts posts by publish date in descending order (newest first)
- * @param posts - Array of posts to sort
- * @returns Sorted array of posts
- */
 function sortByDate(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts">[] {
   return posts.sort(
     (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),

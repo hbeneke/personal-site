@@ -1,5 +1,22 @@
 import type { PagefindUI } from "@pagefind/default-ui";
 
+/**
+ * Custom element that manages the site-wide full-text search modal powered by Pagefind.
+ *
+ * Search initialisation is deferred until the first time the modal is opened,
+ * using `requestIdleCallback` (or a `setTimeout` fallback) to avoid blocking the
+ * main thread. Pagefind is not initialised in development because the search index
+ * only exists after a production build.
+ *
+ * Global `keydown` and `resize` listeners are registered in `connectedCallback` using
+ * an `AbortController` signal so they are cleanly removed when the element disconnects.
+ *
+ * Pagefind's filter UI does not support accordion behaviour on mobile out of the box.
+ * A `MutationObserver` watches for dynamic filter elements and retrofits click handlers
+ * that toggle `open`/`active` classes, implementing a single-open accordion.
+ *
+ * Registers itself as the `<site-search>` custom element.
+ */
 export class SiteSearch extends HTMLElement {
   private closeBtn: HTMLButtonElement | null;
   private dialog: HTMLDialogElement | null;
@@ -37,6 +54,7 @@ export class SiteSearch extends HTMLElement {
     }
   }
 
+  // Lazily initialises Pagefind on first modal open. Skipped in dev (no search index).
   private async initializeSearch(): Promise<void> {
     if (import.meta.env.DEV || this.searchInitialized) return;
 
@@ -66,6 +84,7 @@ export class SiteSearch extends HTMLElement {
     }
   }
 
+  // Delays filter handler setup 600 ms to give Pagefind time to render filter elements.
   private setupMobileTagBehavior(): void {
     const isMobile = window.innerWidth <= 640;
     if (isMobile) {
@@ -78,6 +97,13 @@ export class SiteSearch extends HTMLElement {
     }
   }
 
+  /**
+   * Attaches accordion-style click handlers to Pagefind filter name elements.
+   *
+   * Uses a `data-mobile-click` sentinel attribute to avoid registering duplicate
+   * listeners. A `MutationObserver` re-runs this method when Pagefind adds new
+   * filter elements dynamically.
+   */
   private addMobileFilterHandlers(searchContainer: Element): void {
     const filterNames = searchContainer.querySelectorAll(".pagefind-ui__filter-name");
 
@@ -149,6 +175,7 @@ export class SiteSearch extends HTMLElement {
     }
   };
 
+  // Aborts all signal-based listeners and destroys the Pagefind instance to prevent memory leaks.
   disconnectedCallback(): void {
     this.controller.abort();
     if (this.pagefindUI) {
@@ -157,6 +184,7 @@ export class SiteSearch extends HTMLElement {
     }
   }
 
+  // On first open, defers Pagefind initialisation to an idle callback to avoid blocking the main thread.
   private openModal = (event?: MouseEvent): void => {
     if (!this.dialog) return;
 
@@ -198,6 +226,7 @@ export class SiteSearch extends HTMLElement {
     }
   };
 
+  // Handles Ctrl+K / Cmd+K to toggle the modal and Escape to close it.
   private onWindowKeydown = (e: KeyboardEvent): void => {
     if (!this.dialog) return;
 

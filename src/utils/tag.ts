@@ -4,6 +4,7 @@ import { getAllTags, getPostsByTag } from "@utils/post";
 import { isValidDate } from "@utils/date";
 import { getCached } from "./cache";
 
+// Fetches post counts for all tags concurrently.
 async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
   const allTags = await getAllTags(includeDrafts || false);
 
@@ -29,6 +30,10 @@ export async function getSortedTagsWithCounts(includeDrafts = false): Promise<Ta
   return tagsWithCounts.sort((a, b) => b.count - a.count);
 }
 
+/**
+ * Loads editorial content for a tag from the `tags` content collection.
+ * Returns `null` if no entry exists for the given tag slug.
+ */
 export async function getTagContent(tag: string): Promise<TagContent | null> {
   try {
     const tagCollection = await getCached("tags-collection", async () => {
@@ -54,6 +59,7 @@ export async function getTagContent(tag: string): Promise<TagContent | null> {
   return null;
 }
 
+// Posts with invalid dates are silently skipped.
 export function groupPostsByYear(
   posts: CollectionEntry<"posts">[],
 ): Record<number, CollectionEntry<"posts">[]> {

@@ -2,6 +2,13 @@ import { getCollection } from "astro:content";
 import type { Project } from "@types";
 import { getCached } from "./cache";
 
+/**
+ * Fetches projects and applies a composite sort based on the flag combination:
+ * - `sortByFeatured && sorted` → featured first, then by `order` ascending within each group
+ * - `sortByFeatured` only → featured first, relative order of the rest preserved
+ * - `sorted` only → all projects by `order` ascending
+ * - neither → collection order
+ */
 async function getProjects(sorted = false, sortByFeatured = false): Promise<Project[]> {
   try {
     const portfolioCollection = await getCached("portfolio-collection", async () => {

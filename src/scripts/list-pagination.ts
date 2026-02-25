@@ -1,5 +1,25 @@
 import { calculatePagination, getPageRange } from "@utils/pagination";
 
+/**
+ * Custom element that provides client-side pagination and live text search
+ * for any list of items marked with `data-pagination-item`.
+ *
+ * Configuration via HTML attributes:
+ * - `data-items-per-page` — number of items per page (defaults to 10).
+ * - `data-item-label` — label used in the page-info string, e.g. `"posts"`.
+ *
+ * Required child slots (selected by data attributes):
+ * - `[data-pagination-items]` — container wrapping all `[data-pagination-item]` elements.
+ * - `[data-pagination-controls]` — wrapper for the pagination UI (prev/next buttons + page numbers).
+ * - `[data-pagination-footer]` — optional footer shown only when pagination is active.
+ * - `[data-page-info]` — element that receives the "Showing X–Y of Z" text.
+ * - `[data-pagination-search]` — optional `<input>` that filters items by text content.
+ *
+ * Pagination event listeners are attached only once, guarded by a `data-listeners-attached`
+ * sentinel attribute on the host element to avoid duplicate handlers across re-renders.
+ *
+ * Registers itself as the `<list-pagination>` custom element.
+ */
 export class ListPagination extends HTMLElement {
   private currentPage = 1;
   private itemsPerPage = 10;
@@ -54,6 +74,7 @@ export class ListPagination extends HTMLElement {
       this.setupSearch();
     }
 
+    // If all items fit on one page, skip pagination entirely.
     if (this.allItems.length <= this.itemsPerPage) {
       if (this.paginationContainer) {
         this.paginationContainer.style.display = "none";
@@ -83,13 +104,12 @@ export class ListPagination extends HTMLElement {
 
     this.currentPage = pagination.currentPage;
 
-    // Hide all items first
+    // Hide all items first, then reveal only the current page slice.
     for (const item of this.allItems) {
       item.classList.add("hidden");
       item.classList.remove("animate-fade-in");
     }
 
-    // Show only filtered and paginated items
     this.filteredItems.forEach((item, index) => {
       if (index >= pagination.startIndex && index < pagination.endIndex) {
         item.classList.remove("hidden");
@@ -117,6 +137,8 @@ export class ListPagination extends HTMLElement {
     });
   }
 
+  // Filters items by text content (case-insensitive substring) and re-renders from page 1.
+  // Hides pagination controls when the filtered count fits on a single page.
   private applyFilter(): void {
     const paginationFooter = this.querySelector("[data-pagination-footer]") as HTMLElement;
 
@@ -154,7 +176,6 @@ export class ListPagination extends HTMLElement {
 
     const pageRange = getPageRange(pagination.currentPage, pagination.totalPages);
 
-    // Update prev/next buttons
     const prevBtn = this.querySelector<HTMLButtonElement>("[data-page-btn='prev']");
     const nextBtn = this.querySelector<HTMLButtonElement>("[data-page-btn='next']");
 
@@ -166,7 +187,6 @@ export class ListPagination extends HTMLElement {
       nextBtn.disabled = !pagination.hasNextPage;
     }
 
-    // Update page numbers
     const pageNumbersContainer = this.querySelector("[data-page-numbers]");
     if (!pageNumbersContainer) return;
 
@@ -199,13 +219,14 @@ export class ListPagination extends HTMLElement {
 
     pageNumbersContainer.replaceChildren(...pageButtons);
 
-    // Setup event listeners once
+    // Attach listeners only once per component instance.
     if (!this.hasAttribute("data-listeners-attached")) {
       this.setupPaginationListeners();
       this.setAttribute("data-listeners-attached", "true");
     }
   }
 
+  // Uses event delegation on `[data-page-numbers]` to handle dynamically created page buttons.
   private setupPaginationListeners(): void {
     const prevBtn = this.querySelector<HTMLButtonElement>("[data-page-btn='prev']");
     const nextBtn = this.querySelector<HTMLButtonElement>("[data-page-btn='next']");
@@ -240,6 +261,8 @@ export class ListPagination extends HTMLElement {
     }
   }
 
+  // When a search filter is active, appends a parenthetical with the unfiltered count:
+  // e.g. "Showing 1–10 of 23 posts (filtered from 87)".
   private updatePageInfo(pagination: ReturnType<typeof calculatePagination>): void {
     if (!this.pageInfo) return;
 
@@ -254,6 +277,7 @@ export class ListPagination extends HTMLElement {
     }
   }
 
+  // Scrolls the viewport to the top of this component with a 100 px offset for the sticky header.
   private scrollToTop(): void {
     const headerOffset = 100;
     const elementPosition = this.getBoundingClientRect().top;

@@ -1,5 +1,6 @@
 /**
  * Checks if a date string or Date object is valid
+ *
  * @param date - Date string or Date object to validate
  * @returns true if the date is valid, false otherwise
  */
@@ -10,6 +11,7 @@ export function isValidDate(date: string | Date): boolean {
 
 /**
  * Calculates the duration between two dates in years and months
+ *
  * @param startDate - Start date string
  * @param endDate - End date string or "present"
  * @returns Formatted duration string (e.g., "2 years 3 months")
@@ -44,6 +46,7 @@ export function calculateDuration(startDate: string, endDate: string): string {
 
 /**
  * Formats a date string for display
+ *
  * @param dateString - Date string to format
  * @returns Formatted date string (e.g., "15 Oct 2023")
  */

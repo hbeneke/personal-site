@@ -1,5 +1,13 @@
 import type { PaginationConfig, PaginationResult } from "@/types/pagination.type";
 
+/**
+ * Computes all pagination metadata from a total item count, page size, and optional current page.
+ *
+ * Clamps the current page to the valid range [1, totalPages] and derives the
+ * start/end item indices, navigation flags, and the full sequential page list.
+ *
+ * @param config.currentPage - Defaults to 1 if omitted.
+ */
 export function calculatePagination(config: PaginationConfig): PaginationResult {
   const { totalItems, itemsPerPage, currentPage = 1 } = config;
 
@@ -25,6 +33,26 @@ export function calculatePagination(config: PaginationConfig): PaginationResult 
   };
 }
 
+/**
+ * Generates a compact, windowed list of page numbers for a pagination control.
+ *
+ * When `totalPages` exceeds `maxVisible`, applies a sliding-window algorithm that
+ * always anchors the first and last page. Gaps are represented as `null` (rendered
+ * as "…"). The window shifts based on the current page position:
+ * - Near the start → anchors left
+ * - In the middle → centred on current page
+ * - Near the end → anchors right
+ *
+ * Example outputs for `totalPages = 10`, `maxVisible = 7`:
+ * ```
+ * currentPage = 1  → [1, 2, 3, 4, 5, null, 10]
+ * currentPage = 5  → [1, null, 4, 5, 6, null, 10]
+ * currentPage = 10 → [1, null, 6, 7, 8, 9, 10]
+ * ```
+ *
+ * @param maxVisible - Maximum slots in the output including ellipsis. Defaults to 7.
+ * @returns Page numbers interspersed with `null` values representing ellipsis gaps.
+ */
 export function getPageRange(
   currentPage: number,
   totalPages: number,

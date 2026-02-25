@@ -1,6 +1,15 @@
+/**
+ * Custom element that implements an auto-highlighting table of contents.
+ *
+ * Tracks the user's scroll position and highlights the TOC link that corresponds
+ * to the heading currently closest to the top of the viewport. Uses
+ * `requestAnimationFrame` throttling to keep scroll handling performant.
+ * Registers itself as the `<table-of-contents>` custom element.
+ */
 export class TableOfContents extends HTMLElement {
   private tocLinks: NodeListOf<HTMLAnchorElement>;
   private headings: NodeListOf<HTMLHeadingElement>;
+  /** Flag used to throttle scroll events via `requestAnimationFrame`. */
   private ticking = false;
 
   constructor() {
@@ -36,6 +45,8 @@ export class TableOfContents extends HTMLElement {
     window.addEventListener("scroll", this.scrollHandler.bind(this));
   }
 
+  // On mobile (viewport < 1024 px), collapses the parent `<details>` 300 ms after a link click
+  // to allow the scroll animation to complete before the TOC closes.
   private handleLinkClick(): void {
     const details = this.closest("details");
     if (details && window.innerWidth < 1024) {
@@ -45,6 +56,13 @@ export class TableOfContents extends HTMLElement {
     }
   }
 
+  /**
+   * Determines the currently "active" heading and updates TOC link styles accordingly.
+   *
+   * Two-pass algorithm:
+   * 1. Find the last heading whose top edge is at or above the 120 px threshold (closest to it).
+   * 2. If no heading has crossed the threshold (page top), fall back to the first heading with a positive `top`.
+   */
   updateTOC(): void {
     let current = "";
     let closestDistance = Number.POSITIVE_INFINITY;
@@ -81,6 +99,7 @@ export class TableOfContents extends HTMLElement {
     }
   }
 
+  // Throttles scroll events with `requestAnimationFrame` to avoid redundant updates.
   private scrollHandler(): void {
     if (!this.ticking) {
       requestAnimationFrame(() => {

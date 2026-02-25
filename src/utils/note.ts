@@ -45,6 +45,12 @@ export async function getLatestNotes(count = 1): Promise<Note[]> {
   return sortedNotes.length > 0 ? sortedNotes.slice(0, count) : [];
 }
 
+/**
+ * Returns notes grouped by publish year, with years and notes within each year
+ * sorted newest first.
+ *
+ * Runs in three passes: group by year (reduce) → sort within each group → sort years descending.
+ */
 export async function getNotesGroupedByYear(): Promise<GroupedNotesByYear> {
   const notes: Note[] = await getNotes();
 

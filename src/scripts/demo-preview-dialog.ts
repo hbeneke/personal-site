@@ -1,3 +1,11 @@
+/**
+ * Manages the demo preview dialog for portfolio projects.
+ *
+ * Populates the dialog with a project title, preview image, and a link to the
+ * live demo, then shows/hides it. Also exposes `openDemoDialog` as a global
+ * function on `window` so that portfolio card buttons (rendered server-side)
+ * can trigger the dialog without a direct class reference.
+ */
 export class DemoPreviewDialog {
   private dialog: HTMLElement | null;
   private dialogContent: HTMLElement | null;
@@ -25,6 +33,7 @@ export class DemoPreviewDialog {
   private setupEventListeners(): void {
     this.closeBtn?.addEventListener("click", () => this.closeDialog());
 
+    // Close when clicking the backdrop (the dialog overlay itself, not its content).
     this.dialog?.addEventListener("click", (e) => {
       if (e.target === this.dialog) {
         this.closeDialog();
@@ -66,6 +75,8 @@ export class DemoPreviewDialog {
     }
   }
 
+  // Assigns `this.openDialog` to `window.openDemoDialog` so server-rendered
+  // portfolio card buttons can call it without importing this module directly.
   private exposeGlobalFunction(): void {
     type OpenDemoDialogFn = (title: string, demoUrl: string, imageUrl?: string) => void;
     (window as Window & { openDemoDialog?: OpenDemoDialogFn }).openDemoDialog =

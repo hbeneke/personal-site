@@ -1,7 +1,15 @@
+/**
+ * Custom element that manages a dismissible note announcement banner.
+ *
+ * On close, the banner slides out with a CSS transition and the note's slug is
+ * persisted to `localStorage` so the banner is not shown again for the same note.
+ * Registers itself as the `<note-announcement>` custom element.
+ */
 export class NoteAnnouncement extends HTMLElement {
   private announcement: HTMLElement | null;
   private closeButton: HTMLButtonElement | null;
   private readMoreLink: HTMLAnchorElement | null;
+  /** `localStorage` key used to store the slug of the last dismissed note. */
   private readonly storageKey = "note-announcement-closed";
 
   constructor() {
@@ -25,6 +33,7 @@ export class NoteAnnouncement extends HTMLElement {
     this.readMoreLink?.addEventListener("click", this.handleReadMoreClick.bind(this));
   }
 
+  // Dismisses the banner before navigating, waiting 300 ms for the slide-out transition to finish.
   private handleReadMoreClick(event: Event): void {
     event.preventDefault();
 

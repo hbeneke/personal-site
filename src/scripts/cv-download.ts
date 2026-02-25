@@ -1,3 +1,10 @@
+/**
+ * Handles CV download by opening `/resume/print` in a popup and triggering the browser's print dialog.
+ *
+ * Flow: open popup → wait for `load` event → call `print()` after 500 ms.
+ * A polling interval restores button state when the popup is closed, and a 5-second
+ * safety timeout does the same in case the `load` event never fires.
+ */
 class CVDownloader {
   private readonly buttonId = "cv-download-btn";
 

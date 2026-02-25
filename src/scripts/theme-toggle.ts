@@ -1,3 +1,11 @@
+/**
+ * Custom element that manages light/dark theme switching.
+ *
+ * Reads the user's stored preference from `localStorage` on initialisation,
+ * falls back to the OS-level `prefers-color-scheme` media query, and keeps the
+ * two in sync when the system preference changes (only when no manual override exists).
+ * Registers itself as the `<theme-toggle>` custom element.
+ */
 export class ThemeToggle extends HTMLElement {
   private button: HTMLButtonElement | null;
   private html: HTMLElement;

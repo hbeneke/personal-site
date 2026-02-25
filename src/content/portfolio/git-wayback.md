@@ -6,6 +6,7 @@ technologies: ["TypeScript", "Vue", "Turborepo", "Neon", "Vercel"]
 link: "https://git-wayback.com"
 image: "/portfolio/git-wayback.png"
 github: "https://github.com/hbeneke/git-wayback"
+demo: https://git-wayback.com
 featured: false
 order: 2
 version: "0.4.0"

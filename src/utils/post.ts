@@ -12,7 +12,7 @@ function filterDrafts(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts
 }
 
 function sortByDate(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts">[] {
-  return posts.sort(
+  return [...posts].sort(
     (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
   );
 }

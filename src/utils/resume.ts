@@ -37,7 +37,7 @@ export async function getWorkExperienceYears(): Promise<{ start: string; end: st
     return { start: "", end: "" };
   }
 
-  const sortedExperiences = workExperiences.sort((a, b) => {
+  const sortedExperiences = [...workExperiences].sort((a, b) => {
     const dateA = new Date(a.start_date);
     const dateB = new Date(b.start_date);
     return dateB.getTime() - dateA.getTime();

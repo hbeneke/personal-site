@@ -3,20 +3,25 @@ import {
   getAllTagsWithCounts,
   getSortedTagsWithCounts,
   getTagContent,
-  groupPostsByYear,
   sortYearsDescending,
   getTagPageData,
   getAllTagPaths,
 } from "@/utils/tag";
+import { groupPostsByYear } from "@/utils/post";
 import { getAllTags, getPostsByTag } from "@/utils/post";
 import { getCollection } from "astro:content";
 import { clearCache } from "@/utils/cache";
 
-// Mock modules
-vi.mock("@/utils/post", () => ({
-  getAllTags: vi.fn(),
-  getPostsByTag: vi.fn(),
-}));
+// Mock modules — groupPostsByYear is imported from the real module
+// since it's a pure function with no external dependencies.
+vi.mock("@/utils/post", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/utils/post")>();
+  return {
+    getAllTags: vi.fn(),
+    getPostsByTag: vi.fn(),
+    groupPostsByYear: actual.groupPostsByYear,
+  };
+});
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),

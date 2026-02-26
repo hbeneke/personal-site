@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getAllHonors, getAllHonorsGroupByCategory } from "@/utils/honor";
 import { getCollection } from "astro:content";
+import { clearCache } from "@/utils/cache";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -79,6 +80,7 @@ const mockEmptyHonorsCollection: never[] = [];
 describe("Honor Utils functions", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    clearCache();
   });
 
   describe("getAllHonors function", () => {
@@ -568,12 +570,12 @@ describe("Honor Utils functions", () => {
       await getAllHonors(false);
       expect(mockGetCollection).toHaveBeenCalledWith("honors");
 
-      // Test sorted path
+      // Test sorted path (cache hit — getCollection not called again)
       await getAllHonors(true);
       expect(mockGetCollection).toHaveBeenCalledWith("honors");
-      
-      // Verify function calls
-      expect(mockGetCollection).toHaveBeenCalledTimes(2);
+
+      // Called once: second call is served from cache
+      expect(mockGetCollection).toHaveBeenCalledTimes(1);
     });
 
     it("should ensure getAllHonorsGroupByCategory calls getHonors with false parameter", async () => {
@@ -582,9 +584,10 @@ describe("Honor Utils functions", () => {
       // Test that internal getHonors is called with false regardless of sorted parameter
       await getAllHonorsGroupByCategory(false);
       await getAllHonorsGroupByCategory(true);
-      
+
       expect(mockGetCollection).toHaveBeenCalledWith("honors");
-      expect(mockGetCollection).toHaveBeenCalledTimes(2);
+      // Called once: second call is served from cache
+      expect(mockGetCollection).toHaveBeenCalledTimes(1);
     });
 
     it("should test internal getHonors function behavior directly through getAllHonors", async () => {
@@ -614,7 +617,8 @@ describe("Honor Utils functions", () => {
 
       // Verify the function was called correctly
       expect(mockGetCollection).toHaveBeenCalledWith("honors");
-      expect(mockGetCollection).toHaveBeenCalledTimes(2);
+      // Called once: second call is served from cache
+      expect(mockGetCollection).toHaveBeenCalledTimes(1);
     });
   });
 });

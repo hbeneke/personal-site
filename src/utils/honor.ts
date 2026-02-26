@@ -1,9 +1,12 @@
 import { getCollection } from "astro:content";
 import type { Honor } from "@types";
+import { getCached } from "./cache";
 
 // Year field may be a range (e.g. "2021-2023"); sorting uses the first year only.
 async function getHonors(sorted = false): Promise<Honor[]> {
-  const honorsCollection = await getCollection("honors");
+  const honorsCollection = await getCached("honors-collection", async () => {
+    return await getCollection("honors");
+  });
   const honors: Honor[] = honorsCollection.map((honor) => honor.data);
 
   if (sorted) {

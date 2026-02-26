@@ -9,6 +9,7 @@ export interface SchemaProps {
   image?: string;
   publishDate?: string;
   modifiedDate?: string;
+  tags?: string[];
   breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
@@ -20,6 +21,7 @@ const {
   image,
   publishDate,
   modifiedDate,
+  tags = [],
   breadcrumbs,
 } = Astro.props as SchemaProps;
 
@@ -126,6 +128,7 @@ const getSchema = () => {
           "@type": "WebPage",
           "@id": url,
         },
+        ...(tags.length > 0 && { keywords: tags.join(", ") }),
       };
 
     case "BreadcrumbList":

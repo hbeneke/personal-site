@@ -44,38 +44,6 @@ const robotsContent = [
   nofollow ? "nofollow" : "follow",
 ].join(", ");
 
-const articleStructuredData = article
-  ? {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: title,
-      description: description,
-      url: canonical.href,
-      image: ogImage,
-      datePublished: publishDate,
-      dateModified: modifiedDate || publishDate,
-      author: {
-        "@type": "Person",
-        name: author,
-        url: siteConfig.siteUrl,
-        sameAs: [
-          siteConfig.socialLinks.linkedin,
-          siteConfig.socialLinks.github,
-          siteConfig.socialLinks.x,
-        ],
-      },
-      publisher: {
-        "@type": "Person",
-        name: siteConfig.authorName,
-        url: siteConfig.siteUrl,
-      },
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": canonical.href,
-      },
-      ...(tags.length > 0 && { keywords: tags.join(", ") }),
-    }
-  : null;
 ---
 
 <title>{fullTitle}</title>
@@ -131,13 +99,3 @@ const articleStructuredData = article
   title={`${siteConfig.siteTitle} - Notes`}
   href="/notes/rss.xml"
 />
-
-{
-  articleStructuredData && (
-    <script
-      is:inline
-      type="application/ld+json"
-      set:html={JSON.stringify(articleStructuredData)}
-    />
-  )
-}

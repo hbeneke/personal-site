@@ -1,7 +1,6 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { TagContent, TagPageData, TagWithCount } from "@types";
-import { getAllTags, getPostsByTag } from "@utils/post";
-import { isValidDate } from "@utils/date";
+import { getAllTags, getPostsByTag, groupPostsByYear } from "@utils/post";
 import { getCached } from "./cache";
 
 // Fetches post counts for all tags concurrently.
@@ -57,24 +56,6 @@ export async function getTagContent(tag: string): Promise<TagContent | null> {
   }
 
   return null;
-}
-
-// Posts with invalid dates are silently skipped.
-export function groupPostsByYear(
-  posts: CollectionEntry<"posts">[],
-): Record<number, CollectionEntry<"posts">[]> {
-  return posts.reduce((acc: Record<number, CollectionEntry<"posts">[]>, post) => {
-    const date = new Date(post.data.publishDate);
-    if (!isValidDate(date)) {
-      return acc;
-    }
-    const year = date.getFullYear();
-    if (!acc[year]) {
-      acc[year] = [];
-    }
-    acc[year].push(post);
-    return acc;
-  }, {});
 }
 
 export function sortYearsDescending(

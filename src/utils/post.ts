@@ -1,5 +1,6 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import { getCached } from "./cache";
+import { isValidDate } from "./date";
 
 /**
  * Filters out draft posts from an array.
@@ -12,7 +13,7 @@ function filterDrafts(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts
 }
 
 function sortByDate(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts">[] {
-  return posts.sort(
+  return [...posts].sort(
     (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
   );
 }
@@ -112,6 +113,24 @@ export async function getAllTags(includeDrafts = false): Promise<string[]> {
   return Array.from(tags).sort();
 }
 
+// Posts with invalid dates are silently skipped.
+export function groupPostsByYear(
+  posts: CollectionEntry<"posts">[],
+): Record<number, CollectionEntry<"posts">[]> {
+  return posts.reduce((acc: Record<number, CollectionEntry<"posts">[]>, post) => {
+    const date = new Date(post.data.publishDate);
+    if (!isValidDate(date)) {
+      return acc;
+    }
+    const year = date.getFullYear();
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(post);
+    return acc;
+  }, {});
+}
+
 export async function getPostsGroupedByYear(
   includeDrafts = false,
 ): Promise<Record<number, CollectionEntry<"posts">[]>> {
@@ -122,18 +141,5 @@ export async function getPostsGroupedByYear(
   }
 
   const sortedPosts = sortByDate(posts);
-
-  const groupedPosts: Record<number, CollectionEntry<"posts">[]> = {};
-
-  for (const post of sortedPosts) {
-    const year = new Date(post.data.publishDate).getFullYear();
-
-    if (!groupedPosts[year]) {
-      groupedPosts[year] = [];
-    }
-
-    groupedPosts[year].push(post);
-  }
-
-  return groupedPosts;
+  return groupPostsByYear(sortedPosts);
 }

@@ -1,6 +1,15 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+const dateString = z.string().refine((val) => !Number.isNaN(new Date(val).getTime()), {
+  message: "Invalid date string",
+});
+
+const dateOrPresent = z.string().refine(
+  (val) => val.toLowerCase() === "present" || !Number.isNaN(new Date(val).getTime()),
+  { message: "Must be a valid date or 'Present'" },
+);
+
 const resume = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/resume" }),
   schema: z.object({
@@ -10,8 +19,8 @@ const resume = defineCollection({
     startup: z.boolean().default(false),
     location: z.string().optional(),
     position: z.string(),
-    start_date: z.string(),
-    end_date: z.string(),
+    start_date: dateString,
+    end_date: dateOrPresent,
     description: z.string(),
     responsibilities: z.array(z.string()),
   }),
@@ -39,7 +48,7 @@ const notes = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
   schema: z.object({
     title: z.string(),
-    publishDate: z.string(),
+    publishDate: dateString,
     slug: z.string(),
     description: z.string(),
     starred: z.boolean().default(false),
@@ -50,7 +59,7 @@ const portfolioProjects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/portfolio" }),
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: dateString,
     description: z.string(),
     technologies: z.array(z.string()),
     link: z.string().optional(),
@@ -64,7 +73,7 @@ const portfolioProjects = defineCollection({
       .array(
         z.object({
           version: z.string(),
-          date: z.string(),
+          date: dateString,
           changes: z.array(z.string()),
         }),
       )
@@ -76,7 +85,7 @@ const posts = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
   schema: z.object({
     title: z.string(),
-    publishDate: z.string(),
+    publishDate: dateString,
     slug: z.string(),
     description: z.string(),
     content: z.string().optional(),
@@ -84,7 +93,7 @@ const posts = defineCollection({
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
     readTime: z.number().optional(),
-    updatedDate: z.string().optional(),
+    updatedDate: dateString.optional(),
   }),
 });
 

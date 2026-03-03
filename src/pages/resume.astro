@@ -68,12 +68,18 @@ const honors = await getAllHonorsGroupByCategory(true);
             <div class="mb-8">
               <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-1">
                 <div class="lg:col-span-3">
-                  <a
-                    href={`${experience.company_url}`}
-                    class="text-[12pt] font-bold mb-1 secondary hover:secondary-hovered cursor-pointer w-fit block"
-                  >
-                    {experience.company}
-                  </a>
+                  {experience.company_url ? (
+                    <a
+                      href={experience.company_url}
+                      class="text-[12pt] font-bold mb-1 secondary hover:secondary-hovered cursor-pointer w-fit block"
+                    >
+                      {experience.company}
+                    </a>
+                  ) : (
+                    <span class="text-[12pt] font-bold mb-1 secondary w-fit block">
+                      {experience.company}
+                    </span>
+                  )}
                   <span class="text-[8pt] font-semibold uppercase text-gray-300">
                     {experience.position}
                   </span>

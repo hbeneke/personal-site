@@ -51,14 +51,6 @@ const getSchema = () => {
             siteConfig.socialLinks.x,
           ],
         },
-        potentialAction: {
-          "@type": "SearchAction",
-          target: {
-            "@type": "EntryPoint",
-            urlTemplate: `${siteConfig.siteUrl}/search?q={search_term_string}`,
-          },
-          "query-input": "required name=search_term_string",
-        },
       };
 
     case "Person":
@@ -70,7 +62,7 @@ const getSchema = () => {
         jobTitle: siteConfig.jobTitle,
         description:
           description ||
-          `${siteConfig.jobTitle} with over 10 years of experience`,
+          `Experienced ${siteConfig.jobTitle}`,
         url: siteConfig.siteUrl,
         image: image
           ? new URL(image, siteConfig.siteUrl).href

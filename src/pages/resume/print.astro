@@ -1,11 +1,13 @@
 ---
 import PrintLayout from "@layouts/print-layout.astro";
 import { siteConfig } from "@site-config";
+import { calculateDuration } from "@utils/date";
 import { getAllHonorsGroupByCategory } from "@utils/honor";
-import { getAllWorkExperiences } from "@utils/resume";
+import { getAllWorkExperiences, getWorkExperienceYears } from "@utils/resume";
 import { getAllSkills } from "@utils/skills";
 
 const work_experience = await getAllWorkExperiences();
+const years = await getWorkExperienceYears();
 const skills = await getAllSkills();
 const honors = await getAllHonorsGroupByCategory(true);
 ---
@@ -41,7 +43,7 @@ const honors = await getAllHonorsGroupByCategory(true);
       <div
         class="text-[9pt] mt-3 leading-relaxed text-justify font-light text-gray-800"
       >
-        Web developer with over 10 years of experience in web development,
+        Web developer with {calculateDuration(years.start, years.end)} of experience in web development,
         always looking for new challenges and projects that feed my motto of
         "Never Stop Learning."
       </div>

@@ -25,6 +25,8 @@ export class SiteSearch extends HTMLElement {
   private controller: AbortController;
   private searchInitialized = false;
   private pagefindUI: PagefindUI | null = null;
+  private observer: MutationObserver | null = null;
+  private resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     super();
@@ -137,11 +139,12 @@ export class SiteSearch extends HTMLElement {
       }
     }
 
-    const observer = new MutationObserver(() => {
+    this.observer?.disconnect();
+    this.observer = new MutationObserver(() => {
       this.addMobileFilterHandlers(searchContainer);
     });
 
-    observer.observe(searchContainer, {
+    this.observer.observe(searchContainer, {
       childList: true,
       subtree: true,
     });
@@ -150,12 +153,25 @@ export class SiteSearch extends HTMLElement {
   private showSearchUnavailableMessage(): void {
     const searchContainer = this.querySelector("#personal__search");
     if (searchContainer) {
-      searchContainer.innerHTML = `
-        <div class="text-center p-4">
-          <p class="text-gray-400 mb-2">Search not available in development</p>
-          <p class="text-xs text-gray-500">Run <code class="bg-gray-700 px-1 rounded">npm run build</code> to enable search functionality</p>
-        </div>
-      `;
+      const wrapper = document.createElement("div");
+      wrapper.className = "text-center p-4";
+
+      const msg = document.createElement("p");
+      msg.className = "text-gray-400 mb-2";
+      msg.textContent = "Search not available in development";
+
+      const hint = document.createElement("p");
+      hint.className = "text-xs text-gray-500";
+      hint.textContent = "Run ";
+      const code = document.createElement("code");
+      code.className = "bg-gray-700 px-1 rounded";
+      code.textContent = "npm run build";
+      hint.appendChild(code);
+      hint.appendChild(document.createTextNode(" to enable search functionality"));
+
+      wrapper.appendChild(msg);
+      wrapper.appendChild(hint);
+      searchContainer.replaceChildren(wrapper);
     }
   }
 
@@ -170,14 +186,20 @@ export class SiteSearch extends HTMLElement {
   }
 
   private handleResize = (): void => {
-    if (this.dialog?.open && this.searchInitialized) {
-      setTimeout(() => this.setupMobileTagBehavior(), 100);
-    }
+    if (this.resizeTimer) clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(() => {
+      if (this.dialog?.open && this.searchInitialized) {
+        this.setupMobileTagBehavior();
+      }
+    }, 150);
   };
 
   // Aborts all signal-based listeners and destroys the Pagefind instance to prevent memory leaks.
   disconnectedCallback(): void {
     this.controller.abort();
+    this.observer?.disconnect();
+    this.observer = null;
+    if (this.resizeTimer) clearTimeout(this.resizeTimer);
     if (this.pagefindUI) {
       this.pagefindUI.destroy();
       this.pagefindUI = null;
@@ -247,12 +269,6 @@ export class SiteSearch extends HTMLElement {
 
 if (typeof window !== "undefined" && !customElements.get("site-search")) {
   customElements.define("site-search", SiteSearch);
-}
-
-export function initSiteSearch(): void {
-  if (typeof window !== "undefined" && !customElements.get("site-search")) {
-    customElements.define("site-search", SiteSearch);
-  }
 }
 
 export default SiteSearch;

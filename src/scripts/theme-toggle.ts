@@ -60,13 +60,8 @@ export class ThemeToggle extends HTMLElement {
   }
 }
 
-export function initThemeToggle(): void {
-  if (!customElements.get("theme-toggle")) {
-    customElements.define("theme-toggle", ThemeToggle);
-  }
+if (!customElements.get("theme-toggle")) {
+  customElements.define("theme-toggle", ThemeToggle);
 }
-
-// Auto-initialize
-initThemeToggle();
 
 export default ThemeToggle;

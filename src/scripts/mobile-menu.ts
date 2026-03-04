@@ -10,6 +10,29 @@ export class MobileMenu extends HTMLElement {
   private menu: HTMLElement | null;
   private isOpen = false;
 
+  private handleDocumentClick = (e: MouseEvent) => {
+    if (
+      this.isOpen &&
+      !this.menu?.contains(e.target as Node) &&
+      !this.button?.contains(e.target as Node)
+    ) {
+      this.close();
+    }
+  };
+
+  private handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && this.isOpen) {
+      this.close();
+    }
+  };
+
+  private handleResize = () => {
+    if (window.innerWidth >= 640 && this.isOpen) {
+      this.close();
+    }
+    this.setMenuPosition();
+  };
+
   constructor() {
     super();
     this.button = this.querySelector<HTMLButtonElement>("button");
@@ -42,21 +65,8 @@ export class MobileMenu extends HTMLElement {
       this.toggle();
     });
 
-    document.addEventListener("click", (e) => {
-      if (
-        this.isOpen &&
-        !this.menu?.contains(e.target as Node) &&
-        !this.button?.contains(e.target as Node)
-      ) {
-        this.close();
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && this.isOpen) {
-        this.close();
-      }
-    });
+    document.addEventListener("click", this.handleDocumentClick);
+    document.addEventListener("keydown", this.handleKeydown);
 
     const menuLinks = this.menu?.querySelectorAll("a");
     if (menuLinks) {
@@ -67,12 +77,13 @@ export class MobileMenu extends HTMLElement {
       }
     }
 
-    window.addEventListener("resize", () => {
-      if (window.innerWidth >= 640 && this.isOpen) {
-        this.close();
-      }
-      this.setMenuPosition();
-    });
+    window.addEventListener("resize", this.handleResize);
+  }
+
+  disconnectedCallback(): void {
+    document.removeEventListener("click", this.handleDocumentClick);
+    document.removeEventListener("keydown", this.handleKeydown);
+    window.removeEventListener("resize", this.handleResize);
   }
 
   private toggle(): void {
@@ -104,18 +115,8 @@ export class MobileMenu extends HTMLElement {
   }
 }
 
-export function initMobileMenu(): void {
-  if (!customElements.get("mobile-menu")) {
-    customElements.define("mobile-menu", MobileMenu);
-  }
+if (!customElements.get("mobile-menu")) {
+  customElements.define("mobile-menu", MobileMenu);
 }
 
-export function autoInit(): void {
-  initMobileMenu();
-}
-
-// Auto-initialize
-autoInit();
-
-// Default export for backwards compatibility
-export default autoInit;
+export default MobileMenu;

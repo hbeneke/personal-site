@@ -37,8 +37,8 @@ export class NoteAnnouncement extends HTMLElement {
   private handleReadMoreClick(event: Event): void {
     event.preventDefault();
 
-    const target = event.target as HTMLAnchorElement;
-    const href = target.href;
+    const href = this.readMoreLink?.href;
+    if (!href) return;
 
     this.handleClose();
 
@@ -63,13 +63,8 @@ export class NoteAnnouncement extends HTMLElement {
   }
 }
 
-export function initNoteAnnouncement(): void {
-  if (!customElements.get("note-announcement")) {
-    customElements.define("note-announcement", NoteAnnouncement);
-  }
+if (!customElements.get("note-announcement")) {
+  customElements.define("note-announcement", NoteAnnouncement);
 }
-
-// Auto-initialize
-initNoteAnnouncement();
 
 export default NoteAnnouncement;

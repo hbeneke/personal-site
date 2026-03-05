@@ -17,7 +17,7 @@ const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
       <div
         class="flex items-center justify-between mb-6 pb-2 border-b border-gray-200 dark:border-gray-700"
       >
-        <h2 class="text-xl font-medium secondary">Notes</h2>
+        <h1 class="text-xl font-medium secondary">Notes</h1>
         <a
           href="/notes/rss.xml"
           target="_blank"
@@ -35,13 +35,13 @@ const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
       {
         groupedNotesEntries.map(([year, notes]: [string, Note[]]) => (
           <div id={year}>
-            <h3 class="font-bold secondary text-xl my-4">{year}</h3>
+            <h2 class="font-bold secondary text-xl my-4">{year}</h2>
             {notes.map((note: Note) => (
               <a href={`/notes/${note.slug}`} class="block">
                 <article
                   class={`inline-grid rounded-md bg-gray-800 px-4 py-3 group border border-transparent transition-all duration-200 hover:shadow-lg cursor-pointer w-full mb-5`}
                 >
-                  <h3 class="title text-base">
+                  <h3 class="text-base">
                     <span class="secondary">{note.title}</span>
                   </h3>
                   <time

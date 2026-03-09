@@ -20,7 +20,8 @@ import DownloadIcon from "@icons/download.svg";
 
   document.addEventListener("DOMContentLoaded", () => {
     if (window.location.pathname.includes("/resume")) {
-      new CVDownloader();
+      const downloader = new CVDownloader();
+      window.addEventListener("beforeunload", () => downloader.destroy());
     }
   });
 </script>

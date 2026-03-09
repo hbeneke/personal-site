@@ -7,21 +7,21 @@
  * Registers itself as the `<table-of-contents>` custom element.
  */
 export class TableOfContents extends HTMLElement {
-  private tocLinks: NodeListOf<HTMLAnchorElement>;
-  private headings: NodeListOf<HTMLHeadingElement>;
+  private tocLinks: NodeListOf<HTMLAnchorElement> =
+    {} as NodeListOf<HTMLAnchorElement>;
+  private headings: NodeListOf<HTMLHeadingElement> =
+    {} as NodeListOf<HTMLHeadingElement>;
   /** Flag used to throttle scroll events via `requestAnimationFrame`. */
   private ticking = false;
+  private boundScrollHandler = this.scrollHandler.bind(this);
+  private boundLinkClick = this.handleLinkClick.bind(this);
 
-  constructor() {
-    super();
+  connectedCallback(): void {
     this.tocLinks = this.querySelectorAll("a") as NodeListOf<HTMLAnchorElement>;
     this.headings = document.querySelectorAll(
       "h1, h2, h3, h4, h5, h6",
     ) as NodeListOf<HTMLHeadingElement>;
-    this.init();
-  }
 
-  private init(): void {
     if (!this.tocLinks.length || !this.headings.length) {
       return;
     }
@@ -29,6 +29,13 @@ export class TableOfContents extends HTMLElement {
     this.applyTransitionStyles();
     this.setupEventListeners();
     this.updateTOC();
+  }
+
+  disconnectedCallback(): void {
+    window.removeEventListener("scroll", this.boundScrollHandler);
+    for (const link of Array.from(this.tocLinks)) {
+      link.removeEventListener("click", this.boundLinkClick);
+    }
   }
 
   private applyTransitionStyles(): void {
@@ -39,10 +46,10 @@ export class TableOfContents extends HTMLElement {
 
   private setupEventListeners(): void {
     for (const link of Array.from(this.tocLinks)) {
-      link.addEventListener("click", this.handleLinkClick.bind(this));
+      link.addEventListener("click", this.boundLinkClick);
     }
 
-    window.addEventListener("scroll", this.scrollHandler.bind(this));
+    window.addEventListener("scroll", this.boundScrollHandler);
   }
 
   // On mobile (viewport < 1024 px), collapses the parent `<details>` 300 ms after a link click

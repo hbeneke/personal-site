@@ -2,16 +2,14 @@
 
 ---
 
-<div
+<dialog
   id="demo-preview-dialog"
-  class="fixed inset-0 backdrop-blur-md bg-black/30 dark:bg-black/50 hidden items-center justify-center z-50"
-  role="dialog"
-  aria-modal="true"
+  class="backdrop:backdrop-blur-md backdrop:bg-black/30 dark:backdrop:bg-black/50 bg-transparent p-0 max-w-2xl w-full mx-4 rounded-lg"
   aria-labelledby="demo-dialog-title"
 >
   <div
     id="demo-preview-content"
-    class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 relative"
+    class="bg-white dark:bg-gray-800 rounded-lg shadow-xl relative"
   >
     <button
       type="button"
@@ -60,7 +58,7 @@
       </a>
     </div>
   </div>
-</div>
+</dialog>
 
 <script>
   import "@scripts/demo-preview-dialog";

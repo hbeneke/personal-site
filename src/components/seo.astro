@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from "@site-config";
 
-export interface SEOProps {
+interface Props {
   title: string;
   description: string;
   image?: string;
@@ -27,7 +27,7 @@ const {
   nofollow = false,
   author = siteConfig.authorName,
   tags = [],
-} = Astro.props as SEOProps;
+} = Astro.props;
 
 const fullTitle = title.includes(siteConfig.siteTitle)
   ? title

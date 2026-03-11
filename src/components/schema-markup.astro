@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from "@site-config";
 
-export interface SchemaProps {
+interface Props {
   type: "WebSite" | "Person" | "BlogPosting" | "Article" | "BreadcrumbList";
   title?: string;
   description?: string;
@@ -23,7 +23,7 @@ const {
   modifiedDate,
   tags = [],
   breadcrumbs,
-} = Astro.props as SchemaProps;
+} = Astro.props;
 
 const getSchema = () => {
   const baseSchema = {

@@ -110,9 +110,9 @@ const honors = await getAllHonorsGroupByCategory(true);
                 {skill.name}
               </div>
               <div class="col-span-4 text-xs tracking-tighter font-light text-gray-800">
-                {skill.perks?.map(
+                {skill.perks.map(
                   (perk, index) =>
-                    `${perk}${index < (skill.perks?.length || 0) - 1 ? ", " : ""}`
+                    `${perk}${index < skill.perks.length - 1 ? ", " : ""}`
                 )}
               </div>
             </div>

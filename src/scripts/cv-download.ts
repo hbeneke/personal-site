@@ -7,6 +7,8 @@
  */
 class CVDownloader {
   private readonly buttonId = "cv-download-btn";
+  private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
+  private clickHandler: ((e: Event) => void) | null = null;
 
   constructor() {
     this.init();
@@ -29,17 +31,33 @@ class CVDownloader {
       return;
     }
 
-    downloadButton.addEventListener("click", (e) => {
+    this.clickHandler = (e: Event) => {
       e.preventDefault();
       this.downloadCV();
-    });
+    };
 
-    document.addEventListener("keydown", (e) => {
+    this.keydownHandler = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "p") {
         e.preventDefault();
         this.downloadCV();
       }
-    });
+    };
+
+    downloadButton.addEventListener("click", this.clickHandler);
+    document.addEventListener("keydown", this.keydownHandler);
+  }
+
+  destroy(): void {
+    if (this.keydownHandler) {
+      document.removeEventListener("keydown", this.keydownHandler);
+      this.keydownHandler = null;
+    }
+
+    if (this.clickHandler) {
+      const button = this.getButton();
+      button?.removeEventListener("click", this.clickHandler);
+      this.clickHandler = null;
+    }
   }
 
   async downloadCV(): Promise<void> {

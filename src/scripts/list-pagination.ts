@@ -31,6 +31,7 @@ export class ListPagination extends HTMLElement {
   private searchInput: HTMLInputElement | null = null;
   private itemLabel = "items";
   private searchTerm = "";
+  private isInitialRender = true;
 
   constructor() {
     super();
@@ -124,7 +125,12 @@ export class ListPagination extends HTMLElement {
 
     this.updatePaginationControls(pagination);
     this.updatePageInfo(pagination);
-    this.scrollToTop();
+
+    if (this.isInitialRender) {
+      this.isInitialRender = false;
+    } else {
+      this.scrollToTop();
+    }
   }
 
   private setupSearch(): void {

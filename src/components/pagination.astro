@@ -82,6 +82,7 @@ const finalSearchPlaceholder = searchPlaceholder || `Search ${itemLabel}...`;
     private filteredItems: HTMLElement[] = [];
     private itemLabel = "items";
     private searchTerm = "";
+    private isInitialRender = true;
 
     private wrapper: HTMLElement;
     private itemsContainer: HTMLElement;
@@ -253,7 +254,12 @@ const finalSearchPlaceholder = searchPlaceholder || `Search ${itemLabel}...`;
 
       this.updatePaginationControls(pagination);
       this.updatePageInfo(pagination);
-      this.scrollToTop();
+
+      if (this.isInitialRender) {
+        this.isInitialRender = false;
+      } else {
+        this.scrollToTop();
+      }
     }
 
     private setupPaginationListeners(): void {

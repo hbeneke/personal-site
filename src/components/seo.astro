@@ -60,7 +60,7 @@ const robotsContent = [
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:site_name" content={siteConfig.siteTitle} />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content={siteConfig.locale.replace("-", "_")} />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonical.href} />

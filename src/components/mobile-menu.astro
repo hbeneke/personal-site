@@ -3,6 +3,8 @@ import SideMenuIcon from "@icons/menu.svg";
 import { menuLinks } from "@site-config";
 
 const url = new URL(Astro.request.url);
+const isActive = (path: string) =>
+  path === "/" ? url.pathname === path : url.pathname.startsWith(path);
 ---
 
 <mobile-menu class="sm:hidden">
@@ -24,7 +26,7 @@ const url = new URL(Astro.request.url);
       {
         menuLinks.map((link) => (
           <a
-            aria-current={url.pathname === link.path ? "page" : false}
+            aria-current={isActive(link.path) ? "page" : false}
             aria-label={`Navigate to ${link.title} page`}
             class="block px-4 py-3 text-base hover:bg-[rgb(var(--foreground))]/10 active:bg-[rgb(var(--primary))]/5 active:scale-95 transition-all duration-150 rounded-md mb-2 mt-5"
             data-astro-prefetch
@@ -32,7 +34,7 @@ const url = new URL(Astro.request.url);
           >
             <span
               class={
-                url.pathname === link.path
+                isActive(link.path)
                   ? "primary font-semibold wavy-underline"
                   : "text-[rgb(var(--foreground))]"
               }

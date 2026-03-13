@@ -142,7 +142,7 @@ describe("Skills Utils functions", () => {
       });
     });
 
-    it("should handle skills with empty perks array", async () => {
+    it("should handle a single skill with empty perks array", async () => {
       const skillWithEmptyPerks = [
         {
           id: "empty-skill",

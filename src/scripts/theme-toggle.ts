@@ -7,32 +7,31 @@
  * Registers itself as the `<theme-toggle>` custom element.
  */
 export class ThemeToggle extends HTMLElement {
-  private button: HTMLButtonElement | null;
-  private html: HTMLElement;
+  private button: HTMLButtonElement | null = null;
+  private html: HTMLElement = document.documentElement;
+  private mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  private boundToggle = this.toggleTheme.bind(this);
+  private boundMediaChange = this.handleMediaChange.bind(this);
 
-  constructor() {
-    super();
+  connectedCallback(): void {
     this.button = this.querySelector<HTMLButtonElement>("button");
-    this.html = document.documentElement;
-    this.init();
-  }
-
-  private init(): void {
     if (!this.button) {
       return;
     }
 
-    this.setupEventListeners();
+    this.button.addEventListener("click", this.boundToggle);
+    this.mediaQuery.addEventListener("change", this.boundMediaChange);
   }
 
-  private setupEventListeners(): void {
-    this.button?.addEventListener("click", this.toggleTheme.bind(this));
+  disconnectedCallback(): void {
+    this.button?.removeEventListener("click", this.boundToggle);
+    this.mediaQuery.removeEventListener("change", this.boundMediaChange);
+  }
 
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-      if (!localStorage.getItem("theme")) {
-        this.applyTheme(e.matches ? "dark" : "light");
-      }
-    });
+  private handleMediaChange(e: MediaQueryListEvent): void {
+    if (!localStorage.getItem("theme")) {
+      this.applyTheme(e.matches ? "dark" : "light");
+    }
   }
 
   getSystemPreference(): "dark" | "light" {

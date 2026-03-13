@@ -8,7 +8,10 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap({
-      filter: (page) => !page.includes("404") && !page.includes("_draft"),
+      filter: (page) =>
+        !page.includes("404") &&
+        !page.includes("_draft") &&
+        !page.includes("/resume/print"),
       customPages: [],
     }),
   ],

@@ -1,34 +1,42 @@
-import { getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 import type { GroupedNotesByYear, Note } from "@types";
 import { getCached } from "./cache";
 
-async function getNotes(sorted = false): Promise<Note[]> {
+async function getRawNotes(): Promise<CollectionEntry<"notes">[]> {
   try {
-    const notesCollection = await getCached("notes-collection", async () => {
+    return await getCached("notes-collection", async () => {
       return await getCollection("notes");
     });
-
-    const allNotes: Note[] = notesCollection.map((entry) => ({
-      title: entry.data.title,
-      publishDate: entry.data.publishDate,
-      slug: entry.data.slug,
-      description: entry.data.description,
-      starred: entry.data.starred,
-    }));
-
-    if (sorted) {
-      return allNotes.sort(
-        (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
-      );
-    }
-
-    return allNotes;
   } catch (error) {
     if (import.meta.env.DEV) {
       console.error("Error fetching notes collection:", error);
     }
     return [];
   }
+}
+
+export async function getAllNoteEntries(): Promise<CollectionEntry<"notes">[]> {
+  return await getRawNotes();
+}
+
+async function getNotes(sorted = false): Promise<Note[]> {
+  const notesCollection = await getRawNotes();
+
+  const allNotes: Note[] = notesCollection.map((entry) => ({
+    title: entry.data.title,
+    publishDate: entry.data.publishDate,
+    slug: entry.data.slug,
+    description: entry.data.description,
+    starred: entry.data.starred,
+  }));
+
+  if (sorted) {
+    return allNotes.sort(
+      (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+    );
+  }
+
+  return allNotes;
 }
 
 export async function getAllNotes(sorted = true): Promise<Note[]> {

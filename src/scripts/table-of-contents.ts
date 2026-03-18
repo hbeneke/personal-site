@@ -26,7 +26,6 @@ export class TableOfContents extends HTMLElement {
       return;
     }
 
-    this.applyTransitionStyles();
     this.setupEventListeners();
     this.updateTOC();
   }
@@ -35,12 +34,6 @@ export class TableOfContents extends HTMLElement {
     window.removeEventListener("scroll", this.boundScrollHandler);
     for (const link of Array.from(this.tocLinks)) {
       link.removeEventListener("click", this.boundLinkClick);
-    }
-  }
-
-  private applyTransitionStyles(): void {
-    for (const link of Array.from(this.tocLinks)) {
-      link.style.transition = "all 0.3s ease";
     }
   }
 
@@ -94,14 +87,10 @@ export class TableOfContents extends HTMLElement {
     }
 
     for (const link of Array.from(this.tocLinks)) {
-      link.classList.remove("active");
-      link.style.backgroundColor = "";
-      link.style.transform = "";
-
       if (link.getAttribute("href") === `#${current}`) {
         link.classList.add("active");
-        link.style.backgroundColor = "rgba(var(--primary), 0.08)";
-        link.style.transform = "translateX(2px)";
+      } else {
+        link.classList.remove("active");
       }
     }
   }

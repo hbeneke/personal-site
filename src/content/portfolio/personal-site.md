@@ -9,8 +9,26 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.5.21"
+version: "1.5.44"
 changelog:
+  - version: "1.5.44"
+    date: "2026-03-18T00:00:00.000Z"
+    changes:
+      - "Fixed duplicate honor.location in print resume layout"
+      - "Fixed active menu underline for child routes"
+      - "Added connectedCallback/disconnectedCallback to theme-toggle for proper lifecycle"
+      - "Excluded /resume/print utility page from sitemap"
+      - "Used siteConfig.locale for og:locale instead of hardcoded value"
+      - "Optimized getTagsWithCounts from O(n²) to O(n) single-pass algorithm"
+      - "Extracted PaginationComponent from inline script to src/scripts/"
+      - "Converted portfolio.ts to Custom Element for lifecycle consistency"
+      - "Moved table-of-contents inline styles to CSS classes"
+      - "Centralized notes data access through utils/note.ts"
+      - "Replaced div role=dialog with native dialog element for accessibility"
+      - "Added disconnectedCallback to table-of-contents and cv-download for cleanup"
+      - "Hidden contact info on screen, visible only in print/PDF"
+      - "Removed unused dependencies, dead types, and duplicate code"
+      - "Aligned Skill type perks as required to match Zod schema"
   - version: "1.5.21"
     date: "2026-03-05T00:00:00.000Z"
     changes:

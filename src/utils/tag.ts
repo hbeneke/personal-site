@@ -1,23 +1,22 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { TagContent, TagPageData, TagWithCount } from "@types";
-import { getAllTags, getPostsByTag, groupPostsByYear } from "@utils/post";
+import { getAllPosts, getAllTags, getPostsByTag, groupPostsByYear } from "@utils/post";
 import { getCached } from "./cache";
 
-// Fetches post counts for all tags concurrently.
+// Single-pass tag count: iterates posts once, accumulating counts in a Map.
 async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
-  const allTags = await getAllTags(includeDrafts || false);
+  const posts = await getAllPosts(false, includeDrafts || false);
+  const counts = new Map<string, number>();
 
-  const tagsWithCounts = await Promise.all(
-    allTags.map(async (tag) => {
-      const posts = await getPostsByTag(tag, includeDrafts || false);
-      return {
-        name: tag,
-        count: posts.length,
-      };
-    }),
-  );
+  for (const post of posts) {
+    if (post.data.tags) {
+      for (const tag of post.data.tags) {
+        counts.set(tag, (counts.get(tag) || 0) + 1);
+      }
+    }
+  }
 
-  return tagsWithCounts.filter((tag) => tag.count > 0);
+  return Array.from(counts, ([name, count]) => ({ name, count }));
 }
 
 export async function getAllTagsWithCounts(includeDrafts = false): Promise<TagWithCount[]> {

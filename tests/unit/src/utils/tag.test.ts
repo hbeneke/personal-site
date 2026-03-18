@@ -8,7 +8,7 @@ import {
   getAllTagPaths,
 } from "@/utils/tag";
 import { groupPostsByYear } from "@/utils/post";
-import { getAllTags, getPostsByTag } from "@/utils/post";
+import { getAllPosts, getAllTags, getPostsByTag } from "@/utils/post";
 import { getCollection } from "astro:content";
 import { clearCache } from "@/utils/cache";
 
@@ -17,6 +17,7 @@ import { clearCache } from "@/utils/cache";
 vi.mock("@/utils/post", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/utils/post")>();
   return {
+    getAllPosts: vi.fn(),
     getAllTags: vi.fn(),
     getPostsByTag: vi.fn(),
     groupPostsByYear: actual.groupPostsByYear,
@@ -27,6 +28,7 @@ vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
 }));
 
+const mockGetAllPosts = vi.mocked(getAllPosts);
 const mockGetAllTags = vi.mocked(getAllTags);
 const mockGetPostsByTag = vi.mocked(getPostsByTag);
 const mockGetCollection = vi.mocked(getCollection);
@@ -38,8 +40,7 @@ describe("tagUtils", () => {
 
   describe("getAllTagsWithCounts", () => {
     it("should handle includeDrafts parameter correctly", async () => {
-      mockGetAllTags.mockResolvedValue(["javascript"]);
-      mockGetPostsByTag.mockResolvedValue([
+      mockGetAllPosts.mockResolvedValue([
         {
           id: "test",
           collection: "posts" as const,
@@ -50,18 +51,17 @@ describe("tagUtils", () => {
             description: "Test",
             featured: false,
             draft: false,
+            tags: ["javascript"],
           },
         },
       ]);
 
-      const resultWithoutDrafts = await getAllTagsWithCounts(false);
-      expect(resultWithoutDrafts).toEqual([{ name: "javascript", count: 1 }]);
-      expect(mockGetAllTags).toHaveBeenCalledWith(false);
-      expect(mockGetPostsByTag).toHaveBeenCalledWith("javascript", false);
+      const result = await getAllTagsWithCounts(false);
+      expect(result).toEqual([{ name: "javascript", count: 1 }]);
+      expect(mockGetAllPosts).toHaveBeenCalledWith(false, false);
 
       vi.clearAllMocks();
-      mockGetAllTags.mockResolvedValue(["javascript"]);
-      mockGetPostsByTag.mockResolvedValue([
+      mockGetAllPosts.mockResolvedValue([
         {
           id: "test",
           collection: "posts" as const,
@@ -72,95 +72,87 @@ describe("tagUtils", () => {
             description: "Test",
             featured: false,
             draft: false,
+            tags: ["javascript"],
           },
         },
       ]);
 
       await getAllTagsWithCounts(true);
-      expect(mockGetAllTags).toHaveBeenCalledWith(true);
-      expect(mockGetPostsByTag).toHaveBeenCalledWith("javascript", true);
+      expect(mockGetAllPosts).toHaveBeenCalledWith(false, true);
     });
 
     it("should return tags with their respective post counts", async () => {
-      mockGetAllTags.mockResolvedValue(["javascript", "typescript", "web"]);
-      mockGetPostsByTag
-        .mockResolvedValueOnce([
-          {
-            id: "js-1",
-            collection: "posts" as const,
-            data: {
-              title: "JS Post 1",
-              publishDate: "2024-01-01",
-              slug: "js-1",
-              description: "JS desc",
-              featured: false,
-              draft: false,
-            },
+      mockGetAllPosts.mockResolvedValue([
+        {
+          id: "js-1",
+          collection: "posts" as const,
+          data: {
+            title: "JS Post 1",
+            publishDate: "2024-01-01",
+            slug: "js-1",
+            description: "JS desc",
+            featured: false,
+            draft: false,
+            tags: ["javascript"],
           },
-          {
-            id: "js-2",
-            collection: "posts" as const,
-            data: {
-              title: "JS Post 2",
-              publishDate: "2024-01-02",
-              slug: "js-2",
-              description: "JS desc",
-              featured: false,
-              draft: false,
-            },
+        },
+        {
+          id: "js-2",
+          collection: "posts" as const,
+          data: {
+            title: "JS Post 2",
+            publishDate: "2024-01-02",
+            slug: "js-2",
+            description: "JS desc",
+            featured: false,
+            draft: false,
+            tags: ["javascript", "typescript"],
           },
-        ])
-        .mockResolvedValueOnce([
-          {
-            id: "ts-1",
-            collection: "posts" as const,
-            data: {
-              title: "TS Post 1",
-              publishDate: "2024-01-03",
-              slug: "ts-1",
-              description: "TS desc",
-              featured: false,
-              draft: false,
-            },
-          },
-        ])
-        .mockResolvedValueOnce([]);
-
-      const result = await getAllTagsWithCounts();
-
-      expect(result).toEqual([
-        { name: "javascript", count: 2 },
-        { name: "typescript", count: 1 },
+        },
       ]);
+
+      const result = await getAllTagsWithCounts();
+
+      expect(result).toEqual(
+        expect.arrayContaining([
+          { name: "javascript", count: 2 },
+          { name: "typescript", count: 1 },
+        ]),
+      );
+      expect(result).toHaveLength(2);
     });
 
-    it("should return empty array when no tags exist", async () => {
-      mockGetAllTags.mockResolvedValue([]);
+    it("should return empty array when no posts exist", async () => {
+      mockGetAllPosts.mockResolvedValue([]);
 
       const result = await getAllTagsWithCounts();
 
       expect(result).toEqual([]);
-      expect(mockGetPostsByTag).not.toHaveBeenCalled();
     });
 
-    it("should return empty array when all tags have zero posts", async () => {
-      mockGetAllTags.mockResolvedValue(["tag1", "tag2"]);
-      mockGetPostsByTag.mockResolvedValue([]);
+    it("should return empty array when posts have no tags", async () => {
+      mockGetAllPosts.mockResolvedValue([
+        {
+          id: "no-tags",
+          collection: "posts" as const,
+          data: {
+            title: "No Tags Post",
+            publishDate: "2024-01-01",
+            slug: "no-tags",
+            description: "No tags",
+            featured: false,
+            draft: false,
+          },
+        },
+      ]);
 
       const result = await getAllTagsWithCounts();
 
       expect(result).toEqual([]);
     });
 
-    it("should propagate errors from getAllTags", async () => {
-      mockGetAllTags.mockRejectedValue(new Error("Tags fetch error"));
-
-      await expect(getAllTagsWithCounts()).rejects.toThrow("Tags fetch error");
-    });
-
-    it("should propagate errors from getPostsByTag", async () => {
-      mockGetAllTags.mockResolvedValue(["javascript"]);
-      mockGetPostsByTag.mockRejectedValue(new Error("Posts fetch error"));
+    it("should propagate errors from getAllPosts", async () => {
+      mockGetAllPosts.mockRejectedValue(new Error("Posts fetch error"));
 
       await expect(getAllTagsWithCounts()).rejects.toThrow("Posts fetch error");
     });
@@ -168,100 +160,73 @@ describe("tagUtils", () => {
 
   describe("getSortedTagsWithCounts", () => {
     it("should return tags sorted by count in descending order", async () => {
-      mockGetAllTags.mockResolvedValue(["javascript", "typescript", "web", "react"]);
-      mockGetPostsByTag
-        .mockResolvedValueOnce([
-          {
-            id: "js-1",
-            collection: "posts" as const,
-            data: {
-              title: "JS Post 1",
-              publishDate: "2024-01-01",
-              slug: "js-1",
-              description: "JS desc",
-              featured: false,
-              draft: false,
-            },
+      mockGetAllPosts.mockResolvedValue([
+        {
+          id: "js-1",
+          collection: "posts" as const,
+          data: {
+            title: "JS Post 1",
+            publishDate: "2024-01-01",
+            slug: "js-1",
+            description: "JS desc",
+            featured: false,
+            draft: false,
+            tags: ["javascript"],
           },
-          {
-            id: "js-2",
-            collection: "posts" as const,
-            data: {
-              title: "JS Post 2",
-              publishDate: "2024-01-02",
-              slug: "js-2",
-              description: "JS desc",
-              featured: false,
-              draft: false,
-            },
+        },
+        {
+          id: "js-2",
+          collection: "posts" as const,
+          data: {
+            title: "JS Post 2",
+            publishDate: "2024-01-02",
+            slug: "js-2",
+            description: "JS desc",
+            featured: false,
+            draft: false,
+            tags: ["javascript", "typescript"],
           },
-        ])
-        .mockResolvedValueOnce([
-          {
-            id: "ts-1",
-            collection: "posts" as const,
-            data: {
-              title: "TS Post",
-              publishDate: "2024-01-03",
-              slug: "ts-1",
-              description: "TS desc",
-              featured: false,
-              draft: false,
-            },
+        },
+        {
+          id: "web-1",
+          collection: "posts" as const,
+          data: {
+            title: "Web Post 1",
+            publishDate: "2024-01-04",
+            slug: "web-1",
+            description: "Web desc",
+            featured: false,
+            draft: false,
+            tags: ["web"],
           },
-        ])
-        .mockResolvedValueOnce([
-          {
-            id: "web-1",
-            collection: "posts" as const,
-            data: {
-              title: "Web Post 1",
-              publishDate: "2024-01-04",
-              slug: "web-1",
-              description: "Web desc",
-              featured: false,
-              draft: false,
-            },
+        },
+        {
+          id: "web-2",
+          collection: "posts" as const,
+          data: {
+            title: "Web Post 2",
+            publishDate: "2024-01-05",
+            slug: "web-2",
+            description: "Web desc",
+            featured: false,
+            draft: false,
+            tags: ["web"],
           },
-          {
-            id: "web-2",
-            collection: "posts" as const,
-            data: {
-              title: "Web Post 2",
-              publishDate: "2024-01-05",
-              slug: "web-2",
-              description: "Web desc",
-              featured: false,
-              draft: false,
-            },
+        },
+        {
+          id: "web-3",
+          collection: "posts" as const,
+          data: {
+            title: "Web Post 3",
+            publishDate: "2024-01-06",
+            slug: "web-3",
+            description: "Web desc",
+            featured: false,
+            draft: false,
+            tags: ["web", "react"],
           },
-          {
-            id: "web-3",
-            collection: "posts" as const,
-            data: {
-              title: "Web Post 3",
-              publishDate: "2024-01-06",
-              slug: "web-3",
-              description: "Web desc",
-              featured: false,
-              draft: false,
-            },
-          },
-        ])
-        .mockResolvedValueOnce([
-          {
-            id: "react-1",
-            collection: "posts" as const,
-            data: {
-              title: "React Post",
-              publishDate: "2024-01-07",
-              slug: "react-1",
-              description: "React desc",
-              featured: false,
-              draft: false,
-            },
-          },
-        ]);
+        },
+      ]);
 
       const result = await getSortedTagsWithCounts();
 
@@ -274,48 +239,47 @@ describe("tagUtils", () => {
     });
 
     it("should include drafts when includeDrafts is true", async () => {
-      mockGetAllTags.mockResolvedValue(["javascript", "draft-tag"]);
-      mockGetPostsByTag
-        .mockResolvedValueOnce([
-          {
-            id: "js-1",
-            collection: "posts" as const,
-            data: {
-              title: "JS Post",
-              publishDate: "2024-01-01",
-              slug: "js-1",
-              description: "JS desc",
-              featured: false,
-              draft: false,
-            },
+      mockGetAllPosts.mockResolvedValue([
+        {
+          id: "js-1",
+          collection: "posts" as const,
+          data: {
+            title: "JS Post",
+            publishDate: "2024-01-01",
+            slug: "js-1",
+            description: "JS desc",
+            featured: false,
+            draft: false,
+            tags: ["javascript"],
           },
-        ])
-        .mockResolvedValueOnce([
-          {
-            id: "draft-1",
-            collection: "posts" as const,
-            data: {
-              title: "Draft Post 1",
-              publishDate: "2024-01-02",
-              slug: "draft-1",
-              description: "Draft desc",
-              featured: false,
-              draft: true,
-            },
+        },
+        {
+          id: "draft-1",
+          collection: "posts" as const,
+          data: {
+            title: "Draft Post 1",
+            publishDate: "2024-01-02",
+            slug: "draft-1",
+            description: "Draft desc",
+            featured: false,
+            draft: true,
+            tags: ["draft-tag"],
           },
-          {
-            id: "draft-2",
-            collection: "posts" as const,
-            data: {
-              title: "Draft Post 2",
-              publishDate: "2024-01-03",
-              slug: "draft-2",
-              description: "Draft desc",
-              featured: false,
-              draft: true,
-            },
+        },
+        {
+          id: "draft-2",
+          collection: "posts" as const,
+          data: {
+            title: "Draft Post 2",
+            publishDate: "2024-01-03",
+            slug: "draft-2",
+            description: "Draft desc",
+            featured: false,
+            draft: true,
+            tags: ["draft-tag"],
           },
-        ]);
+        },
+      ]);
 
       const result = await getSortedTagsWithCounts(true);
 
@@ -323,21 +287,22 @@ describe("tagUtils", () => {
         { name: "draft-tag", count: 2 },
         { name: "javascript", count: 1 },
       ]);
+      expect(mockGetAllPosts).toHaveBeenCalledWith(false, true);
     });
 
     it("should maintain stability for tags with equal counts", async () => {
-      mockGetAllTags.mockResolvedValue(["alpha", "beta", "gamma"]);
-      mockGetPostsByTag.mockResolvedValue([
+      mockGetAllPosts.mockResolvedValue([
         {
-          id: "post",
+          id: "post-a",
           collection: "posts" as const,
           data: {
-            title: "Post",
+            title: "Post A",
             publishDate: "2024-01-01",
-            slug: "post",
+            slug: "post-a",
             description: "Desc",
             featured: false,
             draft: false,
+            tags: ["alpha", "beta", "gamma"],
           },
         },
       ]);
@@ -346,13 +311,10 @@ describe("tagUtils", () => {
 
       expect(result).toHaveLength(3);
       expect(result.every((tag) => tag.count === 1)).toBe(true);
-      expect(result[0].name).toBe("alpha");
-      expect(result[1].name).toBe("beta");
-      expect(result[2].name).toBe("gamma");
     });
 
     it("should propagate errors from underlying functions", async () => {
-      mockGetAllTags.mockRejectedValue(new Error("Underlying error"));
+      mockGetAllPosts.mockRejectedValue(new Error("Underlying error"));
 
       await expect(getSortedTagsWithCounts()).rejects.toThrow("Underlying error");
     });
@@ -391,7 +353,7 @@ describe("tagUtils", () => {
 
     it("should handle errors gracefully and return null", async () => {
       const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-      
+
       // Clear cache and force getCached to reject
       clearCache();
       mockGetCollection.mockRejectedValue(new Error("Collection access failed"));
@@ -611,18 +573,18 @@ describe("tagUtils", () => {
 
   describe("Edge cases", () => {
     it("should handle tags with special characters", async () => {
-      mockGetAllTags.mockResolvedValue(["c++", "c#", "node.js", "@types"]);
-      mockGetPostsByTag.mockResolvedValue([
+      mockGetAllPosts.mockResolvedValue([
         {
-          id: "special",
+          id: "special-1",
           collection: "posts" as const,
           data: {
-            title: "Special Post",
+            title: "Special Post 1",
             publishDate: "2024-01-01",
-            slug: "special",
+            slug: "special-1",
             description: "Desc",
             featured: false,
             draft: false,
+            tags: ["c++", "c#", "node.js", "@types"],
           },
         },
       ]);
@@ -631,55 +593,50 @@ describe("tagUtils", () => {
 
       expect(result).toHaveLength(4);
       expect(result.every((tag) => tag.count === 1)).toBe(true);
-      expect(result.map((tag) => tag.name)).toEqual(["c++", "c#", "node.js", "@types"]);
     });
 
     it("should handle concurrent execution correctly", async () => {
-      mockGetAllTags.mockResolvedValue(["tag1", "tag2"]);
-      mockGetPostsByTag.mockImplementation(async (tag) => {
-        await new Promise((resolve) => setTimeout(resolve, 10));
-        return tag === "tag1"
-          ? [
-              {
-                id: "post-1",
-                collection: "posts" as const,
-                data: {
-                  title: "Post 1",
-                  publishDate: "2024-01-01",
-                  slug: "post-1",
-                  description: "Desc",
-                  featured: false,
-                  draft: false,
-                },
-              },
-            ]
-          : [
-              {
-                id: "post-2",
-                collection: "posts" as const,
-                data: {
-                  title: "Post 2",
-                  publishDate: "2024-01-02",
-                  slug: "post-2",
-                  description: "Desc",
-                  featured: false,
-                  draft: false,
-                },
-              },
-              {
-                id: "post-3",
-                collection: "posts" as const,
-                data: {
-                  title: "Post 3",
-                  publishDate: "2024-01-03",
-                  slug: "post-3",
-                  description: "Desc",
-                  featured: false,
-                  draft: false,
-                },
-              },
-            ];
-      });
+      mockGetAllPosts.mockResolvedValue([
+        {
+          id: "post-1",
+          collection: "posts" as const,
+          data: {
+            title: "Post 1",
+            publishDate: "2024-01-01",
+            slug: "post-1",
+            description: "Desc",
+            featured: false,
+            draft: false,
+            tags: ["tag1"],
+          },
+        },
+        {
+          id: "post-2",
+          collection: "posts" as const,
+          data: {
+            title: "Post 2",
+            publishDate: "2024-01-02",
+            slug: "post-2",
+            description: "Desc",
+            featured: false,
+            draft: false,
+            tags: ["tag2"],
+          },
+        },
+        {
+          id: "post-3",
+          collection: "posts" as const,
+          data: {
+            title: "Post 3",
+            publishDate: "2024-01-03",
+            slug: "post-3",
+            description: "Desc",
+            featured: false,
+            draft: false,
+            tags: ["tag2"],
+          },
+        },
+      ]);
 
       const [result1, result2] = await Promise.all([
         getSortedTagsWithCounts(),

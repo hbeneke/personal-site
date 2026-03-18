@@ -1,107 +1,128 @@
-export function setupAccordionToggles(): void {
-  const toggleButtons = document.querySelectorAll(".accordion-toggle");
+export class PortfolioPage extends HTMLElement {
+  private cleanupFns: (() => void)[] = [];
 
-  for (const button of Array.from(toggleButtons)) {
-    button.addEventListener("click", () => {
-      const targetId = button.getAttribute("data-target");
-      if (!targetId) return;
-
-      const content = document.getElementById(targetId);
-      const icon = button.querySelector(".accordion-icon");
-      const isExpanded = button.getAttribute("aria-expanded") === "true";
-
-      if (content) {
-        if (isExpanded) {
-          content.classList.add("hidden");
-          button.setAttribute("aria-expanded", "false");
-          icon?.classList.remove("rotate-180");
-        } else {
-          content.classList.remove("hidden");
-          button.setAttribute("aria-expanded", "true");
-          icon?.classList.add("rotate-180");
-        }
-      }
-    });
+  connectedCallback(): void {
+    this.setupAccordionToggles();
+    this.setupSeeMoreButtons();
+    this.setupSeeLessButtons();
+    this.setupDemoButtons();
   }
-}
 
-export function setupSeeMoreButtons(): void {
-  const seeMoreButtons = document.querySelectorAll(".see-more-btn");
-
-  for (const button of Array.from(seeMoreButtons)) {
-    button.addEventListener("click", () => {
-      const targetId = button.getAttribute("data-target");
-      if (!targetId) return;
-
-      const extraEntries = document.querySelectorAll(
-        `.changelog-extra[data-changelog-group="${targetId}"]`,
-      );
-      const seeLessBtn = button.parentElement?.querySelector(".see-less-btn");
-
-      for (const entry of Array.from(extraEntries)) {
-        entry.classList.remove("hidden");
-      }
-
-      button.classList.add("hidden");
-      seeLessBtn?.classList.remove("hidden");
-    });
+  disconnectedCallback(): void {
+    for (const cleanup of this.cleanupFns) {
+      cleanup();
+    }
+    this.cleanupFns = [];
   }
-}
 
-export function setupSeeLessButtons(): void {
-  const seeLessButtons = document.querySelectorAll(".see-less-btn");
-
-  for (const button of Array.from(seeLessButtons)) {
-    button.addEventListener("click", () => {
-      const targetId = button.getAttribute("data-target");
-      if (!targetId) return;
-
-      const extraEntries = document.querySelectorAll(
-        `.changelog-extra[data-changelog-group="${targetId}"]`,
-      );
-      const seeMoreBtn = button.parentElement?.querySelector(".see-more-btn");
-
-      for (const entry of Array.from(extraEntries)) {
-        entry.classList.add("hidden");
-      }
-
-      button.classList.add("hidden");
-      seeMoreBtn?.classList.remove("hidden");
-    });
+  private addListener(
+    element: Element,
+    event: string,
+    handler: EventListener,
+  ): void {
+    element.addEventListener(event, handler);
+    this.cleanupFns.push(() => element.removeEventListener(event, handler));
   }
-}
 
-export function setupDemoButtons(): void {
-  const demoButtons = document.querySelectorAll(".demo-preview-btn");
+  private setupAccordionToggles(): void {
+    const toggleButtons = this.querySelectorAll(".accordion-toggle");
 
-  for (const button of Array.from(demoButtons)) {
-    button.addEventListener("click", () => {
-      const demoUrl = button.getAttribute("data-demo-url");
-      const demoImage = button.getAttribute("data-demo-image");
-      const projectTitle = button.getAttribute("data-project-title");
+    for (const button of Array.from(toggleButtons)) {
+      this.addListener(button, "click", () => {
+        const targetId = button.getAttribute("data-target");
+        if (!targetId) return;
 
-      if (demoUrl && projectTitle) {
-        // Use the global function exposed by the component
-        const openDialog = (
-          window as typeof window & {
-            openDemoDialog?: (title: string, url: string, image?: string) => void;
+        const content = document.getElementById(targetId);
+        const icon = button.querySelector(".accordion-icon");
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+        if (content) {
+          if (isExpanded) {
+            content.classList.add("hidden");
+            button.setAttribute("aria-expanded", "false");
+            icon?.classList.remove("rotate-180");
+          } else {
+            content.classList.remove("hidden");
+            button.setAttribute("aria-expanded", "true");
+            icon?.classList.add("rotate-180");
           }
-        ).openDemoDialog;
-        if (openDialog) {
-          openDialog(projectTitle, demoUrl, demoImage || undefined);
         }
-      }
-    });
+      });
+    }
+  }
+
+  private setupSeeMoreButtons(): void {
+    const seeMoreButtons = this.querySelectorAll(".see-more-btn");
+
+    for (const button of Array.from(seeMoreButtons)) {
+      this.addListener(button, "click", () => {
+        const targetId = button.getAttribute("data-target");
+        if (!targetId) return;
+
+        const extraEntries = document.querySelectorAll(
+          `.changelog-extra[data-changelog-group="${targetId}"]`,
+        );
+        const seeLessBtn = button.parentElement?.querySelector(".see-less-btn");
+
+        for (const entry of Array.from(extraEntries)) {
+          entry.classList.remove("hidden");
+        }
+
+        button.classList.add("hidden");
+        seeLessBtn?.classList.remove("hidden");
+      });
+    }
+  }
+
+  private setupSeeLessButtons(): void {
+    const seeLessButtons = this.querySelectorAll(".see-less-btn");
+
+    for (const button of Array.from(seeLessButtons)) {
+      this.addListener(button, "click", () => {
+        const targetId = button.getAttribute("data-target");
+        if (!targetId) return;
+
+        const extraEntries = document.querySelectorAll(
+          `.changelog-extra[data-changelog-group="${targetId}"]`,
+        );
+        const seeMoreBtn = button.parentElement?.querySelector(".see-more-btn");
+
+        for (const entry of Array.from(extraEntries)) {
+          entry.classList.add("hidden");
+        }
+
+        button.classList.add("hidden");
+        seeMoreBtn?.classList.remove("hidden");
+      });
+    }
+  }
+
+  private setupDemoButtons(): void {
+    const demoButtons = this.querySelectorAll(".demo-preview-btn");
+
+    for (const button of Array.from(demoButtons)) {
+      this.addListener(button, "click", () => {
+        const demoUrl = button.getAttribute("data-demo-url");
+        const demoImage = button.getAttribute("data-demo-image");
+        const projectTitle = button.getAttribute("data-project-title");
+
+        if (demoUrl && projectTitle) {
+          const openDialog = (
+            window as typeof window & {
+              openDemoDialog?: (title: string, url: string, image?: string) => void;
+            }
+          ).openDemoDialog;
+          if (openDialog) {
+            openDialog(projectTitle, demoUrl, demoImage || undefined);
+          }
+        }
+      });
+    }
   }
 }
 
-export function initPortfolio(): void {
-  setupAccordionToggles();
-  setupSeeMoreButtons();
-  setupSeeLessButtons();
-  setupDemoButtons();
+if (!customElements.get("portfolio-page")) {
+  customElements.define("portfolio-page", PortfolioPage);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  initPortfolio();
-});
+export default PortfolioPage;

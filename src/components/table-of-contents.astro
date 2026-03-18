@@ -86,6 +86,15 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
   table-of-contents nav::-webkit-scrollbar-thumb:hover {
     background: rgba(var(--primary), 0.5);
   }
+
+  table-of-contents a {
+    transition: all 0.3s ease;
+  }
+
+  table-of-contents a.active {
+    background-color: rgba(var(--primary), 0.08);
+    transform: translateX(2px);
+  }
 </style>
 
 <script>

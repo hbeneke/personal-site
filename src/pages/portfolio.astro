@@ -11,6 +11,7 @@ const sortedProjects = await getAllProjects(true, true);
   title={`Portfolio · ${siteConfig.siteTitle}`}
   description={`Welcome to my portfolio! I'm a senior ${siteConfig.jobTitle} specializing in modern web technologies. Explore my projects, skills, and professional experience in software development.`}
 >
+  <portfolio-page>
   <section>
     <header class="mb-8">
       <h1
@@ -177,6 +178,7 @@ const sortedProjects = await getAllProjects(true, true);
   </section>
 
   <DemoPreviewDialog />
+  </portfolio-page>
 </BaseLayout>
 
 <script>

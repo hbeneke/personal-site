@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .prose-content h2 {
   @apply cursor-pointer;
 }

@@ -9,41 +9,36 @@ github: "https://github.com/hbeneke/git-wayback"
 demo: https://git-wayback.com
 featured: false
 order: 2
-version: "0.4.0"
+version: "0.6.0"
 changelog:
+  - version: "0.6.0"
+    date: "2026-04-08T00:00:00.000Z"
+    changes:
+      - "Added global header with search, footer, and consistent default layout"
+      - "Redesigned tabs as folder-style panels with active tab connection"
+      - "Added repo visit tracking and popularity rankings with detail pages"
+      - "Restyled footer and site config to match personal-site design"
+  - version: "0.5.0"
+    date: "2026-03-20T00:00:00.000Z"
+    changes:
+      - "Redesigned UI with minimal dark theme and JetBrains Mono font"
+      - "Enhanced diagram with interactive tooltips and annotated tag messages"
+      - "Added recent repositories history using localStorage"
+      - "Hardened API with rate limiting and input validation"
+      - "Improved code quality: consola logger, environment validation, error boundaries, and configuration cleanup"
   - version: "0.4.0"
     date: "2026-01-21T00:00:00.000Z"
     changes:
-      - "Reorganized tabs with Evolution as the primary view"
-      - "Added RepoDiagram component with Gource-style visualization"
-      - "Added evolution API endpoint with database caching"
-      - "Added timeline and tree endpoints for tag navigation"
-      - "Added evolution_snapshots database schema for caching tag data"
-  - version: "0.3.1"
-    date: "2026-01-20T00:00:00.000Z"
-    changes:
-      - "Fixed tag message script to use temp file and preserve changelog"
+      - "Added Gource-style evolution visualization with timeline and tag navigation"
+      - "Evolution API endpoint with database caching"
   - version: "0.3.0"
     date: "2026-01-20T00:00:00.000Z"
     changes:
-      - "Redesigned repository page with tabbed interface"
-      - "Added comprehensive repository data API endpoint"
-      - "Added screenshot analysis infrastructure (currently disabled)"
-      - "Added Tailwind CSS and repository search functionality"
-      - "Enhanced app layout and SEO metadata for improved user experience"
-      - "Implemented search API endpoint for GitHub repositories"
-      - "Fixed missing environment variables in turbo.json"
-      - "Fixed Vercel output directory and Turborepo environment variables configuration"
-  - version: "0.2.0"
-    date: "2026-01-12T00:00:00.000Z"
-    changes:
-      - "First official release with version control"
+      - "Redesigned repository page with tabbed interface and search"
+      - "Added repository data API and GitHub search endpoint"
+      - "Added Tailwind CSS, SEO metadata, and Vercel deployment config"
   - version: "0.1.0"
     date: "2026-01-09T00:00:00.000Z"
     changes:
-      - "Added Nuxt 3 frontend"
-      - "Added Hono API server"
-      - "Added Git utilities with simple-git library"
-      - "Added Drizzle ORM schema for PostgreSQL"
-      - "Added shared types package"
+      - "Initial release: Nuxt 3 frontend, Hono API, Drizzle ORM with PostgreSQL"
 ---

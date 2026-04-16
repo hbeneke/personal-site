@@ -1,6 +1,6 @@
 ---
 title: "The using keyword: JavaScript finally learned how to clean up after itself"
-publishDate: "2026-04-14T10:00:00.000Z"
+publishDate: "2025-05-14T10:00:00.000Z"
 slug: "javascript-using-explicit-resource-management"
 description: "JavaScript finally got explicit resource management with the using and await using keywords. No more try/finally pyramids, no more forgotten cleanups. Heres how it works and why you should start using it today."
 tags: ["javascript", "ecmascript", "node", "typescript", "tutorial", "web development"]

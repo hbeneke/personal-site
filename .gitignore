@@ -48,3 +48,6 @@ index/
 
 # Keep pagefind.yml configuration file (this should be tracked)
 !pagefind.yml
+
+#IA Agents
+.claude

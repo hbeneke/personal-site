@@ -40,7 +40,7 @@ export class ThemeToggle extends HTMLElement {
 
   getCurrentTheme(): "dark" | "light" {
     const storedTheme = localStorage.getItem("theme") as "dark" | "light" | null;
-    return storedTheme || this.getSystemPreference();
+    return storedTheme || "dark";
   }
 
   applyTheme(theme: "dark" | "light"): void {

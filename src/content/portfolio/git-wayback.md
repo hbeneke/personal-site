@@ -5,6 +5,7 @@ description: "Visualize the evolution of any GitHub repository. Git history anal
 technologies: ["TypeScript", "Vue", "Turborepo", "Neon", "Vercel"]
 link: "https://git-wayback.com"
 image: "/portfolio/git-wayback.png"
+logo: "/portfolio/logos/git-wayback.svg"
 github: "https://github.com/hbeneke/git-wayback"
 demo: https://git-wayback.com
 featured: false

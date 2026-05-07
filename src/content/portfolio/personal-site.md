@@ -5,6 +5,7 @@ description: "My personal website and blog built with Astro. A place to showcase
 technologies: ["Astro", "TypeScript", "Tailwind CSS", "Vitest", "Vercel"]
 link: "https://equero.dev"
 image: "/portfolio/personal-site.png"
+logo: "/portfolio/logos/personal-site.svg"
 github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true

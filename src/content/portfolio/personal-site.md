@@ -10,9 +10,9 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.5.59"
+version: "1.5.60"
 changelog:
-  - version: "1.5.59"
+  - version: "1.5.60"
     date: "2026-05-07T00:00:00.000Z"
     changes:
       - "Added project logos column to portfolio listing"

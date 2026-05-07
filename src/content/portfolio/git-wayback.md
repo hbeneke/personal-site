@@ -9,8 +9,15 @@ github: "https://github.com/hbeneke/git-wayback"
 demo: https://git-wayback.com
 featured: false
 order: 2
-version: "0.6.0"
+version: "0.6.5"
 changelog:
+  - version: "0.6.5"
+    date: "2026-05-05T00:00:00.000Z"
+    changes:
+      - "Added file tree panel with two-way hover and zoom-on-click"
+      - "Gated evolution playback behind a play button"
+      - "Replaced activity bars with hoverable line chart"
+      - "Defaulted to details tab and split repository view into two-column layout"
   - version: "0.6.0"
     date: "2026-04-08T00:00:00.000Z"
     changes:

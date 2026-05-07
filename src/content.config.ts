@@ -64,6 +64,7 @@ const portfolioProjects = defineCollection({
     technologies: z.array(z.string()),
     link: z.string().optional(),
     image: z.string().optional(),
+    logo: z.string().optional(),
     github: z.string().optional(),
     demo: z.string().optional(),
     featured: z.boolean().default(false),

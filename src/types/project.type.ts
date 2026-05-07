@@ -11,6 +11,7 @@ export interface Project {
   technologies: string[];
   link?: string;
   image?: string;
+  logo?: string;
   github?: string;
   demo?: string;
   featured: boolean;

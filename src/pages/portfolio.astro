@@ -67,7 +67,7 @@ const sortedProjects = await getAllProjects(true, true);
                 type="button"
                 class:list={[
                   "demo-preview-btn",
-                  project.demo ? "primary-link" : "primary-link-disabled"
+                  project.demo ? "primary-link cursor-pointer" : "primary-link-disabled"
                 ]}
                 data-demo-url={project.demo || ""}
                 data-demo-image={project.image || ""}
@@ -79,7 +79,7 @@ const sortedProjects = await getAllProjects(true, true);
               {project.changelog && project.changelog.length > 0 && (
                 <button
                   type="button"
-                  class="primary-link accordion-toggle flex items-center gap-1"
+                  class="primary-link accordion-toggle flex items-center gap-1 cursor-pointer"
                   data-target={`changelog-${index}`}
                   aria-expanded="false"
                 >

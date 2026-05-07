@@ -10,8 +10,18 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.5.46"
+version: "1.5.59"
 changelog:
+  - version: "1.5.59"
+    date: "2026-05-07T00:00:00.000Z"
+    changes:
+      - "Added project logos column to portfolio listing"
+      - "Theme now defaults to dark when no stored preference"
+      - "Fixed vertical centering of portfolio demo preview dialog"
+      - "Added cursor-pointer to portfolio demo, changelog, and CV download buttons"
+      - "Aligned RSS link hover state across posts and notes pages"
+      - "Upgraded Astro to 6.3.0"
+      - "Published articles on HTML-in-Canvas and JavaScript explicit resource management"
   - version: "1.5.46"
     date: "2026-04-08T00:00:00.000Z"
     changes:

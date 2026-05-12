@@ -5,7 +5,6 @@ export class PortfolioPage extends HTMLElement {
     this.setupAccordionToggles();
     this.setupSeeMoreButtons();
     this.setupSeeLessButtons();
-    this.setupDemoButtons();
   }
 
   disconnectedCallback(): void {
@@ -97,28 +96,6 @@ export class PortfolioPage extends HTMLElement {
     }
   }
 
-  private setupDemoButtons(): void {
-    const demoButtons = this.querySelectorAll(".demo-preview-btn");
-
-    for (const button of Array.from(demoButtons)) {
-      this.addListener(button, "click", () => {
-        const demoUrl = button.getAttribute("data-demo-url");
-        const demoImage = button.getAttribute("data-demo-image");
-        const projectTitle = button.getAttribute("data-project-title");
-
-        if (demoUrl && projectTitle) {
-          const openDialog = (
-            window as typeof window & {
-              openDemoDialog?: (title: string, url: string, image?: string) => void;
-            }
-          ).openDemoDialog;
-          if (openDialog) {
-            openDialog(projectTitle, demoUrl, demoImage || undefined);
-          }
-        }
-      });
-    }
-  }
 }
 
 if (!customElements.get("portfolio-page")) {

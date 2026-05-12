@@ -66,14 +66,12 @@ $CHANGELOG"
         echo "Tag v$NEW_VERSION created with changelog:"
         echo "$CHANGELOG"
         
-        # Sync version back to develop branch
-        echo "Syncing version to develop branch..."
+        # Sync version back to develop branch via fast-forward (no extra commit)
+        echo "Fast-forwarding develop to master..."
         git checkout develop
-        npm version $NEW_VERSION --no-git-tag-version
-        git add package.json package-lock.json
-        git commit -m "chore: sync version to $NEW_VERSION from master"
-        
-        echo "Version also synced to develop branch"
+        git merge --ff-only master
+
+        echo "Version also synced to develop branch (fast-forward)"
         echo ""
         echo "   IMPORTANT: Remember to push both branches and tags:"
         echo "   git push origin master"

@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/base-layout.astro";
-import DemoPreviewDialog from "@components/demo-preview-dialog.astro";
 import { siteConfig } from "@site-config";
 import { getAllProjects } from "@utils/portfolio";
 
@@ -24,19 +23,18 @@ const sortedProjects = await getAllProjects(true, true);
     <div class="space-y-5">
       {
         sortedProjects.map((project, index) => (
-          <article class="project-item border-b border-gray-200 dark:border-gray-700 pb-5 flex gap-4">
-            {project.logo && (
-              <img
-                src={project.logo}
-                alt={`${project.title} logo`}
-                class="w-14 h-14 sm:w-16 sm:h-16 rounded flex-shrink-0"
-                loading="lazy"
-                decoding="async"
-              />
-            )}
-            <div class="flex-1 min-w-0">
+          <article class="project-item pb-5">
             <div class="flex items-start justify-between gap-4 mb-2">
-              <h3 class="text-base">
+              <h3 class="text-base flex items-center gap-2">
+                {project.logo && (
+                  <img
+                    src={project.logo}
+                    alt={`${project.title} logo`}
+                    class="w-5 h-5 rounded flex-shrink-0"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
                 <span class="secondary">{project.title}</span>
                 {project.version && (
                   <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">
@@ -73,19 +71,33 @@ const sortedProjects = await getAllProjects(true, true);
                   Code
                 </a>
               )}
-              <button
-                type="button"
-                class:list={[
-                  "demo-preview-btn",
-                  project.demo ? "primary-link cursor-pointer" : "primary-link-disabled"
-                ]}
-                data-demo-url={project.demo || ""}
-                data-demo-image={project.image || ""}
-                data-project-title={project.title}
-                disabled={!project.demo}
-              >
-                Demo
-              </button>
+              {project.demo ? (
+                <span class="demo-hover-wrapper group relative inline-block">
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="primary-link"
+                  >
+                    Demo
+                  </a>
+                  {project.image && (
+                    <span
+                      class="demo-hover-preview pointer-events-none absolute left-0 top-full mt-2 z-20 hidden group-hover:block group-focus-within:block w-80 sm:w-[28rem] md:w-[34rem] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl overflow-hidden"
+                    >
+                      <img
+                        src={project.image}
+                        alt={`${project.title} demo preview`}
+                        class="block w-full h-auto"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
+                  )}
+                </span>
+              ) : (
+                <span class="primary-link-disabled">Demo</span>
+              )}
               {project.changelog && project.changelog.length > 0 && (
                 <button
                   type="button"
@@ -173,7 +185,6 @@ const sortedProjects = await getAllProjects(true, true);
                 )}
               </div>
             )}
-            </div>
           </article>
         ))
       }
@@ -188,7 +199,6 @@ const sortedProjects = await getAllProjects(true, true);
     }
   </section>
 
-  <DemoPreviewDialog />
   </portfolio-page>
 </BaseLayout>
 

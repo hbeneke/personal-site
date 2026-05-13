@@ -294,13 +294,19 @@ class PaginationComponent {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function initializePagination(): void {
   const wrappers = document.querySelectorAll<HTMLElement>(
     "[data-pagination-wrapper]"
   );
   for (const wrapper of Array.from(wrappers)) {
     new PaginationComponent(wrapper);
   }
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializePagination);
+} else {
+  initializePagination();
+}
 
 export default PaginationComponent;

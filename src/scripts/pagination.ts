@@ -249,7 +249,7 @@ class PaginationComponent {
         const button = document.createElement("button");
         button.type = "button";
         button.setAttribute("data-page-num", page.toString());
-        button.className = `px-3 py-2 text-sm rounded-md transition-colors ${
+        button.className = `px-3 py-2 text-sm rounded-md transition-colors cursor-pointer ${
           isActive
             ? "bg-yellow-400 text-gray-900 font-medium"
             : "hover:bg-gray-700 text-gray-300 hover:text-gray-100"

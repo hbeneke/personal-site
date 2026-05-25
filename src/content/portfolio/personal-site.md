@@ -10,8 +10,14 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.5.61"
+version: "1.5.65"
 changelog:
+  - version: "1.5.65"
+    date: "2026-05-13T00:00:00.000Z"
+    changes:
+      - "Replaced portfolio demo modal with hover preview"
+      - "Fixed pagination initialization when DOMContentLoaded already fired"
+      - "Added cursor-pointer to pagination nav and page buttons"
   - version: "1.5.61"
     date: "2026-05-07T00:00:00.000Z"
     changes:

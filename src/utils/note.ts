@@ -1,12 +1,9 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { GroupedNotesByYear, Note } from "@types";
-import { getCached } from "./cache";
 
 async function getRawNotes(): Promise<CollectionEntry<"notes">[]> {
   try {
-    return await getCached("notes-collection", async () => {
-      return await getCollection("notes");
-    });
+    return await getCollection("notes");
   } catch (error) {
     if (import.meta.env.DEV) {
       console.error("Error fetching notes collection:", error);

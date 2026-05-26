@@ -1,5 +1,4 @@
 import { type CollectionEntry, getCollection } from "astro:content";
-import { getCached } from "./cache";
 import { isValidDate } from "./date";
 
 /**
@@ -20,10 +19,7 @@ function sortByDate(posts: CollectionEntry<"posts">[]): CollectionEntry<"posts">
 
 async function getRawPosts(): Promise<CollectionEntry<"posts">[]> {
   try {
-    return await getCached("posts-collection", async () => {
-      const postsCollection = await getCollection("posts");
-      return postsCollection;
-    });
+    return await getCollection("posts");
   } catch (error) {
     if (import.meta.env.DEV) {
       console.error("Error fetching posts collection:", error);

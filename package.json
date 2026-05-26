@@ -1,6 +1,6 @@
 {
   "name": "@habakukbeneke/personal-site",
-  "version": "1.5.65",
+  "version": "1.5.69",
   "description": "My digital portfolio built with Astro and Tailwind CSS, highlighting my development expertise and professional journey.",
   "author": {
     "name": "Enrique Quero Vilar",
@@ -36,7 +36,7 @@
     "test": "vitest --ui",
     "coverage": "vitest run --coverage",
     "lint": "biome lint .",
-    "search:build": "npx pagefind --site .vercel/output/static --output-subdir .pagefind-cache || npx pagefind --site dist --output-subdir .pagefind-cache",
+    "search:build": "node scripts/build-search.mjs",
     "hooks:install": "node scripts/install-hooks.mjs",
     "hooks:uninstall": "node scripts/uninstall-hooks.mjs",
     "sync:master": "node scripts/sync-master.mjs",

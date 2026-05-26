@@ -10,8 +10,17 @@ github: "https://github.com/hbeneke/git-wayback"
 demo: https://git-wayback.com
 featured: false
 order: 2
-version: "0.6.5"
+version: "0.6.23"
 changelog:
+  - version: "0.6.23"
+    date: "2026-05-20T00:00:00.000Z"
+    changes:
+      - "Added multi-source evolution with branch selection and sampling controls"
+      - "Redesigned the evolution idle state as a configuration card"
+      - "Surface truncated GitHub trees instead of silently dropping files"
+      - "Fixed rate limiting and visit tracking with platform-trusted client IP and per-day dedup"
+      - "Centralized GitHub access in a single client"
+      - "Added vitest coverage for sampling and validation, plus hardening and dead-code sweeps"
   - version: "0.6.5"
     date: "2026-05-05T00:00:00.000Z"
     changes:

@@ -69,36 +69,45 @@ class CVDownloader {
 
       const printUrl = `${window.location.origin}/resume/print?t=${Date.now()}`;
 
-      const printWindow = window.open(printUrl, "_blank", "width=800,height=600");
+      // Create an invisible iframe to handle document rendering and printing seamlessly
+      const iframe = document.createElement("iframe");
+      iframe.style.position = "fixed";
+      iframe.style.width = "0";
+      iframe.style.height = "0";
+      iframe.style.border = "none";
+      iframe.style.opacity = "0";
+      iframe.src = printUrl;
 
-      if (!printWindow) {
-        throw new Error("Popup blocked. Please allow popups for this site.");
-      }
-
-      printWindow.addEventListener("load", () => {
-        setTimeout(() => {
-          printWindow.print();
-          this.setLoadingState(false);
-        }, 500);
+      iframe.addEventListener("load", () => {
+        try {
+          if (iframe.contentWindow) {
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+          } else {
+            throw new Error("Unable to access iframe window context.");
+          }
+        } catch (iframeError) {
+          if (import.meta.env.DEV) {
+            console.error("Iframe print triggered fallback:", iframeError);
+          }
+          // Fallback to direct redirect print page if iframe sandbox security fails
+          window.location.href = printUrl;
+        } finally {
+          // Cleanup iframe from Document DOM and restore loading button state
+          setTimeout(() => {
+            document.body.removeChild(iframe);
+            this.setLoadingState(false);
+          }, 1000);
+        }
       });
 
-      const checkClosed = setInterval(() => {
-        if (printWindow.closed) {
-          clearInterval(checkClosed);
-          this.setLoadingState(false);
-        }
-      }, 1000);
-
-      setTimeout(() => {
-        this.setLoadingState(false);
-        clearInterval(checkClosed);
-      }, 5000);
+      document.body.appendChild(iframe);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error occurred";
       if (import.meta.env.DEV) {
         console.error("CV Download error:", message);
       }
-      alert("Failed to download CV. Please try again or check if popups are blocked.");
+      alert("Failed to download CV. Please try again.");
       this.setLoadingState(false);
     }
   }

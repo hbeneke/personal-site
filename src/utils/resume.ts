@@ -1,11 +1,8 @@
 import { getCollection } from "astro:content";
 import type { WorkExperience } from "@types";
-import { getCached } from "./cache";
 
 async function getWorkExperiences(sorted = false): Promise<WorkExperience[]> {
-  const resumeCollection = await getCached("resume-collection", async () => {
-    return await getCollection("resume");
-  });
+  const resumeCollection = await getCollection("resume");
 
   const workExperiences: WorkExperience[] = resumeCollection.map((entry) => entry.data);
 

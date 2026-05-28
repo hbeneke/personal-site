@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getAllProjects, getFeaturedProjects } from "@/utils/portfolio";
 import { getCollection } from "astro:content";
-import { clearCache } from "@/utils/cache";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -55,7 +54,6 @@ const mockPortfolioCollectionEntries = [
 describe("portfolioUtils", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    clearCache();
     mockGetCollection.mockResolvedValue(mockPortfolioCollectionEntries);
   });
 

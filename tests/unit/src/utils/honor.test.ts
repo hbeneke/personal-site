@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getAllHonors, getAllHonorsGroupByCategory } from "@/utils/honor";
 import { getCollection } from "astro:content";
-import { clearCache } from "@/utils/cache";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -80,7 +79,6 @@ const mockEmptyHonorsCollection: never[] = [];
 describe("Honor Utils functions", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    clearCache();
   });
 
   describe("getAllHonors function", () => {

@@ -9,7 +9,6 @@ import {
   getPostsGroupedByYear,
 } from "@/utils/post";
 import { getCollection } from "astro:content";
-import { clearCache } from "@/utils/cache";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -94,7 +93,6 @@ const mockPostsCollectionEntries = [
 describe("postsUtils", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    clearCache();
     mockGetCollection.mockResolvedValue(mockPostsCollectionEntries);
   });
 

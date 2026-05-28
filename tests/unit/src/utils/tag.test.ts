@@ -10,7 +10,6 @@ import {
 import { groupPostsByYear } from "@/utils/post";
 import { getAllPosts, getAllTags, getPostsByTag } from "@/utils/post";
 import { getCollection } from "astro:content";
-import { clearCache } from "@/utils/cache";
 
 // Mock modules — groupPostsByYear is imported from the real module
 // since it's a pure function with no external dependencies.
@@ -354,8 +353,6 @@ describe("tagUtils", () => {
     it("should handle errors gracefully and return null", async () => {
       const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-      // Clear cache and force getCached to reject
-      clearCache();
       mockGetCollection.mockRejectedValue(new Error("Collection access failed"));
 
       const result = await getTagContent("error-tag");

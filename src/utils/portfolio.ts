@@ -1,6 +1,5 @@
 import { getCollection } from "astro:content";
 import type { Project } from "@types";
-import { getCached } from "./cache";
 
 /**
  * Fetches projects and applies a composite sort based on the flag combination:
@@ -11,9 +10,7 @@ import { getCached } from "./cache";
  */
 async function getProjects(sorted = false, sortByFeatured = false): Promise<Project[]> {
   try {
-    const portfolioCollection = await getCached("portfolio-collection", async () => {
-      return await getCollection("portfolioProjects");
-    });
+    const portfolioCollection = await getCollection("portfolioProjects");
 
     const projects: Project[] = portfolioCollection.map((entry) => entry.data);
 

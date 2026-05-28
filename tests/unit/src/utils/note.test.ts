@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getAllNotes, getLatestNote, getLatestNotes, getNotesGroupedByYear } from "@/utils/note";
 import { getCollection } from "astro:content";
-import { clearCache } from "@/utils/cache";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -48,7 +47,6 @@ const mockNotesCollectionEntries = [
 describe("noteUtils", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    clearCache(); // Clear the cache before each test
     mockGetCollection.mockResolvedValue(mockNotesCollectionEntries);
   });
 

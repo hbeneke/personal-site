@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getAllSkills } from "@/utils/skills";
 import { getCollection } from "astro:content";
-import { clearCache } from "@/utils/cache";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -76,7 +75,6 @@ const mockEmptySkillsCollection: never[] = [];
 describe("Skills Utils functions", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    clearCache();
   });
 
   describe("getAllSkills function", () => {

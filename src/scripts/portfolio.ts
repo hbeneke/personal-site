@@ -5,6 +5,7 @@ export class PortfolioPage extends HTMLElement {
     this.setupAccordionToggles();
     this.setupSeeMoreButtons();
     this.setupSeeLessButtons();
+    this.setupDemoPreviews();
   }
 
   disconnectedCallback(): void {
@@ -47,6 +48,32 @@ export class PortfolioPage extends HTMLElement {
           }
         }
       });
+    }
+  }
+
+  private setupDemoPreviews(): void {
+    const wrappers = this.querySelectorAll(".demo-hover-wrapper");
+
+    for (const wrapper of Array.from(wrappers)) {
+      const reposition = () => {
+        const preview = wrapper.querySelector<HTMLElement>(
+          ".demo-hover-preview",
+        );
+        if (!preview) return;
+
+        const rect = wrapper.getBoundingClientRect();
+        const previewHeight = preview.offsetHeight;
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const openUp = spaceBelow < previewHeight + 8;
+
+        preview.classList.toggle("top-full", !openUp);
+        preview.classList.toggle("mt-2", !openUp);
+        preview.classList.toggle("bottom-full", openUp);
+        preview.classList.toggle("mb-2", openUp);
+      };
+
+      this.addListener(wrapper, "mouseenter", reposition);
+      this.addListener(wrapper, "focusin", reposition);
     }
   }
 

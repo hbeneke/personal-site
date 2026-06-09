@@ -1,15 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { getCollection } from "astro:content";
+import { groupPostsByYear } from "@/utils/post";
+import { getAllPosts, getAllTags, getPostsByTag } from "@/utils/post";
 import {
+  getAllTagPaths,
   getAllTagsWithCounts,
   getSortedTagsWithCounts,
   getTagContent,
-  sortYearsDescending,
   getTagPageData,
-  getAllTagPaths,
+  sortYearsDescending,
 } from "@/utils/tag";
-import { groupPostsByYear } from "@/utils/post";
-import { getAllPosts, getAllTags, getPostsByTag } from "@/utils/post";
-import { getCollection } from "astro:content";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock modules — groupPostsByYear is imported from the real module
 // since it's a pure function with no external dependencies.
@@ -358,10 +358,7 @@ describe("tagUtils", () => {
       const result = await getTagContent("error-tag");
 
       expect(result).toBeNull();
-      expect(consoleSpy).toHaveBeenCalledWith(
-        "Error accessing tag collection:",
-        expect.any(Error),
-      );
+      expect(consoleSpy).toHaveBeenCalledWith("Error accessing tag collection:", expect.any(Error));
 
       consoleSpy.mockRestore();
     });

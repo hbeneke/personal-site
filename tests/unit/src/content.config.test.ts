@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { collections } from "@/content.config";
 import type { SchemaContext } from "astro:content";
+import { collections } from "@/content.config";
+import { describe, expect, it } from "vitest";
 
 describe("Content Collections Configuration", () => {
   it("should define all required collections", () => {

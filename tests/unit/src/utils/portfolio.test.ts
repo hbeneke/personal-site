@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getAllProjects, getFeaturedProjects } from "@/utils/portfolio";
 import { getCollection } from "astro:content";
+import { getAllProjects, getFeaturedProjects } from "@/utils/portfolio";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -145,11 +145,11 @@ describe("portfolioUtils", () => {
       expect(result[0].featured).toBe(true);
       expect(result[0].title).toBe("Project C"); // featured, order 1 (should be first)
       expect(result[0].order).toBe(1);
-      
+
       expect(result[1].featured).toBe(true);
       expect(result[1].title).toBe("Project A"); // featured, order 3 (should be second)
       expect(result[1].order).toBe(3);
-      
+
       expect(result[2].featured).toBe(false);
       expect(result[2].title).toBe("Project B"); // not featured, order 2
       expect(result[2].order).toBe(2);
@@ -261,20 +261,20 @@ describe("portfolioUtils", () => {
       const result = await getAllProjects(true, true);
 
       expect(result).toHaveLength(4);
-      
+
       // All featured projects should come first, sorted by order
       expect(result[0].featured).toBe(true);
       expect(result[0].title).toBe("Project H"); // featured, order 1
       expect(result[0].order).toBe(1);
-      
+
       expect(result[1].featured).toBe(true);
       expect(result[1].title).toBe("Project I"); // featured, order 3
       expect(result[1].order).toBe(3);
-      
+
       expect(result[2].featured).toBe(true);
       expect(result[2].title).toBe("Project G"); // featured, order 5
       expect(result[2].order).toBe(5);
-      
+
       // Non-featured project should come last
       expect(result[3].featured).toBe(false);
       expect(result[3].title).toBe("Project J"); // not featured, order 2
@@ -390,11 +390,11 @@ describe("portfolioUtils", () => {
       ];
 
       mockGetCollection.mockResolvedValue(mockProjectsNoOrder);
-      
+
       // Test with sorted=true (should use 0 as default for undefined order)
       const sortedResult = await getAllProjects(true, false);
       expect(sortedResult).toHaveLength(2);
-      
+
       // Test with sortByFeatured and sorted (should handle undefined order in featured sort)
       const featuredSortedResult = await getAllProjects(true, true);
       expect(featuredSortedResult[0].featured).toBe(true);

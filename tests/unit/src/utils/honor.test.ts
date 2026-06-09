@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getAllHonors, getAllHonorsGroupByCategory } from "@/utils/honor";
 import { getCollection } from "astro:content";
+import { getAllHonors, getAllHonorsGroupByCategory } from "@/utils/honor";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),
@@ -558,7 +558,7 @@ describe("Honor Utils functions", () => {
       expect(result.Test).toHaveLength(3);
       // All should have the same sorting priority (2020)
       // Order should be preserved for items with same year
-      expect(result.Test.every(honor => honor.year.startsWith("2020"))).toBe(true);
+      expect(result.Test.every((honor) => honor.year.startsWith("2020"))).toBe(true);
     });
 
     it("should ensure getAllHonors calls getHonors internally with correct parameters", async () => {

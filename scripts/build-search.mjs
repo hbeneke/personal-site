@@ -1,5 +1,5 @@
-import fs from "node:fs";
 import { execSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 
 // Configurable timeout for pagefind command execution (in milliseconds)

@@ -5,10 +5,11 @@ const dateString = z.string().refine((val) => !Number.isNaN(new Date(val).getTim
   message: "Invalid date string",
 });
 
-const dateOrPresent = z.string().refine(
-  (val) => val.toLowerCase() === "present" || !Number.isNaN(new Date(val).getTime()),
-  { message: "Must be a valid date or 'Present'" },
-);
+const dateOrPresent = z
+  .string()
+  .refine((val) => val.toLowerCase() === "present" || !Number.isNaN(new Date(val).getTime()), {
+    message: "Must be a valid date or 'Present'",
+  });
 
 const resume = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/resume" }),

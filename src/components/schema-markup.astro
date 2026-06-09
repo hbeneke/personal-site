@@ -60,9 +60,7 @@ const getSchema = () => {
         name: siteConfig.authorName,
         alternateName: siteConfig.nickname,
         jobTitle: siteConfig.jobTitle,
-        description:
-          description ||
-          `Experienced ${siteConfig.jobTitle}`,
+        description: description || `Experienced ${siteConfig.jobTitle}`,
         url: siteConfig.siteUrl,
         image: image
           ? new URL(image, siteConfig.siteUrl).href

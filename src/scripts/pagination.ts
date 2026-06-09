@@ -19,14 +19,12 @@ class PaginationComponent {
   private prevBtn: HTMLButtonElement | null;
   private nextBtn: HTMLButtonElement | null;
 
-  constructor(wrapper: HTMLElement) {
+  constructor(wrapper: HTMLElement, itemsContainer: HTMLElement) {
     this.wrapper = wrapper;
 
-    this.itemsContainer = wrapper.querySelector("[data-pagination-items]")!;
+    this.itemsContainer = itemsContainer;
     this.paginationFooter = wrapper.querySelector("[data-pagination-footer]");
-    this.paginationControls = wrapper.querySelector(
-      "[data-pagination-controls]"
-    );
+    this.paginationControls = wrapper.querySelector("[data-pagination-controls]");
     this.pageInfo = wrapper.querySelector("[data-page-info]");
     this.searchInput = wrapper.querySelector("[data-pagination-search]");
     this.pageNumbersContainer = wrapper.querySelector("[data-page-numbers]");
@@ -37,13 +35,7 @@ class PaginationComponent {
   }
 
   private init(): void {
-    if (!this.itemsContainer) {
-      return;
-    }
-
-    const itemsPerPageAttr = this.itemsContainer.getAttribute(
-      "data-items-per-page"
-    );
+    const itemsPerPageAttr = this.itemsContainer.getAttribute("data-items-per-page");
     if (itemsPerPageAttr) {
       this.itemsPerPage = Number.parseInt(itemsPerPageAttr, 10);
     }
@@ -63,9 +55,7 @@ class PaginationComponent {
     ) {
       this.allItems = Array.from(firstChild.children) as HTMLElement[];
     } else {
-      this.allItems = Array.from(
-        this.itemsContainer.children
-      ) as HTMLElement[];
+      this.allItems = Array.from(this.itemsContainer.children) as HTMLElement[];
     }
 
     this.filteredItems = [...this.allItems];
@@ -206,10 +196,7 @@ class PaginationComponent {
     if (this.pageNumbersContainer) {
       this.pageNumbersContainer.addEventListener("click", (e: Event) => {
         const target = e.target as HTMLElement;
-        if (
-          target.tagName === "BUTTON" &&
-          target.hasAttribute("data-page-num")
-        ) {
+        if (target.tagName === "BUTTON" && target.hasAttribute("data-page-num")) {
           const pageNum = target.getAttribute("data-page-num");
           if (pageNum) {
             this.renderPage(Number.parseInt(pageNum, 10));
@@ -219,9 +206,7 @@ class PaginationComponent {
     }
   }
 
-  private updatePaginationControls(
-    pagination: ReturnType<typeof calculatePagination>
-  ): void {
+  private updatePaginationControls(pagination: ReturnType<typeof calculatePagination>): void {
     if (this.prevBtn) {
       this.prevBtn.disabled = !pagination.hasPrevPage;
     }
@@ -232,10 +217,7 @@ class PaginationComponent {
 
     if (!this.pageNumbersContainer) return;
 
-    const pageRange = getPageRange(
-      pagination.currentPage,
-      pagination.totalPages
-    );
+    const pageRange = getPageRange(pagination.currentPage, pagination.totalPages);
     const pageElements: HTMLElement[] = [];
 
     for (const page of pageRange) {
@@ -266,9 +248,7 @@ class PaginationComponent {
     this.pageNumbersContainer.replaceChildren(...pageElements);
   }
 
-  private updatePageInfo(
-    pagination: ReturnType<typeof calculatePagination>
-  ): void {
+  private updatePageInfo(pagination: ReturnType<typeof calculatePagination>): void {
     if (!this.pageInfo) return;
 
     const start = pagination.startIndex + 1;
@@ -295,11 +275,12 @@ class PaginationComponent {
 }
 
 function initializePagination(): void {
-  const wrappers = document.querySelectorAll<HTMLElement>(
-    "[data-pagination-wrapper]"
-  );
+  const wrappers = document.querySelectorAll<HTMLElement>("[data-pagination-wrapper]");
   for (const wrapper of Array.from(wrappers)) {
-    new PaginationComponent(wrapper);
+    const itemsContainer = wrapper.querySelector<HTMLElement>("[data-pagination-items]");
+    if (itemsContainer) {
+      new PaginationComponent(wrapper, itemsContainer);
+    }
   }
 }
 

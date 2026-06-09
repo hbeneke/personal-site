@@ -34,16 +34,10 @@ const fullTitle = title.includes(siteConfig.siteTitle)
   : `${title} · ${siteConfig.siteTitle}`;
 
 const canonical =
-  typeof canonicalUrl === "string"
-    ? new URL(canonicalUrl, siteConfig.siteUrl)
-    : canonicalUrl;
+  typeof canonicalUrl === "string" ? new URL(canonicalUrl, siteConfig.siteUrl) : canonicalUrl;
 const ogImage = new URL(image, siteConfig.siteUrl).href;
 
-const robotsContent = [
-  noindex ? "noindex" : "index",
-  nofollow ? "nofollow" : "follow",
-].join(", ");
-
+const robotsContent = [noindex ? "noindex" : "index", nofollow ? "nofollow" : "follow"].join(", ");
 ---
 
 <title>{fullTitle}</title>

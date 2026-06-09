@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
 import { menuLinks, siteConfig } from "@/site.config";
+import { describe, expect, it } from "vitest";
 
 describe("menuLinks", () => {
   it("should export an array of MenuLink objects", () => {

@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { GET } from "@/pages/posts/rss.xml";
 import type { RssItem } from "@/types";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock modules
 vi.mock("@/utils/post", () => ({

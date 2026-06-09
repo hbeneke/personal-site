@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getAllNotes, getLatestNote, getLatestNotes, getNotesGroupedByYear } from "@/utils/note";
 import { getCollection } from "astro:content";
+import { getAllNotes, getLatestNote, getLatestNotes, getNotesGroupedByYear } from "@/utils/note";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),

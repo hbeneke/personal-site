@@ -7,10 +7,8 @@
  * Registers itself as the `<table-of-contents>` custom element.
  */
 export class TableOfContents extends HTMLElement {
-  private tocLinks: NodeListOf<HTMLAnchorElement> =
-    {} as NodeListOf<HTMLAnchorElement>;
-  private headings: NodeListOf<HTMLHeadingElement> =
-    {} as NodeListOf<HTMLHeadingElement>;
+  private tocLinks: NodeListOf<HTMLAnchorElement> = {} as NodeListOf<HTMLAnchorElement>;
+  private headings: NodeListOf<HTMLHeadingElement> = {} as NodeListOf<HTMLHeadingElement>;
   /** Flag used to throttle scroll events via `requestAnimationFrame`. */
   private ticking = false;
   private boundScrollHandler = this.scrollHandler.bind(this);

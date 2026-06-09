@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getAllSkills } from "@/utils/skills";
 import { getCollection } from "astro:content";
+import { getAllSkills } from "@/utils/skills";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),

@@ -15,11 +15,7 @@ export class PortfolioPage extends HTMLElement {
     this.cleanupFns = [];
   }
 
-  private addListener(
-    element: Element,
-    event: string,
-    handler: EventListener,
-  ): void {
+  private addListener(element: Element, event: string, handler: EventListener): void {
     element.addEventListener(event, handler);
     this.cleanupFns.push(() => element.removeEventListener(event, handler));
   }
@@ -56,9 +52,7 @@ export class PortfolioPage extends HTMLElement {
 
     for (const wrapper of Array.from(wrappers)) {
       const reposition = () => {
-        const preview = wrapper.querySelector<HTMLElement>(
-          ".demo-hover-preview",
-        );
+        const preview = wrapper.querySelector<HTMLElement>(".demo-hover-preview");
         if (!preview) return;
 
         const rect = wrapper.getBoundingClientRect();
@@ -122,7 +116,6 @@ export class PortfolioPage extends HTMLElement {
       });
     }
   }
-
 }
 
 if (!customElements.get("portfolio-page")) {

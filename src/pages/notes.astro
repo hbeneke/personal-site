@@ -1,9 +1,9 @@
 ---
+import RssIcon from "@icons/rss.svg";
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import type { GroupedNotesByYear, Note } from "@types";
 import { getNotesGroupedByYear } from "@utils/note";
-import RssIcon from "@icons/rss.svg";
 
 const groupedNotesEntries: GroupedNotesByYear = await getNotesGroupedByYear();
 ---

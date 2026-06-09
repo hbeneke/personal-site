@@ -1,10 +1,10 @@
 ---
 import TagsList from "@components/tags-list.astro";
+import RssIcon from "@icons/rss.svg";
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { formatPostDate } from "@utils/date";
 import { getPostsGroupedByYear } from "@utils/post";
-import RssIcon from "@icons/rss.svg";
 
 const postsGroupedByYear = await getPostsGroupedByYear(false);
 const years = Object.keys(postsGroupedByYear)

@@ -1,14 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { getCollection } from "astro:content";
 import {
   getAllPosts,
+  getAllTags,
+  getFeaturedPosts,
   getLatestPost,
   getLatestPosts,
-  getFeaturedPosts,
   getPostsByTag,
-  getAllTags,
   getPostsGroupedByYear,
 } from "@/utils/post";
-import { getCollection } from "astro:content";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("astro:content", () => ({
   getCollection: vi.fn(),

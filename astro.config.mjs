@@ -1,16 +1,14 @@
-import { defineConfig } from "astro/config";
-import tailwindcss from "@tailwindcss/vite";
-import vercel from "@astrojs/vercel";
 import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://equero.dev",
   integrations: [
     sitemap({
       filter: (page) =>
-        !page.includes("404") &&
-        !page.includes("_draft") &&
-        !page.includes("/resume/print"),
+        !page.includes("404") && !page.includes("_draft") && !page.includes("/resume/print"),
       customPages: [],
     }),
   ],

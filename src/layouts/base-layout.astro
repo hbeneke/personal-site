@@ -1,5 +1,7 @@
 ---
 import "@styles/global.css";
+import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import Footer from "@components/site-footer.astro";
 import Header from "@components/site-header.astro";
 import Notes from "@components/recent-notes.astro";
@@ -63,6 +65,15 @@ const {
         document.documentElement.classList.remove("dark");
       }
     </script>
+
+    {
+      import.meta.env.PROD && (
+        <>
+          <Analytics />
+          <SpeedInsights />
+        </>
+      )
+    }
   </head>
   <body
     class="flex mx-auto min-w-[350px] font-jetbrains min-h-screen max-w-3xl flex-col bg-bgColor px-4 pt-16 text-sm font-normal text-textColor antialiased sm:px-8"
@@ -73,13 +84,5 @@ const {
     </main>
     <Footer />
     <Notes />
-    {
-      import.meta.env.PROD && (
-        <script>
-          import('@vercel/speed-insights/astro');
-          import('@vercel/analytics/astro');
-        </script>
-      )
-    }
   </body>
 </html>

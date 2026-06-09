@@ -1,6 +1,7 @@
 ---
 import MobileMenu from "@components/mobile-menu.astro";
 import SearchBox from "@components/search-box.astro";
+import ThemeToggle from "@components/theme-toggle.astro";
 import { menuLinks } from "@site-config";
 
 const url = new URL(Astro.request.url);
@@ -35,6 +36,7 @@ const isActive = (path: string) =>
   </div>
 
   <div class="flex items-center">
+    <ThemeToggle />
     <SearchBox />
     <MobileMenu />
   </div>

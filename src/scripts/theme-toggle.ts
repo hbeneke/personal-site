@@ -28,10 +28,16 @@ export class ThemeToggle extends HTMLElement {
     this.mediaQuery.removeEventListener("change", this.boundMediaChange);
   }
 
+  // Follows OS preference changes, but only while the user has no manual choice
+  // stored. Persisting here would turn a system change into a permanent override.
   private handleMediaChange(e: MediaQueryListEvent): void {
     if (!localStorage.getItem("theme")) {
-      this.applyTheme(e.matches ? "dark" : "light");
+      this.setThemeClass(e.matches ? "dark" : "light");
     }
+  }
+
+  private setThemeClass(theme: "dark" | "light"): void {
+    this.html.classList.toggle("dark", theme === "dark");
   }
 
   getSystemPreference(): "dark" | "light" {
@@ -44,11 +50,7 @@ export class ThemeToggle extends HTMLElement {
   }
 
   applyTheme(theme: "dark" | "light"): void {
-    if (theme === "dark") {
-      this.html.classList.add("dark");
-    } else {
-      this.html.classList.remove("dark");
-    }
+    this.setThemeClass(theme);
     localStorage.setItem("theme", theme);
   }
 

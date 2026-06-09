@@ -1,9 +1,12 @@
 /**
- * Handles CV download by opening `/resume/print` in a popup and triggering the browser's print dialog.
+ * Handles CV download by opening `/resume/print?print=true` in a popup window.
  *
- * Flow: open popup → wait for `load` event → call `print()` after 500 ms.
- * A polling interval restores button state when the popup is closed, and a 5-second
- * safety timeout does the same in case the `load` event never fires.
+ * The print page triggers its own print dialog on load (see print-layout.astro),
+ * so this class only manages the button state: a polling interval restores it
+ * when the popup is closed, with a 5-second safety timeout as fallback.
+ *
+ * Note: an embedded iframe is not an option here because the site ships
+ * `X-Frame-Options: DENY`, which blocks same-origin framing too.
  */
 class CVDownloader {
   private readonly buttonId = "cv-download-btn";
@@ -60,56 +63,34 @@ class CVDownloader {
     }
   }
 
-  async downloadCV(): Promise<void> {
+  downloadCV(): void {
     const button = this.getButton();
     if (!button) return;
 
-    try {
-      this.setLoadingState(true);
+    this.setLoadingState(true);
 
-      const printUrl = `${window.location.origin}/resume/print?t=${Date.now()}`;
+    const printUrl = `${window.location.origin}/resume/print?print=true`;
+    const popup = window.open(printUrl, "_blank");
 
-      // Create an invisible iframe to handle document rendering and printing seamlessly
-      const iframe = document.createElement("iframe");
-      iframe.style.position = "fixed";
-      iframe.style.width = "0";
-      iframe.style.height = "0";
-      iframe.style.border = "none";
-      iframe.style.opacity = "0";
-      iframe.src = printUrl;
-
-      iframe.addEventListener("load", () => {
-        try {
-          if (iframe.contentWindow) {
-            iframe.contentWindow.focus();
-            iframe.contentWindow.print();
-          } else {
-            throw new Error("Unable to access iframe window context.");
-          }
-        } catch (iframeError) {
-          if (import.meta.env.DEV) {
-            console.error("Iframe print triggered fallback:", iframeError);
-          }
-          // Fallback to direct redirect print page if iframe sandbox security fails
-          window.location.href = printUrl;
-        } finally {
-          // Cleanup iframe from Document DOM and restore loading button state
-          setTimeout(() => {
-            document.body.removeChild(iframe);
-            this.setLoadingState(false);
-          }, 1000);
-        }
-      });
-
-      document.body.appendChild(iframe);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error occurred";
-      if (import.meta.env.DEV) {
-        console.error("CV Download error:", message);
-      }
-      alert("Failed to download CV. Please try again.");
+    if (!popup) {
+      // Popup blocked: navigate to the print page, it opens the dialog itself
+      window.location.href = printUrl;
       this.setLoadingState(false);
+      return;
     }
+
+    const watcher = window.setInterval(() => {
+      if (popup.closed) {
+        window.clearInterval(watcher);
+        this.setLoadingState(false);
+      }
+    }, 500);
+
+    // Safety net in case the user keeps the popup open
+    window.setTimeout(() => {
+      window.clearInterval(watcher);
+      this.setLoadingState(false);
+    }, 5000);
   }
 
   setLoadingState(loading: boolean): void {

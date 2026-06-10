@@ -14,6 +14,8 @@ export default defineConfig({
   ],
   adapter: vercel(),
   output: "static",
+  // Without this, the data-astro-prefetch attributes in the nav and post lists are inert
+  prefetch: true,
   vite: {
     plugins: [tailwindcss()],
     resolve: {

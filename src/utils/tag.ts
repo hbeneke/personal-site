@@ -1,10 +1,10 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { TagContent, TagPageData, TagWithCount } from "@types";
-import { getAllPosts, getAllTags, getPostsByTag, groupPostsByYear } from "@utils/post";
+import { getAllPosts, getPostsByTag, groupPostsByYear } from "@utils/post";
 
 // Single-pass tag count: iterates posts once, accumulating counts in a Map.
-async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[]> {
-  const posts = await getAllPosts(false, includeDrafts || false);
+export async function getAllTagsWithCounts(includeDrafts = false): Promise<TagWithCount[]> {
+  const posts = await getAllPosts(false, includeDrafts);
   const counts = new Map<string, number>();
 
   for (const post of posts) {
@@ -18,12 +18,8 @@ async function getTagsWithCounts(includeDrafts?: boolean): Promise<TagWithCount[
   return Array.from(counts, ([name, count]) => ({ name, count }));
 }
 
-export async function getAllTagsWithCounts(includeDrafts = false): Promise<TagWithCount[]> {
-  return await getTagsWithCounts(includeDrafts);
-}
-
 export async function getSortedTagsWithCounts(includeDrafts = false): Promise<TagWithCount[]> {
-  const tagsWithCounts = await getTagsWithCounts(includeDrafts);
+  const tagsWithCounts = await getAllTagsWithCounts(includeDrafts);
   return tagsWithCounts.sort((a, b) => b.count - a.count);
 }
 
@@ -83,9 +79,4 @@ export async function getTagPageData(tag: string): Promise<TagPageData> {
     groupedPostsByYear,
     years,
   };
-}
-
-export async function getAllTagPaths(): Promise<string[]> {
-  const allTags = await getAllTags(false);
-  return allTags;
 }

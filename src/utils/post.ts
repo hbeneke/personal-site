@@ -28,51 +28,35 @@ async function getRawPosts(): Promise<CollectionEntry<"posts">[]> {
   }
 }
 
+// Shared by every public getter so the draft-filtering rule lives in one place.
+async function getPublishablePosts(includeDrafts: boolean): Promise<CollectionEntry<"posts">[]> {
+  const posts = await getRawPosts();
+  return includeDrafts ? posts : filterDrafts(posts);
+}
+
 export async function getAllPosts(
   sorted = true,
   includeDrafts = false,
 ): Promise<CollectionEntry<"posts">[]> {
-  let posts = await getRawPosts();
-
-  if (!includeDrafts) {
-    posts = filterDrafts(posts);
-  }
-
-  if (sorted) {
-    posts = sortByDate(posts);
-  }
-
-  return posts;
-}
-
-export async function getLatestPost(): Promise<CollectionEntry<"posts"> | null> {
-  const posts = await getRawPosts();
-  const filteredPosts = filterDrafts(posts);
-  const sortedPosts = sortByDate(filteredPosts);
-  return sortedPosts.length > 0 ? sortedPosts[0] : null;
+  const posts = await getPublishablePosts(includeDrafts);
+  return sorted ? sortByDate(posts) : posts;
 }
 
 export async function getLatestPosts(
   count = 1,
   includeDrafts = false,
 ): Promise<CollectionEntry<"posts">[]> {
-  let posts = await getRawPosts();
+  const posts = await getAllPosts(true, includeDrafts);
+  return posts.slice(0, count);
+}
 
-  if (!includeDrafts) {
-    posts = filterDrafts(posts);
-  }
-
-  const sortedPosts = sortByDate(posts);
-  return sortedPosts.length > 0 ? sortedPosts.slice(0, count) : [];
+export async function getLatestPost(): Promise<CollectionEntry<"posts"> | null> {
+  const [latest] = await getLatestPosts(1);
+  return latest ?? null;
 }
 
 export async function getFeaturedPosts(includeDrafts = false): Promise<CollectionEntry<"posts">[]> {
-  let posts = await getRawPosts();
-
-  if (!includeDrafts) {
-    posts = filterDrafts(posts);
-  }
-
+  const posts = await getPublishablePosts(includeDrafts);
   return posts.filter((post) => post.data.featured);
 }
 
@@ -80,29 +64,17 @@ export async function getPostsByTag(
   tag: string,
   includeDrafts = false,
 ): Promise<CollectionEntry<"posts">[]> {
-  let posts = await getRawPosts();
-
-  if (!includeDrafts) {
-    posts = filterDrafts(posts);
-  }
-
+  const posts = await getPublishablePosts(includeDrafts);
   return posts.filter((post) => post.data.tags?.includes(tag));
 }
 
 export async function getAllTags(includeDrafts = false): Promise<string[]> {
-  let posts = await getRawPosts();
-
-  if (!includeDrafts) {
-    posts = filterDrafts(posts);
-  }
-
+  const posts = await getPublishablePosts(includeDrafts);
   const tags = new Set<string>();
 
   for (const post of posts) {
-    if (post.data.tags) {
-      for (const tag of post.data.tags) {
-        tags.add(tag);
-      }
+    for (const tag of post.data.tags ?? []) {
+      tags.add(tag);
     }
   }
 
@@ -130,12 +102,6 @@ export function groupPostsByYear(
 export async function getPostsGroupedByYear(
   includeDrafts = false,
 ): Promise<Record<number, CollectionEntry<"posts">[]>> {
-  let posts = await getRawPosts();
-
-  if (!includeDrafts) {
-    posts = filterDrafts(posts);
-  }
-
-  const sortedPosts = sortByDate(posts);
-  return groupPostsByYear(sortedPosts);
+  const posts = await getAllPosts(true, includeDrafts);
+  return groupPostsByYear(posts);
 }

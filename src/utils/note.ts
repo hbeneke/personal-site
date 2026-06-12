@@ -16,7 +16,7 @@ export async function getAllNoteEntries(): Promise<CollectionEntry<"notes">[]> {
   return await getRawNotes();
 }
 
-async function getNotes(sorted = false): Promise<Note[]> {
+export async function getAllNotes(sorted = true): Promise<Note[]> {
   const notesCollection = await getRawNotes();
 
   const allNotes: Note[] = notesCollection.map((entry) => ({
@@ -28,26 +28,20 @@ async function getNotes(sorted = false): Promise<Note[]> {
   }));
 
   if (sorted) {
-    return allNotes.sort(
-      (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
-    );
+    allNotes.sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
   }
 
   return allNotes;
 }
 
-export async function getAllNotes(sorted = true): Promise<Note[]> {
-  return await getNotes(sorted);
+export async function getLatestNotes(count = 1): Promise<Note[]> {
+  const sortedNotes = await getAllNotes(true);
+  return sortedNotes.slice(0, count);
 }
 
 export async function getLatestNote(): Promise<Note | null> {
-  const sortedNotes: Note[] = await getNotes(true);
-  return sortedNotes.length > 0 ? sortedNotes[0] : null;
-}
-
-export async function getLatestNotes(count = 1): Promise<Note[]> {
-  const sortedNotes: Note[] = await getNotes(true);
-  return sortedNotes.length > 0 ? sortedNotes.slice(0, count) : [];
+  const [latest] = await getLatestNotes(1);
+  return latest ?? null;
 }
 
 /**
@@ -57,7 +51,7 @@ export async function getLatestNotes(count = 1): Promise<Note[]> {
  * Runs in three passes: group by year (reduce) → sort within each group → sort years descending.
  */
 export async function getNotesGroupedByYear(): Promise<GroupedNotesByYear> {
-  const notes: Note[] = await getNotes();
+  const notes: Note[] = await getAllNotes(false);
 
   const groupedNotes: Record<number, Note[]> = notes.reduce(
     (acc: Record<number, Note[]>, note: Note) => {

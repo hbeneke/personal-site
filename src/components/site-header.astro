@@ -2,10 +2,10 @@
 import MobileMenu from "@components/mobile-menu.astro";
 import SearchBox from "@components/search-box.astro";
 import { menuLinks } from "@site-config";
+import { isActivePath } from "@utils/navigation";
 
 const url = new URL(Astro.request.url);
-const isActive = (path: string) =>
-  path === "/" ? url.pathname === path : url.pathname.startsWith(path);
+const isActive = (path: string) => isActivePath(url.pathname, path);
 ---
 
 <header

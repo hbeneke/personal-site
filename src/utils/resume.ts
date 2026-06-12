@@ -1,24 +1,19 @@
 import { getCollection } from "astro:content";
 import type { WorkExperience } from "@types";
 
-async function getWorkExperiences(sorted = false): Promise<WorkExperience[]> {
-  const resumeCollection = await getCollection("resume");
-
-  const workExperiences: WorkExperience[] = resumeCollection.map((entry) => entry.data);
-
-  if (sorted) {
-    return workExperiences.sort((a, b) => {
-      const dateA = new Date(a.start_date);
-      const dateB = new Date(b.start_date);
-      return dateB.getTime() - dateA.getTime();
-    });
-  }
-
-  return workExperiences;
+function compareByStartDateDesc(a: WorkExperience, b: WorkExperience): number {
+  return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
 }
 
 export async function getAllWorkExperiences(sorted = true): Promise<WorkExperience[]> {
-  return await getWorkExperiences(sorted);
+  const resumeCollection = await getCollection("resume");
+  const workExperiences: WorkExperience[] = resumeCollection.map((entry) => entry.data);
+
+  if (sorted) {
+    workExperiences.sort(compareByStartDateDesc);
+  }
+
+  return workExperiences;
 }
 
 /**
@@ -28,17 +23,11 @@ export async function getAllWorkExperiences(sorted = true): Promise<WorkExperien
  * (which may be `"present"`). Useful for displaying the total career span.
  */
 export async function getWorkExperienceYears(): Promise<{ start: string; end: string }> {
-  const workExperiences = await getWorkExperiences();
+  const sortedExperiences = await getAllWorkExperiences(true);
 
-  if (workExperiences.length === 0) {
+  if (sortedExperiences.length === 0) {
     return { start: "", end: "" };
   }
-
-  const sortedExperiences = [...workExperiences].sort((a, b) => {
-    const dateA = new Date(a.start_date);
-    const dateB = new Date(b.start_date);
-    return dateB.getTime() - dateA.getTime();
-  });
 
   return {
     start: sortedExperiences[sortedExperiences.length - 1].start_date,

@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
 import { formatPostDate } from "@utils/date";
-import { getAllTagPaths, getTagPageData } from "@utils/tag";
+import { getAllTags } from "@utils/post";
+import { getTagPageData } from "@utils/tag";
 
 export async function getStaticPaths() {
-  const allTags = await getAllTagPaths();
+  const allTags = await getAllTags(false);
 
   return allTags.map((tag) => ({
     params: { tag },

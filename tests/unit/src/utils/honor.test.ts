@@ -561,35 +561,29 @@ describe("Honor Utils functions", () => {
       expect(result.Test.every((honor) => honor.year.startsWith("2020"))).toBe(true);
     });
 
-    it("should ensure getAllHonors calls getHonors internally with correct parameters", async () => {
+    it("should fetch the honors collection on every getAllHonors call", async () => {
       mockGetCollection.mockResolvedValue(mockHonorsCollectionEntries);
 
-      // Test unsorted path
       await getAllHonors(false);
-      expect(mockGetCollection).toHaveBeenCalledWith("honors");
-
-      // Test sorted path (cache hit — getCollection not called again)
       await getAllHonors(true);
-      expect(mockGetCollection).toHaveBeenCalledWith("honors");
 
-      // Called once: second call is served from cache
-      expect(mockGetCollection).toHaveBeenCalledTimes(1);
+      expect(mockGetCollection).toHaveBeenCalledWith("honors");
+      // No caching layer: each call hits the collection again
+      expect(mockGetCollection).toHaveBeenCalledTimes(2);
     });
 
-    it("should ensure getAllHonorsGroupByCategory calls getHonors with false parameter", async () => {
+    it("should fetch the honors collection on every getAllHonorsGroupByCategory call", async () => {
       mockGetCollection.mockResolvedValue(mockHonorsCollectionEntries);
 
-      // Test that internal getHonors is called with false regardless of sorted parameter
       await getAllHonorsGroupByCategory(false);
       await getAllHonorsGroupByCategory(true);
 
       expect(mockGetCollection).toHaveBeenCalledWith("honors");
-      // Called once: second call is served from cache
-      expect(mockGetCollection).toHaveBeenCalledTimes(1);
+      // No caching layer: each call hits the collection again
+      expect(mockGetCollection).toHaveBeenCalledTimes(2);
     });
 
-    it("should test internal getHonors function behavior directly through getAllHonors", async () => {
-      // Test that the internal getHonors function works properly
+    it("should return consistent results for sorted and unsorted single-item collections", async () => {
       mockGetCollection.mockResolvedValue([
         {
           id: "test-honor",
@@ -613,10 +607,9 @@ describe("Honor Utils functions", () => {
       expect(sortedResult).toHaveLength(1);
       expect(sortedResult[0].year).toBe("2022");
 
-      // Verify the function was called correctly
       expect(mockGetCollection).toHaveBeenCalledWith("honors");
-      // Called once: second call is served from cache
-      expect(mockGetCollection).toHaveBeenCalledTimes(1);
+      // No caching layer: each call hits the collection again
+      expect(mockGetCollection).toHaveBeenCalledTimes(2);
     });
   });
 });

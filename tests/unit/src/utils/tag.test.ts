@@ -1,8 +1,7 @@
 import { getCollection } from "astro:content";
 import { groupPostsByYear } from "@/utils/post";
-import { getAllPosts, getAllTags, getPostsByTag } from "@/utils/post";
+import { getAllPosts, getPostsByTag } from "@/utils/post";
 import {
-  getAllTagPaths,
   getAllTagsWithCounts,
   getSortedTagsWithCounts,
   getTagContent,
@@ -17,7 +16,6 @@ vi.mock("@/utils/post", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/utils/post")>();
   return {
     getAllPosts: vi.fn(),
-    getAllTags: vi.fn(),
     getPostsByTag: vi.fn(),
     groupPostsByYear: actual.groupPostsByYear,
   };
@@ -28,7 +26,6 @@ vi.mock("astro:content", () => ({
 }));
 
 const mockGetAllPosts = vi.mocked(getAllPosts);
-const mockGetAllTags = vi.mocked(getAllTags);
 const mockGetPostsByTag = vi.mocked(getPostsByTag);
 const mockGetCollection = vi.mocked(getCollection);
 
@@ -537,31 +534,6 @@ describe("tagUtils", () => {
       expect(result.posts).toEqual([]);
       expect(result.groupedPostsByYear).toEqual({});
       expect(result.years).toEqual([]);
-    });
-  });
-
-  describe("getAllTagPaths", () => {
-    it("should return all available tags", async () => {
-      mockGetAllTags.mockResolvedValue(["javascript", "typescript", "react"]);
-
-      const result = await getAllTagPaths();
-
-      expect(result).toEqual(["javascript", "typescript", "react"]);
-      expect(mockGetAllTags).toHaveBeenCalledWith(false);
-    });
-
-    it("should return empty array when no tags exist", async () => {
-      mockGetAllTags.mockResolvedValue([]);
-
-      const result = await getAllTagPaths();
-
-      expect(result).toEqual([]);
-    });
-
-    it("should propagate errors from getAllTags", async () => {
-      mockGetAllTags.mockRejectedValue(new Error("Tags error"));
-
-      await expect(getAllTagPaths()).rejects.toThrow("Tags error");
     });
   });
 

@@ -44,7 +44,7 @@
       ]
     },
     {
-      "source": "/portfolio/(.*)",
+      "source": "/portfolio/(.*\\.(png|jpg|jpeg|webp|avif|svg|gif))",
       "headers": [
         {
           "key": "Cache-Control",

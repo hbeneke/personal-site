@@ -81,7 +81,15 @@ export async function getAllTags(includeDrafts = false): Promise<string[]> {
   return Array.from(tags).sort();
 }
 
-// Posts with invalid dates are silently skipped.
+/**
+ * Groups posts by their publish year. Posts with invalid dates are silently skipped.
+ *
+ * @param posts - Posts to group; order within each year is preserved.
+ * @returns Posts keyed by publish year.
+ *
+ * @example
+ * groupPostsByYear(posts); // { 2024: [post, post], 2025: [post] }
+ */
 export function groupPostsByYear(
   posts: CollectionEntry<"posts">[],
 ): Record<number, CollectionEntry<"posts">[]> {

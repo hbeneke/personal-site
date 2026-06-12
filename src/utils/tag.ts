@@ -50,6 +50,15 @@ export async function getTagContent(tag: string): Promise<TagContent | null> {
   return null;
 }
 
+/**
+ * Extracts the year keys of a grouped-posts record, newest first.
+ *
+ * @param groupedPosts - Posts keyed by publish year, as returned by `groupPostsByYear`.
+ * @returns Years as numbers in descending order.
+ *
+ * @example
+ * sortYearsDescending({ 2023: [...], 2025: [...] }); // [2025, 2023]
+ */
 export function sortYearsDescending(
   groupedPosts: Record<number, CollectionEntry<"posts">[]>,
 ): number[] {

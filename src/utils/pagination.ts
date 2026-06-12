@@ -7,6 +7,10 @@ import type { PaginationConfig, PaginationResult } from "@/types/pagination.type
  * start/end item indices, navigation flags, and the full sequential page list.
  *
  * @param config.currentPage - Defaults to 1 if omitted.
+ *
+ * @example
+ * calculatePagination({ totalItems: 25, itemsPerPage: 10, currentPage: 2 });
+ * // { totalPages: 3, currentPage: 2, startIndex: 10, endIndex: 20, ... }
  */
 export function calculatePagination(config: PaginationConfig): PaginationResult {
   const { totalItems, itemsPerPage, currentPage = 1 } = config;

@@ -8,6 +8,21 @@ import Header from "@components/site-header.astro";
 import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  article?: boolean;
+  publishDate?: string;
+  modifiedDate?: string;
+  canonicalUrl?: URL | string;
+  schemaType?: "WebSite" | "Person" | "BlogPosting" | "Article" | "BreadcrumbList";
+  noindex?: boolean;
+  nofollow?: boolean;
+  author?: string;
+  tags?: string[];
+}
+
 const {
   title,
   description,
@@ -50,7 +65,7 @@ const {
       type={schemaType}
       title={title}
       description={description}
-      url={canonicalUrl}
+      url={canonicalUrl?.toString()}
       image={image}
       publishDate={publishDate}
       modifiedDate={modifiedDate}

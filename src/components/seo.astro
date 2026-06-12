@@ -38,6 +38,9 @@ const canonical =
 const ogImage = new URL(image, siteConfig.siteUrl).href;
 
 const robotsContent = [noindex ? "noindex" : "index", nofollow ? "nofollow" : "follow"].join(", ");
+
+// Derive the handle from the configured X profile URL so it can't drift out of sync
+const twitterHandle = `@${new URL(siteConfig.socialLinks.x).pathname.split("/").filter(Boolean)[0]}`;
 ---
 
 <title>{fullTitle}</title>
@@ -61,8 +64,8 @@ const robotsContent = [noindex ? "noindex" : "index", nofollow ? "nofollow" : "f
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
-<meta name="twitter:site" content="@habakukbeneke" />
-<meta name="twitter:creator" content="@habakukbeneke" />
+<meta name="twitter:site" content={twitterHandle} />
+<meta name="twitter:creator" content={twitterHandle} />
 
 {
   article && publishDate && (

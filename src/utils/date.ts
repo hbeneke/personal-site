@@ -1,8 +1,14 @@
+import { siteConfig } from "@site-config";
+
 /**
  * Checks if a date string or Date object is valid
  *
  * @param date - Date string or Date object to validate
  * @returns true if the date is valid, false otherwise
+ *
+ * @example
+ * isValidDate("2024-01-15"); // true
+ * isValidDate("not a date"); // false
  */
 export function isValidDate(date: string | Date): boolean {
   const dateObj = typeof date === "string" ? new Date(date) : date;
@@ -16,6 +22,10 @@ export function isValidDate(date: string | Date): boolean {
  * @param endDate - End date string or "present"
  * @returns Formatted duration string (e.g., "2 years 3 months")
  * @throws Error if dates are invalid
+ *
+ * @example
+ * calculateDuration("2020-01-01", "2022-04-01"); // "2 years 3 months"
+ * calculateDuration("2023-06-01", "present"); // duration up to today
  */
 export function calculateDuration(startDate: string, endDate: string): string {
   const start = new Date(startDate);
@@ -45,17 +55,21 @@ export function calculateDuration(startDate: string, endDate: string): string {
 }
 
 /**
- * Formats a date string for display
+ * Formats a date string for display using the site locale
  *
  * @param dateString - Date string to format
- * @returns Formatted date string (e.g., "15 Oct 2023")
+ * @returns Formatted date string (e.g., "Oct 15, 2023")
+ *
+ * @example
+ * formatPostDate("2023-10-15"); // "Oct 15, 2023"
+ * formatPostDate("garbage"); // "Invalid date"
  */
 export function formatPostDate(dateString: string): string {
   if (!isValidDate(dateString)) {
     return "Invalid date";
   }
 
-  return new Date(dateString).toLocaleDateString("en-US", {
+  return new Date(dateString).toLocaleDateString(siteConfig.locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",

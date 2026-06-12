@@ -58,7 +58,15 @@ export class SiteSearch extends HTMLElement {
 
   // Lazily initialises Pagefind on first modal open. Skipped in dev (no search index).
   private async initializeSearch(): Promise<void> {
-    if (import.meta.env.DEV || this.searchInitialized) return;
+    if (this.searchInitialized) return;
+
+    if (import.meta.env.DEV) {
+      this.showSearchMessage(
+        "Search not available in development",
+        "Run npm run build to enable it",
+      );
+      return;
+    }
 
     try {
       const searchContainer = this.querySelector("#personal__search");
@@ -82,7 +90,7 @@ export class SiteSearch extends HTMLElement {
 
       this.searchInitialized = true;
     } catch (error) {
-      this.showSearchUnavailableMessage();
+      this.showSearchMessage("Search is currently unavailable", "Try reloading the page");
     }
   }
 
@@ -150,29 +158,23 @@ export class SiteSearch extends HTMLElement {
     });
   }
 
-  private showSearchUnavailableMessage(): void {
+  private showSearchMessage(message: string, hint: string): void {
     const searchContainer = this.querySelector("#personal__search");
-    if (searchContainer) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "text-center p-4";
+    if (!searchContainer) return;
 
-      const msg = document.createElement("p");
-      msg.className = "text-gray-400 mb-2";
-      msg.textContent = "Search not available in development";
+    const wrapper = document.createElement("div");
+    wrapper.className = "text-center p-4";
 
-      const hint = document.createElement("p");
-      hint.className = "text-xs text-gray-500";
-      hint.textContent = "Run ";
-      const code = document.createElement("code");
-      code.className = "bg-gray-700 px-1 rounded";
-      code.textContent = "npm run build";
-      hint.appendChild(code);
-      hint.appendChild(document.createTextNode(" to enable search functionality"));
+    const messageElement = document.createElement("p");
+    messageElement.className = "text-gray-400 mb-2";
+    messageElement.textContent = message;
 
-      wrapper.appendChild(msg);
-      wrapper.appendChild(hint);
-      searchContainer.replaceChildren(wrapper);
-    }
+    const hintElement = document.createElement("p");
+    hintElement.className = "text-xs text-gray-500";
+    hintElement.textContent = hint;
+
+    wrapper.append(messageElement, hintElement);
+    searchContainer.replaceChildren(wrapper);
   }
 
   connectedCallback(): void {

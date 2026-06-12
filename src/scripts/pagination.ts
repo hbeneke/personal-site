@@ -46,17 +46,14 @@ class PaginationComponent {
     }
 
     const firstChild = this.itemsContainer.firstElementChild;
+    const isListWrapper =
+      firstChild?.tagName === "UL" ||
+      firstChild?.tagName === "OL" ||
+      firstChild?.classList.contains("grid");
 
-    if (firstChild?.tagName === "UL" || firstChild?.tagName === "OL") {
-      this.allItems = Array.from(firstChild.children) as HTMLElement[];
-    } else if (
-      firstChild?.classList.contains("grid") ||
-      firstChild?.classList.contains("space-y-")
-    ) {
-      this.allItems = Array.from(firstChild.children) as HTMLElement[];
-    } else {
-      this.allItems = Array.from(this.itemsContainer.children) as HTMLElement[];
-    }
+    this.allItems = Array.from(
+      isListWrapper && firstChild ? firstChild.children : this.itemsContainer.children,
+    ) as HTMLElement[];
 
     this.filteredItems = [...this.allItems];
 

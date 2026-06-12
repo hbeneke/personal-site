@@ -31,16 +31,16 @@ const formattedDate: string = new Date(publishDate).toLocaleString(siteConfig.lo
   description={description}
 >
   <header class="mb-8">
-    <a href="/" class="inline-flex items-center hover:underline mb-4">
-      &larr; Back to Home
+    <a href="/notes/" class="inline-flex items-center hover:underline mb-4">
+      &larr; Back to Notes
     </a>
   </header>
 
   <section class="rounded-lg shadow-lg p-6 bg-zinc-800">
     <article class="note-detail">
-      <h3 class="secondary note-title text-2xl font-bold mb-2">
+      <h1 class="secondary note-title text-2xl font-bold mb-2">
         {title}
-      </h3>
+      </h1>
       <time datetime={publishDate} class="note-date block text-sm mb-6">
         {formattedDate}
       </time>

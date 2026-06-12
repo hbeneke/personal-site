@@ -25,7 +25,7 @@ const sortedProjects = await getAllProjects(true, true);
         sortedProjects.map((project, index) => (
           <article class="project-item pb-5">
             <div class="flex items-start justify-between gap-4 mb-2">
-              <h3 class="text-base flex items-center gap-2">
+              <h2 class="text-base flex items-center gap-2">
                 {project.logo && (
                   <img
                     src={project.logo}
@@ -41,7 +41,7 @@ const sortedProjects = await getAllProjects(true, true);
                     v{project.version}
                   </span>
                 )}
-              </h3>
+              </h2>
               <time class="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0">
                 {new Date(project.date).toLocaleDateString(siteConfig.locale, {
                   year: "numeric",
@@ -128,9 +128,9 @@ const sortedProjects = await getAllProjects(true, true);
                 id={`changelog-${index}`}
                 class="accordion-content hidden mt-4 pl-4 border-l-2 border-gray-300 dark:border-gray-600"
               >
-                <h4 class="text-sm font-medium mb-3 secondary">
+                <h3 class="text-sm font-medium mb-3 secondary">
                   Version History
-                </h4>
+                </h3>
                 <div class="space-y-3">
                   {project.changelog
                     .sort(

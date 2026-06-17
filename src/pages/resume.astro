@@ -62,6 +62,8 @@ const honors = await getAllHonorsGroupByCategory(true);
                 {experience.company_url ? (
                   <a
                     href={experience.company_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     class="text-base font-bold secondary hover:secondary-hovered"
                   >
                     {experience.company}
@@ -71,7 +73,7 @@ const honors = await getAllHonorsGroupByCategory(true);
                     {experience.company}
                   </span>
                 )}
-                <span class="text-[11px] italic font-light text-gray-500 whitespace-nowrap">
+                <span class="text-[11px] font-medium text-gray-300 whitespace-nowrap">
                   {experience.start_date} – {experience.end_date}
                 </span>
               </div>

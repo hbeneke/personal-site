@@ -35,17 +35,7 @@
 
 @layer base {
   :root {
-    --primary: 16, 185, 129;
-    --primary-hovered: 4, 120, 87;
-    --secondary: 217, 119, 6;
-    --secondary-hovered: 180, 83, 9;
-    --bg: 255, 255, 255;
-    --foreground: 17, 24, 39;
-    --pale-green: 236, 253, 245;
-    --pale-green-oklch: 240, 253, 244;
-  }
-
-  :root.dark {
+    color-scheme: dark;
     --primary: 16, 185, 129;
     --primary-hovered: 187, 247, 208;
     --secondary: 250, 204, 21;
@@ -56,15 +46,15 @@
     --pale-green-oklch: 220, 248, 235;
   }
 
+  html {
+    background-color: rgb(var(--bg));
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: rgb(var(--bg));
     color: rgb(var(--foreground));
     line-height: 1.2;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  }
-
-  html {
-    scroll-behavior: smooth;
   }
 
   :target {

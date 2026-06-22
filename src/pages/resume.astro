@@ -24,9 +24,8 @@ const honors = await getAllHonorsGroupByCategory(true);
     <header
       class="text-center mb-12 rounded-xl border border-gray-800 bg-gray-900/30 px-6 py-10"
     >
-      <h1 class="text-4xl leading-none mb-3">
-        <span class="font-light text-gray-400">Enrique</span>
-        <span class="font-bold text-gray-100">Quero</span>
+      <h1 class="text-4xl font-semibold tracking-tight leading-none text-gray-100 mb-3">
+        Enrique Quero
       </h1>
       <div
         class="text-xs secondary font-semibold uppercase tracking-widest mb-3"
@@ -57,7 +56,7 @@ const honors = await getAllHonorsGroupByCategory(true);
       <div class="space-y-4">
         {
           work_experience.map((experience) => (
-            <div class="rounded-xl border border-gray-800 bg-gray-900/20 p-5 transition-all duration-200 hover:border-[rgb(var(--secondary))] hover:bg-gray-900/40 hover:-translate-y-0.5">
+            <div class="rounded-xl border border-gray-800 bg-gray-900/20 p-5 transition-colors duration-200 hover:bg-gray-900/40">
               <div class="flex flex-wrap items-baseline justify-between gap-x-3 mb-1">
                 {experience.company_url ? (
                   <a

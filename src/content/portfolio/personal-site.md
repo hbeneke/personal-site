@@ -10,8 +10,17 @@ github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
 featured: true
 order: 1
-version: "1.5.65"
+version: "1.5.98"
 changelog:
+  - version: "1.5.98"
+    date: "2026-06-23T00:00:00.000Z"
+    changes:
+      - "Redesigned the resume into a dark card-based layout with a unified name heading"
+      - "Removed the light/dark toggle and enforced a dark-only palette"
+      - "Eliminated the white flash on initial page load"
+      - "Added the DivText project to the portfolio"
+      - "Replaced the CV download iframe with a popup to bypass X-Frame-Options"
+      - "Enabled link prefetching and scoped portfolio image caching"
   - version: "1.5.65"
     date: "2026-05-13T00:00:00.000Z"
     changes:

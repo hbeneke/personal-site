@@ -4,12 +4,21 @@ date: "2026-06-08T00:00:00.000Z"
 description: "Turn any word into a logo built entirely from <div> cells. A terminal-style playground that draws your text on a grid, cell by cell."
 technologies: ["TypeScript", "HTML", "CSS"]
 image: "/portfolio/divtext.png"
+logo: "/portfolio/logos/divtext.svg"
 github: "https://github.com/hbeneke/divtext"
 demo: "https://github.com/hbeneke/divtext"
 featured: false
 order: 4
-version: "1.0.3"
+version: "1.0.5"
 changelog:
+  - version: "1.0.5"
+    date: "2026-06-23T00:00:00.000Z"
+    changes:
+      - "Added a terminal-window favicon"
+  - version: "1.0.4"
+    date: "2026-06-23T00:00:00.000Z"
+    changes:
+      - "Maintenance release via develop-to-master version sync"
   - version: "1.0.3"
     date: "2026-06-08T00:00:00.000Z"
     changes:

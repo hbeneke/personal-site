@@ -10,8 +10,12 @@ github: "https://github.com/hbeneke/git-wayback"
 demo: https://git-wayback.com
 featured: false
 order: 2
-version: "0.6.23"
+version: "0.6.24"
 changelog:
+  - version: "0.6.24"
+    date: "2026-06-23T00:00:00.000Z"
+    changes:
+      - "Replaced the hourglass brand mark with a source-flower radial-tree icon"
   - version: "0.6.23"
     date: "2026-05-20T00:00:00.000Z"
     changes:

@@ -20,29 +20,24 @@ const honors = await getAllHonorsGroupByCategory(true);
   title={`Resume · ${siteConfig.siteTitle}`}
   description={`${siteConfig.authorName} resume, a Senior ${siteConfig.jobTitle} specializing in Javascript and modern web technologies.`}
 >
-  <div class="max-w-3xl mx-auto">
-    <header
-      class="text-center mb-12 rounded-xl border border-gray-800 bg-gray-900/30 px-6 py-10"
-    >
-      <h1 class="text-4xl font-semibold tracking-tight leading-none text-gray-100 mb-3">
-        Enrique Quero
-      </h1>
+  <section>
+    <header class="mb-8">
       <div
-        class="text-xs secondary font-semibold uppercase tracking-widest mb-3"
+        class="flex flex-wrap items-center justify-between gap-3 mb-3 border-b border-gray-200 dark:border-gray-700 pb-2"
       >
-        Senior {siteConfig.jobTitle} / Tech Lead
-      </div>
-      <div class="text-xs italic text-gray-400 mb-6">"Never Stop Learning."</div>
-      <div class="flex justify-center">
+        <h1 class="text-2xl font-semibold secondary">Enrique Quero</h1>
         <CVDownloadIcon />
       </div>
+      <p class="text-xs text-gray-600 dark:text-gray-400">
+        Senior {siteConfig.jobTitle} / Tech Lead
+        <span class="mx-1">·</span>
+        <span class="italic">"Never Stop Learning."</span>
+      </p>
     </header>
 
     <section class="mb-10">
-      <h2 class="text-sm font-bold mb-3 secondary uppercase tracking-wide">
-        Summary
-      </h2>
-      <p class="text-xs leading-relaxed text-gray-300">
+      <h2 class="text-xl font-medium mb-4 secondary">Summary</h2>
+      <p class="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
         Web developer with {calculateDuration(years.start, years.end)} of experience
         in web development, always looking for new challenges and projects that feed
         my motto of "Never Stop Learning."
@@ -50,70 +45,63 @@ const honors = await getAllHonorsGroupByCategory(true);
     </section>
 
     <section class="mb-10">
-      <h2 class="text-sm font-bold mb-4 secondary uppercase tracking-wide">
-        Work Experience
-      </h2>
-      <div class="space-y-4">
+      <h2 class="text-xl font-medium mb-4 secondary">Work Experience</h2>
+      <div class="space-y-5">
         {
           work_experience.map((experience) => (
-            <div class="rounded-xl border border-gray-800 bg-gray-900/20 p-5 transition-colors duration-200 hover:bg-gray-900/40">
+            <article class="pb-5">
               <div class="flex flex-wrap items-baseline justify-between gap-x-3 mb-1">
                 {experience.company_url ? (
                   <a
                     href={experience.company_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-base font-bold secondary hover:secondary-hovered"
+                    class="text-base secondary hover:secondary-hovered"
                   >
                     {experience.company}
                   </a>
                 ) : (
-                  <span class="text-base font-bold secondary">
-                    {experience.company}
-                  </span>
+                  <span class="text-base secondary">{experience.company}</span>
                 )}
-                <span class="text-[11px] font-medium text-gray-300 whitespace-nowrap">
+                <time class="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                   {experience.start_date} – {experience.end_date}
-                </span>
+                </time>
               </div>
-              <div class="text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-3">
+              <div class="text-xs text-gray-600 dark:text-gray-400 mb-3">
                 {experience.position}
-                <span class="text-gray-600"> · {experience.location}</span>
+                <span class="mx-1">·</span>
+                {experience.location}
               </div>
               {experience.description && (
-                <p class="text-xs text-gray-400 mb-3">{experience.description}</p>
+                <p class="text-xs mb-3">{experience.description}</p>
               )}
               {experience.responsibilities &&
                 experience.responsibilities.length > 0 && (
                   <ul class="space-y-1">
                     {experience.responsibilities.map((responsibility) => (
-                      <li class="text-xs font-light text-gray-300 flex gap-2">
+                      <li class="text-xs flex gap-2">
                         <span class="secondary select-none">▹</span>
                         <span>{responsibility}</span>
                       </li>
                     ))}
                   </ul>
                 )}
-            </div>
+            </article>
           ))
         }
       </div>
     </section>
 
     <section class="mb-10">
-      <h2 class="text-sm font-bold mb-4 secondary uppercase tracking-wide">
-        Skills
-      </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <h2 class="text-xl font-medium mb-4 secondary">Skills</h2>
+      <div class="space-y-4">
         {
           skills.map((skill) => (
-            <div class="rounded-lg border border-gray-800 bg-gray-900/20 p-4">
-              <div class="text-xs font-bold text-gray-200 mb-1.5">
-                {skill.name}
-              </div>
+            <div>
+              <div class="text-xs secondary mb-2">{skill.name}</div>
               <div class="flex flex-wrap gap-1.5">
                 {skill.perks.map((perk) => (
-                  <span class="text-[11px] font-light text-gray-300 rounded border border-gray-700 px-2 py-0.5">
+                  <span class="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
                     {perk}
                   </span>
                 ))}
@@ -125,32 +113,30 @@ const honors = await getAllHonorsGroupByCategory(true);
     </section>
 
     <section class="mb-10">
-      <h2 class="text-sm font-bold mb-4 secondary uppercase tracking-wide">
-        Honors & Awards
-      </h2>
-      {
-        Object.entries(honors).map(([category, categoryHonors]) => (
-          <div class="mb-5">
-            <div class="text-xs font-bold text-gray-300 mb-2">{category}</div>
-            <div class="space-y-2">
-              {categoryHonors.map((honor) => (
-                <div class="rounded-lg border border-gray-800 bg-gray-900/20 px-4 py-3 flex flex-wrap items-baseline gap-x-3">
-                  <span class="text-[11px] font-mono text-gray-500 w-20 shrink-0 whitespace-nowrap">
-                    {honor.year}
-                  </span>
-                  <span class="text-xs font-medium text-gray-200 flex-1 min-w-[12rem]">
-                    {honor.title}
-                  </span>
-                  <span class="text-[11px] italic font-light secondary">
-                    {honor.location}
-                  </span>
-                </div>
-              ))}
+      <h2 class="text-xl font-medium mb-4 secondary">Honors & Awards</h2>
+      <div class="space-y-6">
+        {
+          Object.entries(honors).map(([category, categoryHonors]) => (
+            <div>
+              <div class="text-xs secondary mb-2">{category}</div>
+              <ul class="space-y-2">
+                {categoryHonors.map((honor) => (
+                  <li class="grid gap-x-3 gap-y-0.5 sm:grid-cols-[auto_1fr_auto] items-baseline">
+                    <span class="text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                      {honor.year}
+                    </span>
+                    <span class="text-xs">{honor.title}</span>
+                    <span class="text-xs italic text-gray-600 dark:text-gray-400">
+                      {honor.location}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
     </section>
-  </div>
+  </section>
   <ScrollToTop />
 </BaseLayout>

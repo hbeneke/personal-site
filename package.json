@@ -1,6 +1,6 @@
 {
   "name": "@habakukbeneke/personal-site",
-  "version": "1.5.101",
+  "version": "1.5.102",
   "description": "My digital portfolio built with Astro and Tailwind CSS, highlighting my development expertise and professional journey.",
   "author": {
     "name": "Enrique Quero Vilar",
@@ -46,16 +46,17 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
-    "@astrojs/vercel": "^10.0.8",
+    "@astrojs/vercel": "^11.0.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.2",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "astro": "^6.4.0",
+    "astro": "^7.0.3",
     "astro-icon": "^1.1.5",
     "shiki": "^3.0.0",
     "tailwindcss": "^4.2.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

@@ -72,29 +72,14 @@ const sortedProjects = await getAllProjects(true, true);
                 </a>
               )}
               {project.demo ? (
-                <span class="demo-hover-wrapper group relative inline-block">
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="primary-link"
-                  >
-                    Demo
-                  </a>
-                  {project.image && (
-                    <span
-                      class="demo-hover-preview pointer-events-none absolute left-0 top-full mt-2 z-20 hidden group-hover:block group-focus-within:block w-80 sm:w-[28rem] md:w-[34rem] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl overflow-hidden"
-                    >
-                      <img
-                        src={project.image}
-                        alt={`${project.title} demo preview`}
-                        class="block w-full h-auto"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </span>
-                  )}
-                </span>
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="primary-link"
+                >
+                  Demo
+                </a>
               ) : (
                 <span class="primary-link-disabled">Demo</span>
               )}

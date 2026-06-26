@@ -4,7 +4,6 @@ date: "2026-01-14T00:00:00.000Z"
 description: "Visualize the evolution of any GitHub repository. Git history analysis, branch visualization, and screenshot timeline of your project's visual evolution."
 technologies: ["TypeScript", "Vue", "Turborepo", "Neon", "Vercel"]
 link: "https://git-wayback.com"
-image: "/portfolio/git-wayback.png"
 logo: "/portfolio/logos/git-wayback.svg"
 github: "https://github.com/hbeneke/git-wayback"
 demo: https://git-wayback.com

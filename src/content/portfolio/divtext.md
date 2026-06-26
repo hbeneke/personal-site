@@ -3,7 +3,6 @@ title: "DivText"
 date: "2026-06-08T00:00:00.000Z"
 description: "Turn any word into a logo built entirely from <div> cells. A terminal-style playground that draws your text on a grid, cell by cell."
 technologies: ["TypeScript", "HTML", "CSS"]
-image: "/portfolio/divtext.png"
 logo: "/portfolio/logos/divtext.svg"
 github: "https://github.com/hbeneke/divtext"
 demo: "https://github.com/hbeneke/divtext"

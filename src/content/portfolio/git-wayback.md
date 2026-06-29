@@ -7,10 +7,18 @@ link: "https://git-wayback.com"
 logo: "/portfolio/logos/git-wayback.svg"
 github: "https://github.com/hbeneke/git-wayback"
 demo: https://git-wayback.com
+license: "GPL-3.0"
+licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
 order: 2
-version: "0.6.24"
+version: "0.6.32"
 changelog:
+  - version: "0.6.32"
+    date: "2026-06-29T00:00:00.000Z"
+    changes:
+      - "Added an expandable full-view mode for the evolution diagram"
+      - "Coloured the tree connector lines to match the file they connect to"
+      - "Migrated component styling to Tailwind utility classes"
   - version: "0.6.24"
     date: "2026-06-23T00:00:00.000Z"
     changes:

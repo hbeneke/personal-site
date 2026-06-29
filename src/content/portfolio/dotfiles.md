@@ -5,6 +5,8 @@ description: "Personal configuration files synced across machines via Git. Inclu
 technologies: ["Bash", "Git", "Lua", "Node.js"]
 logo: "/portfolio/logos/dotfiles.svg"
 github: "https://github.com/hbeneke/dotfiles"
+license: "GPL-3.0"
+licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
 order: 3
 version: "0.1.3"

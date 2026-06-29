@@ -7,6 +7,8 @@ link: "https://equero.dev"
 logo: "/portfolio/logos/personal-site.svg"
 github: "https://github.com/hbeneke/personal-site"
 demo: "https://equero.dev"
+license: "GPL-3.0"
+licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: true
 order: 1
 version: "1.5.98"

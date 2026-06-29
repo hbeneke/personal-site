@@ -83,6 +83,20 @@ const sortedProjects = await getAllProjects(true, true);
               ) : (
                 <span class="primary-link-disabled">Demo</span>
               )}
+              {project.license &&
+                (project.licenseUrl ? (
+                  <a
+                    href={project.licenseUrl}
+                    target="_blank"
+                    rel="noopener noreferrer license"
+                    class="primary-link"
+                    title={`Free software · released under the ${project.license} license`}
+                  >
+                    License
+                  </a>
+                ) : (
+                  <span class="primary-link-disabled">License</span>
+                ))}
               {project.changelog && project.changelog.length > 0 && (
                 <button
                   type="button"

@@ -11,8 +11,17 @@ license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: true
 order: 1
-version: "1.5.98"
+version: "1.6.0"
 changelog:
+  - version: "1.6.0"
+    date: "2026-06-30T00:00:00.000Z"
+    changes:
+      - "Adopted the @hbeneke/parley web component library for the site footer"
+      - "Added Parley to the portfolio with open-source license display"
+      - "Upgraded to Astro 7 and Vercel adapter 11"
+      - "Removed the portfolio demo hover image preview"
+      - "Published a blog post on CSS grid-lanes native masonry"
+      - "Hardened the release tooling: prevented version double-bumps and added major-version support"
   - version: "1.5.98"
     date: "2026-06-23T00:00:00.000Z"
     changes:

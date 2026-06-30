@@ -3,8 +3,8 @@ import "@styles/global.css";
 import Notes from "@components/recent-notes.astro";
 import SchemaMarkup from "@components/schema-markup.astro";
 import SEO from "@components/seo.astro";
-import Footer from "@components/site-footer.astro";
 import Header from "@components/site-header.astro";
+import { siteConfig } from "@site-config";
 import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
@@ -88,7 +88,17 @@ const {
     <main id="main" class="flex-grow">
       <slot />
     </main>
-    <Footer />
+    <site-footer
+      nickname={siteConfig.nickname}
+      year={siteConfig.copyrightYear}
+      copyright="bugs"
+      class="[--font:var(--font-jetbrains)] [--link:rgb(var(--primary))] [--link-hover:rgb(var(--primary-hovered))] [--accent:rgb(var(--secondary))]"
+    >
+    </site-footer>
     <Notes />
+
+    <script>
+      import "@hbeneke/parley";
+    </script>
   </body>
 </html>

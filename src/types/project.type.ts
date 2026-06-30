@@ -17,4 +17,6 @@ export interface Project {
   order?: number;
   version?: string;
   changelog?: ChangelogEntry[];
+  license?: string;
+  licenseUrl?: string;
 }

@@ -11,8 +11,13 @@ license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
 order: 2
-version: "0.6.32"
+version: "0.6.34"
 changelog:
+  - version: "0.6.34"
+    date: "2026-07-01T00:00:00.000Z"
+    changes:
+      - "Replaced the footer with a shared Parley web component"
+      - "Added Vercel Analytics for privacy-friendly visit metrics"
   - version: "0.6.32"
     date: "2026-06-29T00:00:00.000Z"
     changes:

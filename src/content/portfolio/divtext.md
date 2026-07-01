@@ -10,8 +10,15 @@ license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
 order: 4
-version: "1.0.12"
+version: "1.1.0"
 changelog:
+  - version: "1.1.0"
+    date: "2026-07-01T00:00:00.000Z"
+    changes:
+      - "Rebuilt the footer with the @hbeneke/parley web component library"
+      - "Migrated the build to Vite with a dev server and hot reload"
+      - "Componentized the window manager into native web components"
+      - "Added Vercel Web Analytics for visit tracking"
   - version: "1.0.12"
     date: "2026-06-29T00:00:00.000Z"
     changes:

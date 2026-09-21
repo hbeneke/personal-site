@@ -3,7 +3,8 @@ title: "Chapas"
 date: "2026-09-21T00:00:00.000Z"
 description: "Online turn-based bottle cap football. Flick your caps, outplay your opponent and share a link to start a match. Server-authoritative deterministic physics, so every browser sees exactly the same shot."
 technologies: ["TypeScript", "Next.js", "PixiJS", "Rapier", "Tailwind CSS", "Turborepo", "Vercel"]
-github: "https://github.com/hbeneke/chapas"
+logo: "/portfolio/logos/chapas.svg"
+privateCode: true
 featured: false
 order: 6
 version: "0.1.3"

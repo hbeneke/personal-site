@@ -11,8 +11,18 @@ license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: true
 order: 1
-version: "1.6.4"
+version: "1.7.0"
 changelog:
+  - version: "1.7.0"
+    date: "2026-09-21T00:00:00.000Z"
+    changes:
+      - "Laid out the portfolio as a two-column masonry grid using native CSS grid-lanes"
+      - "Redesigned project cards with a subtle background and the version in the corner"
+      - "Added an activity pulse to every project, drawn from its changelog, with changes, version and date on hover"
+      - "Added work-in-progress and archived badges, with work-in-progress projects listed first"
+      - "Moved the project changelog into a scrollable modal with a fade hinting at more content"
+      - "Private repositories now show a lock and explain on click that the code is private for now"
+      - "Added KickCaps to the portfolio"
   - version: "1.6.4"
     date: "2026-08-18T00:00:00.000Z"
     changes:

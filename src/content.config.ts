@@ -67,8 +67,9 @@ const portfolioProjects = defineCollection({
     link: z.string().optional(),
     logo: z.string().optional(),
     github: z.string().optional(),
-    /** The repository is private: "Code" shows disabled and `github` is not linked. */
+    /** The repository is private: "Code" opens a notice popover and `github` is not linked. */
     privateCode: z.boolean().optional(),
+    status: z.enum(["wip", "archived"]).optional(),
     demo: z.string().optional(),
     license: z.string().optional(),
     licenseUrl: z.string().optional(),

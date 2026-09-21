@@ -13,6 +13,7 @@ export interface Project {
   logo?: string;
   github?: string;
   privateCode?: boolean;
+  status?: "wip" | "archived";
   demo?: string;
   featured: boolean;
   order?: number;

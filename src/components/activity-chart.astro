@@ -1,0 +1,111 @@
+---
+import { siteConfig } from "@site-config";
+import type { ActivityPoint } from "@types";
+import { bucketActivity, buildPulse, getActivityWindow } from "@utils/activity";
+
+interface Props {
+  points: ActivityPoint[];
+  label: string;
+  unit?: string;
+  bars?: number;
+  maxDays?: number;
+  minDays?: number;
+  class?: string;
+}
+
+const {
+  points,
+  label,
+  unit = "change",
+  bars = 52,
+  maxDays = 365,
+  minDays = 30,
+  class: className,
+} = Astro.props;
+
+const width = 520;
+const height = 40;
+
+const { from, to } = getActivityWindow(points, new Date(), maxDays, minDays);
+const buckets = bucketActivity(points, from, to, bars);
+const pulse = buildPulse(buckets, width, height);
+const total = buckets.reduce((sum, bucket) => sum + bucket.value, 0);
+
+const withUnit = (value: number) => `${value} ${unit}${value === 1 ? "" : "s"}`;
+const dateFormat = new Intl.DateTimeFormat(siteConfig.locale, {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+const toPercent = (value: number) => `${(value / width) * 100}%`;
+---
+
+{
+  buckets.length > 0 && (
+    <div
+      role="img"
+      aria-label={`${label}: ${withUnit(total)}`}
+      class:list={[
+        "relative h-10 text-[rgb(var(--primary))] [&:has(.pulse-beat:hover)_.pulse-line]:opacity-30",
+        className,
+      ]}
+    >
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        class="pulse-line block h-full w-full overflow-visible drop-shadow-[0_0_2px_rgba(var(--primary),0.6)] transition-opacity duration-200"
+        aria-hidden="true"
+      >
+        <path
+          d={pulse.path}
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          vector-effect="non-scaling-stroke"
+        />
+      </svg>
+
+      {pulse.beats.map((beat) => (
+        <div
+          class="pulse-beat group/beat absolute inset-y-0"
+          style={`left: ${toPercent(beat.left)}; width: ${toPercent(beat.right - beat.left)}`}
+        >
+          <svg
+            viewBox={`${beat.left} 0 ${beat.right - beat.left} ${height}`}
+            preserveAspectRatio="none"
+            class="pointer-events-none block h-full w-full overflow-visible opacity-0 drop-shadow-[0_0_4px_rgb(var(--primary))] transition-opacity duration-200 group-hover/beat:opacity-100"
+            aria-hidden="true"
+          >
+            <path
+              d={beat.path}
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              vector-effect="non-scaling-stroke"
+            />
+          </svg>
+          <span
+            class="pointer-events-none absolute bottom-full z-10 mb-1 flex -translate-x-1/2 translate-y-1 flex-col items-center whitespace-nowrap rounded border border-[rgba(var(--primary),0.5)] bg-[rgb(var(--bg))] px-1.5 py-0.5 text-[10px] leading-tight opacity-0 transition duration-200 group-hover/beat:translate-y-0 group-hover/beat:opacity-100"
+            style={`left: ${((beat.center - beat.left) / (beat.right - beat.left)) * 100}%`}
+          >
+            <span class="font-bold">{withUnit(beat.value)}</span>
+            {beat.labels.length > 0 && (
+              <span>
+                {beat.labels.length === 1
+                  ? beat.labels[0]
+                  : `${beat.labels[0]} → ${beat.labels[beat.labels.length - 1]}`}
+              </span>
+            )}
+            <span class="text-gray-400">
+              {dateFormat.formatRange(beat.firstPoint, beat.lastPoint)}
+            </span>
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}

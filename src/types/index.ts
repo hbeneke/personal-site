@@ -9,3 +9,4 @@ export * from "@/types/skill.type";
 export * from "@/types/honor.type";
 export * from "@/types/table-of-contents.type";
 export * from "@/types/pagination.type";
+export * from "@/types/activity.type";

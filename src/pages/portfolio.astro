@@ -1,9 +1,30 @@
 ---
+import ActivityChart from "@components/activity-chart.astro";
+import ChevronDownIcon from "@icons/chevron-down.svg";
+import CloseIcon from "@icons/close.svg";
+import LockIcon from "@icons/lock.svg";
 import BaseLayout from "@layouts/base-layout.astro";
 import { siteConfig } from "@site-config";
-import { getAllProjects } from "@utils/portfolio";
+import { getAllProjects, getChangelogActivity } from "@utils/portfolio";
 
-const sortedProjects = await getAllProjects(true, true);
+const statusRank = { wip: 0, active: 1, archived: 2 } as const;
+
+const sortedProjects = (await getAllProjects(true, true)).sort(
+  (a, b) => statusRank[a.status ?? "active"] - statusRank[b.status ?? "active"],
+);
+
+const statusBadges = {
+  wip: {
+    label: "WIP",
+    title: "Work in progress",
+    class: "border-[rgba(var(--secondary),0.4)] text-[rgb(var(--secondary))]",
+  },
+  archived: {
+    label: "Archived",
+    title: "No longer maintained",
+    class: "border-gray-600 text-gray-400",
+  },
+} as const;
 ---
 
 <BaseLayout
@@ -20,11 +41,11 @@ const sortedProjects = await getAllProjects(true, true);
       </h1>
     </header>
 
-    <div class="space-y-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 items-start gap-4 supports-[display:grid-lanes]:[display:grid-lanes]">
       {
         sortedProjects.map((project, index) => (
-          <article class="project-item pb-5">
-            <div class="flex items-start justify-between gap-4 mb-2">
+          <article class={`project-item flex flex-col p-4 rounded-md bg-white/[0.03] transition-[background-color,opacity] duration-200 hover:bg-white/[0.06] ${project.status === "archived" ? "opacity-60 hover:opacity-100" : ""}`}>
+            <div class="flex items-center justify-between gap-4 mb-2">
               <h2 class="text-base flex items-center gap-2">
                 {project.logo && (
                   <img
@@ -36,18 +57,22 @@ const sortedProjects = await getAllProjects(true, true);
                   />
                 )}
                 <span class="secondary">{project.title}</span>
+              </h2>
+              <div class="flex items-center gap-2 flex-shrink-0">
+                {project.status && (
+                  <span
+                    class={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${statusBadges[project.status].class}`}
+                    title={statusBadges[project.status].title}
+                  >
+                    {statusBadges[project.status].label}
+                  </span>
+                )}
                 {project.version && (
-                  <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                  <span class="text-xs text-gray-500 dark:text-gray-400">
                     v{project.version}
                   </span>
                 )}
-              </h2>
-              <time class="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0">
-                {new Date(project.date).toLocaleDateString(siteConfig.locale, {
-                  year: "numeric",
-                  month: "short",
-                })}
-              </time>
+              </div>
             </div>
 
             <p class="text-xs mb-3">{project.description}</p>
@@ -60,11 +85,33 @@ const sortedProjects = await getAllProjects(true, true);
               ))}
             </div>
 
-            <div class="flex gap-4 text-sm items-center">
+            <ActivityChart
+              points={getChangelogActivity(project)}
+              label={`${project.title} activity`}
+              class="mb-3"
+            />
+
+            <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm items-center">
               {project.privateCode ? (
-                <span class="primary-link-disabled" title="Private repository">
-                  Code
-                </span>
+                <>
+                  <button
+                    type="button"
+                    class="primary-link inline-flex items-center gap-1 cursor-pointer"
+                    popovertarget={`private-code-${index}`}
+                    style={`anchor-name: --private-code-${index}`}
+                  >
+                    <LockIcon class="w-3.5 h-3.5" aria-hidden="true" />
+                    Code
+                  </button>
+                  <div
+                    id={`private-code-${index}`}
+                    popover
+                    class="px-3 py-2 rounded-md border border-gray-700 bg-[rgb(var(--bg))] text-[rgb(var(--foreground))] text-xs shadow-lg [position-area:bottom_span-right] supports-[position-area:bottom]:m-0 supports-[position-area:bottom]:mt-2"
+                    style={`position-anchor: --private-code-${index}`}
+                  >
+                    The source code is private for now.
+                  </div>
+                </>
               ) : (
                 project.github && (
                   <a
@@ -106,89 +153,99 @@ const sortedProjects = await getAllProjects(true, true);
               {project.changelog && project.changelog.length > 0 && (
                 <button
                   type="button"
-                  class="primary-link accordion-toggle flex items-center gap-1 cursor-pointer"
+                  class="primary-link changelog-open cursor-pointer"
                   data-target={`changelog-${index}`}
-                  aria-expanded="false"
+                  aria-haspopup="dialog"
                 >
-                  <span>Changelog</span>
-                  <svg
-                    class="w-4 h-4 transition-transform duration-200 accordion-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                  Changelog
                 </button>
               )}
             </div>
 
             {project.changelog && project.changelog.length > 0 && (
-              <div
+              <dialog
                 id={`changelog-${index}`}
-                class="accordion-content hidden mt-4 pl-4 border-l-2 border-gray-300 dark:border-gray-600"
+                class="changelog-dialog m-auto w-[calc(100%-2rem)] max-w-xl max-h-[80vh] p-0 open:flex flex-col overflow-hidden rounded border border-gray-200 dark:border-gray-700 bg-[rgb(var(--bg))] text-[rgb(var(--foreground))] backdrop:bg-black/50"
+                aria-labelledby={`changelog-${index}-title`}
               >
-                <h3 class="text-sm font-medium mb-3 secondary">
-                  Version History
-                </h3>
-                <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                  {project.changelog
-                    .sort(
-                      (a, b) =>
-                        new Date(b.date).getTime() - new Date(a.date).getTime()
-                    )
-                    .map((entry, entryIndex) => (
-                      <div
-                        class={`changelog-entry py-3 first:pt-0 last:pb-0 ${entryIndex >= 3 ? "hidden changelog-extra" : ""}`}
-                        data-changelog-group={`changelog-${index}`}
-                      >
-                        <div class="flex items-baseline gap-2 mb-1">
-                          <span class="text-xs font-mono font-medium px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
-                            v{entry.version}
-                          </span>
-                          <span class="text-xs text-gray-500 dark:text-gray-400">
-                            {new Date(entry.date).toLocaleDateString(
-                              siteConfig.locale,
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )}
-                          </span>
-                        </div>
-                        <ul class="list-disc list-outside pl-4 text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                          {entry.changes.map((change) => (
-                            <li>{change}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                <div class="flex items-center justify-between gap-4 p-5 pb-3">
+                  <h3
+                    id={`changelog-${index}-title`}
+                    class="text-sm font-medium secondary"
+                  >
+                    {project.title} · Version History
+                  </h3>
+                  <button
+                    type="button"
+                    class="changelog-close -m-1.5 p-1.5 rounded cursor-pointer text-gray-500 hover:text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800"
+                    aria-label="Close changelog"
+                  >
+                    <CloseIcon class="w-6 h-6" />
+                  </button>
                 </div>
-                {project.changelog.length > 3 && (
-                  <div class="mt-3">
-                    <button
-                      type="button"
-                      class="primary-link text-xs cursor-pointer see-more-btn"
-                      data-target={`changelog-${index}`}
-                    >
-                      See more ({project.changelog.length - 3} more versions)
-                    </button>
-                    <button
-                      type="button"
-                      class="primary-link text-xs cursor-pointer see-less-btn hidden"
-                      data-target={`changelog-${index}`}
-                    >
-                      See less
-                    </button>
+                <div class="relative flex min-h-0 flex-1 flex-col">
+                  <div class="changelog-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                      {project.changelog
+                        .sort(
+                          (a, b) =>
+                            new Date(b.date).getTime() - new Date(a.date).getTime()
+                        )
+                        .map((entry, entryIndex) => (
+                          <div
+                            class={`changelog-entry py-3 first:pt-0 last:pb-0 ${entryIndex >= 3 ? "hidden changelog-extra" : ""}`}
+                            data-changelog-group={`changelog-${index}`}
+                          >
+                            <div class="flex items-baseline gap-2 mb-1">
+                              <span class="text-xs font-mono font-medium px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+                                v{entry.version}
+                              </span>
+                              <span class="text-xs text-gray-500 dark:text-gray-400">
+                                {new Date(entry.date).toLocaleDateString(
+                                  siteConfig.locale,
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  }
+                                )}
+                              </span>
+                            </div>
+                            <ul class="list-disc list-outside pl-4 text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                              {entry.changes.map((change) => (
+                                <li>{change}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                    </div>
+                    {project.changelog.length > 3 && (
+                      <div class="mt-3">
+                        <button
+                          type="button"
+                          class="primary-link text-xs cursor-pointer see-more-btn"
+                          data-target={`changelog-${index}`}
+                        >
+                          See more ({project.changelog.length - 3} more versions)
+                        </button>
+                        <button
+                          type="button"
+                          class="primary-link text-xs cursor-pointer see-less-btn hidden"
+                          data-target={`changelog-${index}`}
+                        >
+                          See less
+                        </button>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                  <div
+                    class="changelog-fade pointer-events-none absolute inset-x-0 bottom-0 flex h-32 items-end justify-center pb-2 bg-linear-to-t from-[rgb(var(--bg))] from-25% via-[rgba(var(--bg),0.85)] via-55% to-transparent transition-opacity duration-200"
+                    aria-hidden="true"
+                  >
+                    <ChevronDownIcon class="w-6 h-6 animate-bounce text-[rgb(var(--primary))]" />
+                  </div>
+                </div>
+              </dialog>
             )}
           </article>
         ))

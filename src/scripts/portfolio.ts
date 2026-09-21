@@ -2,7 +2,7 @@ export class PortfolioPage extends HTMLElement {
   private cleanupFns: (() => void)[] = [];
 
   connectedCallback(): void {
-    this.setupAccordionToggles();
+    this.setupChangelogDialogs();
     this.setupSeeMoreButtons();
     this.setupSeeLessButtons();
   }
@@ -12,6 +12,7 @@ export class PortfolioPage extends HTMLElement {
       cleanup();
     }
     this.cleanupFns = [];
+    document.documentElement.style.overflow = "";
   }
 
   private addListener(element: Element, event: string, handler: EventListener): void {
@@ -19,31 +20,59 @@ export class PortfolioPage extends HTMLElement {
     this.cleanupFns.push(() => element.removeEventListener(event, handler));
   }
 
-  private setupAccordionToggles(): void {
-    const toggleButtons = this.querySelectorAll(".accordion-toggle");
+  private setupChangelogDialogs(): void {
+    const openButtons = this.querySelectorAll(".changelog-open");
 
-    for (const button of Array.from(toggleButtons)) {
+    for (const button of Array.from(openButtons)) {
       this.addListener(button, "click", () => {
         const targetId = button.getAttribute("data-target");
         if (!targetId) return;
 
-        const content = document.getElementById(targetId);
-        const icon = button.querySelector(".accordion-icon");
-        const isExpanded = button.getAttribute("aria-expanded") === "true";
-
-        if (content) {
-          if (isExpanded) {
-            content.classList.add("hidden");
-            button.setAttribute("aria-expanded", "false");
-            icon?.classList.remove("rotate-180");
-          } else {
-            content.classList.remove("hidden");
-            button.setAttribute("aria-expanded", "true");
-            icon?.classList.add("rotate-180");
-          }
+        const dialog = document.getElementById(targetId);
+        if (dialog instanceof HTMLDialogElement) {
+          dialog.showModal();
+          document.documentElement.style.overflow = "hidden";
+          this.updateScrollFade(dialog);
         }
       });
     }
+
+    const dialogs = this.querySelectorAll<HTMLDialogElement>(".changelog-dialog");
+
+    for (const dialog of Array.from(dialogs)) {
+      const scrollArea = dialog.querySelector(".changelog-scroll");
+      if (scrollArea) {
+        this.addListener(scrollArea, "scroll", () => this.updateScrollFade(dialog));
+      }
+
+      this.addListener(dialog, "close", () => {
+        document.documentElement.style.overflow = "";
+      });
+
+      const closeButton = dialog.querySelector(".changelog-close");
+      if (closeButton) {
+        this.addListener(closeButton, "click", () => dialog.close());
+      }
+
+      this.addListener(dialog, "click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    }
+  }
+
+  private updateScrollFade(dialog: HTMLDialogElement): void {
+    const scrollArea = dialog.querySelector(".changelog-scroll");
+    const fade = dialog.querySelector(".changelog-fade");
+    if (!scrollArea || !fade) return;
+
+    const atEnd =
+      scrollArea.scrollHeight - scrollArea.scrollTop - scrollArea.clientHeight <= 1;
+    fade.classList.toggle("opacity-0", atEnd);
+  }
+
+  private refreshFadeFor(element: Element): void {
+    const dialog = element.closest("dialog");
+    if (dialog) this.updateScrollFade(dialog);
   }
 
   private setupSeeMoreButtons(): void {
@@ -65,6 +94,7 @@ export class PortfolioPage extends HTMLElement {
 
         button.classList.add("hidden");
         seeLessBtn?.classList.remove("hidden");
+        this.refreshFadeFor(button);
       });
     }
   }
@@ -88,6 +118,7 @@ export class PortfolioPage extends HTMLElement {
 
         button.classList.add("hidden");
         seeMoreBtn?.classList.remove("hidden");
+        this.refreshFadeFor(button);
       });
     }
   }

@@ -12,6 +12,7 @@ export interface Project {
   link?: string;
   logo?: string;
   github?: string;
+  privateCode?: boolean;
   demo?: string;
   featured: boolean;
   order?: number;

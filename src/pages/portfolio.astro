@@ -61,15 +61,21 @@ const sortedProjects = await getAllProjects(true, true);
             </div>
 
             <div class="flex gap-4 text-sm items-center">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="primary-link"
-                >
+              {project.privateCode ? (
+                <span class="primary-link-disabled" title="Private repository">
                   Code
-                </a>
+                </span>
+              ) : (
+                project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="primary-link"
+                  >
+                    Code
+                  </a>
+                )
               )}
               {project.demo ? (
                 <a

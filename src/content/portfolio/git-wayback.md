@@ -11,8 +11,32 @@ license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
 order: 2
-version: "0.7.41"
+version: "0.8.0"
 changelog:
+  - version: "0.8.0"
+    date: "2026-09-21T00:00:00.000Z"
+    changes:
+      - "Fullscreen is easier to find: a labelled button sits in the playback bar, the F key toggles it, and a one-time hint points to it when the graph first appears"
+      - "The first layout opens up straight away instead of starting as a pile of bubbles that only spread out after touching a filter"
+      - "Folders are drawn as grey rings so they no longer share a colour with Vue files; the root keeps the brand green"
+      - "The legend now lists only the file types in the current snapshot, busiest first and with a file count, and explains the root, folder and grouped-file symbols"
+      - "Images are grouped under a single legend entry with their own colour instead of falling into 'other'"
+      - "Resizing the window keeps the graph in place instead of rebuilding it, and hovering stays smooth on large repositories"
+      - "Fixed a hovered bubble lingering after it left the snapshot, and expanded '+N' folders carrying over to another repository"
+      - "Going back to the settings from fullscreen no longer leaves the page unable to scroll"
+  - version: "0.7.49"
+    date: "2026-09-18T00:00:00.000Z"
+    changes:
+      - "Added a snapshot mode that draws the latest commit on its own, without building a whole timeline"
+      - "The details tab now opens with a banner that jumps straight into the map of the newest commit"
+      - "A snapshot offers the full evolution below the graph, either with the current settings or through the options screen"
+      - "Hovering a connector line now highlights the file or folder it leads to, not only the bubbles themselves"
+      - "Bubbles react anywhere on their surface instead of only near their centre"
+      - "Folder bubbles are solid, and a highlighted line stops at the edge of its parent instead of crossing it"
+  - version: "0.7.43"
+    date: "2026-08-25T00:00:00.000Z"
+    changes:
+      - "Replaced the brand mark with the new logo"
   - version: "0.7.41"
     date: "2026-08-20T00:00:00.000Z"
     changes:

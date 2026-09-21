@@ -10,6 +10,7 @@ demo: https://git-wayback.com
 license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
+status: "wip"
 order: 2
 version: "0.8.0"
 changelog:

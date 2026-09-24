@@ -10,8 +10,12 @@ license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
 order: 5
-version: "0.2.1"
+version: "0.2.3"
 changelog:
+  - version: "0.2.3"
+    date: "2026-07-02T00:00:00.000Z"
+    changes:
+      - "The site-footer name now links to the external portfolio instead of a relative /about page"
   - version: "0.2.1"
     date: "2026-07-01T00:00:00.000Z"
     changes:

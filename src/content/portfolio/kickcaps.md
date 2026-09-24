@@ -10,8 +10,41 @@ demo: "https://www.kickcaps.com"
 featured: false
 status: "wip"
 order: 6
-version: "0.3.0"
+version: "0.3.20"
 changelog:
+  - version: "0.3.20"
+    date: "2026-09-22T00:00:00.000Z"
+    changes:
+      - "A progress bar covers the pitch while a match loads"
+      - "Resign and rematch buttons show a spinner while they are working"
+  - version: "0.3.18"
+    date: "2026-09-22T00:00:00.000Z"
+    changes:
+      - "Your shots move the moment you release them; the server confirms them and a rejected shot snaps the board back"
+      - "Fixed online shots triggering a false 'both players disconnected' pause"
+      - "Vercel Speed Insights enabled"
+  - version: "0.3.13"
+    date: "2026-09-22T00:00:00.000Z"
+    changes:
+      - "The live match list no longer shows matches whose players have left"
+      - "Site-wide cap on match creation, so shared storage cannot be flooded"
+  - version: "0.3.9"
+    date: "2026-09-22T00:00:00.000Z"
+    changes:
+      - "If your rival closes the game, you find out right away"
+      - "Close a match tab and your other tabs offer to take you back"
+      - "Cheaper presence checks and polling"
+  - version: "0.3.7"
+    date: "2026-09-22T00:00:00.000Z"
+    changes:
+      - "Optional timed turns and a new way to win: most goals after a set number of turns"
+      - "Rematches with a running series score, a resign button and forfeit by abandonment"
+      - "Matches pause when someone disconnects, reconnect on their own and bring you back if you close the tab by mistake"
+      - "The home page lists live matches to watch and shows how many people are playing"
+      - "Choose who can watch your match: everyone, people with the link, or nobody"
+      - "A 'What's new' dialog and a banner reminding you the game is an early version"
+      - "Matches now live on Redis, with rate limits, expiry and security headers on the match API"
+      - "A clear message when a match link has ended or the browser cannot show the pitch"
   - version: "0.3.0"
     date: "2026-09-21T00:00:00.000Z"
     changes:

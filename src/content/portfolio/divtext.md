@@ -10,8 +10,27 @@ license: "GPL-3.0"
 licenseUrl: "https://www.gnu.org/licenses/gpl-3.0.html"
 featured: false
 order: 4
-version: "1.1.6"
+version: "1.1.19"
 changelog:
+  - version: "1.1.19"
+    date: "2026-08-07T00:00:00.000Z"
+    changes:
+      - "Added Pixel Block, a grid font whose cells weld together into solid strokes"
+      - "Added Geometric, a font built from bars, rotated diagonals and rounded rings, with per-letter widths so M and W get room"
+      - "Replaced the font buttons with a dropdown picker that scales as more fonts are added"
+      - "Fixed the draw animation wiping the rotation off diagonal strokes"
+  - version: "1.1.16"
+    date: "2026-08-03T00:00:00.000Z"
+    changes:
+      - "Windows can be resized from any edge or corner, and code blocks grow to fill the window"
+      - "Added borders on any side of a word: underline, overline or a full box, with a choice of line style"
+      - "Border and line settings are saved in the shareable link, and bad or unknown values fall back to defaults"
+      - "Fixed the line-style dropdown closing as soon as it was clicked"
+  - version: "1.1.12"
+    date: "2026-07-03T00:00:00.000Z"
+    changes:
+      - "Shareable links: the word, font and colour are kept in the URL and restored when the link is opened"
+      - "Escaped attribute values in the exported HTML to prevent markup injection"
   - version: "1.1.6"
     date: "2026-07-02T00:00:00.000Z"
     changes:

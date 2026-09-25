@@ -10,8 +10,18 @@ demo: "https://www.kickcaps.com"
 featured: false
 status: "wip"
 order: 6
-version: "0.3.20"
+version: "0.3.23"
 changelog:
+  - version: "0.3.23"
+    date: "2026-09-25T00:00:00.000Z"
+    changes:
+      - "Seven smaller caps per team, crown-shaped like the logo"
+      - "Before every kick-off both players line up on a full-board screen: pick a formation (3-2-1, 2-3-1, 2-2-2 or 1-2-3, labelled defensive, balanced or attacking) and press ready"
+      - "Line-up choices are recorded as moves, so replays stay exact; the physics engine moves to version 2"
+      - "Groundwork for cap skins (club logos, country flags) and for team colours beyond blue and red"
+      - "Leave a match at any time; leaving an online game in progress resigns it"
+      - "The creator of a private or one-device match can close it, deleting it from the server at once"
+      - "Turn limit and turn time sliders hide while their switch is off"
   - version: "0.3.20"
     date: "2026-09-22T00:00:00.000Z"
     changes:
